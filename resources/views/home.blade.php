@@ -168,7 +168,8 @@
             
             <!-- Centered Watch Image (Dynamic Product Image) -->
             @php
-                $legitProduct = clone ($newArrivals->first() ?? $theDrop->first());
+                $baseProduct = $newArrivals->first() ?? $theDrop->first();
+                $legitProduct = $baseProduct ? clone $baseProduct : null;
                 $legitImageUrl = $legitProduct && $legitProduct->primaryImage ? $legitProduct->primaryImage->url : 'https://picsum.photos/seed/watch/800/600';
             @endphp
             <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] aspect-video drop-shadow-2xl z-20 graphic-item opacity-0 rotate-12 scale-90 bg-contain bg-center bg-no-repeat" style="background-image: url('{{ $legitImageUrl }}')">
