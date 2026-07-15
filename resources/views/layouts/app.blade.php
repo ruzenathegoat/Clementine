@@ -203,7 +203,7 @@
              <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="activeModal = null"></div>
              
              <!-- Dialog Container (Shadcn style) -->
-             <div class="relative bg-white text-black w-full max-w-lg mx-4 rounded-xl shadow-2xl border border-gray-200 flex flex-col max-h-[85vh]"
+             <div class="relative bg-white text-black w-[90vw] md:w-[500px] rounded-xl shadow-2xl border border-gray-200 flex flex-col max-h-[85vh]"
                   @click.stop
                   x-transition:enter="transition ease-out duration-300 transform"
                   x-transition:enter-start="opacity-0 scale-95 translate-y-4"
