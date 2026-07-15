@@ -428,5 +428,46 @@
             </div>
         </template>
     </div>
+    <!-- Global Page Loader -->
+    <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden pointer-events-auto">
+        <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p class="mt-4 font-label-caps uppercase tracking-widest text-primary text-sm animate-pulse">LOADING...</p>
+    </div>
+
+    <!-- Global Loader Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loader = document.getElementById('global-page-loader');
+            
+            // Show loader on links
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (
+                        this.href && 
+                        !this.href.startsWith('javascript:') && 
+                        this.getAttribute('target') !== '_blank' &&
+                        !this.href.includes('#') &&
+                        this.host === window.location.host &&
+                        !e.defaultPrevented &&
+                        !this.hasAttribute('download')
+                    ) {
+                        loader.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // Show loader on forms
+            document.addEventListener('submit', function(e) {
+                if (!e.defaultPrevented) {
+                    loader.classList.remove('hidden');
+                }
+            });
+            
+            // Hide loader when navigating back (bfcache)
+            window.addEventListener('pageshow', function (event) {
+                loader.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
