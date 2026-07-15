@@ -46,12 +46,13 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
+            $disk = config('filesystems.default');
             // Delete old avatar if exists
             if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+                Storage::disk($disk)->delete($user->avatar);
             }
             
-            $path = $request->file('avatar')->store('avatars', 'public');
+            $path = $request->file('avatar')->store('avatars', $disk);
             $user->avatar = $path;
         }
 
