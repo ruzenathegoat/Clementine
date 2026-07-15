@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/_debug/db', function () {
     $users = \App\Models\User::where('role', '!=', 'customer')->get(['email', 'password']);
     $host = config('database.connections.pgsql.host');
+    $connection = config('database.default');
     return [
+        'connection' => $connection,
         'host' => $host,
         'admins' => $users,
     ];
@@ -76,6 +78,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     // Inventory Epic
     Route::middleware('role:super_admin,inventory_manager')->group(function () {
         Route::resource('inventory', \App\Http\Controllers\Admin\InventoryController::class);
+        Route::resource('collections', \App\Http\Controllers\Admin\CollectionController::class);
     });
 
     // Orders Epic

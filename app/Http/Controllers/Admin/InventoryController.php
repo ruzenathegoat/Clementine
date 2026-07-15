@@ -69,10 +69,11 @@ class InventoryController extends Controller
         $product = \App\Models\Product::create($validated);
 
         if ($request->hasFile('primary_image')) {
-            $path = $request->file('primary_image')->store('products', 'public');
+            $disk = config('filesystems.default');
+            $path = $request->file('primary_image')->store('products', $disk);
             \App\Models\ProductMedia::create([
                 'product_id' => $product->id,
-                'url' => '/storage/' . $path,
+                'url' => \Illuminate\Support\Facades\Storage::disk($disk)->url($path),
                 'type' => 'image',
                 'sort_order' => 1
             ]);

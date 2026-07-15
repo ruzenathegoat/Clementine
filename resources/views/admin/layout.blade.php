@@ -62,6 +62,10 @@
                 <i class="ph-light ph-package text-xl {{ request()->routeIs('admin.inventory.*') ? 'text-black' : 'text-gray-400 group-hover:text-black' }} transition-colors"></i>
                 <span class="text-[0.9rem]">Inventory</span>
             </a>
+            <a href="{{ route('admin.collections.index') }}" class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.collections.*') ? 'bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-black font-medium' : 'text-[#787774] hover:text-black hover:bg-white/50' }} transition-haptic mt-1">
+                <i class="ph-light ph-folders text-xl {{ request()->routeIs('admin.collections.*') ? 'text-black' : 'text-gray-400 group-hover:text-black' }} transition-colors"></i>
+                <span class="text-[0.9rem]">Collections</span>
+            </a>
             @endif
 
             @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'ops_staff' || auth()->user()->role === 'finance_manager')
