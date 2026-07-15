@@ -172,80 +172,98 @@ class CheckoutController extends Controller
         $tax = $totalTax;
         $total = $subtotal - $totalDiscount + $tax + $shippingFee + $shippingTax;
 
-        $order = DB::transaction(function () use ($request, $userId, $orderItemsData, $subtotal, $totalDiscount, $shippingFee, $shippingTax, $tax, $total) {
-            
-            $status = $request->payment_method === 'virtual_account' ? 'pending' : 'processing';
-            $paymentStatus = $request->payment_method === 'virtual_account' ? 'pending' : 'paid';
-            $paymentDetails = null;
-
-            if ($request->payment_method === 'virtual_account') {
-                $bankCodes = [
-                    'BCA' => '014',
-                    'Mandiri' => '008',
-                    'BNI' => '009',
-                    'BRI' => '002',
-                    'Permata' => '013'
-                ];
-                $bankCode = $bankCodes[$request->bank] ?? '999';
-                $vaNumber = $bankCode . str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        try {
+            $order = DB::transaction(function () use ($request, $userId, $orderItemsData, $subtotal, $totalDiscount, $shippingFee, $shippingTax, $tax, $total) {
                 
-                $paymentDetails = [
-                    'bank' => $request->bank,
-                    'va_number' => $vaNumber
-                ];
-            }
-
-            $order = Order::create([
-                'user_id' => $userId,
-                'status' => $status,
-                'contact_email' => $request->contact_email,
-                'shipping_full_name' => $request->shipping_full_name,
-                'shipping_address1' => $request->shipping_address1,
-                'shipping_address2' => $request->shipping_address2,
-                'shipping_city' => $request->shipping_city,
-                'shipping_postal_code' => $request->shipping_postal_code,
-                'shipping_country' => $request->shipping_country,
-                'billing_same_as_shipping' => $request->boolean('billing_same_as_shipping'),
-                'payment_method' => $request->payment_method,
-                'payment_status' => $paymentStatus,
-                'payment_details' => $paymentDetails,
-                'subtotal' => $subtotal,
-                'shipping_fee' => $shippingFee,
-                'shipping_tax' => $shippingTax,
-                'tax' => $tax,
-                'discount_amount' => $totalDiscount,
-                'promo_code_id' => null,
-                'total' => $total,
-            ]);
-
-            foreach ($orderItemsData as $data) {
-                $item = $data['cartItem'];
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item->product_id,
-                    'strap_option_id' => $item->strap_option_id,
-                    'quantity' => $item->quantity,
-                    'price_at_purchase' => $item->product->price,
-                    'tax_amount' => $data['tax_amount'],
-                    'discount_amount' => $data['discount_amount'],
-                ]);
-
-                // Reduce stock automatically
-                $product = $item->product;
-                $product->stock -= $item->quantity;
-                if ($product->stock <= 0) {
-                    $product->stock = 0;
-                    if ($product->status === 'new') {
-                        $product->status = 'active';
+                // 1. Acquire pessimistic lock on products
+                $productIds = collect($orderItemsData)->pluck('cartItem.product_id')->unique()->toArray();
+                $lockedProducts = \App\Models\Product::whereIn('id', $productIds)->lockForUpdate()->get()->keyBy('id');
+                
+                // 2. Validate stock again strictly under lock
+                foreach ($orderItemsData as $data) {
+                    $item = $data['cartItem'];
+                    $lockedProduct = $lockedProducts[$item->product_id];
+                    if ($lockedProduct->stock < $item->quantity) {
+                        throw new \Exception('Insufficient stock for ' . $lockedProduct->name);
                     }
                 }
-                $product->save();
-            }
 
-            CartItem::where('user_id', $userId)->delete();
+                $status = $request->payment_method === 'virtual_account' ? 'pending' : 'processing';
+                $paymentStatus = $request->payment_method === 'virtual_account' ? 'pending' : 'paid';
+                $paymentDetails = null;
 
-            return $order;
-        });
+                if ($request->payment_method === 'virtual_account') {
+                    $bankCodes = [
+                        'BCA' => '014',
+                        'Mandiri' => '008',
+                        'BNI' => '009',
+                        'BRI' => '002',
+                        'Permata' => '013'
+                    ];
+                    $bankCode = $bankCodes[$request->bank] ?? '999';
+                    $vaNumber = $bankCode . str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                    
+                    $paymentDetails = [
+                        'bank' => $request->bank,
+                        'va_number' => $vaNumber
+                    ];
+                }
+
+                $order = Order::create([
+                    'user_id' => $userId,
+                    'status' => $status,
+                    'contact_email' => $request->contact_email,
+                    'shipping_full_name' => $request->shipping_full_name,
+                    'shipping_address1' => $request->shipping_address1,
+                    'shipping_address2' => $request->shipping_address2,
+                    'shipping_city' => $request->shipping_city,
+                    'shipping_postal_code' => $request->shipping_postal_code,
+                    'shipping_country' => $request->shipping_country,
+                    'billing_same_as_shipping' => $request->boolean('billing_same_as_shipping'),
+                    'payment_method' => $request->payment_method,
+                    'payment_status' => $paymentStatus,
+                    'payment_details' => $paymentDetails,
+                    'subtotal' => $subtotal,
+                    'shipping_fee' => $shippingFee,
+                    'shipping_tax' => $shippingTax,
+                    'tax' => $tax,
+                    'discount_amount' => $totalDiscount,
+                    'promo_code_id' => null,
+                    'total' => $total,
+                ]);
+
+                foreach ($orderItemsData as $data) {
+                    $item = $data['cartItem'];
+                    $lockedProduct = $lockedProducts[$item->product_id];
+                    
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item->product_id,
+                        'strap_option_id' => $item->strap_option_id,
+                        'quantity' => $item->quantity,
+                        'price_at_purchase' => $lockedProduct->price,
+                        'tax_amount' => $data['tax_amount'],
+                        'discount_amount' => $data['discount_amount'],
+                    ]);
+
+                    // Reduce stock using the locked product
+                    $lockedProduct->stock -= $item->quantity;
+                    if ($lockedProduct->stock <= 0) {
+                        $lockedProduct->stock = 0;
+                        if ($lockedProduct->status === 'new') {
+                            $lockedProduct->status = 'active';
+                        }
+                    }
+                    $lockedProduct->save();
+                }
+
+                CartItem::where('user_id', $userId)->delete();
+
+                return $order;
+            });
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
 
         if ($order->payment_method === 'virtual_account') {
             return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully. Please complete your payment.');
