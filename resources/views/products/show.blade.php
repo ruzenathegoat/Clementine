@@ -153,8 +153,8 @@
                     <div class="grid grid-cols-2 gap-sm">
                         @foreach($product->straps as $strap)
                             <label class="cursor-pointer border border-primary bg-background p-sm flex items-center justify-between hover:bg-surface transition-colors relative">
-                                <input type="radio" name="strap_id" value="{{ $strap->id }}" class="peer sr-only" {{ $loop->first ? 'checked' : '' }} required>
-                                <div class="font-body-md text-primary text-sm uppercase peer-checked:font-bold">{{ $strap->name }}</div>
+                                <input type="radio" name="strap_option_id" value="{{ $strap->id }}" class="peer sr-only" {{ $loop->first ? 'checked' : '' }} required>
+                                <div class="font-body-md text-primary text-sm uppercase peer-checked:font-bold">{{ $strap->strap_name }}</div>
                                 <!-- Pseudo-border for selection -->
                                 <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary pointer-events-none"></div>
                             </label>

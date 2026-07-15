@@ -31,6 +31,6 @@ class CartItem extends Model
 
     public function strapOption(): BelongsTo
     {
-        return $this->belongsTo(Productstrapoption::class, 'strap_option_id');
+        return $this->belongsTo(ProductStrapOption::class, 'strap_option_id');
     }
 }
