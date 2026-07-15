@@ -21,6 +21,24 @@ Route::get('/_debug/db', function () {
     ];
 });
 
+Route::get('/_debug/s3', function () {
+    try {
+        $path = \Illuminate\Support\Facades\Storage::disk('s3')->put('debug.txt', 'test content');
+        return [
+            'success' => true,
+            'path' => $path,
+            'url' => \Illuminate\Support\Facades\Storage::disk('s3')->url('debug.txt')
+        ];
+    } catch (\Throwable $e) {
+        return [
+            'success' => false,
+            'error' => get_class($e),
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ];
+    }
+});
+
 // --- ACTIVE ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
