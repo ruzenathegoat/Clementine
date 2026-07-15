@@ -12,7 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Constraint dropped automatically by Laravel or not needed for MySQL/SQLite
+        // For PostgreSQL (Supabase), we must drop the enum check constraint manually
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check');
+        }
+
         Schema::table('users', function (Blueprint $table) {
             $table->string('role')->default('customer')->change();
         });
