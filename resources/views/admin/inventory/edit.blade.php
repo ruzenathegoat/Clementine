@@ -32,7 +32,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.inventory.update', $product->id) }}" method="POST" class="space-y-8">
+    <form action="{{ route('admin.inventory.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
         @csrf
         @method('PUT')
 
@@ -42,12 +42,17 @@
                     
                     <!-- Left: Identity -->
                     <div class="w-full md:w-1/3 flex flex-col gap-6">
-                        <div class="aspect-square bg-[#F9F9F8] border border-[#EAEAEA] rounded-xl overflow-hidden flex items-center justify-center">
+                        <div class="aspect-square bg-[#F9F9F8] border border-[#EAEAEA] rounded-xl overflow-hidden flex items-center justify-center relative group">
                             @if($product->primaryImage)
                                 <img src="{{ $product->primaryImage->url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
                             @else
                                 <i class="ph-light ph-watch text-4xl text-[#EAEAEA]"></i>
                             @endif
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-mono uppercase tracking-widest text-[#787774] mb-2">Change Image</label>
+                            <input type="file" name="primary_image" accept="image/*" class="w-full px-4 py-2 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-[#111111] file:text-white hover:file:bg-[#333333] transition-all">
                         </div>
                         
                         <div>

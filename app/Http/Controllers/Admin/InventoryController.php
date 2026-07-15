@@ -111,9 +111,24 @@ class InventoryController extends Controller
             'water_resistance' => 'nullable|string',
             'crystal' => 'nullable|string',
             'warranty_years' => 'nullable|integer',
+            'primary_image' => 'nullable|image|max:2048',
         ]);
 
         $product->update($validated);
+
+        if ($request->hasFile('primary_image')) {
+            $disk = config('filesystems.default');
+            $path = $request->file('primary_image')->store('products', $disk);
+            $url = \Illuminate\Support\Facades\Storage::disk($disk)->url($path);
+            
+            // Delete old primary image if exists (optional cleanup)
+            // if ($product->primaryImage) { ... }
+            
+            \App\Models\ProductMedia::updateOrCreate(
+                ['product_id' => $product->id, 'sort_order' => 1],
+                ['url' => $url, 'type' => 'image']
+            );
+        }
 
         return redirect()->route('admin.inventory.index')->with('success', 'Product updated successfully.');
     }
