@@ -252,7 +252,11 @@ class CheckoutController extends Controller
         }
 
         if ($order->payment_status === 'paid') {
-            Mail::to($order->contact_email ?? $request->user()->email)->send(new OrderPaid($order));
+            try {
+                Mail::to($order->contact_email ?? $request->user()->email)->send(new OrderPaid($order));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to send OrderPaid email: ' . $e->getMessage());
+            }
         }
 
         return redirect()->route('orders.show', $order)->with('success', 'Checkout successful!');
