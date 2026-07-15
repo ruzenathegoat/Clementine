@@ -27,14 +27,15 @@ Route::get('/_debug/s3', function () {
         return [
             'success' => true,
             'path' => $path,
-            'url' => \Illuminate\Support\Facades\Storage::disk('s3')->url('debug.txt')
+            'url' => \Illuminate\Support\Facades\Storage::disk('s3')->url('debug.txt'),
+            'config' => config('filesystems.disks.s3')
         ];
     } catch (\Throwable $e) {
         return [
             'success' => false,
             'error' => get_class($e),
             'message' => $e->getMessage(),
-            'trace' => $e->getTraceAsString()
+            'config' => config('filesystems.disks.s3')
         ];
     }
 });
