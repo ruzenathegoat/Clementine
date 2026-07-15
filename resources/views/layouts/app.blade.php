@@ -90,7 +90,7 @@
         </div>
         <div class="p-lg border-t border-primary bg-surface-container-lowest font-body-md uppercase text-sm">
             <div class="flex gap-4">
-                <a href="#" class="hover:underline">INSTAGRAM</a>
+                <a href="https://www.instagram.com/naufalrahmaann/" target="_blank" class="hover:underline">INSTAGRAM</a>
                 <a href="#" class="hover:underline">TWITTER</a>
             </div>
         </div>
@@ -182,10 +182,10 @@
             <div class="flex flex-col md:flex-row justify-between items-center {{ request()->routeIs('home') ? 'pt-8' : '' }} font-body-md text-xs font-bold uppercase gap-6">
                 <div>©2026 CLEMENTINE. ALL RIGHTS RESERVED.</div>
                 <div class="flex gap-6">
-                    <a href="#" class="hover:underline">INSTAGRAM</a>
+                    <a href="https://www.instagram.com/naufalrahmaann/" target="_blank" class="hover:underline">INSTAGRAM</a>
                     <a href="#" class="hover:underline">TWITTER</a>
                     <a href="#" class="hover:underline">FACEBOOK</a>
-                    <a href="#" class="hover:underline">LINKEDIN</a>
+                    <a href="https://www.linkedin.com/in/naufal-rahman-2182a1249/" target="_blank" class="hover:underline">LINKEDIN</a>
                 </div>
             </div>
         </div>
@@ -252,8 +252,8 @@
                       <template x-if="activeModal === 'contact'">
                           <div class="flex flex-col gap-3">
                               <p class="mb-2">Connect with us on our platforms:</p>
-                              <a href="https://www.instagram.com/rustter.dsg/" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
-                                  Instagram: @rustter.dsg
+                              <a href="https://www.instagram.com/naufalrahmaann/" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
+                                  Instagram: @naufalrahmaann
                               </a>
                               <a href="https://x.com/ruzenawooshh" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
                                   Twitter: @ruzenawooshh
