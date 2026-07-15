@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\RateLimiter;
@@ -78,8 +79,10 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        
+        event(new Registered($user));
 
-        return redirect()->route('register.success')->with('success', 'REGISTRATION SUCCESSFUL. WELCOME TO CLEMENTINE.');
+        return redirect()->route('verification.notice')->with('success', 'REGISTRATION SUCCESSFUL. PLEASE VERIFY YOUR EMAIL.');
     }
 
     public function logout(Request $request)

@@ -8,6 +8,8 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // TEMPORARY DEBUG
 Route::get('/_debug/db', function () {
@@ -55,8 +57,25 @@ Route::get('/api/products/stock', function (\Illuminate\Http\Request $request) {
     return response()->json(\App\Models\Product::whereIn('id', $ids)->get(['id', 'stock', 'status']));
 });
 
-// Cart & Checkout (Protected by Auth)
+// Email Verification Routes
 Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('register.success');
+    })->middleware(['signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('success', 'VERIFICATION LINK SENT TO YOUR EMAIL.');
+    })->middleware(['throttle:6,1'])->name('verification.send');
+});
+
+// Cart & Checkout (Protected by Auth & Verified)
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('cart', CartController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
