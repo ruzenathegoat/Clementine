@@ -255,17 +255,11 @@
                               <a href="https://www.instagram.com/naufalrahmaann/" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
                                   Instagram: @naufalrahmaann
                               </a>
-                              <a href="https://x.com/ruzenawooshh" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
-                                  Twitter: @ruzenawooshh
-                              </a>
                               <a href="https://www.linkedin.com/in/naufal-rahman-2182a1249/" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
                                   LinkedIn: Naufal Rahman
                               </a>
                               <a href="https://github.com/ruzenathegoat" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
                                   GitHub: ruzenathegoat
-                              </a>
-                              <a href="https://www.facebook.com/naufal.rahman.756" target="_blank" class="hover:text-black hover:underline transition-colors flex items-center gap-2">
-                                  Facebook: Naufal Rahman
                               </a>
                               <p class="mt-4 pt-4 border-t border-gray-100">
                                   <strong class="text-black">WhatsApp:</strong> 081398297976
