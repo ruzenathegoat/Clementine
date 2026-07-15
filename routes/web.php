@@ -9,17 +9,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
 
-// TEMPORARY DEBUG — remove after fixing 500
-Route::get('/_debug/products', function () {
-    try {
-        $ctrl = new ProductController();
-        $response = $ctrl->index(request());
-        return 'OK — products view rendered successfully';
-    } catch (\Throwable $e) {
-        return response('<pre>' . get_class($e) . ': ' . $e->getMessage() . "\n\n" . $e->getFile() . ':' . $e->getLine() . "\n\n" . $e->getTraceAsString() . '</pre>', 500);
-    }
-});
-
 // --- ACTIVE ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
