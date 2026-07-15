@@ -68,17 +68,17 @@
             <div class="p-lg border-b border-primary">
                 <h3 class="font-body-md text-body-md font-bold mb-md uppercase">HARGA</h3>
                 <div class="flex items-center gap-sm">
-                    <input type="number" name="price_min" value="{{ request('price_min', $priceBounds->min_price) }}"
-                           min="{{ $priceBounds->min_price }}" max="{{ $priceBounds->max_price }}"
+                    <input type="number" name="price_min" value="{{ request('price_min', $priceBounds->min_price ?? 0) }}"
+                           min="{{ $priceBounds->min_price ?? 0 }}" max="{{ $priceBounds->max_price ?? 0 }}"
                            class="w-full border border-primary px-sm py-xs font-body-sm text-body-sm bg-background focus:ring-primary focus:border-primary" />
                     <span class="font-body-sm text-body-sm">—</span>
-                    <input type="number" name="price_max" value="{{ request('price_max', $priceBounds->max_price) }}"
-                           min="{{ $priceBounds->min_price }}" max="{{ $priceBounds->max_price }}"
+                    <input type="number" name="price_max" value="{{ request('price_max', $priceBounds->max_price ?? 0) }}"
+                           min="{{ $priceBounds->min_price ?? 0 }}" max="{{ $priceBounds->max_price ?? 0 }}"
                            class="w-full border border-primary px-sm py-xs font-body-sm text-body-sm bg-background focus:ring-primary focus:border-primary" />
                 </div>
                 <div class="flex justify-between font-body-sm text-body-sm mt-2 text-secondary">
-                    <span>MIN ${{ $priceBounds->min_price }}</span>
-                    <span>MAX ${{ $priceBounds->max_price }}</span>
+                    <span>MIN ${{ $priceBounds->min_price ?? 0 }}</span>
+                    <span>MAX ${{ $priceBounds->max_price ?? 0 }}</span>
                 </div>
             </div>
 
