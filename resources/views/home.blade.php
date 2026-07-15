@@ -93,9 +93,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full border-l border-primary">
             @forelse($newArrivals as $product)
                 @if($product->stock <= 0)
-                <div class="group flex flex-col bg-background border-r border-b border-primary opacity-60 cursor-not-allowed product-card relative h-full">
+                <div class="group flex flex-col bg-[#ffffff] border-r border-b border-primary opacity-60 cursor-not-allowed product-card relative h-full">
                 @else
-                <div class="group flex flex-col bg-background hover:bg-surface-container-lowest transition-colors product-card relative h-full border-r border-b border-primary">
+                <div class="group flex flex-col bg-[#ffffff] hover:bg-[#ffffff] transition-colors product-card relative h-full border-r border-b border-primary">
                 @endif
                 
                     @if($product->stock <= 0)
@@ -113,12 +113,12 @@
                         </div>
                         
                         <!-- Image Area with Grey Background -->
-                        <div class="w-full aspect-square bg-[#EAEAEA] border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
+                        <div class="w-full aspect-square bg-[#ffffff] border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
                             @if ($product->primaryImage)
                             <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
                                  style="background-image: url('{{ $product->primaryImage->url }}')"></div>
                             @else
-                            <div class="w-full h-full bg-[#EAEAEA] flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
+                            <div class="w-full h-full bg-[#ffffff] flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
                             @endif
                             
                             @if($product->stock <= 0)
