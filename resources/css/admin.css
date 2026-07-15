@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+    /* Admin Minimalist UI Palette */
+    --color-admin-bg: #F9F9F8;
+    --color-admin-surface: #FFFFFF;
+    --color-admin-border: #EAEAEA;
+    
+    --color-admin-ink: #111111;
+    --color-admin-ink-muted: #787774;
+    
+    /* Muted Pastels (From minimalist-ui) */
+    --color-admin-pastel-red: #FDEBEC;
+    --color-admin-pastel-red-text: #9F2F2D;
+    
+    --color-admin-pastel-blue: #E1F3FE;
+    --color-admin-pastel-blue-text: #1F6C9F;
+    
+    --color-admin-pastel-green: #EDF3EC;
+    --color-admin-pastel-green-text: #346538;
+    
+    --color-admin-pastel-yellow: #FBF3DB;
+    --color-admin-pastel-yellow-text: #956400;
+
+    /* Typographic Hierarchy */
+    /* Sans for UI/Body, Serif for Editorial Headings */
+    --font-admin-sans: "SF Pro Display", "Geist Sans", "Inter", "Helvetica Neue", sans-serif;
+    --font-admin-serif: "Lyon Text", "Newsreader", "Playfair Display", "Instrument Serif", serif;
+    --font-admin-mono: "Geist Mono", "SF Mono", "JetBrains Mono", monospace;
+    
+    /* High-end shadows */
+    --shadow-admin-soft: 0 4px 24px rgba(0, 0, 0, 0.03);
+    --shadow-admin-hover: 0 12px 32px rgba(0, 0, 0, 0.06);
+    --shadow-admin-inner: inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+@layer base {
+  body.admin-dashboard {
+    background-color: var(--color-admin-bg);
+    color: var(--color-admin-ink);
+    font-family: var(--font-admin-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+    /* High-end transitions */
+    .transition-haptic {
+        transition-property: transform, opacity, box-shadow, background-color, border-color, color;
+        transition-duration: 600ms;
+        transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Double-bezel classes */
+    .admin-outer-shell {
+        background-color: rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.04);
+        padding: 0.5rem; /* p-2 */
+        border-radius: 2rem; 
+    }
+    
+    .admin-inner-core {
+        background-color: var(--color-admin-surface);
+        box-shadow: var(--shadow-admin-soft), var(--shadow-admin-inner);
+        border: 1px solid var(--color-admin-border);
+        border-radius: calc(2rem - 0.5rem);
+        overflow: hidden;
+    }
+    
+    /* Button-in-button */
+    .admin-button-island {
+        background-color: var(--color-admin-ink);
+        color: white;
+        border-radius: 9999px;
+        padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.025em;
+        font-size: 0.875rem;
+    }
+    
+    .admin-button-island-icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 9999px;
+        background-color: rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .admin-badge {
+        border-radius: 9999px;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.25rem 0.625rem;
+        font-weight: 600;
+    }
+}
