@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // For PostgreSQL (Supabase), we must drop the enum check constraint manually
-        if (DB::getDriverName() === 'pgsql') {
-            DB::statement('ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check');
-        }
+        // For PostgreSQL, enum columns create a CHECK constraint.
+        // Using ->change() doesn't always remove it reliably.
+        // The safest approach: drop the old enum column and re-add as string.
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('customer')->change();
+            $table->string('role')->default('customer')->after('password');
         });
     }
 
