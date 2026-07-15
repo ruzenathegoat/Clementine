@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            'throttle:10,60',
+            // Changed from throttle:10,60 to avoid 429 errors for admins
+            'throttle:60,1',
         ]);
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
         $middleware->alias([
