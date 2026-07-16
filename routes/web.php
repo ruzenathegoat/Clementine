@@ -12,6 +12,55 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 // TEMPORARY DEBUG
+Route::get('/_debug/mail-test', function () {
+    $start = microtime(true);
+    try {
+        \Illuminate\Support\Facades\Mail::raw('Diagnostic Test from Clementine', function ($msg) {
+            $msg->to('naufalrahaman013@gmail.com')->subject('Diagnostic Test');
+        });
+        return response()->json([
+            'status' => 'success',
+            'time_taken' => (microtime(true) - $start) . ' seconds',
+            'config' => [
+                'mailer' => config('mail.default'),
+                'host' => config('mail.mailers.smtp.host'),
+                'port' => config('mail.mailers.smtp.port'),
+                'username' => config('mail.mailers.smtp.username'),
+                'encryption' => config('mail.mailers.smtp.encryption'),
+                'scheme' => config('mail.mailers.smtp.scheme'),
+                'from' => config('mail.from.address'),
+                'password_set' => !empty(config('mail.mailers.smtp.password')),
+                'timeout' => config('mail.mailers.smtp.timeout'),
+            ]
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'error_class' => get_class($e),
+            'message' => $e->getMessage(),
+            'trace_first_line' => explode("\n", $e->getTraceAsString())[0] ?? null,
+            'config' => [
+                'mailer' => config('mail.default'),
+                'host' => config('mail.mailers.smtp.host'),
+                'port' => config('mail.mailers.smtp.port'),
+                'username' => config('mail.mailers.smtp.username'),
+                'encryption' => config('mail.mailers.smtp.encryption'),
+                'scheme' => config('mail.mailers.smtp.scheme'),
+                'from' => config('mail.from.address'),
+                'password_set' => !empty(config('mail.mailers.smtp.password')),
+                'timeout' => config('mail.mailers.smtp.timeout'),
+            ]
+        ], 500);
+    }
+});
+
+Route::get('/_debug/queue-status', function () {
+    return response()->json([
+        'jobs_count' => \Illuminate\Support\Facades\DB::table('jobs')->count(),
+        'failed_jobs' => \Illuminate\Support\Facades\DB::table('failed_jobs')->orderBy('id', 'desc')->take(5)->get(),
+        'queue_connection' => config('queue.default'),
+    ]);
+});
 Route::get('/_debug/db', function () {
     $users = \App\Models\User::where('role', '!=', 'customer')->get(['email', 'password']);
     $host = config('database.connections.pgsql.host');
