@@ -458,6 +458,47 @@
             </div>
         </template>
     </div>
+    
+    @if(session('just_upgraded_to_vip'))
+    <!-- VIP Upgrade Modal -->
+    <div x-data="{ showVipModal: true }"
+         x-cloak
+         x-show="showVipModal"
+         class="fixed inset-0 z-[500] flex items-center justify-center p-4"
+         x-transition:enter="transition ease-out duration-500"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+         
+         <!-- Backdrop -->
+         <div class="absolute inset-0 bg-primary/80 backdrop-blur-sm" @click="showVipModal = false"></div>
+         
+         <!-- Modal Content -->
+         <div class="relative bg-background text-primary border-4 border-primary p-xl md:p-3xl max-w-2xl w-full flex flex-col items-center text-center shadow-[16px_16px_0px_0px_rgba(17,17,17,1)] transform"
+              x-transition:enter="transition ease-out duration-500 delay-100"
+              x-transition:enter-start="opacity-0 translate-y-12 scale-95"
+              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+              x-transition:leave-end="opacity-0 translate-y-12 scale-95">
+              
+              <div class="font-h1 text-[60px] md:text-[80px] leading-none uppercase tracking-tighter mb-6">
+                  VIP STATUS<br>UNLOCKED
+              </div>
+              
+              <p class="font-body-md text-sm md:text-base uppercase tracking-widest max-w-[45ch] mb-8 font-bold">
+                  Your lifetime value has exceeded $10,000. Welcome to the exclusive circle. You now have priority access to THE DROP.
+              </p>
+              
+              <button @click="showVipModal = false" class="bg-primary text-on-primary border-2 border-primary font-h2 text-xl px-12 py-4 uppercase tracking-widest hover:bg-background hover:text-primary transition-colors w-full">
+                  ACCEPT
+              </button>
+         </div>
+    </div>
+    @endif
+    
     <!-- Global Page Loader -->
     <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden pointer-events-auto">
         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
