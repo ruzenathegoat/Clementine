@@ -462,9 +462,10 @@
     @if(session('just_upgraded_to_vip'))
     <!-- VIP Upgrade Modal -->
     <div x-data="{ showVipModal: true }"
+         x-init="setTimeout(() => showVipModal = false, 10000)"
          x-cloak
          x-show="showVipModal"
-         class="fixed inset-0 z-[500] flex items-center justify-center p-4"
+         class="fixed inset-0 z-[500] flex items-center justify-center p-4 md:p-8"
          x-transition:enter="transition ease-out duration-500"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -476,8 +477,9 @@
          <div class="absolute inset-0 bg-primary/80 backdrop-blur-sm" @click="showVipModal = false"></div>
          
          <!-- Modal Content -->
-         <div class="relative bg-background text-primary border-4 border-primary p-xl md:p-3xl max-w-2xl w-full flex flex-col items-center text-center shadow-[16px_16px_0px_0px_rgba(17,17,17,1)] transform"
-              x-transition:enter="transition ease-out duration-500 delay-100"
+         <div class="relative bg-background text-primary border-4 border-primary p-8 md:p-12 w-full max-w-[600px] flex flex-col items-center text-center transform"
+              style="box-shadow: 16px 16px 0px 0px #111111;"
+              x-transition:enter="transition ease-out duration-500"
               x-transition:enter-start="opacity-0 translate-y-12 scale-95"
               x-transition:enter-end="opacity-100 translate-y-0 scale-100"
               x-transition:leave="transition ease-in duration-300"
