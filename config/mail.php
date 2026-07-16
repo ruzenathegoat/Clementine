@@ -42,7 +42,7 @@ return [
             'scheme' => null, // FORCE null to bypass wrong MAIL_SCHEME=smtps in Railway env
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', 'smtp.resend.com'),
-            'port' => env('MAIL_PORT', 587),
+            'port' => 587, // FORCE 587 to bypass wrong MAIL_PORT=465 in Railway env
             'username' => env('MAIL_USERNAME', 'resend'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => 15,
