@@ -42,7 +42,7 @@ class OrderPaid extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.orders.paid',
+            view: 'emails.orders.paid',
         );
     }
 
