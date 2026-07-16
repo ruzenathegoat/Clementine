@@ -250,7 +250,7 @@
                 ${parseFloat(order.discount_amount || 0) > 0 ? `
                 <div class="flex justify-between text-[#D97757]">
                     <div class="flex items-center gap-1">
-                        <span>Discount</span>
+                        <span>{{ auth()->user()?->is_vip ? 'VIP Discount' : 'Discount' }}</span>
                         <span class="text-[10px]">*${parseFloat(order.subtotal) > 0 ? Math.round((parseFloat(order.discount_amount) / parseFloat(order.subtotal)) * 100) : 0}%</span>
                     </div>
                     <span>-$${parseFloat(order.discount_amount).toFixed(2)}</span>

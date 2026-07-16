@@ -67,7 +67,7 @@
                 </div>
                 @if($totalDiscount > 0)
                 <div class="flex justify-between text-[#D97757]">
-                    <span>DISCOUNT</span>
+                    <span>{{ auth()->user()?->is_vip ? 'VIP DISCOUNT' : 'DISCOUNT' }}</span>
                     <span class="font-bold">-${{ number_format($totalDiscount, 2) }}</span>
                 </div>
                 @endif

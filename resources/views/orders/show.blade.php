@@ -147,7 +147,7 @@
                     @if($order->discount_amount > 0)
                     <div class="flex justify-between items-center text-[#D97757]">
                         <div class="flex items-center gap-1">
-                            <span>Discount</span>
+                            <span>{{ $order->user && $order->user->is_vip ? 'VIP Discount' : 'Discount' }}</span>
                             <span class="text-[10px]">*{{ $order->subtotal > 0 ? round(($order->discount_amount / $order->subtotal) * 100) : 0 }}%</span>
                         </div>
                         <span class="font-medium">-${{ number_format($order->discount_amount, 2) }}</span>

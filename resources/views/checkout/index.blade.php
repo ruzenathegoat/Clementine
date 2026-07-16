@@ -209,9 +209,9 @@
                         <span class="text-on-surface-variant">Subtotal (Excl. Tax)</span>
                         <span class="font-medium" x-text="'$' + subtotal.toFixed(2)"></span>
                     </div>
-                    <div x-show="totalDiscount > 0" class="flex justify-between items-center text-[#D97757]" style="display: none;">
+                    <div x-show="totalDiscount > 0" x-cloak class="flex justify-between items-center text-[#D97757]">
                         <div class="flex items-center gap-1">
-                            <span>Discount</span>
+                            <span>{{ auth()->user()?->is_vip ? 'VIP Discount' : 'Discount' }}</span>
                             <span class="text-[10px]" x-show="subtotal > 0" x-text="'*' + Math.round((totalDiscount / subtotal) * 100) + '%'"></span>
                         </div>
                         <span class="font-medium" x-text="'-$' + totalDiscount.toFixed(2)"></span>
@@ -227,7 +227,7 @@
                         <span class="text-on-surface-variant">Shipping Fee</span>
                         <span class="font-medium text-surface-tint" x-text="'$' + shippingFee.toFixed(2)"></span>
                     </div>
-                    <div x-show="shippingTax > 0" class="flex justify-between items-center" style="display: none;">
+                    <div x-show="shippingTax > 0" x-cloak class="flex justify-between items-center">
                         <div class="flex items-center gap-1">
                             <span class="text-on-surface-variant">Shipping Tax</span>
                             <span class="text-[10px] text-primary" x-text="'*' + Math.round(defaultShippingTaxPct * 100) + '%'"></span>

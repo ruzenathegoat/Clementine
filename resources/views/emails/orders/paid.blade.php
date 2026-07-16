@@ -228,7 +228,7 @@
                     </tr>
                     @if($order->discount_amount > 0)
                     <tr>
-                        <td>Discount</td>
+                        <td>{{ $order->user && $order->user->is_vip ? 'VIP Discount' : 'Discount' }}</td>
                         <td style="text-align: right; font-family: 'Geist Mono', monospace;">-${{ number_format($order->discount_amount, 2) }}</td>
                     </tr>
                     @endif
