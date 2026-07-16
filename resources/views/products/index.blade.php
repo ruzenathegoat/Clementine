@@ -5,11 +5,11 @@
 @section('content')
 
 <!-- Header Section -->
-<header class="w-full px-lg py-3xl border-b border-primary bg-surface-container-low flex flex-col md:flex-row md:items-end justify-between gap-md">
+<header class="w-full px-lg py-3xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-md">
     <div>
-        <h1 class="font-h1 text-h1 text-primary m-0 p-0 leading-none">SHOP ALL WATCHES</h1>
+        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">SHOP ALL WATCHES</h1>
     </div>
-    <div class="font-body-md text-body-md text-secondary border border-primary px-4 py-2 bg-background uppercase">
+    <div class="font-body-md text-sm text-primary border border-primary px-4 py-2 bg-background uppercase shrink-0">
         {{ $products->count() }} WATCH{{ $products->count() === 1 ? '' : 'ES' }}
     </div>
 </header>
@@ -27,14 +27,14 @@
 
 @if ($activeChips->isNotEmpty())
 <div class="w-full px-lg py-md border-b border-primary bg-background flex flex-wrap gap-sm items-center">
-    <span class="font-body-sm text-body-sm text-secondary uppercase mr-md">Active Filters:</span>
+    <span class="font-body-sm text-body-sm text-[#787774] uppercase mr-md">Active Filters:</span>
     @foreach ($activeChips as $chip)
         <a href="{{ route('products.index') }}?{{ http_build_query($chip['remove']) }}"
            class="flex items-center gap-2 border border-primary px-3 py-1 font-body-sm text-body-sm bg-surface-container-highest hover:bg-primary hover:text-on-primary transition-colors">
             {{ $chip['label'] }} <span class="material-symbols-outlined text-[14px]">close</span>
         </a>
     @endforeach
-    <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline text-secondary hover:text-primary ml-sm">CLEAR ALL</a>
+    <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline text-[#787774] hover:text-primary ml-sm">CLEAR ALL</a>
 </div>
 @endif
 
@@ -44,7 +44,7 @@
     <aside class="w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0">
         <div class="p-lg flex justify-between items-center border-b border-primary bg-surface-container-lowest">
             <h2 class="font-headline-md text-[24px] uppercase">FILTERS</h2>
-            <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline hover:text-secondary">CLEAR ALL</a>
+            <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline hover:text-[#787774]">CLEAR ALL</a>
         </div>
 
         <!-- Collection -->
@@ -76,7 +76,7 @@
                            min="{{ $priceBounds->min_price ?? 0 }}" max="{{ $priceBounds->max_price ?? 0 }}"
                            class="w-full border border-primary px-sm py-xs font-body-sm text-body-sm bg-background focus:ring-primary focus:border-primary" />
                 </div>
-                <div class="flex justify-between font-body-sm text-body-sm mt-2 text-secondary">
+                <div class="flex justify-between font-body-sm text-body-sm mt-2 text-[#787774]">
                     <span>MIN ${{ $priceBounds->min_price ?? 0 }}</span>
                     <span>MAX ${{ $priceBounds->max_price ?? 0 }}</span>
                 </div>
@@ -164,7 +164,7 @@
                         <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical group-hover:scale-105"
                              style="background-image: url('{{ $product->primaryImage->url }}')"></div>
                         @else
-                        <div class="w-full h-full bg-background flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
+                        <div class="w-full h-full bg-background flex items-center justify-center text-[#787774] text-xs uppercase">No Image</div>
                         @endif
                         
                         @if($product->stock <= 0)
@@ -175,7 +175,7 @@
                     </div>
                     <div class="p-lg flex flex-col flex-1">
                         <h3 class="font-h2 text-lg uppercase leading-tight mb-1">{{ $product->name }}</h3>
-                        <p class="font-body-md text-[10px] text-secondary uppercase pt-2">
+                        <p class="font-body-md text-[10px] text-[#787774] uppercase pt-2">
                             {{ $product->tagline ?? 'TIMEPIECE' }}
                         </p>
                         {{-- Stock Availability Badge --}}
@@ -196,7 +196,7 @@
                 </a>
                 @endif
             @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-3 p-3xl text-center font-body-md text-secondary border-b border-r border-primary">
+                <div class="col-span-1 md:col-span-2 lg:col-span-3 p-3xl text-center font-body-md text-[#787774] border-b border-r border-primary">
                     No watches match these filters.
                     <a href="{{ route('products.index') }}" class="underline text-primary ml-2">Clear filters</a>
                 </div>
