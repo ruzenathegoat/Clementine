@@ -68,6 +68,7 @@ class ConciergeController extends Controller
         }
 
         $ticket->update(['status' => 'resolved']);
+        $ticket->load('admin');
 
         broadcast(new \App\Events\TicketClosed($ticket));
 
