@@ -168,6 +168,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('honeypot');
     
+    // Google OAuth Routes
+    Route::get('/auth/google', [App\Http\Controllers\SocialiteController::class, 'redirect'])->name('google.login');
+    Route::get('/auth/google/callback', [App\Http\Controllers\SocialiteController::class, 'callback'])->name('google.callback');
+
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->middleware('honeypot');
 

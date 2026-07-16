@@ -70,7 +70,7 @@
 
                 <!-- Social Buttons Placeholder -->
                 <div class="flex gap-4 w-full">
-                    <button type="button" class="flex-1 border border-primary p-3 flex justify-center hover:bg-primary hover:text-on-primary transition-colors text-sm font-bold font-body-md">Google</button>
+                    <a href="{{ route('google.login') }}" class="flex-1 border border-primary p-3 flex justify-center hover:bg-primary hover:text-on-primary transition-colors text-sm font-bold font-body-md">Google</a>
                     <button type="button" class="flex-1 border border-primary p-3 flex justify-center hover:bg-primary hover:text-on-primary transition-colors text-sm font-bold font-body-md">Apple</button>
                 </div>
 
