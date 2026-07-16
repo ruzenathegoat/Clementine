@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         \Illuminate\Support\Facades\RateLimiter::for('web', function (\Illuminate\Http\Request $request) {
+            if ($request->user() && $request->user()->is_vip) {
+                return \Illuminate\Cache\RateLimiting\Limit::none();
+            }
             // Limit per IP instead of user ID, so multiple devices don't share the same limit
             return \Illuminate\Cache\RateLimiting\Limit::perMinute(60)->by($request->ip());
         });

@@ -40,7 +40,13 @@
                         <div class="bg-surface border border-primary p-6 hover:bg-background transition-colors flex justify-between items-center group">
                             <div>
                                 <h3 class="font-display uppercase tracking-tight text-lg">{{ $ticket->subject }}</h3>
-                                <p class="text-xs text-[#787774] uppercase tracking-widest mt-1">User: {{ $ticket->user->name }} | Started: {{ $ticket->created_at->diffForHumans() }}</p>
+                                <p class="text-xs text-[#787774] uppercase tracking-widest mt-1">
+                                    User: {{ $ticket->user->name }} 
+                                    @if($ticket->user->is_vip)
+                                        <span class="bg-primary text-background px-1 ml-1 text-[10px] font-bold">VIP</span>
+                                    @endif
+                                    | Started: {{ $ticket->created_at->diffForHumans() }}
+                                </p>
                             </div>
                             <a href="{{ route('admin.concierge.show', $ticket) }}" class="bg-primary text-on-background px-4 py-2 font-display uppercase tracking-widest text-xs border border-transparent group-hover:border-on-background transition-colors">
                                 Open Chat
@@ -67,7 +73,13 @@
                         <div class="bg-surface border border-primary p-6 hover:bg-background transition-colors flex justify-between items-center group">
                             <div>
                                 <h3 class="font-display uppercase tracking-tight text-lg">{{ $ticket->subject }}</h3>
-                                <p class="text-xs text-[#787774] uppercase tracking-widest mt-1">User: {{ $ticket->user->name }} | Waited: {{ $ticket->created_at->diffForHumans() }}</p>
+                                <p class="text-xs text-[#787774] uppercase tracking-widest mt-1">
+                                    User: {{ $ticket->user->name }}
+                                    @if($ticket->user->is_vip)
+                                        <span class="bg-primary text-background px-1 ml-1 text-[10px] font-bold">VIP</span>
+                                    @endif
+                                    | Waited: {{ $ticket->created_at->diffForHumans() }}
+                                </p>
                             </div>
                             <form action="{{ route('admin.concierge.accept', $ticket) }}" method="POST">
                                 @csrf

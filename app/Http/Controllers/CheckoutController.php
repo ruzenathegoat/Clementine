@@ -144,6 +144,10 @@ class CheckoutController extends Controller
                 $hasTheDrop = true;
                 $discountPct = $isVip ? 0.07 : 0.05;
                 $taxPct = $isVip ? 0.08 : 0.10;
+            } else {
+                if ($isVip) {
+                    $discountPct = 0.03;
+                }
             }
 
             $itemDiscount = $lineTotal * $discountPct;

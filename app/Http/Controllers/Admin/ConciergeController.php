@@ -12,8 +12,22 @@ class ConciergeController extends Controller
 {
     public function index()
     {
-        $pendingTickets = Ticket::where('status', 'pending')->with('user')->orderBy('created_at', 'asc')->get();
-        $activeTickets = Ticket::where('status', 'active')->where('admin_id', auth()->id())->with('user')->orderBy('updated_at', 'desc')->get();
+        $pendingTickets = Ticket::where('tickets.status', 'pending')
+            ->join('users', 'tickets.user_id', '=', 'users.id')
+            ->select('tickets.*')
+            ->orderByDesc('users.is_vip')
+            ->orderBy('tickets.created_at', 'asc')
+            ->with('user')
+            ->get();
+            
+        $activeTickets = Ticket::where('tickets.status', 'active')
+            ->where('tickets.admin_id', auth()->id())
+            ->join('users', 'tickets.user_id', '=', 'users.id')
+            ->select('tickets.*')
+            ->orderByDesc('users.is_vip')
+            ->orderBy('tickets.updated_at', 'desc')
+            ->with('user')
+            ->get();
         
         return view('admin.concierge.index', compact('pendingTickets', 'activeTickets'));
     }

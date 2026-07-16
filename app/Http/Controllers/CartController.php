@@ -30,6 +30,11 @@ class CartController extends Controller
             $discountPct = 0;
             if ($item->product->status === 'new') { // The Drop
                 $discountPct = $isVip ? 0.07 : 0.05;
+            } else {
+                // Non-drop products
+                if ($isVip) {
+                    $discountPct = 0.03;
+                }
             }
             $totalDiscount += ($lineTotal * $discountPct);
         }
