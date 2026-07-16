@@ -69,6 +69,8 @@ class ConciergeController extends Controller
 
         $ticket->update(['status' => 'resolved']);
 
+        broadcast(new \App\Events\TicketClosed($ticket));
+
         return redirect()->route('admin.concierge.index')->with('success', 'Ticket resolved.');
     }
 }

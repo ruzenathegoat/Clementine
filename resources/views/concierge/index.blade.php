@@ -105,6 +105,10 @@
                             this.$nextTick(() => {
                                 this.scrollToBottom();
                             });
+                        })
+                        .listen('.ticket.closed', (e) => {
+                            alert('This concierge session has been closed by the admin.');
+                            window.location.reload();
                         });
                 } else {
                     console.error('Laravel Echo is not loaded.');
