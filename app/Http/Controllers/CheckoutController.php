@@ -271,10 +271,13 @@ class CheckoutController extends Controller
 
         if ($order->payment_status === 'paid') {
             $order->load('items.product.collection');
+            $recipient = $order->contact_email ?? $request->user()->email;
+            \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): attempting email', ['order_id' => $order->id, 'to' => $recipient, 'mailer' => config('mail.default')]);
             try {
-                Mail::to($order->contact_email ?? $request->user()->email)->send(new OrderPaid($order));
+                Mail::to($recipient)->send(new OrderPaid($order));
+                \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): email sent successfully', ['order_id' => $order->id, 'to' => $recipient]);
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Failed to send OrderPaid email: ' . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error('OrderPaid (checkout): email FAILED', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
             }
         }
 
