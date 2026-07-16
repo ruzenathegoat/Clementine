@@ -3,8 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class QueuedVerifyEmail extends VerifyEmail
+class QueuedVerifyEmail extends VerifyEmail implements ShouldQueue
 {
-    // Sends synchronously — no queue worker needed
+    // Inherits everything from VerifyEmail, but will be queued by Laravel
 }

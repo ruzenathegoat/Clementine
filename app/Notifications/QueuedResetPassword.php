@@ -3,8 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class QueuedResetPassword extends ResetPassword
+class QueuedResetPassword extends ResetPassword implements ShouldQueue
 {
-    // Sends synchronously — no queue worker needed
+    // Inherits everything from ResetPassword, but will be queued
 }
