@@ -238,3 +238,17 @@ Route::get('/_debug/test-order-paid', function () {
         ], 500);
     }
 });
+
+Route::get('/_debug/logs', function () {
+    $logFile = storage_path('logs/laravel.log');
+    if (!file_exists($logFile)) {
+        return "Log file not found.";
+    }
+    
+    // Get last 500 lines using tail-like approach
+    $file = file($logFile);
+    $lines = array_slice($file, -500);
+    
+    return response('<pre>' . htmlspecialchars(implode("", $lines)) . '</pre>', 200)
+        ->header('Content-Type', 'text/html');
+});
