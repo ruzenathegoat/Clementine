@@ -130,8 +130,10 @@ Route::get('/api/products/stock', function (\Illuminate\Http\Request $request) {
 
 // Email Verification Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
+    Route::get('/email/verify', function (\Illuminate\Http\Request $request) {
+        return $request->user()->hasVerifiedEmail()
+            ? redirect()->route('home')->with('success', 'YOUR EMAIL HAS BEEN VERIFIED.')
+            : view('auth.verify-email');
     })->name('verification.notice');
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
