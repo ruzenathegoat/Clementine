@@ -255,7 +255,7 @@
                 </table>
 
                 <div class="btn-wrapper">
-                    <a href="{{ config('app.url') }}/profile" class="btn">Access Collection</a>
+                    <a href="https://clementine.my.id/profile" class="btn">Access Collection</a>
                 </div>
 
                 <div class="meta-text">
