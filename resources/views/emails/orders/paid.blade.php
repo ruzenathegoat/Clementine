@@ -14,7 +14,7 @@ Your allocation has been secured. The official folio and provenance documents ha
 | Item       | Qty         | Price  |
 | :--------- | :--------- | :----- |
 @foreach($order->items as $item)
-| **{{ $item->product->name }}**<br><span style="color: #666; font-size: 12px;">{{ $item->product->collection->name ?? '' }}</span> | {{ $item->quantity }} | ${{ number_format($item->price_at_purchase, 2) }} |
+| **{{ $item->product->name }}**<br><span style="color: #666; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span> | {{ $item->quantity }} | ${{ number_format($item->price_at_purchase, 2) }} |
 @endforeach
 </x-mail::table>
 

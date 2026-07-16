@@ -34,8 +34,15 @@ class OrderController extends Controller
             'payment_status' => 'paid'
         ]);
 
-        // Send Invoice Email via Mailpit
-        Mail::to($order->contact_email)->send(new OrderPaid($order));
+        // Eager-load relationships needed by the OrderPaid email template
+        $order->load('items.product.collection');
+
+        try {
+            Mail::to($order->contact_email ?? auth()->user()->email)
+                ->send(new OrderPaid($order));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send OrderPaid email: ' . $e->getMessage());
+        }
 
         return back()->with('success', 'PAYMENT SIMULATION SUCCESSFUL.');
     }

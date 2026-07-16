@@ -270,6 +270,7 @@ class CheckoutController extends Controller
         }
 
         if ($order->payment_status === 'paid') {
+            $order->load('items.product.collection');
             try {
                 Mail::to($order->contact_email ?? $request->user()->email)->send(new OrderPaid($order));
             } catch (\Exception $e) {
