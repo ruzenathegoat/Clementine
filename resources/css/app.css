@@ -34,14 +34,14 @@
 
     /* Custom Fluid Typography */
     --text-hero-lg: clamp(4rem, 10vw, 11rem);
-    --text-hero-lg--line-height: 0.85;
-    --text-hero-lg--font-weight: 800;
-    --text-hero-lg--letter-spacing: -0.02em;
+    --text-hero-lg--line-height: 0.9;
+    --text-hero-lg--font-weight: 400;
+    --text-hero-lg--letter-spacing: normal;
 
     --text-hero-md: clamp(3rem, 7vw, 8rem);
-    --text-hero-md--line-height: 0.85;
-    --text-hero-md--font-weight: 800;
-    --text-hero-md--letter-spacing: -0.02em;
+    --text-hero-md--line-height: 0.9;
+    --text-hero-md--font-weight: 400;
+    --text-hero-md--letter-spacing: normal;
 
     /* Custom Easings */
     --ease-mechanical: cubic-bezier(0.83, 0, 0.17, 1);
