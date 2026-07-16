@@ -42,10 +42,20 @@ class OrderController extends Controller
         Log::info('OrderPaid: attempting email', ['order_id' => $order->id, 'to' => $recipient, 'mailer' => config('mail.default')]);
 
         try {
-            Mail::to($recipient)->send(new OrderPaid($order));
-            Log::info('OrderPaid: email sent successfully', ['order_id' => $order->id, 'to' => $recipient]);
+            // Bypass Laravel Symfony Mailer and use Resend API directly to prevent Message-ID spam drops
+            $html = view('emails.orders.paid', ['order' => $order])->render();
+            $orderId = strtoupper(substr(str_replace('-', '', $order->id), -8));
+            
+            $resend = \Resend::client(config('resend.api_key'));
+            $resend->emails->send([
+                'from' => 'Clementine <' . config('mail.from.address') . '>',
+                'to' => [$recipient],
+                'subject' => 'Acquisition Confirmed - #' . $orderId,
+                'html' => $html,
+            ]);
+            Log::info('OrderPaid: email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
         } catch (\Exception $e) {
-            Log::error('OrderPaid: email FAILED', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
+            Log::error('OrderPaid: email FAILED via SDK', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
         }
 
         return back()->with('success', 'PAYMENT SIMULATION SUCCESSFUL.');

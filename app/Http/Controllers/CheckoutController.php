@@ -274,10 +274,20 @@ class CheckoutController extends Controller
             $recipient = $order->contact_email ?? $request->user()->email;
             \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): attempting email', ['order_id' => $order->id, 'to' => $recipient, 'mailer' => config('mail.default')]);
             try {
-                Mail::to($recipient)->send(new OrderPaid($order));
-                \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): email sent successfully', ['order_id' => $order->id, 'to' => $recipient]);
+                // Bypass Laravel Symfony Mailer and use Resend API directly to prevent Message-ID spam drops
+                $html = view('emails.orders.paid', ['order' => $order])->render();
+                $orderId = strtoupper(substr(str_replace('-', '', $order->id), -8));
+                
+                $resend = \Resend::client(config('resend.api_key'));
+                $resend->emails->send([
+                    'from' => 'Clementine <' . config('mail.from.address') . '>',
+                    'to' => [$recipient],
+                    'subject' => 'Acquisition Confirmed - #' . $orderId,
+                    'html' => $html,
+                ]);
+                \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('OrderPaid (checkout): email FAILED', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
+                \Illuminate\Support\Facades\Log::error('OrderPaid (checkout): email FAILED via SDK', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
             }
         }
 
