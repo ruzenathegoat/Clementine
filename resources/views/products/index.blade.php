@@ -39,9 +39,46 @@
 @endif
 
 <!-- Main Content Area -->
-<div class="flex-1 w-full flex flex-col md:flex-row">
+<div class="flex-1 w-full flex flex-col md:flex-row items-stretch">
     <!-- Filter Sidebar -->
-    <aside class="w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0">
+    <aside x-data="{ 
+        width: 320, 
+        isDragging: false,
+        startDrag(e) {
+            if(window.innerWidth < 768) return;
+            this.isDragging = true;
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+            const startX = e.pageX;
+            const startWidth = this.width;
+            
+            const onMouseMove = (e) => {
+                if (!this.isDragging) return;
+                let newWidth = startWidth + (e.pageX - startX);
+                this.width = Math.max(250, Math.min(newWidth, 600));
+            };
+            
+            const onMouseUp = () => {
+                this.isDragging = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        }
+    }" 
+    :style="window.innerWidth >= 768 ? `width: ${width}px; flex-basis: ${width}px; flex-shrink: 0;` : ''"
+    class="relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 group/sidebar">
+        
+        <!-- Resizer Handle -->
+        <div @mousedown="startDrag" 
+             class="absolute top-0 right-0 h-full w-[10px] cursor-col-resize z-50 hover:bg-primary/10 active:bg-primary/20 transition-colors hidden md:block" 
+             style="transform: translateX(5px);">
+             <div class="absolute inset-y-0 right-[4px] w-[2px] bg-primary opacity-0 group-hover/sidebar:opacity-20 transition-opacity"></div>
+        </div>
         <div class="p-lg flex justify-between items-center border-b border-primary bg-surface-container-lowest">
             <h2 class="font-headline-md text-[24px] uppercase">FILTERS</h2>
             <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline hover:text-[#787774]">CLEAR ALL</a>

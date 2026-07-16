@@ -21,6 +21,15 @@ class ProductController extends Controller
             $query->whereHas('collection', fn ($q) => $q->where('slug', $request->string('collection')));
         }
 
+        if ($request->filled('search')) {
+            $search = $request->string('search')->toString();
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'ilike', '%' . $search . '%')
+                  ->orWhere('description', 'ilike', '%' . $search . '%')
+                  ->orWhereHas('collection', fn($c) => $c->where('name', 'ilike', '%' . $search . '%'));
+            });
+        }
+
         if ($request->filled('gender')) {
             $query->where('gender', $request->string('gender'));
         }

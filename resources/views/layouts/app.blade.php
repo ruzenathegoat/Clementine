@@ -39,7 +39,7 @@
         .lenis.lenis-scrolling iframe { pointer-events: none; }
     </style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false }">
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false }">
 
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
@@ -111,6 +111,9 @@
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
                 </a>
             @endauth
+            <button @click="searchOpen = true" class="hover:bg-primary hover:text-on-primary transition-colors duration-100 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+            </button>
             <a href="{{ route('cart.index') }}" class="hover:bg-primary hover:text-on-primary transition-colors duration-100 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
             </a>
@@ -297,6 +300,36 @@
              </div>
         </div>
     </footer>
+
+    <!-- Search Modal -->
+    <div x-cloak x-show="searchOpen" class="fixed inset-0 z-[300] bg-background flex flex-col"
+         x-transition:enter="transition-transform duration-500 ease-mechanical"
+         x-transition:enter-start="-translate-y-full"
+         x-transition:enter-end="translate-y-0"
+         x-transition:leave="transition-transform duration-500 ease-mechanical"
+         x-transition:leave-start="translate-y-0"
+         x-transition:leave-end="-translate-y-full">
+         
+        <div class="flex justify-end p-lg border-b border-primary">
+            <button @click="searchOpen = false" class="hover:bg-primary hover:text-on-primary transition-colors p-sm border border-transparent hover:border-primary">
+                <span class="material-symbols-outlined text-4xl">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-grow flex items-center justify-center p-xl">
+            <form action="{{ route('products.index') }}" method="GET" class="w-full max-w-5xl relative group">
+                <input type="text" name="search" placeholder="SEARCH ARCHIVES..." autofocus 
+                       class="w-full font-h1 text-[40px] md:text-[80px] lg:text-[120px] tracking-tighter uppercase text-primary bg-transparent border-b-4 border-primary focus:outline-none placeholder-primary/20 pb-4" />
+                <button type="submit" class="absolute right-0 bottom-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-[40px] md:text-[80px]">arrow_forward</span>
+                </button>
+            </form>
+        </div>
+        
+        <div class="p-lg border-t border-primary font-body-md text-[#787774] text-xs uppercase tracking-widest text-center">
+            PRESS ENTER TO SEARCH
+        </div>
+    </div>
 
     <!-- Initialized Lenis and GSAP animations -->
     <script>
