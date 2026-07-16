@@ -211,6 +211,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
 Route::get('/_debug/test-order-paid', function () {
     try {
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        
         $order = \App\Models\Order::with('items.product.collection')->where('payment_status', 'paid')->latest('created_at')->first();
         if (!$order) {
             $order = \App\Models\Order::with('items.product.collection')->latest('created_at')->first();
