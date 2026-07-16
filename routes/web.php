@@ -45,14 +45,9 @@ Route::get('/_debug/mail-test', function () {
             'time_taken' => (microtime(true) - $start) . ' seconds',
             'config' => [
                 'mailer' => config('mail.default'),
-                'host' => config('mail.mailers.smtp.host'),
-                'port' => config('mail.mailers.smtp.port'),
-                'username' => config('mail.mailers.smtp.username'),
-                'encryption' => config('mail.mailers.smtp.encryption'),
-                'scheme' => config('mail.mailers.smtp.scheme'),
                 'from' => config('mail.from.address'),
-                'password_set' => !empty(config('mail.mailers.smtp.password')),
-                'timeout' => config('mail.mailers.smtp.timeout'),
+                'resend_api_key_set' => !empty(config('resend.api_key')),
+                'resend_api_key_length' => strlen(config('resend.api_key')),
             ]
         ]);
     } catch (\Throwable $e) {
@@ -63,14 +58,9 @@ Route::get('/_debug/mail-test', function () {
             'trace_first_line' => explode("\n", $e->getTraceAsString())[0] ?? null,
             'config' => [
                 'mailer' => config('mail.default'),
-                'host' => config('mail.mailers.smtp.host'),
-                'port' => config('mail.mailers.smtp.port'),
-                'username' => config('mail.mailers.smtp.username'),
-                'encryption' => config('mail.mailers.smtp.encryption'),
-                'scheme' => config('mail.mailers.smtp.scheme'),
                 'from' => config('mail.from.address'),
-                'password_set' => !empty(config('mail.mailers.smtp.password')),
-                'timeout' => config('mail.mailers.smtp.timeout'),
+                'resend_api_key_set' => !empty(config('resend.api_key')),
+                'resend_api_key_length' => strlen(config('resend.api_key')),
             ]
         ], 500);
     }
