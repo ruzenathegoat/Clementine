@@ -115,7 +115,7 @@
                         <!-- Image Area with Grey Background -->
                         <div class="w-full aspect-square bg-[#ffffff] border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
                             @if ($product->primaryImage)
-                            <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-110 drop-shadow-2xl"
+                            <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-110"
                                  style="background-image: url('{{ $product->primaryImage->url }}')"></div>
                             @else
                             <div class="w-full h-full bg-[#ffffff] flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
