@@ -209,13 +209,15 @@
                         <span class="text-on-surface-variant">Subtotal (Excl. Tax)</span>
                         <span class="font-medium" x-text="'$' + subtotal.toFixed(2)"></span>
                     </div>
-                    <div x-show="totalDiscount > 0" x-cloak class="flex justify-between items-center text-[#D97757]">
+                    @if($totalDiscount > 0)
+                    <div class="flex justify-between items-center text-[#D97757]">
                         <div class="flex items-center gap-1">
                             <span>{{ auth()->user()?->is_vip ? 'VIP Discount' : 'Discount' }}</span>
-                            <span class="text-[10px]" x-show="subtotal > 0" x-text="'*' + Math.round((totalDiscount / subtotal) * 100) + '%'"></span>
+                            <span class="text-[10px]">*{{ $subtotal > 0 ? round(($totalDiscount / $subtotal) * 100) : 0 }}%</span>
                         </div>
-                        <span class="font-medium" x-text="'-$' + totalDiscount.toFixed(2)"></span>
+                        <span class="font-medium">-${{ number_format($totalDiscount, 2) }}</span>
                     </div>
+                    @endif
                     <div class="flex justify-between items-center">
                         <div class="flex items-center gap-1">
                             <span class="text-on-surface-variant">Product Tax</span>
