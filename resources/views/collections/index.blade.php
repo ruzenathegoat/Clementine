@@ -5,22 +5,15 @@
 @section('content')
 
 <!-- Header Section -->
-<header class="w-full px-lg py-3xl border-b border-primary bg-surface-container-low flex flex-col md:flex-row md:items-end justify-between gap-md relative overflow-hidden">
-    <div class="relative z-10">
-        <h1 class="font-h1 text-[60px] md:text-[100px] leading-[0.8] tracking-tighter text-primary m-0 p-0 uppercase">
-            COLLECTIONS
-        </h1>
-        <p class="font-body-md text-secondary uppercase tracking-widest mt-4">
+<header class="w-full px-lg py-3xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-md">
+    <div>
+        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">COLLECTIONS</h1>
+        <p class="font-body-md text-sm text-[#787774] uppercase tracking-widest mt-2 md:mt-4">
             Curated assortments of uncompromising horology
         </p>
     </div>
-    <div class="relative z-10 font-body-md text-body-md text-secondary border border-primary px-4 py-2 bg-background uppercase shrink-0">
+    <div class="font-body-md text-sm text-primary border border-primary px-4 py-2 bg-background uppercase shrink-0">
         {{ $collections->count() }} ARCHIVE{{ $collections->count() === 1 ? '' : 'S' }}
-    </div>
-    
-    <!-- Decorative element -->
-    <div class="absolute right-[-5%] top-[10%] text-[150px] opacity-5 pointer-events-none font-h1">
-        CX
     </div>
 </header>
 

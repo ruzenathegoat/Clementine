@@ -16,7 +16,7 @@
             <a href="{{ route('collections.index') }}" class="w-10 h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
                 <span class="material-symbols-outlined text-[20px]">arrow_back</span>
             </a>
-            <span class="font-label-caps text-xs tracking-widest uppercase text-secondary">ARCHIVE SERIES</span>
+            <span class="font-label-caps text-xs tracking-widest uppercase text-[#787774]">ARCHIVE SERIES</span>
         </div>
         
         <h1 class="font-h1 text-[60px] md:text-[120px] leading-[0.85] tracking-tighter text-primary uppercase break-words">
@@ -24,7 +24,7 @@
         </h1>
         
         @if($collection->description)
-        <p class="font-body-md text-lg md:text-xl text-secondary mt-8 max-w-2xl leading-relaxed">
+        <p class="font-body-md text-lg md:text-xl text-[#787774] mt-8 max-w-2xl leading-relaxed">
             {{ $collection->description }}
         </p>
         @endif
@@ -32,13 +32,13 @@
 </header>
 
 <!-- Stats Bar -->
-<div class="w-full px-lg py-md border-b border-primary bg-surface-container-low flex flex-wrap justify-between items-center gap-4">
+<div class="w-full px-lg py-md border-b border-primary bg-background flex flex-wrap justify-between items-center gap-4">
     <div class="font-label-caps text-xs tracking-widest uppercase">
-        <span class="text-secondary mr-2">TOTAL ASSETS:</span>
+        <span class="text-[#787774] mr-2">TOTAL ASSETS:</span>
         <strong class="text-primary">{{ $collection->products->count() }}</strong>
     </div>
     <div class="font-label-caps text-xs tracking-widest uppercase">
-        <span class="text-secondary mr-2">STATUS:</span>
+        <span class="text-[#787774] mr-2">STATUS:</span>
         <strong class="text-primary flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> ACTIVE COLLECTION
         </strong>
@@ -98,8 +98,8 @@
             @else
             </a>
             @endif
-        @empty
-            <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-body-md text-secondary border-r border-b border-primary bg-background flex flex-col items-center justify-center min-h-[300px]">
+            @empty
+            <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-body-md text-[#787774] border-r border-b border-primary bg-background flex flex-col items-center justify-center min-h-[300px]">
                 <i class="ph-light ph-empty text-4xl mb-4 text-primary"></i>
                 <p>NO ASSETS FOUND IN THIS ARCHIVE.</p>
                 <a href="{{ route('collections.index') }}" class="underline text-primary mt-4 uppercase text-sm tracking-widest">Return to Collections</a>
