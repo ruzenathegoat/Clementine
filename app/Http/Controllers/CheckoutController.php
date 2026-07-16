@@ -275,14 +275,15 @@ class CheckoutController extends Controller
             \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): attempting email', ['order_id' => $order->id, 'to' => $recipient, 'mailer' => config('mail.default')]);
             try {
                 // Bypass Laravel Symfony Mailer and use Resend API directly to prevent Message-ID spam drops
-                $html = view('emails.orders.paid', ['order' => $order])->render();
+                $mailable = new \App\Mail\OrderPaid($order);
+                $html = $mailable->render();
                 $orderId = strtoupper(substr(str_replace('-', '', $order->id), -8));
                 
                 $resend = \Resend::client(config('resend.api_key'));
                 $resend->emails->send([
                     'from' => 'Clementine <' . config('mail.from.address') . '>',
                     'to' => [$recipient],
-                    'subject' => 'Invoice for Order #' . $orderId,
+                    'subject' => 'Acquisition Confirmed - #' . $orderId,
                     'html' => $html,
                 ]);
                 \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);

@@ -43,14 +43,15 @@ class OrderController extends Controller
 
         try {
             // Bypass Laravel Symfony Mailer and use Resend API directly to prevent Message-ID spam drops
-            $html = view('emails.orders.paid', ['order' => $order])->render();
+            $mailable = new \App\Mail\OrderPaid($order);
+            $html = $mailable->render();
             $orderId = strtoupper(substr(str_replace('-', '', $order->id), -8));
             
             $resend = \Resend::client(config('resend.api_key'));
             $resend->emails->send([
                 'from' => 'Clementine <' . config('mail.from.address') . '>',
                 'to' => [$recipient],
-                'subject' => 'Invoice for Order #' . $orderId,
+                'subject' => 'Acquisition Confirmed - #' . $orderId,
                 'html' => $html,
             ]);
             Log::info('OrderPaid: email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
