@@ -12,6 +12,28 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 // TEMPORARY DEBUG
+Route::get('/_debug/reset-password', function (\Illuminate\Http\Request $request) {
+    try {
+        $user = \App\Models\User::first();
+        if (!$user) return response()->json(['error' => 'No user found']);
+        
+        $status = \Illuminate\Support\Facades\Password::sendResetLink(['email' => $user->email]);
+        
+        return response()->json([
+            'status' => 'success',
+            'result' => $status == \Illuminate\Support\Facades\Password::RESET_LINK_SENT ? 'Sent' : 'Failed',
+            'user' => $user->email
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'error_class' => get_class($e),
+            'message' => $e->getMessage(),
+            'trace_first_line' => explode("\n", $e->getTraceAsString())[0] ?? null,
+        ], 500);
+    }
+});
+
 Route::get('/_debug/mail-test', function () {
     $start = microtime(true);
     try {
