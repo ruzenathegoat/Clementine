@@ -10,7 +10,7 @@
         "ext-gd": "*",
         "ext-zip": "*",
         "laravel/framework": "^13.8",
-        "laravel/socialite": "*",
+        "laravel/socialite": "^5.28",
         "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.35",
         "maatwebsite/excel": "^3.1",

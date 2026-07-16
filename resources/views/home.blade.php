@@ -7,7 +7,7 @@
     
     <!-- 1. Hero Section (Ref: Image 1) -->
     <div class="w-full bg-background pt-[120px] md:pt-[160px] pb-[80px] px-lg border-b border-primary">
-        <h1 class="font-h1 text-[60px] sm:text-[90px] md:text-[130px] lg:text-[180px] leading-[0.85] tracking-tighter uppercase text-primary w-full text-left hero-reveal opacity-0 translate-y-10">
+        <h1 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase text-primary w-full text-left hero-reveal opacity-0 translate-y-10">
             MECHANICAL <br>
             PERFECTION <br>
             WITHOUT <br>
@@ -24,9 +24,9 @@
 
     @if(isset($theDrop) && $theDrop->isNotEmpty())
     <!-- 2.5 THE DROP Section -->
-    <div class="w-full bg-[#111111] text-white section-reveal border-b border-primary">
-        <div class="p-lg md:p-xl border-b border-[#333]">
-            <h2 class="font-h1 text-[60px] sm:text-[90px] md:text-[130px] lg:text-[180px] leading-[0.8] tracking-tighter uppercase break-words w-full text-white">THE DROP</h2>
+    <div class="w-full bg-primary text-on-primary section-reveal border-b border-background">
+        <div class="p-lg md:p-xl border-b border-background/20">
+            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full text-on-primary">THE DROP</h2>
         </div>
         
         <script>
@@ -35,14 +35,14 @@
         </script>
         
         @foreach($theDrop as $drop)
-        <div class="flex flex-col xl:flex-row border-b border-[#333] last:border-0 relative drop-container" data-id="{{ $drop->id }}">
+        <div class="flex flex-col xl:flex-row border-b border-background/20 last:border-0 relative drop-container" data-id="{{ $drop->id }}">
             <!-- Left: Massive Image -->
-            <div class="w-full xl:w-1/2 aspect-square xl:aspect-auto xl:min-h-[800px] bg-[#0A0A0A] flex items-center justify-center p-xl relative overflow-hidden border-b xl:border-b-0 xl:border-r border-[#333]">
+            <div class="w-full xl:w-1/2 aspect-square xl:aspect-auto xl:min-h-[800px] bg-primary flex items-center justify-center p-xl relative overflow-hidden border-b xl:border-b-0 xl:border-r border-background/20">
                 @if ($drop->primaryImage)
-                    <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-700 hover:scale-110 drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]"
+                    <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical hover:scale-105"
                          style="background-image: url('{{ $drop->primaryImage->url }}')"></div>
                 @else
-                    <div class="font-mono text-[#333] uppercase tracking-widest">No Visual Data</div>
+                    <div class="font-mono text-background/50 uppercase tracking-widest">No Visual Data</div>
                 @endif
                 
                 <!-- Stock Status Overlay -->
@@ -53,13 +53,13 @@
             
             <!-- Right: Details & Timer -->
             <div class="w-full xl:w-1/2 p-lg md:p-3xl flex flex-col justify-center">
-                <span class="font-mono text-sm tracking-widest text-[#888] mb-4 uppercase">
+                <span class="font-mono text-sm tracking-widest text-background/50 mb-4 uppercase">
                     {{ $drop->collection->name ?? 'EXCLUSIVE RELEASE' }}
                 </span>
                 
-                <h3 class="font-h1 text-[50px] md:text-[80px] leading-[0.9] uppercase mb-6">{{ $drop->name }}</h3>
+                <h3 class="font-h1 text-hero-md leading-none uppercase mb-6">{{ $drop->name }}</h3>
                 
-                <p class="font-body-md text-lg text-[#AAA] max-w-2xl mb-12">
+                <p class="font-body-md text-lg text-background/80 max-w-2xl mb-12">
                     {{ $drop->description ?? $drop->tagline ?? 'Extremely limited allocation. Secure yours before the window closes.' }}
                 </p>
                 
@@ -84,7 +84,7 @@
     <!-- 3. New Arrivals Section (Ref: Image 3) -->
     <div class="w-full section-reveal">
         <div class="p-lg md:p-xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-6 overflow-hidden">
-            <h2 class="font-h1 text-[60px] sm:text-[90px] md:text-[130px] lg:text-[180px] leading-[0.8] tracking-tighter uppercase break-words w-full">NEW ARTICLE</h2>
+            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full">NEW ARTICLE</h2>
             <a href="{{ route('products.index') }}" class="bg-primary text-on-primary border border-primary px-xl py-md md:py-sm font-label-caps uppercase text-sm md:text-xs tracking-widest hover:bg-background hover:text-primary transition-colors flex items-center justify-center h-min whitespace-nowrap shrink-0">
                 VIEW MORE
             </a>
@@ -93,9 +93,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full border-l border-primary">
             @forelse($newArrivals as $product)
                 @if($product->stock <= 0)
-                <div class="group flex flex-col bg-[#ffffff] border-r border-b border-primary opacity-60 cursor-not-allowed product-card relative h-full">
+                <div class="group flex flex-col bg-background border-r border-b border-primary opacity-60 cursor-not-allowed product-card relative h-full">
                 @else
-                <div class="group flex flex-col bg-[#ffffff] hover:bg-[#ffffff] transition-colors product-card relative h-full border-r border-b border-primary">
+                <div class="group flex flex-col bg-background transition-colors product-card relative h-full border-r border-b border-primary">
                 @endif
                 
                     @if($product->stock <= 0)
@@ -112,13 +112,13 @@
                             <span class="font-h2 text-sm">${{ number_format($product->price, 2) }}</span>
                         </div>
                         
-                        <!-- Image Area with Grey Background -->
-                        <div class="w-full aspect-square bg-[#ffffff] border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
+                        <!-- Image Area -->
+                        <div class="w-full aspect-square bg-background border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
                             @if ($product->primaryImage)
-                            <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-110"
+                            <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical group-hover:scale-105"
                                  style="background-image: url('{{ $product->primaryImage->url }}')"></div>
                             @else
-                            <div class="w-full h-full bg-[#ffffff] flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
+                            <div class="w-full h-full bg-background flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
                             @endif
                             
                             @if($product->stock <= 0)
@@ -152,45 +152,32 @@
     
     <!-- 4. Graphic Section: 100% Legit (Ref: Image 4) -->
     <div class="w-full bg-primary text-on-primary relative overflow-hidden h-[600px] md:h-[800px] border-b border-primary section-reveal flex items-center justify-center">
-        <!-- CSS Perspective Grid Background -->
-        <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: 
-            linear-gradient(to right, #ffffff 1px, transparent 1px),
-            linear-gradient(to bottom, #ffffff 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg) scale(2);
-            transform-origin: center top;">
-        </div>
-        
-        <div class="w-full max-w-7xl mx-auto px-lg relative z-10 flex items-center h-full">
-            <h2 class="font-h1 text-[100px] md:text-[200px] leading-[0.8] tracking-tighter uppercase opacity-90">
+        <div class="w-full max-w-7xl mx-auto px-lg relative z-10 flex flex-col lg:flex-row items-center h-full justify-between gap-xl">
+            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase opacity-90 z-20">
                 100% <br> LEGIT
             </h2>
             
-            <!-- Centered Watch Image (Dynamic Product Image) -->
+            <!-- Structural Typography and Product Image without AI Slop -->
             @php
                 $baseProduct = $newArrivals->first() ?? $theDrop->first();
                 $legitProduct = $baseProduct ? clone $baseProduct : null;
                 $legitImageUrl = $legitProduct && $legitProduct->primaryImage ? $legitProduct->primaryImage->url : 'https://picsum.photos/seed/watch/800/600';
             @endphp
-            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] aspect-video drop-shadow-2xl z-20 graphic-item opacity-0 rotate-12 scale-90 bg-contain bg-center bg-no-repeat" style="background-image: url('{{ $legitImageUrl }}')">
+            <div class="relative w-full max-w-[600px] aspect-square flex items-center justify-center z-10">
+                <div class="absolute inset-0 bg-contain bg-center bg-no-repeat z-20 graphic-item opacity-0 scale-95" style="background-image: url('{{ $legitImageUrl }}')"></div>
                 
-                <!-- Floating Tags -->
-                <div class="absolute -top-10 left-10 bg-background text-primary px-3 py-1 font-body-md text-xs border border-transparent shadow-lg font-bold flex items-center gap-2">
-                    <span>🔥</span> 892 SOLD
+                <!-- Editorial Layout Tags instead of emoji slop -->
+                <div class="absolute -top-4 right-0 font-mono text-sm uppercase tracking-widest text-background border border-background px-4 py-2 opacity-80 z-30">
+                    GUARANTEED AUTHENTIC
                 </div>
-                
-                <div class="absolute -top-4 -right-10 bg-background text-primary px-3 py-1 font-body-md text-xs border border-transparent shadow-lg font-bold flex items-center gap-2">
-                    <span>😎</span> LIMITED EDITION
-                </div>
-                
-                <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-background text-primary px-3 py-1 font-body-md text-xs border border-transparent shadow-lg font-bold flex items-center gap-2">
-                    AUTOMATIC ⚙️
+                <div class="absolute bottom-10 left-0 font-mono text-sm uppercase tracking-widest text-background border border-background px-4 py-2 opacity-80 z-30">
+                    NO COMPROMISE
                 </div>
             </div>
-            
-            <div class="absolute bottom-12 right-12 text-right font-body-md text-xs uppercase opacity-75 max-w-[250px]">
-                Our timepieces are 100% LEGIT. <br> FAKE IS BULLSH*T
-            </div>
+        </div>
+        
+        <div class="absolute bottom-8 right-12 text-right font-mono text-xs uppercase opacity-50 tracking-widest max-w-[300px]">
+            MECHANICAL INTEGRITY. EVERY TIMEPIECE IS RIGOROUSLY VERIFIED BEFORE ALLOCATION.
         </div>
     </div>
 </div>
@@ -233,7 +220,7 @@
             });
         });
         
-        // 4. Graphic Item pop-in
+        // 4. Graphic Item pop-in (Refined mechanical motion)
         gsap.to('.graphic-item', {
             scrollTrigger: {
                 trigger: '.graphic-item',
@@ -242,8 +229,8 @@
             scale: 1,
             rotate: 0,
             opacity: 1,
-            duration: 1.2,
-            ease: 'elastic.out(1, 0.5)'
+            duration: 1,
+            ease: 'power4.out'
         });
     });
 

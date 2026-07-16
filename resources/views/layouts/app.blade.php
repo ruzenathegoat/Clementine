@@ -77,7 +77,7 @@
                 @auth
                     <a href="{{ route('profile.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors uppercase">PROFILE / ORDERS</a>
                     @if(auth()->user()->isAdmin())
-                        <a href="#" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors text-copper">ADMIN DASHBOARD</a>
+                        <a href="#" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors text-secondary">ADMIN DASHBOARD</a>
                     @endif
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -416,7 +416,7 @@
                  x-transition:leave-start="opacity-100 translate-y-0"
                  x-transition:leave-end="opacity-0 translate-y-4"
                  class="p-md font-label-caps text-sm shadow-2xl flex items-center gap-md pointer-events-auto uppercase"
-                 :class="toast.type === 'error' ? 'bg-[#ff0000] text-white border border-[#000000]' : 'bg-primary text-on-primary border border-primary'">
+                 :class="toast.type === 'error' ? 'bg-primary text-white border border-primary' : 'bg-primary text-white border border-primary'">
                 <span class="material-symbols-outlined text-[20px]" x-text="toast.type === 'error' ? 'warning' : 'check_circle'"></span>
                 <span x-text="toast.message" class="tracking-widest"></span>
             </div>

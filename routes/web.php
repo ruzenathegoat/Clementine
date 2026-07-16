@@ -254,3 +254,10 @@ Route::get('/_debug/logs', function () {
     return response('<pre>' . htmlspecialchars(implode("", $lines)) . '</pre>', 200)
         ->header('Content-Type', 'text/html');
 });
+
+Route::get('/_debug/env', function () {
+    return response()->json([
+        'app_url' => config('app.url'),
+        'mail_from' => config('mail.from.address'),
+    ]);
+});

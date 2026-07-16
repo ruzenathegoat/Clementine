@@ -16,6 +16,9 @@ module.exports = {
         'text-secondary': '#6B7280',
         border: '#000000',
       },
+      transitionTimingFunction: {
+        'mechanical': 'cubic-bezier(0.83, 0, 0.17, 1)',
+      },
       borderRadius: {
         none: '0px',
         DEFAULT: '0px',
@@ -50,6 +53,9 @@ module.exports = {
         h2: ['3rem', { lineHeight: '1.1', fontWeight: '800' }],
         // body-md exact spec from design.txt
         'body-md': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
+        // Fluid typography for massive hero headers
+        'hero-lg': ['clamp(4rem, 10vw, 11rem)', { lineHeight: '0.85', fontWeight: '800', letterSpacing: '-0.02em' }],
+        'hero-md': ['clamp(3rem, 7vw, 8rem)', { lineHeight: '0.85', fontWeight: '800', letterSpacing: '-0.02em' }],
       },
     },
   },
