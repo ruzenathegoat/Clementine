@@ -32,6 +32,20 @@
     --font-headline-xl-mobile: "Anton", Impact, sans-serif;
     --font-headline-md: "Anton", Impact, sans-serif;
 
+    /* Custom Fluid Typography */
+    --text-hero-lg: clamp(4rem, 10vw, 11rem);
+    --text-hero-lg--line-height: 0.85;
+    --text-hero-lg--font-weight: 800;
+    --text-hero-lg--letter-spacing: -0.02em;
+
+    --text-hero-md: clamp(3rem, 7vw, 8rem);
+    --text-hero-md--line-height: 0.85;
+    --text-hero-md--font-weight: 800;
+    --text-hero-md--letter-spacing: -0.02em;
+
+    /* Custom Easings */
+    --ease-mechanical: cubic-bezier(0.83, 0, 0.17, 1);
+
     /* Spacing from design.md */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
