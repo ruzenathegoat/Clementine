@@ -8,7 +8,12 @@
         
         <!-- Sidebar Navigation -->
         <div class="w-full lg:w-[300px] flex-shrink-0">
-            <h1 class="font-headline-lg text-5xl md:text-6xl uppercase tracking-tighter mb-12">MY ACCOUNT</h1>
+            <h1 class="font-headline-lg text-5xl md:text-6xl uppercase tracking-tighter mb-12 flex flex-col md:flex-row md:items-center gap-4">
+                MY ACCOUNT
+                @if($user->is_vip)
+                    <span class="bg-primary text-white text-xs md:text-sm px-4 py-2 font-body-md font-bold uppercase tracking-widest whitespace-nowrap border border-primary text-center">VIP MEMBER</span>
+                @endif
+            </h1>
             
             <div class="flex flex-col gap-6 font-headline-md text-xl uppercase tracking-wide">
                 <button @click="tab = 'settings'" class="text-left w-full border-b pb-4 transition-all duration-300 hover:pl-4 hover:text-primary hover:border-primary" :class="tab === 'settings' ? 'border-primary text-primary pl-4' : 'border-outline-variant text-on-surface-variant'">
@@ -49,7 +54,12 @@
                             </div>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <span class="font-label-caps text-xs uppercase tracking-widest font-bold">Profile Picture</span>
+                            <div class="flex items-center gap-3">
+                                <span class="font-label-caps text-xs uppercase tracking-widest font-bold">Profile Picture</span>
+                                @if($user->is_vip)
+                                    <span class="bg-primary text-white text-[10px] px-2 py-1 font-bold uppercase tracking-widest leading-none" title="Priority Access Granted">VIP</span>
+                                @endif
+                            </div>
                             <span class="text-xs text-on-surface-variant font-body-md">Recommended size: 500x500px (Max 2MB)</span>
                             <input type="file" id="avatar-input" name="avatar" class="hidden" accept="image/*" onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
                             <button type="button" onclick="document.getElementById('avatar-input').click()" class="mt-2 w-max px-6 py-2 border border-primary text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-colors">Upload New</button>
