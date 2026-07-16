@@ -3,104 +3,101 @@
 @section('title', 'Concierge | Clementine')
 
 @section('content')
-<div class="min-h-screen bg-[#F4F4F0] text-[#111111] py-12 sm:py-24 px-4 sm:px-6 lg:px-8 mt-16 md:mt-0 font-sans selection:bg-[#E61919] selection:text-white">
-    <div class="max-w-3xl mx-auto w-full">
+<div class="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] py-12 sm:py-24 px-4 sm:px-6 lg:px-8 mt-16 md:mt-0 font-[family:var(--font-body-md)] selection:bg-[var(--color-primary)] selection:text-[var(--color-secondary)]">
+    <div class="max-w-4xl mx-auto w-full">
         <!-- Macro Typography Header -->
-        <div class="mb-12 sm:mb-16 border-b-[2px] border-[#111111] pb-6">
-            <h1 class="text-[clamp(3rem,10vw,6rem)] font-black uppercase tracking-tighter leading-[0.85] text-[#111111] m-0 p-0 break-words">
-                Live<br>Concierge
+        <div class="mb-12 sm:mb-16 border-b border-[var(--color-border)] pb-6">
+            <h1 class="text-6xl md:text-8xl font-[family:var(--font-h1)] uppercase text-[var(--color-primary)] m-0 p-0 leading-none">
+                Live Concierge
             </h1>
-            <p class="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#111111] mt-6 max-w-[40ch] leading-relaxed">
+            <p class="font-[family:var(--font-body-md)] text-sm uppercase text-[var(--color-text-secondary)] mt-6 max-w-lg leading-relaxed">
                 Direct access to our dedicated team. Speak with a human, instantly.
             </p>
         </div>
 
         @if(!$ticket)
             <!-- Ticket Creation Form -->
-            <div class="border-[2px] border-[#111111] bg-[#EAE8E3] p-6 sm:p-10 relative shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
-                <div class="absolute top-0 right-0 bg-[#111111] text-[#F4F4F0] font-mono text-[10px] px-3 py-1 uppercase tracking-widest border-b-[2px] border-l-[2px] border-[#111111]">SYS.REQ.01</div>
-                <h2 class="text-xl sm:text-2xl font-black uppercase tracking-tight mb-8 text-[#111111]">Start a Session</h2>
+            <div class="border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-10 relative">
+                <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-[var(--color-secondary)] font-[family:var(--font-body-md)] text-[10px] px-3 py-1 uppercase border-b border-l border-[var(--color-border)]">SYS.REQ.01</div>
+                <h2 class="text-2xl sm:text-3xl font-[family:var(--font-h2)] uppercase text-[var(--color-primary)] mb-8">Start a Session</h2>
                 
                 <form action="{{ route('concierge.store') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="flex flex-col gap-2">
-                        <label for="subject" class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#111111]">Subject [String]</label>
-                        <input type="text" name="subject" id="subject" class="w-full bg-[#F4F4F0] border-[1px] border-[#111111] focus:outline-none focus:ring-0 focus:border-[#E61919] text-[#111111] py-3 px-4 font-mono text-sm rounded-none transition-none" placeholder="e.g. Inquiry about product sizing" required>
+                        <label for="subject" class="font-[family:var(--font-body-md)] text-xs font-bold uppercase text-[var(--color-text-primary)]">Subject</label>
+                        <input type="text" name="subject" id="subject" class="w-full bg-[var(--color-background)] border border-[var(--color-border)] focus:outline-none focus:ring-0 focus:border-[var(--color-primary)] text-[var(--color-text-primary)] py-3 px-4 font-[family:var(--font-body-md)] text-sm" placeholder="e.g. Inquiry about product sizing" required>
                     </div>
                     
                     <div class="flex flex-col gap-2">
-                        <label for="message" class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#111111]">Initial Message [Text]</label>
-                        <textarea name="message" id="message" rows="4" class="w-full bg-[#F4F4F0] border-[1px] border-[#111111] focus:outline-none focus:ring-0 focus:border-[#E61919] text-[#111111] py-3 px-4 font-mono text-sm resize-none rounded-none transition-none" placeholder="How can we help you today?" required></textarea>
+                        <label for="message" class="font-[family:var(--font-body-md)] text-xs font-bold uppercase text-[var(--color-text-primary)]">Initial Message</label>
+                        <textarea name="message" id="message" rows="4" class="w-full bg-[var(--color-background)] border border-[var(--color-border)] focus:outline-none focus:ring-0 focus:border-[var(--color-primary)] text-[var(--color-text-primary)] py-3 px-4 font-[family:var(--font-body-md)] text-sm resize-none" placeholder="How can we help you today?" required></textarea>
                     </div>
                     
-                    <button type="submit" class="w-full bg-[#E61919] text-[#F4F4F0] hover:bg-[#111111] border-[2px] border-[#111111] font-mono font-bold uppercase tracking-widest text-sm py-4 px-8 transition-none rounded-none mt-4">
+                    <button type="submit" class="w-full bg-[var(--color-primary)] text-[var(--color-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-primary)] border border-[var(--color-border)] font-[family:var(--font-body-md)] font-bold uppercase text-sm py-4 px-8 transition-none mt-4">
                         Request Concierge
                     </button>
                 </form>
             </div>
         @else
             <!-- Live Chat Interface -->
-            <div class="border-[2px] border-[#111111] bg-[#EAE8E3] flex flex-col h-[650px] relative shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]" 
+            <div class="border border-[var(--color-border)] bg-[var(--color-surface)] flex flex-col h-[650px] relative" 
                  x-data="conciergeChat({{ $ticket->id }}, {{ auth()->id() }})"
                  x-init="initChat">
                 
                 <!-- Chat Header -->
-                <div class="border-b-[2px] border-[#111111] p-4 sm:p-6 flex items-start sm:items-center justify-between bg-[#F4F4F0]">
+                <div class="border-b border-[var(--color-border)] p-4 sm:p-6 flex items-start sm:items-center justify-between bg-[var(--color-background)]">
                     <div>
-                        <h3 class="font-black uppercase tracking-tight text-lg sm:text-xl text-[#111111]">{{ $ticket->subject }}</h3>
+                        <h3 class="font-[family:var(--font-h2)] uppercase text-2xl sm:text-3xl text-[var(--color-primary)]">{{ $ticket->subject }}</h3>
                         <div class="flex flex-wrap items-center gap-3 mt-2">
-                            <p class="font-mono text-[10px] sm:text-xs text-[#111111] uppercase tracking-widest">
-                                Status: <span class="bg-[#111111] text-[#F4F4F0] px-2 py-0.5 ml-1">{{ $ticket->status }}</span>
+                            <p class="font-[family:var(--font-body-md)] text-[10px] sm:text-xs text-[var(--color-text-secondary)] uppercase">
+                                Status: <span class="bg-[var(--color-primary)] text-[var(--color-secondary)] px-2 py-0.5 ml-1">{{ $ticket->status }}</span>
                             </p>
-                            <p x-show="isAdminTyping" class="font-mono text-[10px] text-[#E61919] uppercase tracking-widest animate-pulse" style="display: none;">
+                            <p x-show="isAdminTyping" class="font-[family:var(--font-body-md)] text-[10px] text-[var(--color-primary)] uppercase animate-pulse" style="display: none;">
                                 [Admin is typing...]
                             </p>
                         </div>
                     </div>
-                    <div class="w-4 h-4 bg-[#E61919] border-[2px] border-[#111111] animate-pulse" title="Live Connection Active"></div>
+                    <div class="w-4 h-4 bg-[var(--color-primary)] border border-[var(--color-border)] animate-pulse" title="Live Connection Active"></div>
                 </div>
 
                 <!-- System Message Overlay -->
-                <div x-show="closingCountdown !== null" class="absolute inset-0 z-50 bg-[#F4F4F0]/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center border-[2px] border-[#E61919] m-4" style="display: none;">
-                    <span class="font-mono text-4xl mb-4">⚠️</span>
-                    <h2 class="font-black text-2xl uppercase tracking-tighter text-[#111111] mb-2">Session Resolved</h2>
-                    <p class="font-mono text-sm uppercase tracking-widest text-[#111111] mb-6" x-text="`Resolved by: ${resolvedBy}`"></p>
-                    <div class="bg-[#111111] text-[#F4F4F0] font-mono text-xs px-4 py-3 uppercase tracking-widest border-[2px] border-[#111111]">
-                        Closing in <span x-text="closingCountdown" class="text-[#E61919] font-bold text-lg mx-2"></span> sec
+                <div x-show="closingCountdown !== null" class="absolute inset-0 z-50 bg-[var(--color-background)]/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center border border-[var(--color-primary)] m-4" style="display: none;">
+                    <h2 class="font-[family:var(--font-h1)] text-5xl uppercase text-[var(--color-primary)] mb-2">Session Resolved</h2>
+                    <p class="font-[family:var(--font-body-md)] text-sm uppercase text-[var(--color-text-secondary)] mb-6" x-text="`Resolved by: ${resolvedBy}`"></p>
+                    <div class="bg-[var(--color-primary)] text-[var(--color-secondary)] font-[family:var(--font-body-md)] text-sm px-6 py-4 uppercase border border-[var(--color-border)]">
+                        Closing in <span x-text="closingCountdown" class="font-bold text-xl mx-2"></span> sec
                     </div>
                 </div>
 
                 <!-- Chat Messages -->
-                <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-[#F4F4F0] relative" id="chat-messages" x-ref="messagesBox">
-                    <!-- Subtle structural lines -->
-                    <div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 1px, #111 1px, #111 2px); background-size: 100% 4px;"></div>
+                <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-[var(--color-background)] relative" id="chat-messages" x-ref="messagesBox">
                     
                     @foreach($ticket->messages as $msg)
                         <div class="flex flex-col relative z-10 {{ $msg->user_id === auth()->id() ? 'items-end' : 'items-start' }}">
-                            <span class="font-mono text-[9px] text-[#111111] uppercase tracking-widest mb-1">{{ $msg->user->name }}</span>
-                            <div class="max-w-[85%] sm:max-w-[75%] p-3 sm:p-4 rounded-none {{ $msg->user_id === auth()->id() ? 'bg-[#111111] text-[#F4F4F0] border-[1px] border-[#111111]' : 'bg-[#EAE8E3] border-[1px] border-[#111111] text-[#111111]' }}">
-                                <p class="font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">{{ $msg->message }}</p>
+                            <span class="font-[family:var(--font-body-md)] text-[10px] text-[var(--color-text-secondary)] uppercase mb-1">{{ $msg->user->name }}</span>
+                            <div class="max-w-[85%] sm:max-w-[75%] p-4 {{ $msg->user_id === auth()->id() ? 'bg-[var(--color-primary)] text-[var(--color-secondary)] border border-[var(--color-border)]' : 'bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)]' }}">
+                                <p class="font-[family:var(--font-body-md)] text-sm leading-relaxed whitespace-pre-wrap">{{ $msg->message }}</p>
                             </div>
                         </div>
                     @endforeach
                     
                     <template x-for="msg in newMessages" :key="msg.id">
                         <div class="flex flex-col relative z-10" :class="msg.user_id === userId ? 'items-end' : 'items-start'">
-                            <span class="font-mono text-[9px] text-[#111111] uppercase tracking-widest mb-1" x-text="msg.user.name"></span>
-                            <div class="max-w-[85%] sm:max-w-[75%] p-3 sm:p-4 rounded-none" :class="msg.user_id === userId ? 'bg-[#111111] text-[#F4F4F0] border-[1px] border-[#111111]' : 'bg-[#EAE8E3] border-[1px] border-[#111111] text-[#111111]'">
-                                <p class="font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap" x-text="msg.message"></p>
+                            <span class="font-[family:var(--font-body-md)] text-[10px] text-[var(--color-text-secondary)] uppercase mb-1" x-text="msg.user.name"></span>
+                            <div class="max-w-[85%] sm:max-w-[75%] p-4" :class="msg.user_id === userId ? 'bg-[var(--color-primary)] text-[var(--color-secondary)] border border-[var(--color-border)]' : 'bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)]'">
+                                <p class="font-[family:var(--font-body-md)] text-sm leading-relaxed whitespace-pre-wrap" x-text="msg.message"></p>
                             </div>
                         </div>
                     </template>
                 </div>
 
                 <!-- Chat Input -->
-                <div class="border-t-[2px] border-[#111111] bg-[#EAE8E3] p-4 sm:p-6 z-20">
+                <div class="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6 z-20">
                     <form @submit.prevent="sendMessage" class="flex flex-col sm:flex-row gap-4">
                         <div class="flex-1">
-                            <textarea x-model="newMessage" @keydown.enter.prevent="sendMessage" rows="2" class="w-full bg-[#F4F4F0] border-[1px] border-[#111111] focus:outline-none focus:ring-0 focus:border-[#E61919] text-[#111111] py-3 px-4 font-mono text-sm resize-none rounded-none transition-none" placeholder="> Enter transmission..."></textarea>
+                            <textarea x-model="newMessage" @keydown.enter.prevent="sendMessage" rows="2" class="w-full bg-[var(--color-background)] border border-[var(--color-border)] focus:outline-none focus:ring-0 focus:border-[var(--color-primary)] text-[var(--color-text-primary)] py-3 px-4 font-[family:var(--font-body-md)] text-sm resize-none" placeholder="> Enter message..."></textarea>
                         </div>
-                        <button type="submit" class="shrink-0 bg-[#E61919] text-[#F4F4F0] hover:bg-[#111111] border-[2px] border-[#111111] font-mono font-bold uppercase tracking-widest text-xs py-3 px-8 transition-none rounded-none h-auto" :disabled="isSending">
+                        <button type="submit" class="shrink-0 bg-[var(--color-primary)] text-[var(--color-secondary)] hover:bg-[var(--color-background)] hover:text-[var(--color-primary)] border border-[var(--color-border)] font-[family:var(--font-body-md)] font-bold uppercase text-xs py-3 px-8 transition-none h-auto" :disabled="isSending">
                             <span x-show="!isSending">Transmit</span>
                             <span x-show="isSending" class="animate-pulse" style="display: none;">Wait...</span>
                         </button>
