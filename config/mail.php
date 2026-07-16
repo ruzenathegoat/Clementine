@@ -39,7 +39,7 @@ return [
 
         'smtp' => [
             'transport' => 'smtp',
-            'scheme' => env('MAIL_SCHEME'),
+            'scheme' => null, // FORCE null to bypass wrong MAIL_SCHEME=smtps in Railway env
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', 'smtp.resend.com'),
             'port' => env('MAIL_PORT', 587),

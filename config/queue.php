@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'database'),
+    'default' => 'database', // FORCE database to bypass wrong QUEUE_CONNECTION=sync in Railway env
 
     /*
     |--------------------------------------------------------------------------
