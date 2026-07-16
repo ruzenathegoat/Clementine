@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => 'resend', // FORCE resend API to bypass all SMTP port/SSL issues
 
     /*
     |--------------------------------------------------------------------------
