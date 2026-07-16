@@ -171,7 +171,7 @@
             </table>
 
             <div style="text-align: center; margin-top: 40px;">
-                <a href="{{ route('profile.index') }}" class="btn">Access Collection</a>
+                <a href="{{ config('app.url') }}/profile" class="btn">Access Collection</a>
             </div>
 
             <p style="margin-top: 40px;">Sincerely,<br>

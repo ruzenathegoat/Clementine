@@ -282,7 +282,7 @@ class CheckoutController extends Controller
                 $resend->emails->send([
                     'from' => 'Clementine <' . config('mail.from.address') . '>',
                     'to' => [$recipient],
-                    'subject' => 'Acquisition Confirmed - #' . $orderId,
+                    'subject' => 'Invoice for Order #' . $orderId,
                     'html' => $html,
                 ]);
                 \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);

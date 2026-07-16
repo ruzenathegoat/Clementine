@@ -50,7 +50,7 @@ class OrderController extends Controller
             $resend->emails->send([
                 'from' => 'Clementine <' . config('mail.from.address') . '>',
                 'to' => [$recipient],
-                'subject' => 'Acquisition Confirmed - #' . $orderId,
+                'subject' => 'Invoice for Order #' . $orderId,
                 'html' => $html,
             ]);
             Log::info('OrderPaid: email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
