@@ -168,8 +168,8 @@
                         @endif
                         
                         @if($product->stock <= 0)
-                        <div class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-                            <span class="font-h1 text-3xl md:text-4xl text-red-600 rotate-[-10deg] tracking-widest border-2 border-red-600 px-4 py-2 bg-black/50">OUT OF STOCK</span>
+                        <div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] flex items-center justify-center z-10">
+                            <span class="font-label-caps text-xs text-background tracking-widest px-4 py-2 bg-primary">[ OUT OF STOCK ]</span>
                         </div>
                         @endif
                     </div>
@@ -181,14 +181,11 @@
                         {{-- Stock Availability Badge --}}
                         <div class="mt-sm flex items-center gap-xs">
                             @if($product->status === 'sold_out' || $product->stock <= 0)
-                                <span class="relative flex h-2 w-2"><span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span></span>
-                                <span class="font-label-caps text-[10px] uppercase tracking-wider text-red-600">OUT OF STOCK</span>
+                                <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary opacity-50">[ OUT OF STOCK ]</span>
                             @elseif($product->stock <= 10)
-                                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span></span>
-                                <span class="font-label-caps text-[10px] uppercase tracking-wider text-amber-700">LOW STOCK — {{ $product->stock }} LEFT</span>
+                                <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary">[ LOW STOCK — {{ $product->stock }} LEFT ]</span>
                             @else
-                                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                                <span class="font-label-caps text-[10px] uppercase tracking-wider text-emerald-700">IN STOCK — {{ $product->stock }} UNITS</span>
+                                <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary">[ IN STOCK — {{ $product->stock }} UNITS ]</span>
                             @endif
                         </div>
                     </div>

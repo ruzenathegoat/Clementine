@@ -37,32 +37,23 @@
                 @php
                     if ($product->status === 'sold_out' || $product->stock <= 0) {
                         $stockLevel = 'out';
-                        $stockLabel = 'OUT OF STOCK';
-                        $dotColor = 'bg-red-500';
-                        $textColor = 'text-red-600';
-                        $bgColor = 'bg-red-50 border-red-200';
+                        $stockLabel = '[ OUT OF STOCK ]';
+                        $textColor = 'text-background';
+                        $bgColor = 'bg-primary border-primary';
                     } elseif ($product->stock <= 10) {
                         $stockLevel = 'low';
-                        $stockLabel = 'LOW STOCK — ONLY ' . $product->stock . ' LEFT';
-                        $dotColor = 'bg-amber-500';
-                        $textColor = 'text-amber-700';
-                        $bgColor = 'bg-amber-50 border-amber-200';
+                        $stockLabel = '[ LOW STOCK — ' . $product->stock . ' LEFT ]';
+                        $textColor = 'text-primary';
+                        $bgColor = 'bg-background border-primary';
                     } else {
                         $stockLevel = 'in';
-                        $stockLabel = 'IN STOCK — ' . $product->stock . ' UNITS';
-                        $dotColor = 'bg-emerald-500';
-                        $textColor = 'text-emerald-700';
-                        $bgColor = 'bg-emerald-50 border-emerald-200';
+                        $stockLabel = '[ IN STOCK — ' . $product->stock . ' UNITS ]';
+                        $textColor = 'text-primary';
+                        $bgColor = 'bg-background border-primary';
                     }
                 @endphp
                 <div id="stock-badge" class="inline-flex items-center gap-xs px-md py-xs border {{ $bgColor }} transition-all duration-300">
-                    <span id="stock-dot" class="relative flex h-2.5 w-2.5">
-                        @if($stockLevel !== 'out')
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $dotColor }} opacity-75"></span>
-                        @endif
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 {{ $dotColor }}"></span>
-                    </span>
-                    <span id="stock-label" class="font-label-caps text-xs uppercase tracking-wider {{ $textColor }}">{{ $stockLabel }}</span>
+                    <span id="stock-label" class="font-label-caps text-xs uppercase tracking-wider font-bold {{ $textColor }}">{{ $stockLabel }}</span>
                 </div>
                 @if($product->status === 'limited_edition')
                     <div class="inline-flex items-center gap-xs px-md py-xs border border-primary bg-primary text-on-primary">
@@ -128,13 +119,13 @@
         @endphp
 
         @if($isDropActive)
-        <div class="px-lg md:px-2xl py-md bg-black text-white border-b border-primary">
-            <p class="font-label-caps font-bold uppercase tracking-widest text-sm mb-2 text-red-500">🔥 EXCLUSIVE DROP ACTIVE</p>
-            <div class="flex flex-col gap-1 font-mono text-xs uppercase tracking-wider text-gray-300">
-                <p>DROP STOCK: <span class="text-white font-bold">{{ $product->stock }} LEFT</span></p>
-                <p>MAX PURCHASE: <span class="text-white font-bold">{{ auth()->user()?->is_vip ? '3' : '1' }} ITEM(S)</span> <span class="text-[10px] text-gray-500 ml-2">({{ auth()->user()?->is_vip ? 'VIP TIER' : 'REGULAR TIER' }})</span></p>
+        <div class="px-lg md:px-2xl py-md bg-primary text-on-primary border-b border-primary">
+            <p class="font-label-caps font-bold uppercase tracking-widest text-sm mb-2">EXCLUSIVE DROP ACTIVE</p>
+            <div class="flex flex-col gap-1 font-mono text-xs uppercase tracking-wider text-on-primary/70">
+                <p>DROP STOCK: <span class="text-on-primary font-bold">{{ $product->stock }} LEFT</span></p>
+                <p>MAX PURCHASE: <span class="text-on-primary font-bold">{{ auth()->user()?->is_vip ? '3' : '1' }} ITEM(S)</span> <span class="text-[10px] text-on-primary/50 ml-2">({{ auth()->user()?->is_vip ? 'VIP TIER' : 'REGULAR TIER' }})</span></p>
                 @if($pastPurchases > 0)
-                <p class="text-yellow-500 mt-1">YOU HAVE ALREADY PURCHASED: <span class="font-bold">{{ $pastPurchases }}</span></p>
+                <p class="mt-1 text-on-primary border border-on-primary inline-block px-2 py-1 w-max">ALLOCATION USED: <span class="font-bold">{{ $pastPurchases }}</span></p>
                 @endif
             </div>
         </div>
@@ -165,8 +156,8 @@
                 
                 @if($limitReached)
                 <div class="flex flex-col gap-sm py-lg">
-                    <div class="font-h2 text-2xl uppercase text-red-500 text-center border-2 border-red-500 py-md bg-red-50">PURCHASE LIMIT REACHED</div>
-                    <p class="font-body-md text-sm text-secondary text-center uppercase">You have reached the maximum allowed purchases for this drop.</p>
+                    <div class="font-h2 text-2xl uppercase text-background text-center border-2 border-primary py-md bg-primary">PURCHASE LIMIT REACHED</div>
+                    <p class="font-body-md text-sm text-primary text-center uppercase">You have reached the maximum allowed allocation for this drop.</p>
                 </div>
                 @else
                 <div class="flex flex-col gap-sm">
@@ -202,43 +193,32 @@ document.addEventListener('DOMContentLoaded', function () {
     const qtyWrapper = document.querySelector('[x-data]');
 
     function updateStockUI(stock, status) {
-        let dotColor, textColor, bgColor, stockLabel, showPing;
+        let textColor, bgColor, stockLabel;
 
         if (status === 'sold_out' || stock <= 0) {
-            dotColor = 'bg-red-500';
-            textColor = 'text-red-600';
-            bgColor = 'bg-red-50 border-red-200';
-            stockLabel = 'OUT OF STOCK';
-            showPing = false;
+            textColor = 'text-background';
+            bgColor = 'bg-primary border-primary';
+            stockLabel = '[ OUT OF STOCK ]';
         } else if (stock <= 10) {
-            dotColor = 'bg-amber-500';
-            textColor = 'text-amber-700';
-            bgColor = 'bg-amber-50 border-amber-200';
-            stockLabel = 'LOW STOCK \u2014 ONLY ' + stock + ' LEFT';
-            showPing = true;
+            textColor = 'text-primary';
+            bgColor = 'bg-background border-primary';
+            stockLabel = '[ LOW STOCK \u2014 ' + stock + ' LEFT ]';
         } else {
-            dotColor = 'bg-emerald-500';
-            textColor = 'text-emerald-700';
-            bgColor = 'bg-emerald-50 border-emerald-200';
-            stockLabel = 'IN STOCK \u2014 ' + stock + ' UNITS';
-            showPing = true;
+            textColor = 'text-primary';
+            bgColor = 'bg-background border-primary';
+            stockLabel = '[ IN STOCK \u2014 ' + stock + ' UNITS ]';
         }
 
         // Update badge classes
         badge.className = 'inline-flex items-center gap-xs px-md py-xs border ' + bgColor + ' transition-all duration-300';
 
-        // Update dot
-        const pingColors = ['bg-red-500', 'bg-amber-500', 'bg-emerald-500'];
-        const dotHTML = (showPing
-            ? '<span class="animate-ping absolute inline-flex h-full w-full rounded-full ' + dotColor + ' opacity-75"></span>'
-            : '')
-            + '<span class="relative inline-flex rounded-full h-2.5 w-2.5 ' + dotColor + '"></span>';
-        dotWrapper.innerHTML = dotHTML;
-
         // Update label
-        const labelColors = ['text-red-600', 'text-amber-700', 'text-emerald-700'];
-        label.className = 'font-label-caps text-xs uppercase tracking-wider ' + textColor;
+        label.className = 'font-label-caps text-xs uppercase tracking-wider font-bold ' + textColor;
         label.textContent = stockLabel;
+        
+        if (dotWrapper) {
+            dotWrapper.style.display = 'none';
+        }
 
         // Update Alpine maxQty if available
         if (qtyWrapper && qtyWrapper.__x) {

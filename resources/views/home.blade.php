@@ -46,8 +46,8 @@
                 @endif
                 
                 <!-- Stock Status Overlay -->
-                <div class="drop-out-of-stock absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center hidden opacity-0 transition-opacity duration-500 z-20" id="oos-{{ $drop->id }}">
-                    <span class="font-h1 text-[60px] md:text-[80px] text-red-600 rotate-[-10deg]">SOLD OUT</span>
+                <div class="drop-out-of-stock absolute inset-0 bg-primary/40 backdrop-blur-sm flex items-center justify-center hidden opacity-0 transition-opacity duration-500 z-20" id="oos-{{ $drop->id }}">
+                    <span class="font-label-caps text-sm text-background tracking-widest px-6 py-3 bg-primary">[ SOLD OUT ]</span>
                 </div>
             </div>
             
@@ -122,8 +122,8 @@
                             @endif
                             
                             @if($product->stock <= 0)
-                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-                                <span class="font-h1 text-3xl md:text-4xl text-red-600 rotate-[-10deg] tracking-widest border-2 border-red-600 px-4 py-2 bg-black/50">OUT OF STOCK</span>
+                            <div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] flex items-center justify-center z-10">
+                                <span class="font-label-caps text-xs text-background tracking-widest px-4 py-2 bg-primary">[ OUT OF STOCK ]</span>
                             </div>
                             @endif
                         </div>
@@ -282,7 +282,7 @@
                 data.forEach(prod => {
                     const btn = document.querySelector(`[data-id="${prod.id}"]`);
                     if (btn && (prod.stock <= 0 || prod.status === 'sold_out')) {
-                        btn.innerHTML = '<span class="text-red-600 font-bold">OUT OF STOCK</span>';
+                        btn.innerHTML = '<span class="text-primary font-bold opacity-50">[ OUT OF STOCK ]</span>';
                         btn.classList.add('opacity-50', 'pointer-events-none');
                         // Override drop logic if out of stock
                         btn.classList.remove('drop-btn');
