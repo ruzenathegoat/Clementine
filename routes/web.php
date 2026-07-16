@@ -151,6 +151,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
+    // Concierge (Live Chat)
+    Route::get('/concierge', [App\Http\Controllers\ConciergeController::class, 'index'])->name('concierge.index');
+    Route::post('/concierge', [App\Http\Controllers\ConciergeController::class, 'store'])->middleware('throttle:5,60')->name('concierge.store');
+    Route::post('/concierge/{ticket}/messages', [App\Http\Controllers\ConciergeController::class, 'sendMessage'])->name('concierge.messages.store');
+
     // Orders
     Route::get('/orders/{order}', [App\Http\Controllers\OrderController::class, 'show'])->name('orders.show');
     Route::post('/orders/{order}/simulate-payment', [App\Http\Controllers\OrderController::class, 'simulatePayment'])->name('orders.simulate_payment');
@@ -198,6 +203,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     // Users & VIP Epic
     Route::middleware('role:super_admin,customer_success')->group(function () {
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only(['index', 'show', 'update']);
+        
+        // Admin Concierge
+        Route::get('concierge', [\App\Http\Controllers\Admin\ConciergeController::class, 'index'])->name('concierge.index');
+        Route::post('concierge/{ticket}/accept', [\App\Http\Controllers\Admin\ConciergeController::class, 'accept'])->name('concierge.accept');
+        Route::get('concierge/{ticket}', [\App\Http\Controllers\Admin\ConciergeController::class, 'show'])->name('concierge.show');
+        Route::post('concierge/{ticket}/messages', [\App\Http\Controllers\Admin\ConciergeController::class, 'sendMessage'])->name('concierge.messages.store');
+        Route::post('concierge/{ticket}/resolve', [\App\Http\Controllers\Admin\ConciergeController::class, 'resolve'])->name('concierge.resolve');
     });
 
     // Financial Analytics Epic

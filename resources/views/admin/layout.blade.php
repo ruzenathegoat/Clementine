@@ -80,6 +80,10 @@
                 <i class="ph-light ph-users text-xl {{ request()->routeIs('admin.users.*') ? 'text-black' : 'text-gray-400 group-hover:text-black' }} transition-colors"></i>
                 <span class="text-[0.9rem]">Customers</span>
             </a>
+            <a href="{{ route('admin.concierge.index') }}" class="group flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.concierge.*') ? 'bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-black font-medium' : 'text-[#787774] hover:text-black hover:bg-white/50' }} transition-haptic mt-1">
+                <i class="ph-light ph-headset text-xl {{ request()->routeIs('admin.concierge.*') ? 'text-black' : 'text-gray-400 group-hover:text-black' }} transition-colors"></i>
+                <span class="text-[0.9rem]">Concierge</span>
+            </a>
             @endif
 
             <!-- Reports -->
