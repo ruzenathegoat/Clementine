@@ -9,6 +9,9 @@ class HomeController extends Controller
 {
     public function index()
     {
+        // Execute cron-like logic to transition dropped products after 40 mins
+        Product::transitionExpiredDrops();
+
         $collections = Collection::orderBy('name')->take(4)->get();
 
         // The Drop Section: Only 'new' status products (Not cached to maintain realtime freshness)

@@ -243,9 +243,19 @@
         dropBtns.forEach(btn => {
             const dropTimeBase = parseInt(btn.getAttribute('data-drop-time'));
             const targetTime = window.isVip ? dropTimeBase : dropTimeBase + (10 * 60 * 1000); // +10 mins for regular
+            const expirationTime = dropTimeBase + (40 * 60 * 1000); // 40 mins total window
             const diff = targetTime - now;
 
-            if (diff > 0) {
+            if (now >= expirationTime) {
+                // The drop window has completely expired. Hide it.
+                const container = btn.closest('.drop-container');
+                if (container) container.remove();
+                
+                if(document.querySelectorAll('.drop-container').length === 0) {
+                    const section = btn.closest('.section-reveal');
+                    if (section) section.remove();
+                }
+            } else if (diff > 0) {
                 const m = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
                 const s = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
                 const h = Math.floor((diff / (1000 * 60 * 60))).toString().padStart(2, '0');

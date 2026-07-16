@@ -43,4 +43,15 @@ class Product extends Model
     {
         return $this->hasOne(ProductMedia::class)->where('type', 'image')->orderBy('sort_order');
     }
+
+    public static function transitionExpiredDrops()
+    {
+        static::where('status', 'new')
+            ->whereNotNull('scheduled_publish_at')
+            ->where('scheduled_publish_at', '<=', now()->subMinutes(40))
+            ->update([
+                'status' => 'active',
+                'updated_at' => now(), // Reset updated_at to ensure 7-day catalog rule starts from drop end
+            ]);
+    }
 }

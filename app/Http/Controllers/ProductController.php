@@ -10,6 +10,9 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        // Execute cron-like logic to transition dropped products after 40 mins
+        Product::transitionExpiredDrops();
+
         $query = Product::with(['primaryImage', 'collection'])
             ->whereIn('status', ['active', 'limited_edition'])
             ->where(function ($q) {
