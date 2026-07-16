@@ -111,6 +111,10 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 // but the route already pulls the real product from the DB via ProductController@show — 404s on bad slugs.
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
+// Collections
+Route::get('/collections', [\App\Http\Controllers\CollectionController::class, 'index'])->name('collections.index');
+Route::get('/collections/{slug}', [\App\Http\Controllers\CollectionController::class, 'show'])->name('collections.show');
+
 // Realtime Stock Polling
 Route::get('/api/products/stock', function (\Illuminate\Http\Request $request) {
     $ids = $request->input('ids');

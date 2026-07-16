@@ -71,7 +71,7 @@
         <div class="flex flex-col flex-grow p-xl gap-lg font-headline-md text-3xl uppercase">
             <a href="{{ route('home') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">HOME</a>
             <a href="{{ route('products.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">SHOP</a>
-            <a href="{{ route('products.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">COLLECTIONS</a>
+            <a href="{{ route('collections.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">COLLECTIONS</a>
             
             <div class="mt-auto flex flex-col gap-lg">
                 @auth
@@ -102,7 +102,7 @@
             <div class="hidden md:flex gap-lg font-body-md text-body-md uppercase tracking-widest">
                 <a class="{{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('home') }}">HOME</a>
                 <a class="{{ request()->routeIs('products.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('products.index') }}">SHOP</a>
-                <a class="text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1" href="{{ route('products.index') }}">COLLECTIONS</a>
+                <a class="{{ request()->routeIs('collections.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('collections.index') }}">COLLECTIONS</a>
             </div>
         </div>
         <div class="flex gap-md text-primary">

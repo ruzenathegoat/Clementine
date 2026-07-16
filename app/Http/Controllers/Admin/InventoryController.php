@@ -90,7 +90,8 @@ class InventoryController extends Controller
     public function edit(string $id)
     {
         $product = \App\Models\Product::with(['primaryImage', 'collection'])->findOrFail($id);
-        return view('admin.inventory.edit', compact('product'));
+        $collections = \App\Models\Collection::orderBy('name')->get();
+        return view('admin.inventory.edit', compact('product', 'collections'));
     }
 
     public function update(Request $request, string $id)
@@ -98,6 +99,7 @@ class InventoryController extends Controller
         $product = \App\Models\Product::findOrFail($id);
         
         $validated = $request->validate([
+            'collection_id' => 'nullable|exists:collections,id',
             'price' => 'required|numeric|min:0',
             'cogs' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',

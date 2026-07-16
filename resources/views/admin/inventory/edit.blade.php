@@ -61,9 +61,19 @@
                             <p class="text-xs text-[#787774] mt-1 break-all">{{ $product->slug }}</p>
                         </div>
                         
-                        <div>
-                            <p class="text-sm font-mono uppercase tracking-widest text-[#787774] mb-1">Collection</p>
-                            <p class="text-sm text-[#111111]">{{ $product->collection->name ?? 'Uncategorized' }}</p>
+                        <div class="space-y-2">
+                            <label for="collection_id" class="block text-sm font-mono uppercase tracking-widest text-[#787774]">Collection</label>
+                            <div class="relative">
+                                <select id="collection_id" name="collection_id" class="w-full pl-4 pr-10 py-2 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#111111] transition-shadow appearance-none">
+                                    <option value="">No Collection</option>
+                                    @foreach($collections as $collection)
+                                        <option value="{{ $collection->id }}" {{ old('collection_id', $product->collection_id) == $collection->id ? 'selected' : '' }}>
+                                            {{ $collection->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <i class="ph-light ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-[#787774] pointer-events-none"></i>
+                            </div>
                         </div>
                     </div>
 
