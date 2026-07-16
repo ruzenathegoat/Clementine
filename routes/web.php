@@ -208,3 +208,33 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::post('settings/currency', [\App\Http\Controllers\Admin\SettingController::class, 'updateCurrency'])->name('settings.currency.update');
     });
 });
+
+Route::get('/_debug/test-order-paid', function () {
+    try {
+        $order = \App\Models\Order::with('items.product.collection')->where('payment_status', 'paid')->latest('created_at')->first();
+        if (!$order) {
+            $order = \App\Models\Order::with('items.product.collection')->latest('created_at')->first();
+        }
+        if (!$order) {
+            return "No order found";
+        }
+        
+        $recipient = request('to', 'naufalrahaman013@gmail.com');
+        \Illuminate\Support\Facades\Log::info('Debug Route: Sending OrderPaid', ['order' => $order->id, 'to' => $recipient]);
+        
+        \Illuminate\Support\Facades\Mail::to($recipient)->send(new \App\Mail\OrderPaid($order));
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'OrderPaid email sent via production!',
+            'order_id' => $order->id,
+            'recipient' => $recipient,
+            'mailer' => config('mail.default'),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+});
