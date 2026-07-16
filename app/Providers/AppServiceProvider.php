@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Illuminate\Database\Eloquent\Model::preventLazyLoading(!app()->isProduction());
 
-        if (config('app.env') === 'production') {
+        if (str_contains(config('app.url'), 'https://')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
 
