@@ -150,34 +150,57 @@
         </div>
     </div>
     
-    <!-- 4. Graphic Section: 100% Legit (Ref: Image 4) -->
-    <div class="w-full bg-primary text-on-primary relative overflow-hidden h-[600px] md:h-[800px] border-b border-primary section-reveal flex items-center justify-center">
-        <div class="w-full max-w-7xl mx-auto px-lg relative z-10 flex flex-col lg:flex-row items-center h-full justify-between gap-xl">
-            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase opacity-90 z-20">
-                100% <br> LEGIT
-            </h2>
+    <!-- 4. Graphic Section: Legit / Authenticity -->
+    <div class="w-full bg-primary text-text-inverse relative overflow-hidden border-b border-primary section-reveal">
+        <div class="grid grid-cols-1 md:grid-cols-12 min-h-[600px] md:min-h-[800px]">
             
-            <!-- Structural Typography and Product Image without AI Slop -->
+            <!-- Left Side: Massive Typography -->
+            <div class="md:col-span-7 lg:col-span-8 flex flex-col justify-center border-b md:border-b-0 md:border-r border-text-inverse/20 p-lg md:p-3xl relative z-10 overflow-hidden">
+                <h2 class="font-h1 text-[18vw] md:text-[11vw] leading-[0.85] tracking-tighter uppercase text-text-inverse break-words z-20 mb-xl">
+                    FAKE<br>IS<br>BULLSH*T.
+                </h2>
+                <div class="max-w-xl z-20">
+                    <p class="font-body-md text-sm md:text-base text-text-inverse/80 uppercase tracking-widest leading-relaxed">
+                        We don't deal in replicas, clones, or compromises. Mechanical integrity is absolute. Every piece is verified. If it's not real, it doesn't exist here.
+                    </p>
+                </div>
+                
+                <!-- Background large typography noise -->
+                <div class="absolute -right-[10%] top-1/2 -translate-y-1/2 text-[30vw] font-h1 text-text-inverse/5 select-none pointer-events-none uppercase leading-none tracking-tighter z-0">
+                    0%
+                </div>
+            </div>
+            
+            <!-- Right Side: Graphic/Product Image -->
             @php
                 $baseProduct = $newArrivals->first() ?? $theDrop->first();
                 $legitProduct = $baseProduct ? clone $baseProduct : null;
                 $legitImageUrl = $legitProduct && $legitProduct->primaryImage ? $legitProduct->primaryImage->url : 'https://picsum.photos/seed/watch/800/600';
             @endphp
-            <div class="relative w-full max-w-[600px] aspect-square flex items-center justify-center z-10">
-                <div class="absolute inset-0 bg-contain bg-center bg-no-repeat z-20 graphic-item opacity-0 scale-95" style="background-image: url('{{ $legitImageUrl }}')"></div>
+            <div class="md:col-span-5 lg:col-span-4 relative flex flex-col bg-text-inverse/5">
                 
-                <!-- Editorial Layout Tags instead of emoji slop -->
-                <div class="absolute -top-4 right-0 font-mono text-sm uppercase tracking-widest text-background border border-background px-4 py-2 opacity-80 z-30">
-                    GUARANTEED AUTHENTIC
+                <div class="flex-1 relative flex items-center justify-center p-xl min-h-[400px]">
+                    <div class="absolute inset-0 bg-contain bg-center bg-no-repeat graphic-item opacity-0 scale-95 z-20 m-2xl" style="background-image: url('{{ $legitImageUrl }}')"></div>
+                    
+                    <!-- Crosshair Grid Lines Behind Product -->
+                    <div class="absolute inset-0 z-0">
+                        <div class="absolute top-1/2 left-0 w-full h-px bg-text-inverse/20 -translate-y-1/2"></div>
+                        <div class="absolute top-0 left-1/2 w-px h-full bg-text-inverse/20 -translate-x-1/2"></div>
+                    </div>
                 </div>
-                <div class="absolute bottom-10 left-0 font-mono text-sm uppercase tracking-widest text-background border border-background px-4 py-2 opacity-80 z-30">
-                    NO COMPROMISE
+
+                <!-- Bottom Status/Tags -->
+                <div class="grid grid-cols-2 border-t border-text-inverse/20 z-10">
+                    <div class="p-md md:p-lg border-r border-text-inverse/20 font-mono text-[10px] md:text-xs uppercase tracking-widest flex flex-col items-center justify-center text-center">
+                        <span class="text-text-inverse/50 mb-1">STATUS</span>
+                        <span>100% AUTHENTIC</span>
+                    </div>
+                    <div class="p-md md:p-lg font-mono text-[10px] md:text-xs uppercase tracking-widest flex flex-col items-center justify-center text-center">
+                        <span class="text-text-inverse/50 mb-1">POLICY</span>
+                        <span>ZERO TOLERANCE</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="absolute bottom-8 right-12 text-right font-mono text-xs uppercase opacity-50 tracking-widest max-w-[300px]">
-            MECHANICAL INTEGRITY. EVERY TIMEPIECE IS RIGOROUSLY VERIFIED BEFORE ALLOCATION.
         </div>
     </div>
 </div>
