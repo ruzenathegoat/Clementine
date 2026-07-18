@@ -98,6 +98,76 @@
                         Save Changes
                     </button>
                 </form>
+
+                <!-- Danger Zone -->
+                <div class="flex flex-col gap-8 border-t border-red-600/30 pt-12 mt-12" x-data="{ deleteModalOpen: false }">
+                    <div>
+                        <h3 class="font-label-caps text-xs uppercase tracking-widest font-bold text-red-600">Danger Zone</h3>
+                        <p class="text-xs text-on-surface-variant mt-2 font-body-md">Once you delete your account, there is no going back. Please be certain.</p>
+                    </div>
+
+                    @error('delete_account')
+                        <div class="bg-red-50 text-red-600 p-4 border border-red-600 font-body-md text-xs uppercase tracking-wider">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                    @error('password')
+                        <div class="bg-red-50 text-red-600 p-4 border border-red-600 font-body-md text-xs uppercase tracking-wider">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                    <button type="button" @click="deleteModalOpen = true" class="w-full md:w-auto md:self-start px-12 py-4 bg-transparent border border-red-600 text-red-600 text-sm font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300">
+                        Delete Account
+                    </button>
+
+                    <!-- Delete Account Confirmation Modal -->
+                    <div x-cloak x-show="deleteModalOpen" class="fixed inset-0 z-[100] flex justify-center items-center p-4">
+                        <div x-show="deleteModalOpen" x-transition.opacity class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="deleteModalOpen = false"></div>
+                        <div x-show="deleteModalOpen" 
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white w-full max-w-[500px] border border-red-600 shadow-2xl p-8 flex flex-col gap-6 text-black z-10">
+                            
+                            <div class="flex justify-between items-center border-b border-outline-variant pb-4">
+                                <h3 class="font-headline-md text-xl uppercase tracking-wider text-red-600">Delete Account</h3>
+                                <button type="button" @click="deleteModalOpen = false" class="text-on-surface-variant hover:text-red-600 transition-colors">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm font-body-md text-gray-600 leading-relaxed">
+                                Are you sure you want to delete your account? This action is permanent and cannot be undone. All of your personal data will be wiped.
+                            </p>
+
+                            <form action="{{ route('profile.destroy') }}" method="POST" class="flex flex-col gap-6">
+                                @csrf
+                                @method('DELETE')
+
+                                @if(auth()->user()->password)
+                                <div class="flex flex-col gap-2">
+                                    <label for="delete_password" class="font-label-caps text-xs uppercase tracking-widest font-bold">Verify Password</label>
+                                    <input type="password" id="delete_password" name="password" class="w-full p-4 border border-outline-variant focus:border-red-600 focus:ring-0 rounded-none bg-transparent font-body-md text-sm" required placeholder="Enter your current password">
+                                </div>
+                                @endif
+
+                                <div class="flex gap-4 mt-2">
+                                    <button type="button" @click="deleteModalOpen = false" class="flex-1 px-6 py-3 border border-outline-variant text-xs font-bold uppercase tracking-wider hover:bg-surface transition-colors">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="flex-1 px-6 py-3 bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:opacity-80 transition-opacity border border-red-600">
+                                        Delete Permanently
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Active Orders Tab -->

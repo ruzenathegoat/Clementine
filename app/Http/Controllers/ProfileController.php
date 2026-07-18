@@ -60,4 +60,41 @@ class ProfileController extends Controller
 
         return back()->with('success', 'PROFILE UPDATED SUCCESSFULLY.');
     }
+
+    public function destroy(Request $request)
+    {
+        $user = auth()->user();
+
+        // Check for active orders
+        $activeOrdersCount = $user->orders()->whereIn('status', ['pending', 'processing', 'shipped'])->count();
+        if ($activeOrdersCount > 0) {
+            return back()->withErrors(['delete_account' => 'CANNOT DELETE ACCOUNT WITH ACTIVE ORDERS. PLEASE CONTACT SUPPORT OR WAIT FOR COMPLETED DELIVERY.']);
+        }
+
+        // Validate password if user has one (OAuth users might not have a password)
+        if ($user->password) {
+            $request->validate([
+                'password' => ['required', 'string'],
+            ]);
+
+            if (!Hash::check($request->password, $user->password)) {
+                return back()->withErrors(['password' => 'THE PROVIDED PASSWORD DOES NOT MATCH OUR RECORDS.']);
+            }
+        }
+
+        // Delete avatar if exists
+        if ($user->avatar) {
+            $disk = config('filesystems.default');
+            Storage::disk($disk)->delete($user->avatar);
+        }
+
+        // Logout and delete user
+        auth()->logout();
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'YOUR ACCOUNT HAS BEEN DELETED.');
+    }
 }
