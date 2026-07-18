@@ -2,204 +2,75 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acquisition Confirmed - Clementine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #FBFBFA;
-            color: #111111;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-        .outer-wrapper {
-            padding: 60px 20px;
-            background-color: #FBFBFA;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 50px 60px;
-            border: 1px solid #EAEAEA;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .logo {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: #111111;
-        }
-        .eyebrow {
-            display: inline-block;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #787774;
-            margin-bottom: 15px;
-            border: 1px solid #EAEAEA;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            background-color: #F9F9F8;
-        }
-        .title {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 28px;
-            font-weight: 400;
-            margin: 0 0 25px 0;
-            letter-spacing: -0.02em;
-            color: #111111;
-            line-height: 1.2;
-        }
-        .content {
-            line-height: 1.7;
-            color: #2F3437;
-            font-size: 15px;
-        }
-        .meta-grid {
-            margin: 35px 0;
-            padding: 25px 0;
-            border-top: 1px solid #EAEAEA;
-            border-bottom: 1px solid #EAEAEA;
-        }
-        .meta-row {
-            margin-bottom: 10px;
-            font-size: 13px;
-        }
-        .meta-row:last-child {
-            margin-bottom: 0;
-        }
-        .meta-label {
-            color: #787774;
-            display: inline-block;
-            width: 120px;
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-        }
-        .meta-value {
-            font-weight: 500;
-            font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
-            letter-spacing: 0.05em;
-        }
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        .items-table th {
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            color: #787774;
-            border-bottom: 1px solid #EAEAEA;
-            padding-bottom: 12px;
-            text-align: left;
-            font-weight: 500;
-        }
-        .items-table td {
-            padding: 20px 0;
-            border-bottom: 1px solid #EAEAEA;
-            font-size: 14px;
-        }
-        .totals-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 0;
-            margin-bottom: 40px;
-        }
-        .totals-table td {
-            padding: 12px 0;
-            font-size: 13px;
-            color: #787774;
-            border-bottom: 1px solid #F9F9F8;
-        }
-        .totals-table tr:last-child td {
-            border-bottom: none;
-            padding-top: 25px;
-        }
-        .totals-table .total-label {
-            font-weight: 500;
-            color: #111111;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 12px;
-        }
-        .totals-table .total-value {
-            font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
-            font-weight: 600;
-            color: #111111;
-            font-size: 15px;
-        }
-        .btn-wrapper {
-            margin: 50px 0 40px 0;
-            text-align: center;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #111111;
-            color: #ffffff !important;
-            text-decoration: none;
-            padding: 14px 28px;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            border-radius: 4px;
-        }
-        .meta-text {
-            font-size: 13px;
-            color: #787774;
-            line-height: 1.6;
-        }
-        .footer {
-            margin-top: 60px;
-            text-align: center;
-            font-size: 11px;
-            color: #A0A09F;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border-top: 1px solid #EAEAEA;
-            padding-top: 30px;
-        }
+        body { font-family: 'JetBrains Mono', monospace; background-color: #ffffff; color: #000000; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        .h1 { font-family: 'Anton', Impact, sans-serif; font-size: 56px; line-height: 0.9; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; }
+        .wrapper { width: 100%; background-color: #ffffff; padding: 40px 10px; box-sizing: border-box; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #000000; }
+        .header { background-color: #000000; color: #ffffff; padding: 50px 40px; }
+        .content { padding: 40px; }
+        .grid { display: table; width: 100%; border-collapse: collapse; border: 1px solid #000000; margin-bottom: 32px; background-color: #F3F4F6; }
+        .grid-row { display: table-row; }
+        .grid-cell { display: table-cell; border: 1px solid #000000; padding: 20px; vertical-align: top; }
+        .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #666666; margin-bottom: 8px; display: block; }
+        .value { font-size: 14px; font-weight: bold; text-transform: uppercase; margin: 0; display: block; }
+        
+        .items-table { width: 100%; border-collapse: collapse; border: 1px solid #000000; margin-bottom: 32px; }
+        .items-table th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.1em; color: #000000; border-bottom: 1px solid #000000; background-color: #F3F4F6; padding: 12px; text-align: left; }
+        .items-table td { padding: 16px 12px; border-bottom: 1px solid #000000; font-size: 14px; }
+        
+        .totals-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+        .totals-table td { padding: 12px 0; font-size: 13px; color: #666666; border-bottom: 1px dotted #cccccc; text-transform: uppercase; }
+        .totals-table tr:last-child td { border-bottom: none; padding-top: 24px; color: #000000; font-weight: bold; }
+        .total-value { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: bold; }
+        
+        .btn { display: inline-block; background-color: #000000; color: #ffffff; text-decoration: none; text-transform: uppercase; padding: 20px 40px; font-family: 'Anton', Impact, sans-serif; font-size: 22px; letter-spacing: 1px; border: 1px solid #000000; text-align: center; }
+        .btn:hover { background-color: #ffffff; color: #000000; }
+        
+        .footer { padding: 40px; background-color: #F3F4F6; border-top: 1px solid #000000; font-size: 12px; color: #666666; text-transform: uppercase; }
+        
         @media only screen and (max-width: 600px) {
-            .outer-wrapper { padding: 30px 15px; }
-            .container { padding: 40px 30px; }
-            .title { font-size: 24px; }
-            .meta-label { width: 100px; }
+            .grid-cell { display: block; width: auto; border: none; border-bottom: 1px solid #000000; }
+            .grid-cell:last-child { border-bottom: none; }
+            .h1 { font-size: 42px; }
+            .content, .header, .footer { padding: 24px; }
+            .btn { width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
 <body>
-    <div class="outer-wrapper">
+    <div class="wrapper">
         <div class="container">
             <div class="header">
-                <div class="logo">Clementine</div>
+                <h1 class="h1">ACQUISITION<br>CONFIRMED</h1>
+                <p style="margin: 32px 0 0 0; font-size: 12px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid rgba(255,255,255,0.2); pt-4;">Folio of Acquisition</p>
             </div>
             
             <div class="content">
-                <span class="eyebrow">Folio of Acquisition</span>
-                <h1 class="title">Acquisition Confirmed</h1>
+                <p style="margin: 0 0 32px 0; font-size: 14px; line-height: 1.6;">
+                    Hello {{ $order->user->name ?? 'Client' }},<br><br>
+                    Your allocation has been secured. The official folio and provenance documents have been generated. Below is the summary of your acquisition.
+                </p>
                 
-                <p>Your allocation has been secured. The official folio and provenance documents have been generated. Below is the summary of your acquisition.</p>
-                
-                <div class="meta-grid">
-                    <div class="meta-row">
-                        <span class="meta-label">Reference</span>
-                        <span class="meta-value">#{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}</span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="meta-label">Date</span>
-                        <span class="meta-value">{{ $order->created_at->format('d M Y') }}</span>
-                    </div>
-                </div>
-                
-                <table class="items-table">
+                <table class="grid" cellpadding="0" cellspacing="0">
+                    <tr class="grid-row">
+                        <td class="grid-cell" style="width: 50%;">
+                            <span class="label">Reference</span>
+                            <span class="value" style="font-size: 16px;">#{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}</span>
+                        </td>
+                        <td class="grid-cell" style="width: 50%;">
+                            <span class="label">Date</span>
+                            <span class="value" style="font-size: 16px;">{{ $order->created_at->format('d M Y') }}</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="items-table" cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Item Details</th>
@@ -212,60 +83,64 @@
                         <tr>
                             <td>
                                 <strong>{{ $item->product->name }}</strong><br>
-                                <span style="color: #787774; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span>
+                                <span style="color: #666666; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span>
                             </td>
-                            <td style="text-align: center; font-weight: 500;">{{ $item->quantity }}</td>
-                            <td style="text-align: right; font-family: 'Geist Mono', monospace;">${{ number_format($item->price_at_purchase, 2) }}</td>
+                            <td style="text-align: center; font-weight: bold;">{{ $item->quantity }}</td>
+                            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: bold;">${{ number_format($item->price_at_purchase, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
-                <table class="totals-table">
+                <table class="totals-table" cellpadding="0" cellspacing="0">
                     <tr>
                         <td>Subtotal (Excl. Tax)</td>
-                        <td style="text-align: right; font-family: 'Geist Mono', monospace;">${{ number_format($order->subtotal, 2) }}</td>
+                        <td style="text-align: right;" class="total-value">${{ number_format($order->subtotal, 2) }}</td>
                     </tr>
                     @if($order->discount_amount > 0)
                     <tr>
                         <td>{{ $order->user && $order->user->is_vip ? 'VIP Discount' : 'Discount' }}</td>
-                        <td style="text-align: right; font-family: 'Geist Mono', monospace;">-${{ number_format($order->discount_amount, 2) }}</td>
+                        <td style="text-align: right;" class="total-value">-${{ number_format($order->discount_amount, 2) }}</td>
                     </tr>
                     @endif
                     @if($order->tax > 0)
                     <tr>
                         <td>Product Tax</td>
-                        <td style="text-align: right; font-family: 'Geist Mono', monospace;">${{ number_format($order->tax, 2) }}</td>
+                        <td style="text-align: right;" class="total-value">${{ number_format($order->tax, 2) }}</td>
                     </tr>
                     @endif
                     <tr>
                         <td>Shipping Fee</td>
-                        <td style="text-align: right; font-family: 'Geist Mono', monospace;">${{ number_format($order->shipping_fee, 2) }}</td>
+                        <td style="text-align: right;" class="total-value">${{ number_format($order->shipping_fee, 2) }}</td>
                     </tr>
                     @if($order->shipping_tax > 0)
                     <tr>
                         <td>Shipping Tax</td>
-                        <td style="text-align: right; font-family: 'Geist Mono', monospace;">${{ number_format($order->shipping_tax, 2) }}</td>
+                        <td style="text-align: right;" class="total-value">${{ number_format($order->shipping_tax, 2) }}</td>
                     </tr>
                     @endif
                     <tr>
-                        <td class="total-label">TOTAL SETTLED</td>
-                        <td class="total-value" style="text-align: right;">${{ number_format($order->total, 2) }}</td>
+                        <td style="font-size: 16px;">TOTAL SETTLED</td>
+                        <td style="text-align: right; font-size: 20px;" class="total-value">${{ number_format($order->total, 2) }}</td>
                     </tr>
                 </table>
 
-                <div class="btn-wrapper">
-                    <a href="https://clementine.my.id/profile" class="btn">Access Collection</a>
-                </div>
+                <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 32px; margin-bottom: 32px; width: 100%;">
+                    <tr>
+                        <td align="center">
+                            <a href="https://clementine.my.id/profile" class="btn">Access Collection</a>
+                        </td>
+                    </tr>
+                </table>
 
-                <div class="meta-text">
+                <p style="margin: 0; font-size: 14px; line-height: 1.6; text-transform: uppercase;">
                     Sincerely,<br>
                     <strong>CLEMENTINE HOROLOGY</strong>
-                </div>
+                </p>
             </div>
-
+            
             <div class="footer">
-                &copy; {{ date('Y') }} CLEMENTINE. All rights reserved.
+                <p style="margin: 0; color: #999999;">&copy; {{ date('Y') }} CLEMENTINE. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </div>

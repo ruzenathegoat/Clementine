@@ -2,177 +2,71 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allocation in Transit - Clementine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #FBFBFA;
-            color: #111111;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-        .outer-wrapper {
-            padding: 60px 20px;
-            background-color: #FBFBFA;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 50px 60px;
-            border: 1px solid #EAEAEA;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .logo {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: #111111;
-        }
-        .eyebrow {
-            display: inline-block;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #787774;
-            margin-bottom: 15px;
-            border: 1px solid #EAEAEA;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            background-color: #F9F9F8;
-        }
-        .title {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 28px;
-            font-weight: 400;
-            margin: 0 0 25px 0;
-            letter-spacing: -0.02em;
-            color: #111111;
-            line-height: 1.2;
-        }
-        .content {
-            line-height: 1.7;
-            color: #2F3437;
-            font-size: 15px;
-        }
-        .tracking-box {
-            background-color: #FBFBFA;
-            border: 1px solid #EAEAEA;
-            padding: 25px;
-            margin: 35px 0;
-            text-align: center;
-            border-radius: 4px;
-        }
-        .tracking-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #787774;
-            margin-bottom: 8px;
-        }
-        .tracking-number {
-            font-size: 20px;
-            font-family: 'Geist Mono', 'SF Mono', 'JetBrains Mono', monospace;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: #111111;
-        }
-        .address-box {
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 1px solid #EAEAEA;
-        }
-        .section-title {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #787774;
-            margin-bottom: 15px;
-        }
-        .address-text {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #111111;
-        }
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 40px;
-            margin-bottom: 40px;
-        }
-        .items-table th {
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            color: #787774;
-            border-bottom: 1px solid #EAEAEA;
-            padding-bottom: 12px;
-            text-align: left;
-            font-weight: 500;
-        }
-        .items-table td {
-            padding: 20px 0;
-            border-bottom: 1px solid #EAEAEA;
-            font-size: 14px;
-        }
-        .meta-text {
-            font-size: 13px;
-            color: #787774;
-            line-height: 1.6;
-            margin-top: 40px;
-        }
-        .footer {
-            margin-top: 60px;
-            text-align: center;
-            font-size: 11px;
-            color: #A0A09F;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border-top: 1px solid #EAEAEA;
-            padding-top: 30px;
-        }
+        body { font-family: 'JetBrains Mono', monospace; background-color: #ffffff; color: #000000; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        .h1 { font-family: 'Anton', Impact, sans-serif; font-size: 56px; line-height: 0.9; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; }
+        .wrapper { width: 100%; background-color: #ffffff; padding: 40px 10px; box-sizing: border-box; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #000000; }
+        .header { background-color: #000000; color: #ffffff; padding: 50px 40px; }
+        .content { padding: 40px; }
+        .grid { display: table; width: 100%; border-collapse: collapse; border: 1px solid #000000; margin-bottom: 32px; background-color: #F3F4F6; }
+        .grid-row { display: table-row; }
+        .grid-cell { display: table-cell; border: 1px solid #000000; padding: 20px; vertical-align: top; }
+        .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #666666; margin-bottom: 8px; display: block; }
+        .value { font-size: 14px; font-weight: bold; text-transform: uppercase; margin: 0; display: block; }
+        .items-table { width: 100%; border-collapse: collapse; border: 1px solid #000000; margin-bottom: 32px; }
+        .items-table th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.1em; color: #000000; border-bottom: 1px solid #000000; background-color: #F3F4F6; padding: 12px; text-align: left; }
+        .items-table td { padding: 16px 12px; border-bottom: 1px solid #000000; font-size: 14px; }
+        .footer { padding: 40px; background-color: #F3F4F6; border-top: 1px solid #000000; font-size: 12px; color: #666666; text-transform: uppercase; }
         @media only screen and (max-width: 600px) {
-            .outer-wrapper { padding: 30px 15px; }
-            .container { padding: 40px 30px; }
-            .title { font-size: 24px; }
+            .grid-cell { display: block; width: auto; border: none; border-bottom: 1px solid #000000; }
+            .grid-cell:last-child { border-bottom: none; }
+            .h1 { font-size: 42px; }
+            .content, .header, .footer { padding: 24px; }
         }
     </style>
 </head>
 <body>
-    <div class="outer-wrapper">
+    <div class="wrapper">
         <div class="container">
             <div class="header">
-                <div class="logo">Clementine</div>
+                <h1 class="h1">ALLOCATION<br>TRANSIT</h1>
+                <p style="margin: 32px 0 0 0; font-size: 12px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid rgba(255,255,255,0.2); pt-4;">Transit Document</p>
             </div>
             
             <div class="content">
-                <span class="eyebrow">Transit Document</span>
-                <h1 class="title">Your Allocation is in Transit</h1>
-                <p>Dear {{ $order->shipping_full_name ?? ($order->user->name ?? 'Client') }},</p>
-                <p>The provenance and logistics for order <strong>#{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}</strong> have been finalized. Your allocation is now in transit.</p>
+                <p style="margin: 0 0 32px 0; font-size: 14px; line-height: 1.6;">
+                    Hello {{ $order->shipping_full_name ?? ($order->user->name ?? 'Client') }},<br><br>
+                    The provenance and logistics for order <strong>#{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}</strong> have been finalized. Your allocation is now in transit.
+                </p>
                 
-                <div class="tracking-box">
-                    <div class="tracking-label">Tracking Number</div>
-                    <div class="tracking-number">{{ $order->tracking_number ?? 'Awaiting Courier' }}</div>
-                </div>
+                <table class="grid" cellpadding="0" cellspacing="0">
+                    <tr class="grid-row">
+                        <td class="grid-cell" style="width: 100%;" colspan="2">
+                            <span class="label">Tracking Number</span>
+                            <span class="value" style="font-size: 20px;">{{ $order->tracking_number ?? 'Awaiting Courier' }}</span>
+                        </td>
+                    </tr>
+                    <tr class="grid-row">
+                        <td class="grid-cell" style="width: 100%;" colspan="2">
+                            <span class="label">Logistics Destination</span>
+                            <span class="value" style="text-transform: none; font-weight: normal; font-size: 14px; line-height: 1.6;">
+                                <strong>{{ $order->shipping_full_name }}</strong><br>
+                                {{ $order->shipping_address1 }}<br>
+                                @if($order->shipping_address2) {{ $order->shipping_address2 }}<br> @endif
+                                {{ $order->shipping_city }}, {{ $order->shipping_postal_code }}<br>
+                                {{ $order->shipping_country }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
 
-                <div class="address-box">
-                    <div class="section-title">Logistics Destination</div>
-                    <div class="address-text">
-                        <strong>{{ $order->shipping_full_name }}</strong><br>
-                        {{ $order->shipping_address1 }}<br>
-                        @if($order->shipping_address2) {{ $order->shipping_address2 }}<br> @endif
-                        {{ $order->shipping_city }}, {{ $order->shipping_postal_code }}<br>
-                        {{ $order->shipping_country }}
-                    </div>
-                </div>
-
-                <table class="items-table">
+                <table class="items-table" cellpadding="0" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Item Details</th>
@@ -184,22 +78,22 @@
                         <tr>
                             <td>
                                 <strong>{{ $item->product->name ?? 'Product' }}</strong><br>
-                                <span style="color: #787774; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span>
+                                <span style="color: #666666; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span>
                             </td>
-                            <td style="text-align: right; font-weight: 500;">{{ $item->quantity }}</td>
+                            <td style="text-align: right; font-weight: bold;">{{ $item->quantity }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-
-                <div class="meta-text">
+                
+                <p style="margin: 0; font-size: 14px; line-height: 1.6;">
                     Should you require assistance during the transit period, our concierges are available.<br>
                     Thank you for selecting Clementine Horology.
-                </div>
+                </p>
             </div>
-
+            
             <div class="footer">
-                &copy; {{ date('Y') }} CLEMENTINE. All rights reserved.
+                <p style="margin: 0; color: #999999;">&copy; {{ date('Y') }} CLEMENTINE. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </div>
