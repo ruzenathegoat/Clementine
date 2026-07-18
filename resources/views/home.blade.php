@@ -202,8 +202,9 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
+
+<x-magazine-section />
 
 <script>
     // Page-specific GSAP animations

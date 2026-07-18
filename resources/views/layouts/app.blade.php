@@ -130,8 +130,7 @@
         @yield('content')
     </main>
 
-    <!-- Magazine Section -->
-    <x-magazine-section />
+
 
     <!-- Hypebizz-style Footer -->
     <footer class="w-full flex flex-col mt-auto border-t border-primary" x-data="{ activeModal: null }">
