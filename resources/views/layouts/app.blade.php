@@ -452,7 +452,11 @@
                  x-transition:leave-start="opacity-100 translate-y-0"
                  x-transition:leave-end="opacity-0 translate-y-4"
                  class="p-md font-label-caps text-sm shadow-2xl flex items-center gap-md pointer-events-auto uppercase"
-                 :class="toast.type === 'error' ? 'bg-primary text-white border border-primary' : 'bg-primary text-white border border-primary'">
+                 @php
+                     $isAuth = request()->routeIs('login', 'register', 'password.*', 'verification.*');
+                     $errorClasses = $isAuth ? 'bg-red-600 text-white border border-red-600' : 'bg-primary text-white border border-primary';
+                 @endphp
+                 :class="toast.type === 'error' ? '{{ $errorClasses }}' : 'bg-primary text-white border border-primary'">
                 <span class="material-symbols-outlined text-[20px]" x-text="toast.type === 'error' ? 'warning' : 'check_circle'"></span>
                 <span x-text="toast.message" class="tracking-widest"></span>
             </div>
