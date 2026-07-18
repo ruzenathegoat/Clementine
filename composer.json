@@ -9,7 +9,7 @@
         "php": "^8.3",
         "ext-gd": "*",
         "ext-zip": "*",
-        "jenssegers/agent": "*",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^13.8",
         "laravel/socialite": "^5.28",
         "laravel/tinker": "^3.0",
@@ -18,7 +18,7 @@
         "predis/predis": "*",
         "pusher/pusher-php-server": "^7.2",
         "resend/resend-laravel": "^1.4",
-        "stevebauman/location": "*",
+        "stevebauman/location": "^7.6",
         "symfony/resend-mailer": "*"
     },
     "require-dev": {
