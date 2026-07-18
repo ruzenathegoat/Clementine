@@ -70,8 +70,8 @@ class AuthController extends Controller
                 if ($lastLogin->ip_address !== $ip) $score += 10;
             }
 
-            // Based on scenarios, an IP change (score 10) is enough to trigger verification
-            $isSuspicious = $lastLogin ? ($score >= 10) : false;
+            // Based on scenarios, threshold > 50 triggers verification
+            $isSuspicious = $lastLogin ? ($score > 50) : false;
 
             $history = LoginHistory::create([
                 'user_id' => $user->id,
