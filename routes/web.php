@@ -12,6 +12,16 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 // TEMPORARY DEBUG
+Route::get('/_debug/concierge', function () {
+    $pendingTickets = \App\Models\Ticket::where('status', 'pending')->with('user')->orderBy('created_at', 'asc')->get();
+    $activeTickets = \App\Models\Ticket::where('status', 'active')->with('user')->orderBy('updated_at', 'desc')->get();
+    
+    // mock auth user
+    auth()->loginUsingId(1);
+
+    return view('admin.concierge.index', compact('pendingTickets', 'activeTickets'));
+});
+
 Route::get('/_debug/reset-password', function (\Illuminate\Http\Request $request) {
     try {
         $user = \App\Models\User::first();

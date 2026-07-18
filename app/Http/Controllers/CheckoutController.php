@@ -42,6 +42,10 @@ class CheckoutController extends Controller
                 $hasTheDrop = true;
                 $discountPct = $isVip ? 0.07 : 0.05;
                 $taxPct = $isVip ? 0.08 : 0.10;
+            } else {
+                if ($isVip) {
+                    $discountPct = 0.03;
+                }
             }
 
             $itemDiscount = $lineTotal * $discountPct;
@@ -56,6 +60,8 @@ class CheckoutController extends Controller
         $shippingTax = $shippingFee * $defaultShippingTaxPct;
         
         $total = $subtotal - $totalDiscount + $totalTax + $shippingFee + $shippingTax;
+
+        \Log::info('CheckoutController@index - VIP Status: ' . ($isVip ? 'true' : 'false') . ', Total Discount: ' . $totalDiscount . ', Has Drop: ' . ($hasTheDrop ? 'true' : 'false'));
 
         return view('checkout.index', compact('cartItems', 'subtotal', 'totalDiscount', 'totalTax', 'shippingFee', 'shippingTax', 'total', 'defaultShippingTaxPct'));
     }
