@@ -25,15 +25,11 @@ class SocialiteController extends Controller
             $user = User::where('google_id', $googleUser->id)->first();
 
             if ($user) {
-                // Log them in if found
-                Auth::login($user);
-                $request = request();
-                $request->session()->regenerate();
-                
-                if ($user->role !== 'customer') {
-                    return redirect()->intended(route('admin.dashboard'))->with('success', 'SUCCESSFULLY LOGGED IN AS ADMIN.');
+                // Ensure email is verified
+                if (!$user->hasVerifiedEmail()) {
+                    $user->markEmailAsVerified();
                 }
-                return redirect()->intended(route('home'))->with('success', 'SUCCESSFULLY LOGGED IN WITH GOOGLE.');
+                return AuthController::attemptRbaLogin($user, request());
             }
 
             // If not found by google_id, check by email
@@ -44,14 +40,13 @@ class SocialiteController extends Controller
                 $user->update([
                     'google_id' => $googleUser->id,
                 ]);
-                Auth::login($user);
-                $request = request();
-                $request->session()->regenerate();
                 
-                if ($user->role !== 'customer') {
-                    return redirect()->intended(route('admin.dashboard'))->with('success', 'SUCCESSFULLY LOGGED IN AS ADMIN.');
+                // Ensure email is verified
+                if (!$user->hasVerifiedEmail()) {
+                    $user->markEmailAsVerified();
                 }
-                return redirect()->intended(route('home'))->with('success', 'SUCCESSFULLY LOGGED IN WITH GOOGLE.');
+
+                return AuthController::attemptRbaLogin($user, request());
             }
 
             // If completely new, register them
@@ -61,15 +56,12 @@ class SocialiteController extends Controller
                 'google_id' => $googleUser->id,
                 'password' => null, // Password is null for OAuth users
                 'role' => 'customer',
+                'email_verified_at' => now(), // Auto-verify since Google verified it
             ]);
 
-            Auth::login($newUser);
-            $request = request();
-            $request->session()->regenerate();
-            
             event(new Registered($newUser));
 
-            return redirect()->route('verification.notice')->with('success', 'REGISTRATION SUCCESSFUL. PLEASE VERIFY YOUR EMAIL.');
+            return AuthController::attemptRbaLogin($newUser, request());
 
         } catch (Exception $e) {
             return redirect()->route('login')->withErrors(['email' => 'Google Login failed. Please try again.']);
