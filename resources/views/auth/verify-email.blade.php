@@ -102,6 +102,25 @@
                 ease: "power3.out"
             }, "-=0.8");
         }
+
+        // --- Auto-Refresh Polling ---
+        // Poll the server every 3 seconds to check if the user verified on another device.
+        setInterval(() => {
+            fetch('{{ route('verification.check') }}', {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.verified) {
+                    // Refresh the page so Laravel redirects to dashboard
+                    window.location.reload();
+                }
+            })
+            .catch(error => console.error('Polling error:', error));
+        }, 3000);
     });
 </script>
 @endsection

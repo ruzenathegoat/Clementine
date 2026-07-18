@@ -140,6 +140,12 @@ Route::middleware('auth')->group(function () {
             : view('auth.verify-email');
     })->name('verification.notice');
 
+    Route::get('/email/check-verification', function (\Illuminate\Http\Request $request) {
+        return response()->json([
+            'verified' => $request->user()?->hasVerifiedEmail() ?? false
+        ]);
+    })->name('verification.check');
+
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
         return redirect()->route('register.success');
