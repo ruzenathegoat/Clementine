@@ -178,6 +178,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('honeypot');
+    Route::get('/login/verify-notice', [AuthController::class, 'verifyNotice'])->name('login.verify.notice');
+    Route::get('/login/verify/{history}', [AuthController::class, 'verifySuspiciousLogin'])->name('login.verify');
     
     // Google OAuth Routes
     Route::get('/auth/google', [App\Http\Controllers\SocialiteController::class, 'redirect'])->name('google.login');

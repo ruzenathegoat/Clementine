@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use App\Models\LoginHistory;
+use App\Mail\SuspiciousLoginAlert;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+use Jenssegers\Agent\Agent;
+use Stevebauman\Location\Facades\Location;
 
 class AuthController extends Controller
 {
@@ -31,11 +37,71 @@ class AuthController extends Controller
             abort(429, 'Too many login attempts. Please try again in 5 minutes.');
         }
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::validate($credentials)) {
+            $user = User::where('email', $request->email)->first();
+            
+            // Risk Scoring
+            $agent = new Agent();
+            $ip = $request->ip();
+            // For local testing, use a public IP if it's localhost
+            if ($ip === '127.0.0.1' || $ip === '::1') {
+                $ip = '8.8.8.8'; 
+            }
+            $location = Location::get($ip);
+            
+            $browser = $agent->browser();
+            $platform = $agent->platform();
+            $device = $agent->device();
+            $country = $location ? $location->countryName : null;
+            $city = $location ? $location->cityName : null;
+
+            $lastLogin = LoginHistory::where('user_id', $user->id)
+                ->where('is_verified', true)
+                ->latest()
+                ->first();
+
+            $score = 0;
+            if ($lastLogin) {
+                if ($lastLogin->device !== $device) $score += 50;
+                if ($lastLogin->country !== $country) $score += 50;
+                if ($lastLogin->platform !== $platform) $score += 20;
+                if ($lastLogin->city !== $city) $score += 20;
+                if ($lastLogin->browser !== $browser) $score += 15;
+                if ($lastLogin->ip_address !== $ip) $score += 10;
+            }
+
+            // Based on scenarios, an IP change (score 10) is enough to trigger verification
+            $isSuspicious = $lastLogin ? ($score >= 10) : false;
+
+            $history = LoginHistory::create([
+                'user_id' => $user->id,
+                'ip_address' => $ip,
+                'country' => $country,
+                'city' => $city,
+                'region' => $location ? $location->regionName : null,
+                'latitude' => $location ? $location->latitude : null,
+                'longitude' => $location ? $location->longitude : null,
+                'user_agent' => $request->userAgent(),
+                'browser' => $browser,
+                'platform' => $platform,
+                'device' => $device,
+                'is_verified' => !$isSuspicious,
+            ]);
+
+            if ($isSuspicious) {
+                $verificationUrl = URL::temporarySignedRoute(
+                    'login.verify', now()->addMinutes(15), ['history' => $history->id]
+                );
+                
+                Mail::to($user->email)->send(new SuspiciousLoginAlert($history, $user, $verificationUrl));
+                
+                return redirect()->route('login.verify.notice')->with('error', 'LOGIN BLOCKED: NEW DEVICE OR LOCATION DETECTED. PLEASE CHECK YOUR EMAIL TO VERIFY.');
+            }
+
+            Auth::login($user, $request->boolean('remember'));
             RateLimiter::clear($throttleKey);
             $request->session()->regenerate();
             
-            $user = Auth::user();
             if ($user->role !== 'customer') {
                 return redirect()->intended(route('admin.dashboard'))->with('success', 'SUCCESSFULLY LOGGED IN AS ADMIN.');
             }
@@ -93,5 +159,34 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/')->with('success', 'SUCCESSFULLY LOGGED OUT.');
+    }
+
+    public function verifyNotice()
+    {
+        return view('auth.verify-login');
+    }
+
+    public function verifySuspiciousLogin(Request $request, LoginHistory $history)
+    {
+        if (! $request->hasValidSignature()) {
+            return redirect()->route('login')->with('error', 'VERIFICATION LINK IS INVALID OR EXPIRED. PLEASE LOGIN AGAIN.');
+        }
+
+        if ($history->is_verified) {
+            return redirect()->route('login')->with('error', 'THIS LOGIN ATTEMPT HAS ALREADY BEEN VERIFIED.');
+        }
+
+        $history->update(['is_verified' => true]);
+        
+        $user = $history->user;
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        if ($user->role !== 'customer') {
+            return redirect()->intended(route('admin.dashboard'))->with('success', 'LOGIN VERIFIED AND SUCCESSFUL.');
+        }
+
+        return redirect()->intended(route('home'))->with('success', 'LOGIN VERIFIED AND SUCCESSFUL.');
     }
 }
