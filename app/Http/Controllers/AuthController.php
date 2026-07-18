@@ -148,10 +148,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'customer',
         ]);
-
-        Auth::login($user);
         
         event(new Registered($user));
+
+        // Create the first LoginHistory by running RBA logic
+        // This ensures the device they registered on is trusted.
+        self::attemptRbaLogin($user, $request);
 
         return redirect()->route('verification.notice')->with('success', 'REGISTRATION SUCCESSFUL. PLEASE VERIFY YOUR EMAIL.');
     }

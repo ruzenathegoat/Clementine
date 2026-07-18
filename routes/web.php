@@ -132,11 +132,54 @@ Route::get('/api/products/stock', function (\Illuminate\Http\Request $request) {
     return response()->json(\App\Models\Product::whereIn('id', $ids)->get(['id', 'stock', 'status']));
 });
 
+Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Http\Request $request, $id, $hash) {
+    if (! $request->hasValidSignature()) {
+        return redirect()->route('login')->with('error', 'INVALID VERIFICATION LINK.');
+    }
+    
+    $user = \App\Models\User::findOrFail($id);
+    
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        return redirect()->route('login')->with('error', 'INVALID VERIFICATION LINK.');
+    }
+    
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+        event(new \Illuminate\Auth\Events\Verified($user));
+    }
+    
+    // Auto-trust this device since they clicked the secure email link
+    $agent = new \Jenssegers\Agent\Agent();
+    $ip = $request->ip();
+    if ($ip === '127.0.0.1' || $ip === '::1') $ip = '8.8.8.8'; 
+    $location = \Stevebauman\Location\Facades\Location::get($ip);
+    
+    \App\Models\LoginHistory::create([
+        'user_id' => $user->id,
+        'ip_address' => $ip,
+        'country' => $location ? $location->countryName : null,
+        'city' => $location ? $location->cityName : null,
+        'region' => $location ? $location->regionName : null,
+        'latitude' => $location ? $location->latitude : null,
+        'longitude' => $location ? $location->longitude : null,
+        'user_agent' => $request->userAgent(),
+        'browser' => $agent->browser(),
+        'platform' => $agent->platform(),
+        'device' => $agent->device(),
+        'is_verified' => true,
+    ]);
+    
+    \Illuminate\Support\Facades\Auth::login($user);
+    $request->session()->regenerate();
+
+    return redirect()->route('register.success');
+})->name('verification.verify');
+
 // Email Verification Routes
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', function (\Illuminate\Http\Request $request) {
         return $request->user()->hasVerifiedEmail()
-            ? redirect()->route('home')->with('success', 'YOUR EMAIL HAS BEEN VERIFIED.')
+            ? redirect()->route('register.success')->with('success', 'YOUR EMAIL HAS BEEN VERIFIED.')
             : view('auth.verify-email');
     })->name('verification.notice');
 
@@ -146,10 +189,7 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('verification.check');
 
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect()->route('register.success');
-    })->middleware(['signed'])->name('verification.verify');
+    // Original verification.verify route removed from auth group
 
     Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
