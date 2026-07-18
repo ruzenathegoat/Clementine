@@ -10,7 +10,7 @@ use App\Models\Magazine;
 use Carbon\Carbon;
 
 #[Signature('fetch:watch-news')]
-#[Description('Fetch the latest luxury watch news from Google News RSS')]
+#[Description('Fetch the latest luxury watch news from Monochrome Watches RSS')]
 class FetchWatchNews extends Command
 {
     /**
@@ -18,8 +18,8 @@ class FetchWatchNews extends Command
      */
     public function handle()
     {
-        $this->info('Fetching news from Google News RSS...');
-        $url = 'https://news.google.com/rss/search?q=luxury+watches&hl=en-US&gl=US&ceid=US:en';
+        $this->info('Fetching news from Monochrome Watches RSS...');
+        $url = 'https://monochrome-watches.com/feed/';
         
         try {
             $response = Http::get($url);
@@ -38,18 +38,32 @@ class FetchWatchNews extends Command
 
             $count = 0;
             foreach ($xml->channel->item as $item) {
-                if ($count >= 15) break; // Limit to 15 items
+                if ($count >= 15) break;
                 
                 $title = (string)$item->title;
                 $link = (string)$item->link;
                 $pubDate = Carbon::parse((string)$item->pubDate);
-                $source = isset($item->source) ? (string)$item->source : 'Google News';
+                $source = 'Monochrome Watches';
                 
-                // Try to extract image from description HTML
-                $description = (string)$item->description;
+                // Extract image from enclosure or media:content if available
                 $imageUrl = null;
-                if (preg_match('/<img[^>]+src="([^">]+)"/i', $description, $matches)) {
-                    $imageUrl = $matches[1];
+                $namespaces = $item->getNamespaces(true);
+                
+                if (isset($item->enclosure)) {
+                    $imageUrl = (string)$item->enclosure['url'];
+                } elseif (isset($namespaces['media'])) {
+                    $media = $item->children($namespaces['media']);
+                    if (isset($media->content)) {
+                        $imageUrl = (string)$media->content->attributes()->url;
+                    }
+                }
+                
+                // Fallback to description html
+                if (!$imageUrl) {
+                    $description = (string)$item->description;
+                    if (preg_match('/<img[^>]+src="([^">]+)"/i', $description, $matches)) {
+                        $imageUrl = $matches[1];
+                    }
                 }
 
                 Magazine::updateOrCreate(
