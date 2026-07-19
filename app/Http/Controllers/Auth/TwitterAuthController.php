@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 
 class TwitterAuthController extends Controller
 {
@@ -20,7 +22,7 @@ class TwitterAuthController extends Controller
     /**
      * Obtain the user information from Twitter.
      */
-    public function callback()
+    public function callback(Request $request)
     {
         try {
             $twitterUser = Socialite::driver('twitter-oauth-2')->user();
@@ -29,8 +31,7 @@ class TwitterAuthController extends Controller
             $user = User::where('twitter_id', $twitterUser->getId())->first();
 
             if ($user) {
-                Auth::login($user);
-                return redirect()->intended('/dashboard');
+                return AuthController::attemptRbaLogin($user, $request);
             }
 
             // Check if user exists with this email
@@ -38,8 +39,7 @@ class TwitterAuthController extends Controller
                 $user = User::where('email', $twitterUser->getEmail())->first();
                 if ($user) {
                     $user->update(['twitter_id' => $twitterUser->getId()]);
-                    Auth::login($user);
-                    return redirect()->intended('/dashboard');
+                    return AuthController::attemptRbaLogin($user, $request);
                 }
             }
 
@@ -49,11 +49,10 @@ class TwitterAuthController extends Controller
                 'email' => $twitterUser->getEmail(),
                 'twitter_id' => $twitterUser->getId(),
                 'password' => null, // OAuth users don't have a password
-                // Set default role if you have one, or handle it via observers/defaults
+                'role' => 'customer',
             ]);
 
-            Auth::login($newUser);
-            return redirect()->intended('/dashboard');
+            return AuthController::attemptRbaLogin($newUser, $request);
 
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['twitter' => 'Gagal login menggunakan Twitter/X. Silakan coba lagi.']);
