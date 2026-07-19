@@ -72,10 +72,13 @@
             <div class="grid grid-cols-2 gap-0 border-t border-l border-primary">
                 @php
                     $specs = [
-                        'MATERIAL' => $product->material,
-                        'MOVEMENT' => $product->movement,
-                        'DIAMETER' => $product->diameter_mm ? $product->diameter_mm . ' MM' : null,
                         'GENDER' => strtoupper($product->gender),
+                        'DIAMETER' => $product->diameter_mm ? $product->diameter_mm . ' MM' : null,
+                        'MOVEMENT' => $product->movement,
+                        'CASE MATERIAL' => $product->case_material,
+                        'STRAP MATERIAL' => $product->material,
+                        'WATER RESISTANCE' => $product->water_resistance,
+                        'CRYSTAL' => $product->crystal,
                         'WARRANTY' => $product->warranty_years ? $product->warranty_years . ' YEARS' : null,
                     ];
                 @endphp
