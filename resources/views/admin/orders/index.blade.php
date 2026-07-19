@@ -83,10 +83,14 @@
                                         <span class="admin-badge bg-[#FBF3DB] text-[#956400]">Pending</span>
                                     @elseif($order->status === 'processing')
                                         <span class="admin-badge bg-[#E1F3FE] text-[#1F6C9F]">Processing</span>
+                                    @elseif($order->status === 'verified')
+                                        <span class="admin-badge bg-[#E1F3FE] text-[#1F6C9F]">Verified</span>
                                     @elseif($order->status === 'shipped')
                                         <span class="admin-badge bg-[#EDF3EC] text-[#346538]">Shipped</span>
                                     @elseif($order->status === 'completed')
                                         <span class="admin-badge bg-[#F9F9F8] border border-[#EAEAEA] text-[#111111]">Completed</span>
+                                    @elseif($order->status === 'pending_cancel')
+                                        <span class="admin-badge bg-[#FDEBEC] border border-[#9F2F2D]/20 text-[#9F2F2D]">Pending Cancel</span>
                                     @else
                                         <span class="admin-badge bg-[#FDEBEC] text-[#9F2F2D]">Cancelled</span>
                                     @endif
