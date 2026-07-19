@@ -17,7 +17,7 @@ class ProfileController extends Controller
         $orders = $user->orders()->with(['items.product.primaryImage', 'items.product.collection'])->orderBy('created_at', 'desc')->get();
         
         $activeOrders = $orders->filter(function ($order) {
-            return in_array($order->status, ['pending', 'processing', 'shipped']);
+            return in_array($order->status, ['pending', 'processing', 'verified', 'shipped', 'pending_cancel']);
         });
         
         $pastOrders = $orders->filter(function ($order) {
