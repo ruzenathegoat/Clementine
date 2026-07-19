@@ -90,7 +90,7 @@ class CheckoutController extends Controller
             'shipping_city' => 'required',
             'shipping_postal_code' => 'required',
             'shipping_country' => 'required',
-            'payment_method' => 'required|in:card,virtual_account',
+            'payment_method' => 'required|in:card,virtual_account,clementpay',
             'bank' => 'required_if:payment_method,virtual_account',
         ]);
 
@@ -201,6 +201,21 @@ class CheckoutController extends Controller
                 $status = $request->payment_method === 'virtual_account' ? 'pending' : 'processing';
                 $paymentStatus = $request->payment_method === 'virtual_account' ? 'pending' : 'paid';
                 $paymentDetails = null;
+
+                if ($request->payment_method === 'clementpay') {
+                    $user = \App\Models\User::lockForUpdate()->find($userId);
+                    if ($user->clementpay_balance < $total) {
+                        throw new \Exception('Insufficient Clementpay balance. Please top up.');
+                    }
+                    $user->decrement('clementpay_balance', $total);
+                    \App\Models\ClementpayTransaction::create([
+                        'user_id' => $userId,
+                        'type' => 'payment',
+                        'amount' => -$total,
+                        'description' => 'Payment for order',
+                        'status' => 'success',
+                    ]);
+                }
 
                 if ($request->payment_method === 'virtual_account') {
                     $bankCodes = [

@@ -83,8 +83,9 @@
             <div class="mt-auto flex flex-col gap-lg">
                 @auth
                     <a href="{{ route('profile.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors uppercase">PROFILE / ORDERS</a>
+                    <a href="{{ route('clementpay.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors uppercase">CLEMENTPAY (${{ number_format(auth()->user()->clementpay_balance, 2) }})</a>
                     @if(auth()->user()->isAdmin())
-                        <a href="#" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors text-secondary">ADMIN DASHBOARD</a>
+                        <a href="{{ route('admin.dashboard') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors text-secondary">ADMIN DASHBOARD</a>
                     @endif
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

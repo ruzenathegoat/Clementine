@@ -13,6 +13,7 @@
         totalTax: {{ $totalTax }},
         shippingFee: {{ $shippingFee }},
         defaultShippingTaxPct: {{ $defaultShippingTaxPct }},
+        clementpayBalance: {{ auth()->user()?->clementpay_balance ?? 0 }},
         get shippingTax() {
             return this.country === 'ID' || this.country.toLowerCase() === 'indonesia'
                 ? 0 
@@ -134,6 +135,20 @@
                                     <option value="Permata">Permata Virtual Account</option>
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                    <!-- Clementpay Option -->
+                    <div class="p-4 flex flex-col gap-4">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-0" type="radio" name="payment_method" value="clementpay" x-model="paymentMethod" :disabled="grandTotal > clementpayBalance">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium" :class="grandTotal > clementpayBalance ? 'text-gray-400' : ''">Clementpay</span>
+                                <span class="text-xs text-on-surface-variant">Available Balance: $<span x-text="clementpayBalance.toFixed(2)"></span></span>
+                            </div>
+                        </label>
+                        <div class="flex flex-col gap-2 pl-7 text-sm" x-show="grandTotal > clementpayBalance" x-collapse>
+                            <span class="text-red-500 font-medium text-xs uppercase tracking-wider font-label-caps">Insufficient balance</span>
+                            <a href="{{ route('clementpay.index') }}" target="_blank" class="text-primary underline text-xs font-bold uppercase tracking-wider font-label-caps">Top Up Now</a>
                         </div>
                     </div>
                 </div>

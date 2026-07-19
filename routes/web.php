@@ -7,6 +7,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ClementpayController;
+use App\Http\Controllers\DummyPaymentGatewayController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -216,6 +218,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Orders
     Route::get('/orders/{order}', [App\Http\Controllers\OrderController::class, 'show'])->name('orders.show');
     Route::post('/orders/{order}/simulate-payment', [App\Http\Controllers\OrderController::class, 'simulatePayment'])->name('orders.simulate_payment');
+    Route::post('/orders/{order}/cancel', [App\Http\Controllers\OrderController::class, 'cancel'])->name('orders.cancel');
+
+    // Clementpay
+    Route::get('/clementpay', [ClementpayController::class, 'index'])->name('clementpay.index');
+    Route::post('/clementpay/topup', [ClementpayController::class, 'topup'])->name('clementpay.topup');
+
+    // Dummy Gateway
+    Route::get('/payment/qris/{type}/{reference_id}/{amount}', [DummyPaymentGatewayController::class, 'show'])->name('dummy.qris');
+    Route::post('/payment/qris/{type}/{reference_id}/simulate-success', [DummyPaymentGatewayController::class, 'simulateSuccess'])->name('dummy.qris.success');
 
     // Auth Success Views
     Route::view('/register/success', 'auth.register-success')->name('register.success');
@@ -261,6 +272,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     // Orders Epic
     Route::middleware('role:super_admin,ops_staff,finance_manager')->group(function () {
         Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except(['create', 'store', 'destroy']);
+        Route::post('orders/{order}/refund', [\App\Http\Controllers\Admin\OrderController::class, 'refundToClementpay'])->name('orders.refund');
     });
 
     // Users & VIP Epic

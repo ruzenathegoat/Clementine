@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'avatar', 'google_id', 'is_vip'])]
+#[Fillable(['name', 'email', 'password', 'role', 'avatar', 'google_id', 'twitter_id', 'is_vip', 'clementpay_balance'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -87,6 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function clementpayTransactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClementpayTransaction::class);
     }
 
     public function sendEmailVerificationNotification()

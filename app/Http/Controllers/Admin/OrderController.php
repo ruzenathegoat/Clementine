@@ -75,7 +75,7 @@ class OrderController extends Controller
         $order = \App\Models\Order::findOrFail($id);
         
         $validated = $request->validate([
-            'status' => 'required|in:pending,processing,shipped,completed,cancelled',
+            'status' => 'required|in:pending,processing,verified,shipped,completed,cancelled',
             'tracking_number' => 'nullable|string|max:255',
         ]);
 
@@ -92,6 +92,42 @@ class OrderController extends Controller
         }
 
         return redirect()->route('admin.orders.index')->with('success', 'Order updated successfully.');
+    }
+
+    public function refundToClementpay(string $id)
+    {
+        $order = \App\Models\Order::findOrFail($id);
+
+        if ($order->status !== 'cancelled') {
+            return back()->with('error', 'Only cancelled orders can be refunded.');
+        }
+
+        // Check if already refunded
+        if ($order->payment_status === 'refunded') {
+            return back()->with('error', 'Order is already refunded.');
+        }
+
+        $user = $order->user;
+        if (!$user) {
+            return back()->with('error', 'No user attached to this order.');
+        }
+
+        // Update user balance
+        $user->increment('clementpay_balance', $order->total);
+
+        // Record transaction
+        \App\Models\ClementpayTransaction::create([
+            'user_id' => $user->id,
+            'type' => 'refund',
+            'amount' => $order->total,
+            'description' => 'Refund for Order #' . $order->id,
+            'status' => 'success',
+        ]);
+
+        // Update order status
+        $order->update(['payment_status' => 'refunded']);
+
+        return back()->with('success', 'Refund processed successfully to Clementpay.');
     }
 
     /**

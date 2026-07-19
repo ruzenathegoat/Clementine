@@ -60,4 +60,33 @@ class OrderController extends Controller
 
         return back()->with('success', 'PAYMENT SIMULATION SUCCESSFUL.');
     }
+
+    public function cancel(Order $order)
+    {
+        if ((int)$order->user_id !== (int)auth()->id()) {
+            abort(403);
+        }
+
+        // Check if within 15 minutes grace period
+        if (now()->diffInMinutes($order->created_at) > 15) {
+            return back()->with('error', 'CANCELLATION PERIOD (15 MINUTES) HAS EXPIRED.');
+        }
+
+        // Check if order status allows cancellation
+        if (!in_array($order->status, ['pending', 'processing'])) {
+            return back()->with('error', 'ORDER CANNOT BE CANCELLED IN ITS CURRENT STATE.');
+        }
+
+        // Change status
+        $order->update(['status' => 'cancelled']);
+
+        // Auto restock
+        foreach ($order->items as $item) {
+            if ($item->product) {
+                $item->product->increment('stock', $item->quantity);
+            }
+        }
+
+        return back()->with('success', 'ORDER CANCELLED. STOCK RETURNED.');
+    }
 }

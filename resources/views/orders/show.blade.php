@@ -182,6 +182,24 @@
                             <span class="text-xl font-medium font-headline-md">${{ number_format($order->total, 2) }}</span>
                         </div>
                     </div>
+
+                    @if(in_array($order->status, ['pending', 'processing']) && now()->diffInMinutes($order->created_at) <= 15)
+                        <div class="mt-8 border-t border-outline-variant pt-6">
+                            <form action="{{ route('orders.cancel', $order) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order? This action cannot be undone.');">
+                                @csrf
+                                <button type="submit" class="w-full border border-[#E61919] text-[#E61919] font-label-caps text-xs font-bold uppercase tracking-widest py-3 hover:bg-[#E61919] hover:text-white transition-colors">
+                                    Cancel Order
+                                </button>
+                            </form>
+                            <p class="text-[10px] text-on-surface-variant font-body-md text-center mt-2">You have 15 minutes from order creation to cancel.</p>
+                        </div>
+                    @elseif($order->status === 'cancelled')
+                        <div class="mt-8 border-t border-outline-variant pt-6">
+                            <div class="w-full border border-outline-variant text-on-surface-variant font-label-caps text-xs font-bold uppercase tracking-widest py-3 text-center bg-surface-variant">
+                                Order Cancelled
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

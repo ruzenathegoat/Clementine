@@ -28,6 +28,8 @@
                 <span class="admin-badge bg-[#E1F3FE] text-[#1F6C9F]">Processing</span>
             @elseif($order->status === 'shipped')
                 <span class="admin-badge bg-[#EDF3EC] text-[#346538]">Shipped</span>
+            @elseif($order->status === 'verified')
+                <span class="admin-badge bg-[#E1F3FE] text-[#1F6C9F]">Verified</span>
             @elseif($order->status === 'completed')
                 <span class="admin-badge bg-[#F9F9F8] border border-[#EAEAEA] text-[#111111]">Completed</span>
             @else
@@ -142,6 +144,8 @@
                                     <span class="font-medium text-[#346538] uppercase">Paid</span>
                                 @elseif($order->payment_status === 'failed')
                                     <span class="font-medium text-[#9F2F2D] uppercase">Failed</span>
+                                @elseif($order->payment_status === 'refunded')
+                                    <span class="font-medium text-[#346538] uppercase">Refunded</span>
                                 @else
                                     <span class="font-medium text-[#956400] uppercase">{{ $order->payment_status ?? 'Pending' }}</span>
                                 @endif
@@ -192,6 +196,7 @@
                                     <select id="status" name="status" class="w-full pl-4 pr-10 py-2.5 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111] transition-shadow appearance-none">
                                         <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending Payment</option>
                                         <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
+                                        <option value="verified" {{ $order->status === 'verified' ? 'selected' : '' }}>Verified</option>
                                         <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
                                         <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
                                         <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
@@ -226,6 +231,27 @@
                     </div>
                 </div>
             </form>
+
+            @if($order->status === 'cancelled' && $order->payment_status === 'paid')
+            <div class="mt-6 scroll-reveal admin-outer-shell" style="border-color: #9F2F2D;">
+                <div class="admin-inner-core p-6 md:p-8 bg-[#FDEBEC]">
+                    <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mb-4">Refund to Clementpay</h2>
+                    <p class="text-xs text-[#9F2F2D] mb-6 leading-relaxed">This order is cancelled but payment was collected. Issue a manual refund to the customer's Clementpay balance.</p>
+                    <form action="{{ route('admin.orders.refund', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to refund this order to Clementpay?');">
+                        @csrf
+                        <button type="submit" class="w-full admin-button-island group bg-[#9F2F2D] text-white hover:bg-[#7a2422] transition-haptic active:scale-95 justify-center">
+                            <span>Process Refund</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @elseif($order->payment_status === 'refunded')
+            <div class="mt-6 scroll-reveal admin-outer-shell">
+                <div class="admin-inner-core p-6 text-center text-sm font-mono text-[#346538] uppercase tracking-widest bg-[#EDF3EC]">
+                    Refunded to Clementpay
+                </div>
+            </div>
+            @endif
         </div>
 
     </div>
