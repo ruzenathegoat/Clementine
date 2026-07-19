@@ -218,6 +218,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Orders
     Route::get('/orders/{order}', [App\Http\Controllers\OrderController::class, 'show'])->name('orders.show');
     Route::post('/orders/{order}/simulate-payment', [App\Http\Controllers\OrderController::class, 'simulatePayment'])->name('orders.simulate_payment');
+    Route::get('/orders/{order}/cancel', [App\Http\Controllers\OrderController::class, 'cancelForm'])->name('orders.cancel_form');
     Route::post('/orders/{order}/cancel', [App\Http\Controllers\OrderController::class, 'cancel'])->name('orders.cancel');
 
     // Clementpay

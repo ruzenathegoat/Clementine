@@ -61,7 +61,26 @@ class OrderController extends Controller
         return back()->with('success', 'PAYMENT SIMULATION SUCCESSFUL.');
     }
 
-    public function cancel(Order $order)
+    public function cancelForm(Order $order)
+    {
+        if ((int)$order->user_id !== (int)auth()->id()) {
+            abort(403);
+        }
+
+        // Check if within 15 minutes grace period
+        if (now()->diffInMinutes($order->created_at) > 15) {
+            return redirect()->route('profile.index')->with('error', 'CANCELLATION PERIOD (15 MINUTES) HAS EXPIRED.');
+        }
+
+        // Check if order status allows cancellation
+        if (!in_array($order->status, ['pending', 'processing'])) {
+            return redirect()->route('profile.index')->with('error', 'ORDER CANNOT BE CANCELLED IN ITS CURRENT STATE.');
+        }
+
+        return view('orders.cancel', compact('order'));
+    }
+
+    public function cancel(Request $request, Order $order)
     {
         if ((int)$order->user_id !== (int)auth()->id()) {
             abort(403);
@@ -77,8 +96,17 @@ class OrderController extends Controller
             return back()->with('error', 'ORDER CANNOT BE CANCELLED IN ITS CURRENT STATE.');
         }
 
+        $validated = $request->validate([
+            'cancel_reason' => 'required|string|max:255',
+            'cancel_description' => 'required|string|max:1000',
+        ]);
+
         // Change status
-        $order->update(['status' => 'cancelled']);
+        $order->update([
+            'status' => 'cancelled',
+            'cancel_reason' => $validated['cancel_reason'],
+            'cancel_description' => $validated['cancel_description'],
+        ]);
 
         // Auto restock
         foreach ($order->items as $item) {

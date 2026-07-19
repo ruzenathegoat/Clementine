@@ -173,6 +173,16 @@
                             <p class="italic text-[#787774]">Separate billing address provided during checkout.</p>
                         </div>
                         @endif
+
+                        @if($order->status === 'cancelled' && $order->cancel_reason)
+                        <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mt-6 mb-4 pt-6 border-t border-[#EAEAEA]">Cancellation Details</h2>
+                        <div class="text-sm text-[#111111] leading-relaxed bg-[#FDEBEC] p-4 rounded-lg border border-[#9F2F2D]/20">
+                            <p><span class="text-[#9F2F2D] font-medium inline-block w-16">Reason:</span> <span class="font-medium text-[#111111]">{{ $order->cancel_reason }}</span></p>
+                            <div class="mt-2 text-[#787774] italic bg-white p-3 border border-[#EAEAEA] rounded text-xs">
+                                "{{ $order->cancel_description }}"
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

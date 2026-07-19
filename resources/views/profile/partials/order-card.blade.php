@@ -38,6 +38,11 @@
                     Pay Now
                 </a>
             @endif
+            @if(in_array($order->status, ['pending', 'processing']) && now()->diffInMinutes($order->created_at) <= 15)
+                <a href="{{ route('orders.cancel_form', $order) }}" class="text-center px-6 py-2 border border-red-600 text-red-600 text-xs font-bold uppercase tracking-wider hover:bg-red-600 hover:text-white transition-colors">
+                    Cancel Order
+                </a>
+            @endif
             <button type="button" onclick="openInvoice('{{ $order->id }}')" class="px-6 py-2 border border-primary text-primary text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-colors">
                 View Invoice
             </button>

@@ -184,15 +184,16 @@
                     </div>
 
                     @if(in_array($order->status, ['pending', 'processing']) && now()->diffInMinutes($order->created_at) <= 15)
-                        <div class="mt-8 border-t border-outline-variant pt-6">
-                            <form action="{{ route('orders.cancel', $order) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order? This action cannot be undone.');">
-                                @csrf
-                                <button type="submit" class="w-full border border-[#E61919] text-[#E61919] font-label-caps text-xs font-bold uppercase tracking-widest py-3 hover:bg-[#E61919] hover:text-white transition-colors">
-                                    Cancel Order
-                                </button>
-                            </form>
-                            <p class="text-[10px] text-on-surface-variant font-body-md text-center mt-2">You have 15 minutes from order creation to cancel.</p>
+                    <div class="mt-8 border-t border-outline-variant pt-8">
+                        <div class="bg-red-50 p-6 border border-red-200">
+                            <h3 class="font-headline-md text-red-600 mb-2 uppercase tracking-wide">Cancel Order</h3>
+                            <p class="text-sm text-red-600/80 mb-6 font-body-md">You can cancel your order within 15 minutes of placement. If paid, your Clementpay balance will be refunded.</p>
+                            
+                            <a href="{{ route('orders.cancel_form', $order->id) }}" class="inline-block px-8 py-3 bg-red-600 text-white font-bold uppercase tracking-widest text-xs hover:bg-red-700 transition-colors">
+                                Cancel My Order
+                            </a>
                         </div>
+                    </div>
                     @elseif($order->status === 'cancelled')
                         <div class="mt-8 border-t border-outline-variant pt-6">
                             <div class="w-full border border-outline-variant text-on-surface-variant font-label-caps text-xs font-bold uppercase tracking-widest py-3 text-center bg-surface-variant">
