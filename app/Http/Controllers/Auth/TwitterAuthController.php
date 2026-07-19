@@ -27,10 +27,18 @@ class TwitterAuthController extends Controller
         try {
             $twitterUser = Socialite::driver('twitter-oauth-2')->user();
             
+            $avatar = $twitterUser->getAvatar();
+            if ($avatar) {
+                $avatar = str_replace('_normal', '', $avatar);
+            }
+
             // Check if user exists with this twitter_id
             $user = User::where('twitter_id', $twitterUser->getId())->first();
 
             if ($user) {
+                if ($avatar && (!$user->avatar || filter_var($user->avatar, FILTER_VALIDATE_URL))) {
+                    $user->update(['avatar' => $avatar]);
+                }
                 return AuthController::attemptRbaLogin($user, $request);
             }
 
@@ -38,7 +46,11 @@ class TwitterAuthController extends Controller
             if ($twitterUser->getEmail()) {
                 $user = User::where('email', $twitterUser->getEmail())->first();
                 if ($user) {
-                    $user->update(['twitter_id' => $twitterUser->getId()]);
+                    $updates = ['twitter_id' => $twitterUser->getId()];
+                    if ($avatar && (!$user->avatar || filter_var($user->avatar, FILTER_VALIDATE_URL))) {
+                        $updates['avatar'] = $avatar;
+                    }
+                    $user->update($updates);
                     return AuthController::attemptRbaLogin($user, $request);
                 }
             }
@@ -50,6 +62,7 @@ class TwitterAuthController extends Controller
                 'twitter_id' => $twitterUser->getId(),
                 'password' => null, // OAuth users don't have a password
                 'role' => 'customer',
+                'avatar' => $avatar,
             ]);
 
             return AuthController::attemptRbaLogin($newUser, $request);
