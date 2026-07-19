@@ -103,18 +103,11 @@ class OrderController extends Controller
 
         // Change status
         $order->update([
-            'status' => 'cancelled',
+            'status' => 'pending_cancel',
             'cancel_reason' => $validated['cancel_reason'],
             'cancel_description' => $validated['cancel_description'],
         ]);
 
-        // Auto restock
-        foreach ($order->items as $item) {
-            if ($item->product) {
-                $item->product->increment('stock', $item->quantity);
-            }
-        }
-
-        return back()->with('success', 'ORDER CANCELLED. STOCK RETURNED.');
+        return back()->with('success', 'CANCELLATION REQUESTED. PENDING ADMIN APPROVAL.');
     }
 }

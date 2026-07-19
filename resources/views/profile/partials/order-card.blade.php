@@ -2,8 +2,8 @@
     <div class="flex flex-col gap-4">
         <div class="flex items-center gap-3">
             <span class="font-label-caps text-sm uppercase tracking-widest font-bold">Order #{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}</span>
-            <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider {{ $order->status === 'cancelled' ? 'bg-red-100 text-red-700' : ($order->status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-surface-variant text-on-surface') }}">
-                {{ $order->status }}
+            <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider {{ in_array($order->status, ['cancelled', 'pending_cancel']) ? 'bg-red-100 text-red-700' : ($order->status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-surface-variant text-on-surface') }}">
+                {{ str_replace('_', ' ', $order->status) }}
             </span>
         </div>
         

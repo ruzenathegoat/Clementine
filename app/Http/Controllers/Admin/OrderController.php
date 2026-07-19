@@ -75,7 +75,7 @@ class OrderController extends Controller
         $order = \App\Models\Order::findOrFail($id);
         
         $validated = $request->validate([
-            'status' => 'required|in:pending,processing,verified,shipped,completed,cancelled',
+            'status' => 'required|in:pending,processing,verified,shipped,completed,cancelled,pending_cancel',
             'tracking_number' => 'nullable|string|max:255',
         ]);
 
@@ -85,10 +85,24 @@ class OrderController extends Controller
             $statusChangedToShipped = true;
         }
 
+        $statusChangedToCancelled = false;
+        if ($validated['status'] === 'cancelled' && $order->status !== 'cancelled') {
+            $statusChangedToCancelled = true;
+        }
+
         $order->update($validated);
 
         if ($statusChangedToShipped && $order->contact_email) {
             \Illuminate\Support\Facades\Mail::to($order->contact_email)->send(new \App\Mail\OrderShippedMail($order));
+        }
+
+        if ($statusChangedToCancelled) {
+            // Auto restock
+            foreach ($order->items as $item) {
+                if ($item->product) {
+                    $item->product->increment('stock', $item->quantity);
+                }
+            }
         }
 
         return redirect()->route('admin.orders.index')->with('success', 'Order updated successfully.');

@@ -32,6 +32,8 @@
                 <span class="admin-badge bg-[#E1F3FE] text-[#1F6C9F]">Verified</span>
             @elseif($order->status === 'completed')
                 <span class="admin-badge bg-[#F9F9F8] border border-[#EAEAEA] text-[#111111]">Completed</span>
+            @elseif($order->status === 'pending_cancel')
+                <span class="admin-badge bg-[#FDEBEC] border border-[#9F2F2D]/20 text-[#9F2F2D]">Pending Cancel</span>
             @else
                 <span class="admin-badge bg-[#FDEBEC] text-[#9F2F2D]">Cancelled</span>
             @endif
@@ -174,7 +176,7 @@
                         </div>
                         @endif
 
-                        @if($order->status === 'cancelled' && $order->cancel_reason)
+                        @if(in_array($order->status, ['cancelled', 'pending_cancel']) && $order->cancel_reason)
                         <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mt-6 mb-4 pt-6 border-t border-[#EAEAEA]">Cancellation Details</h2>
                         <div class="text-sm text-[#111111] leading-relaxed bg-[#FDEBEC] p-4 rounded-lg border border-[#9F2F2D]/20">
                             <p><span class="text-[#9F2F2D] font-medium inline-block w-16">Reason:</span> <span class="font-medium text-[#111111]">{{ $order->cancel_reason }}</span></p>
@@ -191,77 +193,80 @@
 
         <!-- Right: Action Form (col-span-4) -->
         <div class="w-full lg:w-1/3">
-            <form action="{{ route('admin.orders.update', $order->id) }}" method="POST" class="sticky top-24">
-                @csrf
-                @method('PUT')
+            <div class="sticky top-24 space-y-6 h-max">
+                <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-                <div class="scroll-reveal admin-outer-shell">
-                    <div class="admin-inner-core p-6 md:p-8 relative">
-                        <h2 class="text-sm font-mono uppercase tracking-widest text-[#787774] mb-6">Manage Order</h2>
-                        
-                        <div class="space-y-6 relative z-10">
-                            <div>
-                                <label for="status" class="block text-sm font-mono uppercase tracking-widest text-[#787774] mb-2">Order Status</label>
-                                <div class="relative">
-                                    <select id="status" name="status" class="w-full pl-4 pr-10 py-2.5 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111] transition-shadow appearance-none">
-                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending Payment</option>
-                                        <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
-                                        <option value="verified" {{ $order->status === 'verified' ? 'selected' : '' }}>Verified</option>
-                                        <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                        <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                        <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                    </select>
-                                    <i class="ph-light ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-[#787774] pointer-events-none"></i>
-                                </div>
-                            </div>
-
-                            <!-- Tracking Section -->
-                            <div id="tracking-section" style="display: {{ $order->status === 'shipped' ? 'block' : 'none' }};">
-                                <div class="space-y-2">
-                                    <label for="tracking_number" class="block text-sm font-mono uppercase tracking-widest text-[#787774]">Tracking Number (Resi)</label>
-                                    <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}" placeholder="e.g. JNE123456789" class="w-full px-4 py-2.5 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm font-mono text-[#111111] placeholder-[#787774]/50 focus:outline-none focus:ring-1 focus:ring-[#111111] transition-shadow">
-                                </div>
-
-                                @if($order->shipped_at)
-                                <div class="pt-4 mt-4 border-t border-[#EAEAEA]">
-                                    <p class="text-xs text-[#787774]">Shipped on: <span class="text-[#111111]">{{ $order->shipped_at->format('M d, Y H:i') }}</span></p>
-                                </div>
-                                @endif
-                            </div>
-
-                            <div class="pt-6">
-                                <button type="submit" class="w-full admin-button-island group bg-[#111111] text-white hover:bg-[#333333] transition-haptic active:scale-95 justify-center">
-                                    <span>Update Order</span>
-                                    <div class="admin-button-island-icon bg-white/10 group-hover:bg-white/20 transition-colors">
-                                        <i class="ph-light ph-check text-white"></i>
+                    <div class="scroll-reveal admin-outer-shell">
+                        <div class="admin-inner-core p-6 md:p-8 relative">
+                            <h2 class="text-sm font-mono uppercase tracking-widest text-[#787774] mb-6">Manage Order</h2>
+                            
+                            <div class="space-y-6 relative z-10">
+                                <div>
+                                    <label for="status" class="block text-sm font-mono uppercase tracking-widest text-[#787774] mb-2">Order Status</label>
+                                    <div class="relative">
+                                        <select id="status" name="status" class="w-full pl-4 pr-10 py-2.5 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm text-[#111111] focus:outline-none focus:ring-1 focus:ring-[#111111] transition-shadow appearance-none">
+                                            <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending Payment</option>
+                                            <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
+                                            <option value="verified" {{ $order->status === 'verified' ? 'selected' : '' }}>Verified</option>
+                                            <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                            <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="pending_cancel" {{ $order->status === 'pending_cancel' ? 'selected' : '' }}>Pending Cancel</option>
+                                            <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        </select>
+                                        <i class="ph-light ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-[#787774] pointer-events-none"></i>
                                     </div>
-                                </button>
+                                </div>
+
+                                <!-- Tracking Section -->
+                                <div id="tracking-section" style="display: {{ $order->status === 'shipped' ? 'block' : 'none' }};">
+                                    <div class="space-y-2">
+                                        <label for="tracking_number" class="block text-sm font-mono uppercase tracking-widest text-[#787774]">Tracking Number (Resi)</label>
+                                        <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}" placeholder="e.g. JNE123456789" class="w-full px-4 py-2.5 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg text-sm font-mono text-[#111111] placeholder-[#787774]/50 focus:outline-none focus:ring-1 focus:ring-[#111111] transition-shadow">
+                                    </div>
+
+                                    @if($order->shipped_at)
+                                    <div class="pt-4 mt-4 border-t border-[#EAEAEA]">
+                                        <p class="text-xs text-[#787774]">Shipped on: <span class="text-[#111111]">{{ $order->shipped_at->format('M d, Y H:i') }}</span></p>
+                                    </div>
+                                    @endif
+                                </div>
+
+                                <div class="pt-6">
+                                    <button type="submit" class="w-full admin-button-island group bg-[#111111] text-white hover:bg-[#333333] transition-haptic active:scale-95 justify-center">
+                                        <span>Update Order</span>
+                                        <div class="admin-button-island-icon bg-white/10 group-hover:bg-white/20 transition-colors">
+                                            <i class="ph-light ph-check text-white"></i>
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
-            @if($order->status === 'cancelled' && $order->payment_status === 'paid')
-            <div class="mt-6 scroll-reveal admin-outer-shell" style="border-color: #9F2F2D;">
-                <div class="admin-inner-core p-6 md:p-8 bg-[#FDEBEC]">
-                    <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mb-4">Refund to Clementpay</h2>
-                    <p class="text-xs text-[#9F2F2D] mb-6 leading-relaxed">This order is cancelled but payment was collected. Issue a manual refund to the customer's Clementpay balance.</p>
-                    <form action="{{ route('admin.orders.refund', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to refund this order to Clementpay?');">
-                        @csrf
-                        <button type="submit" class="w-full admin-button-island group bg-[#9F2F2D] text-white hover:bg-[#7a2422] transition-haptic active:scale-95 justify-center">
-                            <span>Process Refund</span>
-                        </button>
-                    </form>
+                @if($order->status === 'cancelled' && $order->payment_status === 'paid')
+                <div class="scroll-reveal admin-outer-shell" style="border-color: #9F2F2D;">
+                    <div class="admin-inner-core p-6 md:p-8 bg-[#FDEBEC]">
+                        <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mb-4">Refund to Clementpay</h2>
+                        <p class="text-xs text-[#9F2F2D] mb-6 leading-relaxed">This order is cancelled but payment was collected. Issue a manual refund to the customer's Clementpay balance.</p>
+                        <form action="{{ route('admin.orders.refund', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to refund this order to Clementpay?');">
+                            @csrf
+                            <button type="submit" class="w-full admin-button-island group bg-[#9F2F2D] text-white hover:bg-[#7a2422] transition-haptic active:scale-95 justify-center">
+                                <span>Process Refund</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            @elseif($order->payment_status === 'refunded')
-            <div class="mt-6 scroll-reveal admin-outer-shell">
-                <div class="admin-inner-core p-6 text-center text-sm font-mono text-[#346538] uppercase tracking-widest bg-[#EDF3EC]">
-                    Refunded to Clementpay
+                @elseif($order->payment_status === 'refunded')
+                <div class="scroll-reveal admin-outer-shell">
+                    <div class="admin-inner-core p-6 text-center text-sm font-mono text-[#346538] uppercase tracking-widest bg-[#EDF3EC]">
+                        Refunded to Clementpay
+                    </div>
                 </div>
+                @endif
             </div>
-            @endif
         </div>
 
     </div>

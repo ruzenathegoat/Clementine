@@ -200,6 +200,12 @@
                                 Order Cancelled
                             </div>
                         </div>
+                    @elseif($order->status === 'pending_cancel')
+                        <div class="mt-8 border-t border-outline-variant pt-6">
+                            <div class="w-full border border-outline-variant text-on-surface-variant font-label-caps text-xs font-bold uppercase tracking-widest py-3 text-center bg-orange-50 text-orange-700">
+                                Cancellation Requested (Pending Admin Approval)
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
