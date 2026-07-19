@@ -76,7 +76,7 @@
                         'MOVEMENT' => $product->movement,
                         'DIAMETER' => $product->diameter_mm ? $product->diameter_mm . ' MM' : null,
                         'GENDER' => strtoupper($product->gender),
-                        'WARRANTY' => $product->warranty,
+                        'WARRANTY' => $product->warranty_years ? $product->warranty_years . ' YEARS' : null,
                     ];
                 @endphp
                 @foreach($specs as $key => $value)
