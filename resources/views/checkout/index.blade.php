@@ -151,6 +151,16 @@
                             <a href="{{ route('clementpay.index') }}" target="_blank" class="text-primary underline text-xs font-bold uppercase tracking-wider font-label-caps">Top Up Now</a>
                         </div>
                     </div>
+                    <!-- QRIS Option -->
+                    <div class="p-4 flex flex-col gap-4">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-0" type="radio" name="payment_method" value="qris" x-model="paymentMethod">
+                            <span class="text-sm font-medium">QRIS</span>
+                        </label>
+                        <div class="flex flex-col gap-2 pl-7" x-show="paymentMethod === 'qris'" x-collapse>
+                            <p class="text-xs text-on-surface-variant font-body-md">You will be redirected to our QRIS Sandbox Gateway to complete your payment.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 

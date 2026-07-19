@@ -108,6 +108,26 @@
                             </button>
                         </form>
                     </div>
+                @elseif($order->payment_method === 'qris')
+                    <div class="flex flex-col gap-8 mb-12">
+                        <div class="border border-outline-variant p-6 bg-surface-container-lowest">
+                            <p class="font-body-md text-sm text-center">To complete your payment, please open the QRIS Gateway.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Developer Simulation Box -->
+                    <div class="mt-auto border border-primary p-6 bg-surface-container-lowest">
+                        <div class="flex items-start gap-3 mb-4">
+                            <span class="material-symbols-outlined text-copper">developer_mode</span>
+                            <div>
+                                <h3 class="font-label-caps text-xs font-bold uppercase tracking-widest text-primary">Developer Sandbox</h3>
+                                <p class="text-[11px] font-body-md text-on-surface-variant mt-1">Because this is a local environment, you can bypass the actual bank transfer.</p>
+                            </div>
+                        </div>
+                        <a href="{{ route('dummy.qris', ['type' => 'order', 'reference_id' => $order->id, 'amount' => $order->total]) }}" class="block text-center w-full border border-primary bg-background text-primary font-h2 text-lg py-3 px-6 hover:bg-primary hover:text-on-primary transition-colors uppercase">
+                            Open QRIS Gateway
+                        </a>
+                    </div>
                 @else
                     <div class="border border-outline-variant p-6 bg-surface-container-lowest mb-8">
                         <p class="font-body-md text-sm text-center">Payment instructions are not available.</p>

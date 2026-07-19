@@ -32,7 +32,35 @@ class DummyPaymentGatewayController extends Controller
             return redirect()->route('clementpay.index')->with('success', 'Topup successful!');
         }
 
-        // Future types can be handled here (like direct QRIS for order)
+        if ($type === 'order') {
+            $order = \App\Models\Order::findOrFail($reference_id);
+            $order->update([
+                'status' => 'processing',
+                'payment_status' => 'paid'
+            ]);
+            
+            // Send email
+            $order->load('items.product.collection');
+            $recipient = $order->contact_email ?? auth()->user()?->email;
+            if ($recipient) {
+                try {
+                    $html = view('emails.orders.paid', ['order' => $order])->render();
+                    $orderId = strtoupper(substr(str_replace('-', '', $order->id), -8));
+                    
+                    $resend = \Resend::client(config('resend.api_key'));
+                    $resend->emails->send([
+                        'from' => 'Clementine <' . config('mail.from.address') . '>',
+                        'to' => [$recipient],
+                        'subject' => 'Acquisition Confirmed - #' . $orderId,
+                        'html' => $html,
+                    ]);
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error('OrderPaid: email FAILED via SDK', ['order_id' => $order->id, 'error' => $e->getMessage()]);
+                }
+            }
+
+            return redirect()->route('orders.show', $order->id)->with('success', 'QRIS Payment simulation successful.');
+        }
 
         return redirect()->route('home')->with('success', 'Payment successful!');
     }

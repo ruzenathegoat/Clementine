@@ -18,13 +18,27 @@
             <h1 class="font-h1 text-4xl mb-2 uppercase tracking-tight">Scan to Pay</h1>
             <p class="font-body-md text-sm text-secondary mb-12">Use any supported e-wallet or banking app to scan the QR code below.</p>
 
-            <div class="flex flex-col items-center justify-center mb-12">
+            <div class="flex flex-col items-center justify-center mb-12"
+                 x-data="{ 
+                    time: 900,
+                    get formattedTime() {
+                        let minutes = Math.floor(this.time / 60);
+                        let seconds = this.time % 60;
+                        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
+                 }"
+                 x-init="setInterval(() => { if (time > 0) time--; }, 1000)">
                 <!-- Clean Minimalist QR Code Box -->
-                <div class="w-64 h-64 border border-outline-variant bg-white p-4 relative mb-6">
-                    <div class="w-full h-full border border-dashed border-outline flex flex-col items-center justify-center bg-surface-variant transition-colors hover:bg-surface">
-                        <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">qr_code_scanner</span>
-                        <span class="font-label-caps text-[10px] uppercase tracking-widest text-on-surface-variant text-center">SIMULATED QR</span>
+                <div class="w-64 h-64 border border-outline-variant bg-white p-4 relative mb-6 relative group">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=CLEMENTINE-QRIS-{{ $reference_id }}" alt="QR Code" class="w-full h-full object-contain">
+                    <div class="absolute inset-0 bg-surface/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                        <span class="font-label-caps text-xs font-bold uppercase tracking-widest">Sandbox Only</span>
                     </div>
+                </div>
+                
+                <div class="flex flex-col items-center gap-1">
+                    <span class="font-label-caps text-[10px] uppercase tracking-widest text-on-surface-variant">QR Code Valid For</span>
+                    <span class="font-mono text-xl text-primary font-bold" x-text="formattedTime">15:00</span>
                 </div>
             </div>
 

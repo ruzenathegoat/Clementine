@@ -90,7 +90,7 @@ class CheckoutController extends Controller
             'shipping_city' => 'required',
             'shipping_postal_code' => 'required',
             'shipping_country' => 'required',
-            'payment_method' => 'required|in:card,virtual_account,clementpay',
+            'payment_method' => 'required|in:card,virtual_account,clementpay,qris',
             'bank' => 'required_if:payment_method,virtual_account',
         ]);
 
@@ -198,8 +198,8 @@ class CheckoutController extends Controller
                     }
                 }
 
-                $status = $request->payment_method === 'virtual_account' ? 'pending' : 'processing';
-                $paymentStatus = $request->payment_method === 'virtual_account' ? 'pending' : 'paid';
+                $status = in_array($request->payment_method, ['virtual_account', 'qris']) ? 'pending' : 'processing';
+                $paymentStatus = in_array($request->payment_method, ['virtual_account', 'qris']) ? 'pending' : 'paid';
                 $paymentDetails = null;
 
                 if ($request->payment_method === 'clementpay') {
@@ -292,6 +292,14 @@ class CheckoutController extends Controller
 
         if ($order->payment_method === 'virtual_account') {
             return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully. Please complete your payment.');
+        }
+
+        if ($order->payment_method === 'qris') {
+            return redirect()->route('dummy.qris', [
+                'type' => 'order',
+                'reference_id' => $order->id,
+                'amount' => $order->total
+            ]);
         }
 
         if ($order->payment_status === 'paid') {
