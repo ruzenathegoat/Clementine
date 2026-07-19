@@ -152,24 +152,24 @@
        <!-- 4. Graphic Section: Legit / Authenticity (Swiss Industrial Brutalism) -->
     <div class="w-full bg-primary relative section-reveal border-b border-primary">
         <!-- 1px gap grid to create perfect brutalist borders -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-[1px] bg-primary">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-[1px] bg-primary min-h-[400px] md:min-h-[500px]">
             
             <!-- Left Side: Massive Typography & Text -->
-            <div class="md:col-span-8 bg-background flex flex-col justify-between p-lg md:p-3xl relative overflow-hidden">
+            <div class="md:col-span-8 bg-background flex flex-col justify-between p-lg md:p-2xl relative overflow-hidden">
                 <!-- Top Telemetry Bar -->
-                <div class="flex justify-between items-start font-mono text-[10px] sm:text-xs uppercase tracking-[0.1em] text-primary/70 mb-20 md:mb-32">
+                <div class="flex justify-between items-start font-mono text-[10px] sm:text-xs uppercase tracking-[0.1em] text-primary/70 mb-12 md:mb-20">
                     <span>[ VERIFICATION PROTOCOL ]</span>
                     <span class="hidden sm:inline-block">>>> /// SYS. AUTH. 1.0</span>
                 </div>
                 
                 <!-- The Core Statement -->
-                <h2 class="font-h1 text-[clamp(4rem,11vw,12rem)] leading-[0.85] tracking-[-0.04em] uppercase text-primary break-words z-20 mb-12 md:mb-16">
+                <h2 class="font-h1 text-[clamp(3rem,8vw,7rem)] leading-[0.85] tracking-[-0.04em] uppercase text-primary break-words z-20 mb-8 md:mb-12">
                     FAKE<br>IS<br>BULLSH*T.
                 </h2>
                 
                 <!-- Bottom Description & Reference -->
-                <div class="flex flex-col sm:flex-row gap-8 items-start sm:items-end justify-between z-20 mt-auto">
-                    <p class="font-body-md text-sm md:text-base text-primary/80 uppercase tracking-widest leading-relaxed max-w-lg">
+                <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-end justify-between z-20 mt-auto">
+                    <p class="font-body-md text-xs md:text-sm text-primary/80 uppercase tracking-widest leading-relaxed max-w-lg">
                         We don't deal in replicas, clones, or compromises. Mechanical integrity is absolute. Every piece is verified. If it's not real, it doesn't exist here.
                     </p>
                     <div class="hidden md:flex flex-col items-end font-mono text-[10px] text-primary/50 tracking-[0.15em] text-right">
@@ -185,15 +185,15 @@
                 $legitProduct = $baseProduct ? clone $baseProduct : null;
                 $legitImageUrl = $legitProduct && $legitProduct->primaryImage ? $legitProduct->primaryImage->url : 'https://picsum.photos/seed/watch/800/600';
             @endphp
-            <div class="md:col-span-4 bg-background flex flex-col relative group">
+            <div class="md:col-span-4 bg-background flex flex-col relative group overflow-hidden">
                 <!-- Red Alert Header -->
-                <div class="bg-[#E61919] text-white p-sm px-md flex justify-between items-center font-mono text-[10px] tracking-[0.15em] uppercase">
+                <div class="bg-[#E61919] text-white p-sm px-md flex justify-between items-center font-mono text-[10px] tracking-[0.15em] uppercase z-30 relative">
                     <span>STATUS: SECURE</span>
                     <span class="animate-pulse">●</span>
                 </div>
 
                 <!-- Image Canvas -->
-                <div class="flex-1 relative flex items-center justify-center p-xl min-h-[400px] md:min-h-full overflow-hidden">
+                <div class="flex-1 relative flex items-center justify-center p-xl min-h-[300px] overflow-hidden">
                     <!-- Brutalist Grid Overlay -->
                     <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(to right, rgba(17,17,17,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,17,17,0.05) 1px, transparent 1px); background-size: 40px 40px;"></div>
                     
@@ -203,16 +203,16 @@
                         <div class="absolute top-0 left-1/2 w-[1px] h-full bg-primary/40"></div>
                     </div>
 
-                    <div class="absolute inset-0 bg-contain bg-center bg-no-repeat graphic-item opacity-0 scale-95 z-20 m-2xl mix-blend-multiply" style="background-image: url('{{ $legitImageUrl }}')"></div>
+                    <div class="absolute inset-0 bg-contain bg-center bg-no-repeat graphic-item opacity-0 scale-95 z-20 m-xl mix-blend-multiply" style="background-image: url('{{ $legitImageUrl }}')"></div>
                 </div>
 
                 <!-- Bottom Telemetry Data -->
-                <div class="grid grid-cols-2 gap-[1px] bg-primary border-t border-primary mt-auto">
-                    <div class="bg-background p-md md:p-lg font-mono text-[10px] md:text-[11px] uppercase tracking-widest flex flex-col items-center justify-center text-center">
+                <div class="grid grid-cols-2 gap-[1px] bg-primary border-t border-primary mt-auto z-30 relative">
+                    <div class="bg-background p-md font-mono text-[10px] uppercase tracking-widest flex flex-col items-center justify-center text-center">
                         <span class="text-primary/50 mb-1">VERIFICATION</span>
                         <span class="text-primary font-bold">100% AUTHENTIC</span>
                     </div>
-                    <div class="bg-background p-md md:p-lg font-mono text-[10px] md:text-[11px] uppercase tracking-widest flex flex-col items-center justify-center text-center">
+                    <div class="bg-background p-md font-mono text-[10px] uppercase tracking-widest flex flex-col items-center justify-center text-center">
                         <span class="text-primary/50 mb-1">POLICY</span>
                         <span class="text-primary font-bold">ZERO TOLERANCE</span>
                     </div>
