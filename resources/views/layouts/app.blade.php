@@ -107,7 +107,6 @@
         <div class="flex gap-lg items-center">
             <a class="flex items-center gap-3 font-headline-md text-headline-md text-primary group" href="{{ route('home') }}">
                 <x-logo class="w-8 h-8 group-hover:scale-95 transition-transform duration-300 ease-out" />
-                <span>CLEMENTINE</span>
             </a>
             <div class="hidden md:flex gap-lg font-body-md text-body-md uppercase tracking-widest">
                 <a class="{{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('home') }}">HOME</a>
