@@ -74,7 +74,7 @@
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        <div class="flex flex-col flex-grow p-xl gap-lg font-headline-md text-3xl uppercase">
+        <div class="flex flex-col flex-grow p-xl gap-lg font-headline-md text-3xl uppercase overflow-y-auto">
             <a href="{{ route('home') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">HOME</a>
             <a href="{{ route('products.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">SHOP</a>
             <a href="{{ route('collections.index') }}" class="hover:bg-primary hover:text-on-primary border border-transparent hover:border-primary px-4 py-2 w-max transition-colors">COLLECTIONS</a>
