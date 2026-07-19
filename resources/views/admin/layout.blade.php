@@ -27,6 +27,8 @@
             --font-admin-serif: "Instrument Serif", "Playfair Display", serif;
         }
     </style>
+    
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 </head>
 <body class="admin-dashboard bg-[#F9F9F8] text-[#111111] min-h-[100dvh] flex flex-col md:flex-row overflow-x-hidden selection:bg-[#111111] selection:text-white">
 
