@@ -176,15 +176,7 @@
                         </div>
                         @endif
 
-                        @if(in_array($order->status, ['cancelled', 'pending_cancel']) && $order->cancel_reason)
-                        <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mt-6 mb-4 pt-6 border-t border-[#EAEAEA]">Cancellation Details</h2>
-                        <div class="text-sm text-[#111111] leading-relaxed bg-[#FDEBEC] p-4 rounded-lg border border-[#9F2F2D]/20">
-                            <p><span class="text-[#9F2F2D] font-medium inline-block w-16">Reason:</span> <span class="font-medium text-[#111111]">{{ $order->cancel_reason }}</span></p>
-                            <div class="mt-2 text-[#787774] italic bg-white p-3 border border-[#EAEAEA] rounded text-xs">
-                                "{{ $order->cancel_description }}"
-                            </div>
-                        </div>
-                        @endif
+
                     </div>
                 </div>
             </div>
@@ -245,6 +237,33 @@
                         </div>
                     </div>
                 </form>
+
+                @if(in_array($order->status, ['cancelled', 'pending_cancel']) && $order->cancel_reason)
+                <div class="scroll-reveal admin-outer-shell" style="border-color: #9F2F2D;">
+                    <div class="admin-inner-core p-6 md:p-8 bg-[#FDEBEC]">
+                        <h2 class="text-sm font-mono uppercase tracking-widest text-[#9F2F2D] mb-4">Cancellation Request</h2>
+                        <div class="text-sm text-[#111111] leading-relaxed mb-6">
+                            <p><span class="text-[#9F2F2D] font-medium inline-block w-16">Reason:</span> <span class="font-medium text-[#111111]">{{ $order->cancel_reason }}</span></p>
+                            <div class="mt-3 text-[#787774] italic bg-white p-4 border border-[#EAEAEA] rounded-lg text-xs leading-relaxed">
+                                "{{ $order->cancel_description }}"
+                            </div>
+                        </div>
+                        @if($order->status === 'pending_cancel')
+                        <form action="{{ route('admin.orders.update', $order->id) }}" method="POST" onsubmit="return confirm('Accept this cancellation request? Order status will be updated to Cancelled.');">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="status" value="cancelled">
+                            <button type="submit" class="w-full admin-button-island group bg-[#9F2F2D] text-white hover:bg-[#7a2422] transition-haptic active:scale-95 justify-center">
+                                <span>Accept Cancellation</span>
+                                <div class="admin-button-island-icon bg-white/10 group-hover:bg-white/20 transition-colors">
+                                    <i class="ph-light ph-check text-white"></i>
+                                </div>
+                            </button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+                @endif
 
                 @if($order->status === 'cancelled' && $order->payment_status === 'paid')
                 <div class="scroll-reveal admin-outer-shell" style="border-color: #9F2F2D;">

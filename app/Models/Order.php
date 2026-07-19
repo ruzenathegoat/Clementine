@@ -36,6 +36,8 @@ class Order extends Model
         'discount_amount',
         'promo_code_id',
         'total',
+        'cancel_reason',
+        'cancel_description',
     ];
 
     protected $casts = [
