@@ -32,7 +32,10 @@
 
     <!-- Mobile Header -->
     <div class="md:hidden flex items-center justify-between p-4 border-b border-[#EAEAEA] bg-white sticky top-0 z-50">
-        <div class="font-serif text-2xl italic tracking-tight">Clementine</div>
+        <div class="flex items-center gap-2">
+            <x-logo class="w-6 h-6" />
+            <span class="font-serif text-2xl italic tracking-tight">Clementine</span>
+        </div>
         <button x-data @click="$dispatch('toggle-sidebar')" class="p-2 -mr-2 text-gray-500 hover:text-black transition-colors">
             <i class="ph-light ph-list text-2xl"></i>
         </button>
@@ -46,7 +49,8 @@
         class="fixed md:static inset-y-0 left-0 z-40 w-64 bg-[#F9F9F8] md:bg-transparent md:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col pt-8 pb-8 px-6 border-r border-[#EAEAEA]/50 md:border-none"
     >
         <!-- Logo -->
-        <div class="mb-16 hidden md:block">
+        <div class="mb-16 hidden md:flex items-center gap-3">
+            <x-logo class="w-8 h-8" />
             <h1 class="font-serif text-3xl italic tracking-tight text-[#111111]">Clementine</h1>
         </div>
 

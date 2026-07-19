@@ -45,7 +45,10 @@
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
         <div class="font-body-md text-on-primary text-label-caps uppercase tracking-[0.2em] overflow-hidden">
-            <span class="inline-block translate-y-[100%] pb-1 preloader-text">CLEMENTINE HOROLOGY</span>
+            <div class="inline-flex items-center gap-4 translate-y-[100%] pb-1 preloader-text">
+                <x-logo class="w-10 h-10" />
+                <span>CLEMENTINE HOROLOGY</span>
+            </div>
         </div>
     </div>
 
@@ -100,7 +103,10 @@
 
     <nav class="sticky top-0 w-full z-50 flex justify-between items-center px-lg py-md bg-surface-container-lowest border-b border-primary transition-transform duration-300" id="main-nav">
         <div class="flex gap-lg items-center">
-            <a class="font-headline-md text-headline-md text-primary" href="{{ route('home') }}">CLEMENTINE</a>
+            <a class="flex items-center gap-3 font-headline-md text-headline-md text-primary group" href="{{ route('home') }}">
+                <x-logo class="w-8 h-8 group-hover:scale-95 transition-transform duration-300 ease-out" />
+                <span>CLEMENTINE</span>
+            </a>
             <div class="hidden md:flex gap-lg font-body-md text-body-md uppercase tracking-widest">
                 <a class="{{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('home') }}">HOME</a>
                 <a class="{{ request()->routeIs('products.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('products.index') }}">SHOP</a>
@@ -140,9 +146,9 @@
             <h1 class="font-h1 text-[80px] sm:text-[120px] md:text-[200px] lg:text-[280px] leading-[0.8] tracking-tighter uppercase text-center relative z-10 w-full px-lg">
                 CLEMENTINE
             </h1>
-            <!-- Abstract decorative element (like the bee in reference) -->
-            <div class="absolute right-10 top-1/2 -translate-y-1/2 text-[100px] md:text-[200px] opacity-90 rotate-12 z-20 pointer-events-none drop-shadow-2xl">
-                ⚙️
+            <!-- Abstract decorative element -->
+            <div class="absolute right-[-10%] top-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
+                <x-logo class="w-[400px] h-[400px] md:w-[800px] md:h-[800px]" />
             </div>
         </div>
         @endif

@@ -35,6 +35,9 @@
         <div class="container">
             <!-- Header section: Black bg, white text -->
             <div class="header">
+                <div style="margin-bottom: 32px;">
+                    <x-logo style="width: 48px; height: 48px; color: #ffffff;" />
+                </div>
                 <h1 class="h1">ACCESS<br>HALTED</h1>
                 <p style="margin: 32px 0 0 0; font-size: 12px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid rgba(255,255,255,0.2); pt-4;">Security Matrix Intercept</p>
             </div>

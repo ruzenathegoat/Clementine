@@ -8,8 +8,8 @@
         
         <!-- Left Side: Branding -->
         <div class="w-full md:w-1/2 bg-primary text-on-primary p-xl md:p-[60px] flex flex-col justify-between relative overflow-hidden min-h-[400px]">
-            <div class="font-h1 text-5xl uppercase relative z-10 leading-none text-[#D97757]">
-                429
+            <div class="relative z-10 leading-none text-[#D97757]">
+                <x-logo class="w-16 h-16" />
             </div>
             <div class="relative z-10 mt-auto pt-[100px]">
                 <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest text-[#D97757]">SECURITY LOCKOUT</p>

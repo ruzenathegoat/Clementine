@@ -279,7 +279,9 @@
         return `
             <div class="flex justify-between items-start border-b border-black pb-8">
                 <div>
-                    <h1 class="font-headline-lg text-4xl uppercase tracking-tighter mb-2">CLEMENTINE</h1>
+                    <h1 class="font-headline-lg text-4xl uppercase tracking-tighter mb-2 flex items-center gap-3">
+                        <x-logo class="w-10 h-10" /> CLEMENTINE
+                    </h1>
                     <p class="text-xs uppercase tracking-widest font-bold">INVOICE</p>
                 </div>
                 <div class="text-right">

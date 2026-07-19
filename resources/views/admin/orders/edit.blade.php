@@ -246,7 +246,10 @@
         <div class="p-8 overflow-y-auto" id="printable-invoice">
             <div class="flex justify-between items-start mb-12">
                 <div>
-                    <h1 class="text-2xl font-serif font-bold tracking-tight text-[#111111]">CLEMENTINE</h1>
+                    <div class="flex items-center gap-3 mb-1">
+                        <x-logo class="w-8 h-8" />
+                        <h1 class="text-2xl font-serif font-bold tracking-tight text-[#111111]">CLEMENTINE</h1>
+                    </div>
                     <p class="text-sm text-[#787774] mt-1">Premium Watch Collection</p>
                 </div>
                 <div class="text-right text-sm text-[#787774]">

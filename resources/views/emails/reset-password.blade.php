@@ -27,7 +27,10 @@
     <div class="wrapper">
         <div class="container">
             <div class="header">
-                <h1 class="h1">PASSWORD<br>RESET</h1>
+                <div style="margin-bottom: 32px;">
+                    <x-logo style="width: 48px; height: 48px; color: #ffffff;" />
+                </div>
+                <h1 class="h1">RESET<br>PASSWORD</h1>
                 <p style="margin: 32px 0 0 0; font-size: 12px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid rgba(255,255,255,0.2); pt-4;">Security Protocol</p>
             </div>
             

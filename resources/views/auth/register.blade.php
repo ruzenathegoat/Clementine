@@ -8,8 +8,8 @@
         
         <!-- Left Side: Branding -->
         <div class="w-full md:w-1/2 bg-primary text-on-primary p-xl md:p-[60px] flex flex-col justify-between relative overflow-hidden min-h-[400px]">
-            <div class="font-h1 text-5xl uppercase relative z-10 leading-none">
-                *
+            <div class="relative z-10 leading-none">
+                <x-logo class="w-16 h-16" />
             </div>
             <div class="relative z-10 mt-auto pt-[100px]">
                 <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest text-copper">JOIN CLEMENTINE</p>
@@ -18,8 +18,8 @@
                 </h2>
             </div>
             <!-- Decorative element -->
-            <div class="absolute -right-20 -top-20 text-[350px] opacity-10 rotate-12 pointer-events-none leading-none select-none">
-                ⚙️
+            <div class="absolute -right-20 -top-20 opacity-10 rotate-12 pointer-events-none select-none">
+                <x-logo class="w-[350px] h-[350px]" />
             </div>
         </div>
 
