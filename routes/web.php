@@ -232,6 +232,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/auth/google', [App\Http\Controllers\SocialiteController::class, 'redirect'])->name('google.login');
     Route::get('/auth/google/callback', [App\Http\Controllers\SocialiteController::class, 'callback'])->name('google.callback');
 
+    // Twitter OAuth Routes
+    Route::get('/auth/twitter', [\App\Http\Controllers\Auth\TwitterAuthController::class, 'redirect'])->name('twitter.login');
+    Route::get('/auth/twitter/callback', [\App\Http\Controllers\Auth\TwitterAuthController::class, 'callback'])->name('twitter.callback');
+
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->middleware('honeypot');
 
