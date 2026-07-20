@@ -13,7 +13,30 @@ class CollectionController extends Controller
     public function index()
     {
         $collections = Collection::withCount('products')->orderBy('name')->paginate(15);
-        return view('admin.collections.index', compact('collections'));
+        
+        // ---------------------------------------------------------
+        // Business Intelligence (BI) Data for Collections
+        // ---------------------------------------------------------
+        $validStatuses = ['processing', 'shipped', 'completed'];
+
+        // Top Collections
+        $topCollections = \App\Models\OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
+            ->join('collections', 'products.collection_id', '=', 'collections.id')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->whereIn('orders.status', $validStatuses)
+            ->select('collections.name', \Illuminate\Support\Facades\DB::raw('SUM(order_items.quantity) as total_sold'))
+            ->groupBy('collections.id', 'collections.name')
+            ->orderByDesc('total_sold')
+            ->limit(5)
+            ->get();
+
+        $biData = [
+            'top_collections' => [
+                'data' => $topCollections->map(fn($c) => ['name' => $c->name, 'y' => (int)$c->total_sold])->toArray()
+            ]
+        ];
+
+        return view('admin.collections.index', compact('collections', 'biData'));
     }
 
     public function create()

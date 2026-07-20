@@ -38,6 +38,15 @@
         </div>
     @endif
 
+    <!-- BI Dashboard Section for Orders -->
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
+        <div class="scroll-reveal admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-regions" style="width: 100%; height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Data List -->
     <div class="scroll-reveal admin-outer-shell">
         <div class="admin-inner-core">
@@ -119,4 +128,34 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const biData = @json($biData ?? []);
+
+    if (!biData || Object.keys(biData).length === 0) return;
+
+    Highcharts.setOptions({
+        chart: {
+            style: { fontFamily: '"Plus Jakarta Sans", sans-serif' },
+            backgroundColor: 'transparent'
+        },
+        title: {
+            style: { color: '#111111', fontWeight: 'bold', fontSize: '16px' }
+        },
+        credits: { enabled: false }
+    });
+
+    if (biData.regions && biData.regions.categories.length > 0) {
+        Highcharts.chart('chart-regions', {
+            chart: { type: 'column' },
+            title: { text: 'Top Purchase Regions (Cities)' },
+            xAxis: { categories: biData.regions.categories },
+            yAxis: { title: { text: 'Orders' } },
+            series: [{ name: 'Orders', data: biData.regions.data, color: '#111111' }]
+        });
+    }
+});
+</script>
 @endsection

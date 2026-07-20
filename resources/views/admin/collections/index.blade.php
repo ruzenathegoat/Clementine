@@ -25,6 +25,15 @@
         </div>
     @endif
 
+    <!-- BI Dashboard Section for Collections -->
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-6">
+        <div class="scroll-reveal admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-top-collections" style="width: 100%; height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Data List -->
     <div class="scroll-reveal admin-outer-shell">
         <div class="admin-inner-core">
@@ -180,5 +189,37 @@
             openModal();
         }
     });
+</script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const biData = @json($biData ?? []);
+
+    if (!biData || Object.keys(biData).length === 0) return;
+
+    Highcharts.setOptions({
+        chart: {
+            style: { fontFamily: '"Plus Jakarta Sans", sans-serif' },
+            backgroundColor: 'transparent'
+        },
+        title: {
+            style: { color: '#111111', fontWeight: 'bold', fontSize: '16px' }
+        },
+        credits: { enabled: false }
+    });
+
+    if (biData.top_collections && biData.top_collections.data.length > 0) {
+        Highcharts.chart('chart-top-collections', {
+            chart: { type: 'pie' },
+            title: { text: 'Sales by Collection' },
+            tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
+            plotOptions: {
+                pie: { innerSize: '50%', dataLabels: { enabled: true, format: '<b>{point.name}</b>: {point.percentage:.1f} %' } }
+            },
+            series: [{ name: 'Share', data: biData.top_collections.data }]
+        });
+    }
+});
 </script>
 @endsection

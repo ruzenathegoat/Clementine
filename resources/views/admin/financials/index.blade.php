@@ -93,6 +93,12 @@
     </div>
 
     <!-- Daily Breakdown (Simulated Chart/Table) -->
+    <div class="scroll-reveal admin-outer-shell mb-6">
+        <div class="admin-inner-core p-8">
+            <div id="chart-sales-trend" style="width: 100%; height: 400px;"></div>
+        </div>
+    </div>
+
     <div class="scroll-reveal admin-outer-shell">
         <div class="admin-inner-core p-8">
             <div class="flex items-center justify-between mb-8">
@@ -143,4 +149,39 @@
     </div>
 
 </div>
+
+@php
+    // Prepare data for Highcharts
+    $chartCategories = array_keys($dailyData);
+    $chartRevenue = array_map(function($item) { return (float)$item['revenue']; }, array_values($dailyData));
+@endphp
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categories = @json($chartCategories);
+    const revenueData = @json($chartRevenue);
+
+    if (categories.length === 0) return;
+
+    Highcharts.setOptions({
+        chart: {
+            style: { fontFamily: '"Plus Jakarta Sans", sans-serif' },
+            backgroundColor: 'transparent'
+        },
+        title: {
+            style: { color: '#111111', fontWeight: 'bold', fontSize: '16px' }
+        },
+        credits: { enabled: false }
+    });
+
+    Highcharts.chart('chart-sales-trend', {
+        chart: { type: 'spline' },
+        title: { text: 'Revenue Trend' },
+        xAxis: { categories: categories },
+        yAxis: { title: { text: 'Revenue ($)' } },
+        series: [{ name: 'Revenue', data: revenueData, color: '#111111' }]
+    });
+});
+</script>
 @endsection

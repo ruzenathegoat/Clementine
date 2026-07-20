@@ -30,8 +30,29 @@ class OrderController extends Controller
         }
         
         $orders = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+
+        // ---------------------------------------------------------
+        // Business Intelligence (BI) Data for Orders
+        // ---------------------------------------------------------
+        $validStatuses = ['processing', 'shipped', 'completed'];
+
+        // Sales by Region
+        $regions = \App\Models\Order::whereIn('status', $validStatuses)
+            ->whereNotNull('shipping_city')
+            ->select('shipping_city as name', \Illuminate\Support\Facades\DB::raw('COUNT(*) as total_orders'))
+            ->groupBy('shipping_city')
+            ->orderByDesc('total_orders')
+            ->limit(10)
+            ->get();
+
+        $biData = [
+            'regions' => [
+                'categories' => $regions->pluck('name')->toArray(),
+                'data' => $regions->pluck('total_orders')->map(fn($v) => (int) $v)->toArray()
+            ]
+        ];
         
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders', 'biData'));
     }
 
     /**

@@ -28,8 +28,47 @@ class InventoryController extends Controller
         
         $products = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
         $collections = \App\Models\Collection::orderBy('name')->get();
+
+        // ---------------------------------------------------------
+        // Business Intelligence (BI) Data for Inventory
+        // ---------------------------------------------------------
+        $validStatuses = ['processing', 'shipped', 'completed'];
+
+        // 1. Top Products
+        $topProducts = \App\Models\OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->whereIn('orders.status', $validStatuses)
+            ->select('products.name', \Illuminate\Support\Facades\DB::raw('SUM(order_items.quantity) as total_sold'))
+            ->groupBy('products.id', 'products.name')
+            ->orderByDesc('total_sold')
+            ->limit(10)
+            ->get();
+
+        // 2. Simple Stock Prediction
+        $stockPrediction = \App\Models\Product::select('products.name', 'products.stock')
+            ->leftJoin('order_items', 'products.id', '=', 'order_items.product_id')
+            ->leftJoin('orders', 'order_items.order_id', '=', 'orders.id')
+            ->where('orders.created_at', '>=', now()->subDays(30))
+            ->whereIn('orders.status', $validStatuses)
+            ->selectRaw('COALESCE(SUM(order_items.quantity), 0) as predicted_demand')
+            ->groupBy('products.id', 'products.name', 'products.stock')
+            ->orderByDesc('predicted_demand')
+            ->limit(10)
+            ->get();
+
+        $biData = [
+            'top_products' => [
+                'categories' => $topProducts->pluck('name')->toArray(),
+                'data' => $topProducts->pluck('total_sold')->map(fn($v) => (int) $v)->toArray()
+            ],
+            'stock_prediction' => [
+                'categories' => $stockPrediction->pluck('name')->toArray(),
+                'stock' => $stockPrediction->pluck('stock')->map(fn($v) => (int) $v)->toArray(),
+                'predicted' => $stockPrediction->pluck('predicted_demand')->map(fn($v) => (int) $v)->toArray()
+            ]
+        ];
         
-        return view('admin.inventory.index', compact('products', 'collections'));
+        return view('admin.inventory.index', compact('products', 'collections', 'biData'));
     }
 
     public function create()

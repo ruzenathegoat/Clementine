@@ -41,6 +41,31 @@
         </div>
     @endif
 
+    <!-- BI Dashboard Section for Customers -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6 auto-rows-[auto]">
+        <!-- Customer Retention -->
+        <div class="scroll-reveal md:col-span-6 admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-retention" style="width: 100%; height: 300px;"></div>
+            </div>
+        </div>
+        
+        <!-- Customer Status -->
+        <div class="scroll-reveal md:col-span-6 admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-customer-status" style="width: 100%; height: 300px;"></div>
+            </div>
+        </div>
+
+        <!-- RFM Analysis -->
+        <div class="scroll-reveal md:col-span-12 admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-rfm" style="width: 100%; height: 450px;"></div>
+                <p class="text-xs text-[#787774] mt-4 text-center">X: Recency (Days), Y: Frequency (Orders), Bubble Size: Monetary (Revenue)</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Data List -->
     <div class="scroll-reveal admin-outer-shell">
         <div class="admin-inner-core">
@@ -114,4 +139,106 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const biData = @json($biData ?? []);
+
+    if (!biData || Object.keys(biData).length === 0) return;
+
+    Highcharts.setOptions({
+        chart: {
+            style: { fontFamily: '"Plus Jakarta Sans", sans-serif' },
+            backgroundColor: 'transparent'
+        },
+        title: {
+            style: { color: '#111111', fontWeight: 'bold', fontSize: '16px' }
+        },
+        credits: { enabled: false }
+    });
+
+    // Customer Retention
+    if (biData.customer_retention) {
+        Highcharts.chart('chart-retention', {
+            chart: { type: 'pie' },
+            title: { text: 'Customer Retention Rate' },
+            tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} users)' },
+            plotOptions: {
+                pie: { innerSize: '60%', dataLabels: { enabled: true, format: '<b>{point.name}</b>' } }
+            },
+            series: [{
+                name: 'Customers',
+                data: [
+                    { name: 'Repeat', y: biData.customer_retention.repeat_count, color: '#346538' },
+                    { name: 'First-time', y: biData.customer_retention.first_time_count, color: '#EAEAEA' }
+                ]
+            }]
+        });
+    }
+
+    // Customer Status
+    if (biData.customer_status) {
+        Highcharts.chart('chart-customer-status', {
+            chart: { type: 'pie' },
+            title: { text: 'Active vs Inactive (< 90 Days)' },
+            tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y} users)' },
+            plotOptions: {
+                pie: { dataLabels: { enabled: true, format: '<b>{point.name}</b>' } }
+            },
+            series: [{
+                name: 'Status',
+                data: [
+                    { name: 'Active', y: biData.customer_status.active, color: '#1F6C9F' },
+                    { name: 'Inactive', y: biData.customer_status.inactive, color: '#9F2F2D' }
+                ]
+            }]
+        });
+    }
+
+    // RFM Analysis
+    if (biData.rfm && biData.rfm.length > 0) {
+        Highcharts.chart('chart-rfm', {
+            chart: { type: 'bubble', zoomType: 'xy' },
+            title: { text: 'RFM Analysis (Recency, Frequency, Monetary)' },
+            xAxis: { title: { text: 'Recency (Days since last order)' }, reversed: true },
+            yAxis: { title: { text: 'Frequency (Number of orders)' } },
+            tooltip: {
+                useHTML: true,
+                headerFormat: '<table>',
+                pointFormat: '<tr><th colspan="2"><h3>{point.name}</h3></th></tr>' +
+                    '<tr><th>Recency:</th><td>{point.x} days</td></tr>' +
+                    '<tr><th>Frequency:</th><td>{point.y} orders</td></tr>' +
+                    '<tr><th>Monetary:</th><td>${point.z}</td></tr>',
+                footerFormat: '</table>',
+                followPointer: true
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}',
+                        style: { fontSize: '10px', textOutline: 'none', fontWeight: 'normal' }
+                    }
+                }
+            },
+            series: [{
+                name: 'Customers',
+                data: biData.rfm,
+                color: 'rgba(17, 17, 17, 0.5)',
+                marker: {
+                    fillColor: {
+                        radialGradient: { cx: 0.4, cy: 0.3, r: 0.7 },
+                        stops: [
+                            [0, 'rgba(255,255,255,0.5)'],
+                            [1, 'rgba(17,17,17,0.5)']
+                        ]
+                    }
+                }
+            }]
+        });
+    }
+});
+</script>
 @endsection

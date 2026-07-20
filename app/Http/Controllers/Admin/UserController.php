@@ -31,8 +31,64 @@ class UserController extends Controller
                        ->orderBy('created_at', 'desc')
                        ->paginate(15)
                        ->withQueryString();
+
+        // ---------------------------------------------------------
+        // Business Intelligence (BI) Data for Users
+        // ---------------------------------------------------------
+        $validStatuses = ['processing', 'shipped', 'completed'];
+
+        // Repeat Customer Rate
+        $usersWithOrders = \App\Models\Order::whereIn('status', $validStatuses)
+            ->whereNotNull('user_id')
+            ->select('user_id', \Illuminate\Support\Facades\DB::raw('COUNT(*) as order_count'))
+            ->groupBy('user_id')
+            ->get();
+            
+        $totalCustomers = $usersWithOrders->count();
+        $repeatCustomers = $usersWithOrders->where('order_count', '>', 1)->count();
+        $repeatRate = $totalCustomers > 0 ? ($repeatCustomers / $totalCustomers) * 100 : 0;
+
+        // RFM Analysis & Active/Inactive Customers
+        $rfmDataRaw = \App\Models\Order::whereIn('status', $validStatuses)
+            ->whereNotNull('user_id')
+            ->select('user_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as last_order_date'), \Illuminate\Support\Facades\DB::raw('COUNT(id) as frequency'), \Illuminate\Support\Facades\DB::raw('SUM(total) as monetary'))
+            ->groupBy('user_id')
+            ->get();
+
+        $activeCount = 0;
+        $inactiveCount = 0;
+        $rfmVisualData = [];
+
+        foreach ($rfmDataRaw as $data) {
+            $recency = \Carbon\Carbon::parse($data->last_order_date)->diffInDays(now());
+            if ($recency <= 90) {
+                $activeCount++;
+            } else {
+                $inactiveCount++;
+            }
+            
+            $rfmVisualData[] = [
+                'x' => $recency,
+                'y' => (int) $data->frequency,
+                'z' => (float) $data->monetary,
+                'name' => 'User ID: ' . $data->user_id
+            ];
+        }
+
+        $biData = [
+            'customer_retention' => [
+                'repeat_rate' => round($repeatRate, 1),
+                'repeat_count' => $repeatCustomers,
+                'first_time_count' => $totalCustomers - $repeatCustomers
+            ],
+            'rfm' => $rfmVisualData,
+            'customer_status' => [
+                'active' => $activeCount,
+                'inactive' => $inactiveCount
+            ]
+        ];
         
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('users', 'biData'));
     }
 
     public function show(string $id)

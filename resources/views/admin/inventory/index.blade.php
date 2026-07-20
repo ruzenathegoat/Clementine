@@ -41,6 +41,23 @@
         </div>
     @endif
 
+    <!-- BI Dashboard Section for Inventory -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Top Products -->
+        <div class="scroll-reveal admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-top-products" style="width: 100%; height: 350px;"></div>
+            </div>
+        </div>
+        
+        <!-- Stock vs Predicted Demand -->
+        <div class="scroll-reveal admin-outer-shell group">
+            <div class="admin-inner-core h-full p-6 relative">
+                <div id="chart-stock-prediction" style="width: 100%; height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Data List -->
     <div class="scroll-reveal admin-outer-shell">
         <div class="admin-inner-core">
@@ -310,5 +327,50 @@
             openModal();
         }
     });
+</script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const biData = @json($biData ?? []);
+
+    if (!biData || Object.keys(biData).length === 0) return;
+
+    Highcharts.setOptions({
+        chart: {
+            style: { fontFamily: '"Plus Jakarta Sans", sans-serif' },
+            backgroundColor: 'transparent'
+        },
+        title: {
+            style: { color: '#111111', fontWeight: 'bold', fontSize: '16px' }
+        },
+        credits: { enabled: false }
+    });
+
+    // Top Products
+    if (biData.top_products && biData.top_products.categories.length > 0) {
+        Highcharts.chart('chart-top-products', {
+            chart: { type: 'bar' },
+            title: { text: 'Top Selling Products' },
+            xAxis: { categories: biData.top_products.categories },
+            yAxis: { title: { text: 'Units Sold' } },
+            series: [{ name: 'Units', data: biData.top_products.data, color: '#1F6C9F' }]
+        });
+    }
+
+    // Stock Prediction
+    if (biData.stock_prediction && biData.stock_prediction.categories.length > 0) {
+        Highcharts.chart('chart-stock-prediction', {
+            chart: { type: 'column' },
+            title: { text: 'Stock vs 30-Day Predicted Demand' },
+            xAxis: { categories: biData.stock_prediction.categories },
+            yAxis: [{ title: { text: 'Units' } }],
+            series: [
+                { name: 'Current Stock', data: biData.stock_prediction.stock, color: '#111111' },
+                { name: 'Predicted 30-Day Demand', data: biData.stock_prediction.predicted, color: '#C62828' }
+            ]
+        });
+    }
+});
 </script>
 @endsection
