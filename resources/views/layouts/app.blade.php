@@ -517,14 +517,31 @@
     
     <!-- Global Page Loader -->
     <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden pointer-events-auto">
-        <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        <p class="mt-4 font-label-caps uppercase tracking-widest text-primary text-sm animate-pulse">LOADING...</p>
+        <!-- Skeleton Bar from motion.dev -->
+        <div class="w-64 h-2 bg-[#EAEAEA] rounded-full overflow-hidden relative">
+            <div id="skeleton-bar" class="absolute top-0 bottom-0 left-0 w-1/2 bg-[#111111] rounded-full origin-left"></div>
+        </div>
+        <p class="mt-6 font-label-caps uppercase tracking-widest text-primary text-sm animate-pulse">LOADING...</p>
     </div>
 
     <!-- Global Loader Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('global-page-loader');
+            const skeletonBar = document.getElementById('skeleton-bar');
+
+            // Initialize Motion animation if available
+            if (window.animate && skeletonBar) {
+                window.animate(
+                    skeletonBar, 
+                    { x: ['-100%', '200%'] }, 
+                    { 
+                        duration: 1.2, 
+                        repeat: Infinity, 
+                        ease: 'easeInOut' 
+                    }
+                );
+            }
             
             // Show loader on links
             document.querySelectorAll('a').forEach(link => {

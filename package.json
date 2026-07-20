@@ -20,6 +20,7 @@
         "vite": "^8.0.0"
     },
     "dependencies": {
+        "motion": "^12.42.2",
         "puppeteer": "^25.3.0"
     }
 }
