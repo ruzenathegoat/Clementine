@@ -238,6 +238,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('honeypot');
     Route::get('/login/verify-notice', [AuthController::class, 'verifyNotice'])->name('login.verify.notice');
+    Route::get('/login/check-status', [AuthController::class, 'checkLoginStatus'])->name('login.check_status');
     Route::get('/login/verify/{history}', [AuthController::class, 'verifySuspiciousLogin'])->name('login.verify');
     
     // Google OAuth Routes

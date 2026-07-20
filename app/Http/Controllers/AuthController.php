@@ -108,6 +108,7 @@ class AuthController extends Controller
             
             Mail::to($user->email)->send(new SuspiciousLoginAlert($history, $user, $verificationUrl));
             
+            $request->session()->put('pending_login_id', $history->id);
             return redirect()->route('login.verify.notice')->with('error', 'LOGIN BLOCKED: NEW DEVICE OR LOCATION DETECTED. PLEASE CHECK YOUR EMAIL TO VERIFY.');
         }
 
@@ -195,5 +196,34 @@ class AuthController extends Controller
         }
 
         return redirect()->intended(route('home'))->with('success', 'LOGIN VERIFIED AND SUCCESSFUL.');
+    }
+
+    public function checkLoginStatus(Request $request)
+    {
+        $pendingLoginId = $request->session()->get('pending_login_id');
+        if (!$pendingLoginId) {
+            return response()->json(['status' => 'not_found']);
+        }
+
+        $history = LoginHistory::find($pendingLoginId);
+        if (!$history) {
+            return response()->json(['status' => 'not_found']);
+        }
+
+        if ($history->is_verified) {
+            $user = $history->user;
+            Auth::login($user);
+            
+            $request->session()->forget('pending_login_id');
+            $request->session()->regenerate();
+            
+            $url = $user->role !== 'customer' ? route('admin.dashboard') : route('home');
+            
+            $request->session()->flash('success', 'LOGIN VERIFIED AND SUCCESSFUL.');
+            
+            return response()->json(['status' => 'verified', 'redirect' => $url]);
+        }
+
+        return response()->json(['status' => 'pending']);
     }
 }
