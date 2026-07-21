@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="min-h-screen bg-background border-b border-primary relative overflow-hidden flex items-center justify-center py-24 px-4">
+<div class="w-full min-h-screen bg-background border-b border-primary relative overflow-hidden flex items-center justify-center py-24 px-4 md:px-8">
     <!-- Decorative Lines -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
         <div class="absolute top-0 left-1/4 w-[1px] h-full bg-primary/10"></div>
