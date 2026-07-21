@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\AnalyticsEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -103,6 +106,18 @@ class CartController extends Controller
                 'quantity' => $request->quantity,
             ]);
         }
+
+        // Track Add to Cart
+        AnalyticsEvent::create([
+            'user_id' => Auth::id(),
+            'session_id' => Session::getId(),
+            'event_type' => 'add_to_cart',
+            'product_id' => $request->product_id,
+            'payload' => [
+                'quantity' => $request->quantity,
+                'strap_option_id' => $request->strap_option_id,
+            ]
+        ]);
 
         return redirect()->route('cart.index')->with('success', 'ITEM ADDED TO CART.');
     }

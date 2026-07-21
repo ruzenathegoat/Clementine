@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\AnalyticsEvent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdvisorController extends Controller
 {
@@ -38,6 +41,19 @@ class AdvisorController extends Controller
             ->where('stock', '>', 0)
             ->where('price', '<=', $budget * 2)
             ->get();
+
+        // Track Advisor Search
+        AnalyticsEvent::create([
+            'user_id' => Auth::id(),
+            'session_id' => Session::getId(),
+            'event_type' => 'advisor_search',
+            'payload' => [
+                'budget' => $budget,
+                'gender' => $gender,
+                'material' => $material,
+                'movement' => $movement,
+            ]
+        ]);
 
         if ($products->isEmpty()) {
             // Jika benar-benar kosong, ambil top 3 best seller (dummy fallback)

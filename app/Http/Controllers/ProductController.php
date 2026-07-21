@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\Product;
+use App\Models\AnalyticsEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -111,6 +114,14 @@ class ProductController extends Controller
         $product = Product::with(['media', 'straps', 'collection'])
             ->where('slug', $slug)
             ->firstOrFail();
+
+        // Track Product View
+        AnalyticsEvent::create([
+            'user_id' => Auth::id(),
+            'session_id' => Session::getId(),
+            'event_type' => 'product_view',
+            'product_id' => $product->id,
+        ]);
 
         return view('products.show', compact('product'));
     }
