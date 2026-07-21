@@ -68,6 +68,7 @@
                             <th class="px-6 py-4 font-normal">Product</th>
                             <th class="px-6 py-4 font-normal hidden md:table-cell">SKU / ID</th>
                             <th class="px-6 py-4 font-normal">Stock</th>
+                            <th class="px-6 py-4 font-normal hidden sm:table-cell">Priority</th>
                             <th class="px-6 py-4 font-normal hidden sm:table-cell">Price</th>
                             <th class="px-6 py-4 font-normal">Status</th>
                             <th class="px-6 py-4 font-normal text-right">Action</th>
@@ -99,6 +100,20 @@
                                     <div class="flex items-center gap-2">
                                         <div class="w-2 h-2 rounded-full {{ $product->stock > 10 ? 'bg-[#346538]' : ($product->stock > 0 ? 'bg-[#956400]' : 'bg-[#9F2F2D]') }}"></div>
                                         <span class="font-mono text-sm {{ $product->stock == 0 ? 'text-[#9F2F2D] font-medium' : 'text-[#111111]' }}">{{ $product->stock }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 hidden sm:table-cell">
+                                    @php
+                                        $prioColors = [
+                                            'High' => ['bg' => '#FDEBEC', 'text' => '#9F2F2D'],
+                                            'Medium' => ['bg' => '#FBF3DB', 'text' => '#956400'],
+                                            'Low' => ['bg' => '#EDF3EC', 'text' => '#346538']
+                                        ];
+                                        $p = $product->restock_priority ?? 'Low';
+                                    @endphp
+                                    <div class="flex flex-col gap-1">
+                                        <span class="admin-badge" style="background-color: {{ $prioColors[$p]['bg'] }}; color: {{ $prioColors[$p]['text'] }}; width: max-content;">{{ $p }}</span>
+                                        <span class="text-[10px] font-mono text-[#787774]">Score: {{ $product->smart_score ?? 0 }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 hidden sm:table-cell">

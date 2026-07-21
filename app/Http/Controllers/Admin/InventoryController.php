@@ -12,27 +12,84 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = \App\Models\Product::with(['primaryImage', 'collection']);
+        $validStatuses = ['processing', 'shipped', 'completed'];
+
+        // Subquery for velocity
+        $velocityQuery = \App\Models\OrderItem::select('product_id', \Illuminate\Support\Facades\DB::raw('SUM(quantity) as velocity'))
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->where('orders.created_at', '>=', now()->subDays(30))
+            ->whereIn('orders.status', $validStatuses)
+            ->groupBy('product_id');
+
+        $query = \App\Models\Product::with(['primaryImage', 'collection'])
+            ->leftJoinSub($velocityQuery, 'v', function ($join) {
+                $join->on('products.id', '=', 'v.product_id');
+            })
+            ->select('products.*', \Illuminate\Support\Facades\DB::raw('COALESCE(v.velocity, 0) as velocity'))
+            ->selectRaw('((products.price - products.cogs) / NULLIF(products.price, 0) * 100) as profit_margin');
         
         if ($request->filled('q')) {
             $search = $request->q;
             $query->where(function($q) use ($search) {
-                $q->where('name', 'ilike', '%' . $search . '%')
-                  ->orWhere('slug', 'ilike', '%' . $search . '%');
+                $q->where('products.name', 'ilike', '%' . $search . '%')
+                  ->orWhere('products.slug', 'ilike', '%' . $search . '%');
             });
         }
         
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where('products.status', $request->status);
         }
         
-        $products = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+        // Get global min/max for SMART calculation
+        $statsQuery = clone $query;
+        // override order and limits for aggregation
+        $statsQuery->getQuery()->orders = null; 
+        $stats = $statsQuery->selectRaw('
+            MIN(products.stock) as min_stock, MAX(products.stock) as max_stock,
+            MIN(COALESCE(v.velocity, 0)) as min_velocity, MAX(COALESCE(v.velocity, 0)) as max_velocity,
+            MIN(((products.price - products.cogs) / NULLIF(products.price, 0) * 100)) as min_margin,
+            MAX(((products.price - products.cogs) / NULLIF(products.price, 0) * 100)) as max_margin
+        ')->first();
+
+        $products = $query->orderBy('products.created_at', 'desc')->paginate(15)->withQueryString();
+
+        // Calculate SMART score for each paginated product
+        foreach ($products as $product) {
+            $c1_max = $stats->max_stock ?? 0;
+            $c1_min = $stats->min_stock ?? 0;
+            $c1_out = $product->stock;
+            // Cost criteria: lower stock -> higher score
+            $u1 = ($c1_max - $c1_min != 0) ? ($c1_max - $c1_out) / ($c1_max - $c1_min) : 0;
+
+            $c2_max = $stats->max_velocity ?? 0;
+            $c2_min = $stats->min_velocity ?? 0;
+            $c2_out = $product->velocity;
+            // Benefit criteria: higher velocity -> higher score
+            $u2 = ($c2_max - $c2_min != 0) ? ($c2_out - $c2_min) / ($c2_max - $c2_min) : 0;
+
+            $c3_max = $stats->max_margin ?? 0;
+            $c3_min = $stats->min_margin ?? 0;
+            $c3_out = $product->profit_margin;
+            // Benefit criteria: higher margin -> higher score
+            $u3 = ($c3_max - $c3_min != 0) ? ($c3_out - $c3_min) / ($c3_max - $c3_min) : 0;
+
+            $score = ($u1 * 45) + ($u2 * 40) + ($u3 * 15);
+            $product->smart_score = round($score, 2);
+
+            if ($score > 75) {
+                $product->restock_priority = 'High';
+            } elseif ($score >= 40) {
+                $product->restock_priority = 'Medium';
+            } else {
+                $product->restock_priority = 'Low';
+            }
+        }
+
         $collections = \App\Models\Collection::orderBy('name')->get();
 
         // ---------------------------------------------------------
         // Business Intelligence (BI) Data for Inventory
         // ---------------------------------------------------------
-        $validStatuses = ['processing', 'shipped', 'completed'];
 
         // 1. Top Products
         $topProducts = \App\Models\OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
