@@ -91,10 +91,6 @@
     background:
      linear-gradient(#111111 0 0) 0/0% no-repeat
      #EAEAEA;
-    animation: l4 2s infinite steps(6);
-  }
-
-  @keyframes l4 {
-      100% { background-size: 120%; }
+    transition: background-size 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   }
 }

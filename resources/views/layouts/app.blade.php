@@ -518,17 +518,70 @@
     @endif
     
     <!-- Global Page Loader -->
-    <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden pointer-events-auto">
-        <div class="loader"></div>
+    <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-200 pointer-events-auto">
+        <div class="loader" id="page-loader-bar" style="background-size: 0%;"></div>
         <p class="mt-4 font-label-caps uppercase tracking-widest text-primary text-xs animate-pulse">LOADING...</p>
     </div>
 
     <!-- Global Loader Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('global-page-loader');
-            
-            // Show loader on links
+            const loaderContainer = document.getElementById('global-page-loader');
+            const loaderBar = document.getElementById('page-loader-bar');
+            let progressInterval = null;
+
+            function startProgress() {
+                if (progressInterval) clearInterval(progressInterval);
+                sessionStorage.setItem('pageLoadingState', 'loading');
+                
+                loaderContainer.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    loaderContainer.classList.remove('opacity-0');
+                });
+
+                if (loaderBar) {
+                    loaderBar.style.backgroundSize = '0%';
+                    
+                    let currentProgress = 0;
+                    setTimeout(() => { 
+                        loaderBar.style.backgroundSize = '35%'; 
+                        currentProgress = 35; 
+                    }, 30);
+                    
+                    progressInterval = setInterval(() => {
+                        if (currentProgress < 85) {
+                            currentProgress += 15;
+                            loaderBar.style.backgroundSize = currentProgress + '%';
+                        }
+                    }, 150);
+                }
+            }
+
+            function finishProgress() {
+                if (progressInterval) clearInterval(progressInterval);
+                sessionStorage.removeItem('pageLoadingState');
+                
+                if (loaderBar) {
+                    loaderBar.style.backgroundSize = '120%';
+                }
+                
+                setTimeout(() => {
+                    loaderContainer.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loaderContainer.classList.add('hidden');
+                        if (loaderBar) loaderBar.style.backgroundSize = '0%';
+                    }, 200);
+                }, 180);
+            }
+
+            // If navigating to a new page while loading
+            if (sessionStorage.getItem('pageLoadingState') === 'loading') {
+                loaderContainer.classList.remove('hidden', 'opacity-0');
+                if (loaderBar) loaderBar.style.backgroundSize = '75%';
+                setTimeout(finishProgress, 50);
+            }
+
+            // Show loader on internal links
             document.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     if (
@@ -540,7 +593,7 @@
                         !e.defaultPrevented &&
                         !this.hasAttribute('download')
                     ) {
-                        loader.classList.remove('hidden');
+                        startProgress();
                     }
                 });
             });
@@ -548,13 +601,15 @@
             // Show loader on forms
             document.addEventListener('submit', function(e) {
                 if (!e.defaultPrevented) {
-                    loader.classList.remove('hidden');
+                    startProgress();
                 }
             });
             
             // Hide loader when navigating back (bfcache)
             window.addEventListener('pageshow', function (event) {
-                loader.classList.add('hidden');
+                if (event.persisted) {
+                    finishProgress();
+                }
             });
         });
     </script>
