@@ -517,8 +517,8 @@
     </div>
     @endif
     
-    <!-- Global Page Loader (Motion.dev Powered) -->
-    <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-200 pointer-events-auto">
+    <!-- Global Page Loader (Motion.dev Powered - Instant Dismiss) -->
+    <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-150 pointer-events-none">
         <div class="w-36 h-4 bg-[#EAEAEA] overflow-hidden relative" style="-webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) 0/20%; mask: linear-gradient(90deg, #000 70%, #0000 0) 0/20%;">
             <div id="page-loader-bar" class="absolute top-0 bottom-0 left-0 w-full bg-[#111111] origin-left h-full" style="transform: scaleX(0);"></div>
         </div>
@@ -547,7 +547,7 @@
                         activeAnimation = window.animate(
                             loaderBar,
                             { scaleX: [0, 0.4, 0.75] },
-                            { duration: 1.5, ease: [0.22, 1, 0.36, 1] }
+                            { duration: 1.0, ease: [0.22, 1, 0.36, 1] }
                         );
                     } else {
                         loaderBar.style.transform = 'scaleX(0.75)';
@@ -560,31 +560,28 @@
                 
                 if (loaderBar) {
                     if (activeAnimation) activeAnimation.stop();
-                    
                     if (window.animate) {
                         activeAnimation = window.animate(
                             loaderBar,
                             { scaleX: 1 },
-                            { duration: 0.25, ease: [0, 0.55, 0.45, 1] }
+                            { duration: 0.1, ease: 'easeOut' }
                         );
                     } else {
                         loaderBar.style.transform = 'scaleX(1)';
                     }
                 }
                 
+                // Immediately fade out & hide - 0ms artificial delay
+                loaderContainer.classList.add('opacity-0');
                 setTimeout(() => {
-                    loaderContainer.classList.add('opacity-0');
-                    setTimeout(() => {
-                        loaderContainer.classList.add('hidden');
-                        if (loaderBar) loaderBar.style.transform = 'scaleX(0)';
-                    }, 200);
-                }, 180);
+                    loaderContainer.classList.add('hidden');
+                    if (loaderBar) loaderBar.style.transform = 'scaleX(0)';
+                }, 150);
             }
 
+            // Immediately finish progress on page load - zero delay
             if (sessionStorage.getItem('pageLoadingState') === 'loading') {
-                loaderContainer.classList.remove('hidden', 'opacity-0');
-                if (loaderBar) loaderBar.style.transform = 'scaleX(0.75)';
-                setTimeout(finishProgress, 60);
+                finishProgress();
             }
 
             document.querySelectorAll('a').forEach(link => {
@@ -610,9 +607,7 @@
             });
             
             window.addEventListener('pageshow', function (event) {
-                if (event.persisted) {
-                    finishProgress();
-                }
+                finishProgress();
             });
         });
     </script>
