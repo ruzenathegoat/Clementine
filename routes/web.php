@@ -127,6 +127,10 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 Route::get('/collections', [\App\Http\Controllers\CollectionController::class, 'index'])->name('collections.index');
 Route::get('/collections/{slug}', [\App\Http\Controllers\CollectionController::class, 'show'])->name('collections.show');
 
+// Smart Watch Advisor
+Route::get('/advisor', [\App\Http\Controllers\AdvisorController::class, 'index'])->name('advisor.index');
+Route::get('/advisor/results', [\App\Http\Controllers\AdvisorController::class, 'process'])->name('advisor.process');
+
 // Realtime Stock Polling
 Route::get('/api/products/stock', function (\Illuminate\Http\Request $request) {
     $ids = $request->input('ids');
