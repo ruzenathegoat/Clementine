@@ -20,12 +20,26 @@ class InventoryController extends Controller
             ->where('orders.created_at', '>=', now()->subDays(30))
             ->whereIn('orders.status', $validStatuses)
             ->groupBy('product_id');
+            
+        // Subquery for popularity (product_view and add_to_cart events in last 30 days)
+        $popularityQuery = \App\Models\AnalyticsEvent::select('product_id', \Illuminate\Support\Facades\DB::raw('COUNT(*) as popularity'))
+            ->whereNotNull('product_id')
+            ->whereIn('event_type', ['product_view', 'add_to_cart'])
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupBy('product_id');
 
         $query = \App\Models\Product::with(['primaryImage', 'collection'])
             ->leftJoinSub($velocityQuery, 'v', function ($join) {
                 $join->on('products.id', '=', 'v.product_id');
             })
-            ->select('products.*', \Illuminate\Support\Facades\DB::raw('COALESCE(v.velocity, 0) as velocity'))
+            ->leftJoinSub($popularityQuery, 'p', function ($join) {
+                $join->on('products.id', '=', 'p.product_id');
+            })
+            ->select(
+                'products.*', 
+                \Illuminate\Support\Facades\DB::raw('COALESCE(v.velocity, 0) as velocity'),
+                \Illuminate\Support\Facades\DB::raw('COALESCE(p.popularity, 0) as popularity')
+            )
             ->selectRaw('((products.price - products.cogs) / NULLIF(products.price, 0) * 100) as profit_margin');
         
         if ($request->filled('q')) {
@@ -50,6 +64,7 @@ class InventoryController extends Controller
         $stats = $statsQuery->selectRaw('
             MIN(products.stock) as min_stock, MAX(products.stock) as max_stock,
             MIN(COALESCE(v.velocity, 0)) as min_velocity, MAX(COALESCE(v.velocity, 0)) as max_velocity,
+            MIN(COALESCE(p.popularity, 0)) as min_popularity, MAX(COALESCE(p.popularity, 0)) as max_popularity,
             MIN(((products.price - products.cogs) / NULLIF(products.price, 0) * 100)) as min_margin,
             MAX(((products.price - products.cogs) / NULLIF(products.price, 0) * 100)) as max_margin
         ')->first();
@@ -70,13 +85,20 @@ class InventoryController extends Controller
             // Benefit criteria: higher velocity -> higher score
             $u2 = ($c2_max - $c2_min != 0) ? ($c2_out - $c2_min) / ($c2_max - $c2_min) : 0;
 
-            $c3_max = $stats->max_margin ?? 0;
-            $c3_min = $stats->min_margin ?? 0;
-            $c3_out = $product->profit_margin;
-            // Benefit criteria: higher margin -> higher score
+            $c3_max = $stats->max_popularity ?? 0;
+            $c3_min = $stats->min_popularity ?? 0;
+            $c3_out = $product->popularity;
+            // Benefit criteria: higher popularity -> higher score
             $u3 = ($c3_max - $c3_min != 0) ? ($c3_out - $c3_min) / ($c3_max - $c3_min) : 0;
 
-            $score = ($u1 * 45) + ($u2 * 40) + ($u3 * 15);
+            $c4_max = $stats->max_margin ?? 0;
+            $c4_min = $stats->min_margin ?? 0;
+            $c4_out = $product->profit_margin;
+            // Benefit criteria: higher margin -> higher score
+            $u4 = ($c4_max - $c4_min != 0) ? ($c4_out - $c4_min) / ($c4_max - $c4_min) : 0;
+
+            // Updated weights: Stock(35%), Velocity(30%), Popularity(20%), Margin(15%)
+            $score = ($u1 * 35) + ($u2 * 30) + ($u3 * 20) + ($u4 * 15);
             $product->smart_score = round($score, 2);
 
             if ($score > 75) {
