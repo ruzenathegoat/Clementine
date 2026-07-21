@@ -517,21 +517,22 @@
     </div>
     @endif
     
-    <!-- Global Page Loader -->
+    <!-- Global Page Loader (Motion.dev Powered) -->
     <div id="global-page-loader" class="fixed inset-0 z-[9999] bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-200 pointer-events-auto">
-        <div class="loader" id="page-loader-bar" style="background-size: 0%;"></div>
+        <div class="w-36 h-4 bg-[#EAEAEA] overflow-hidden relative" style="-webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) 0/20%; mask: linear-gradient(90deg, #000 70%, #0000 0) 0/20%;">
+            <div id="page-loader-bar" class="absolute top-0 bottom-0 left-0 w-full bg-[#111111] origin-left h-full" style="transform: scaleX(0);"></div>
+        </div>
         <p class="mt-4 font-label-caps uppercase tracking-widest text-primary text-xs animate-pulse">LOADING...</p>
     </div>
 
-    <!-- Global Loader Script -->
+    <!-- Global Loader Script (Motion.dev) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loaderContainer = document.getElementById('global-page-loader');
             const loaderBar = document.getElementById('page-loader-bar');
-            let progressInterval = null;
+            let activeAnimation = null;
 
             function startProgress() {
-                if (progressInterval) clearInterval(progressInterval);
                 sessionStorage.setItem('pageLoadingState', 'loading');
                 
                 loaderContainer.classList.remove('hidden');
@@ -540,48 +541,52 @@
                 });
 
                 if (loaderBar) {
-                    loaderBar.style.backgroundSize = '0%';
+                    if (activeAnimation) activeAnimation.stop();
                     
-                    let currentProgress = 0;
-                    setTimeout(() => { 
-                        loaderBar.style.backgroundSize = '35%'; 
-                        currentProgress = 35; 
-                    }, 30);
-                    
-                    progressInterval = setInterval(() => {
-                        if (currentProgress < 85) {
-                            currentProgress += 15;
-                            loaderBar.style.backgroundSize = currentProgress + '%';
-                        }
-                    }, 150);
+                    if (window.animate) {
+                        activeAnimation = window.animate(
+                            loaderBar,
+                            { scaleX: [0, 0.4, 0.75] },
+                            { duration: 1.5, ease: [0.22, 1, 0.36, 1] }
+                        );
+                    } else {
+                        loaderBar.style.transform = 'scaleX(0.75)';
+                    }
                 }
             }
 
             function finishProgress() {
-                if (progressInterval) clearInterval(progressInterval);
                 sessionStorage.removeItem('pageLoadingState');
                 
                 if (loaderBar) {
-                    loaderBar.style.backgroundSize = '120%';
+                    if (activeAnimation) activeAnimation.stop();
+                    
+                    if (window.animate) {
+                        activeAnimation = window.animate(
+                            loaderBar,
+                            { scaleX: 1 },
+                            { duration: 0.25, ease: [0, 0.55, 0.45, 1] }
+                        );
+                    } else {
+                        loaderBar.style.transform = 'scaleX(1)';
+                    }
                 }
                 
                 setTimeout(() => {
                     loaderContainer.classList.add('opacity-0');
                     setTimeout(() => {
                         loaderContainer.classList.add('hidden');
-                        if (loaderBar) loaderBar.style.backgroundSize = '0%';
+                        if (loaderBar) loaderBar.style.transform = 'scaleX(0)';
                     }, 200);
                 }, 180);
             }
 
-            // If navigating to a new page while loading
             if (sessionStorage.getItem('pageLoadingState') === 'loading') {
                 loaderContainer.classList.remove('hidden', 'opacity-0');
-                if (loaderBar) loaderBar.style.backgroundSize = '75%';
-                setTimeout(finishProgress, 50);
+                if (loaderBar) loaderBar.style.transform = 'scaleX(0.75)';
+                setTimeout(finishProgress, 60);
             }
 
-            // Show loader on internal links
             document.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     if (
@@ -598,14 +603,12 @@
                 });
             });
 
-            // Show loader on forms
             document.addEventListener('submit', function(e) {
                 if (!e.defaultPrevented) {
                     startProgress();
                 }
             });
             
-            // Hide loader when navigating back (bfcache)
             window.addEventListener('pageshow', function (event) {
                 if (event.persisted) {
                     finishProgress();
