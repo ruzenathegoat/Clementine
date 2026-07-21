@@ -81,4 +81,20 @@
     border-radius: 0px !important;
     box-shadow: none !important;
   }
+
+  /* Segmented Loading Progress Animation */
+  .loader {
+    width: 120px;
+    height: 16px;
+    -webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) 0/20%;
+    mask: linear-gradient(90deg, #000 70%, #0000 0) 0/20%;
+    background:
+     linear-gradient(#111111 0 0) 0/0% no-repeat
+     #EAEAEA;
+    animation: l4 2s infinite steps(6);
+  }
+
+  @keyframes l4 {
+      100% { background-size: 120%; }
+  }
 }
