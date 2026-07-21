@@ -137,9 +137,17 @@ class AuthController extends Controller
                 'confirmed', 
                 'min:8', 
                 'max:12', 
-                'regex:/^[A-Z]/', // First letter must be capital
-                'regex:/[0-9]/', // Must contain a number
-                'regex:/[!@#$%^&*(),.?":{}|<>]/', // Must contain special symbol
+                function (string $attribute, mixed $value, \Closure $fail) {
+                    if (!preg_match('/^[A-Z]/', $value)) {
+                        $fail("The password must start with a capital letter.");
+                    }
+                    if (!preg_match('/[0-9]/', $value)) {
+                        $fail("The password must contain at least one number.");
+                    }
+                    if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $value)) {
+                        $fail("The password must contain at least one special symbol.");
+                    }
+                },
             ],
         ]);
 
