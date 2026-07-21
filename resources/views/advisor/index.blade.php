@@ -4,94 +4,88 @@
 
 @section('content')
 
-<div class="w-full min-h-screen bg-background border-b border-primary relative overflow-hidden flex items-center justify-center py-24 px-4 md:px-8">
-    <!-- Decorative Lines -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-        <div class="absolute top-0 left-1/4 w-[1px] h-full bg-primary/10"></div>
-        <div class="absolute top-0 left-1/2 w-[1px] h-full bg-primary/10"></div>
-        <div class="absolute top-0 left-3/4 w-[1px] h-full bg-primary/10"></div>
-    </div>
-
-    <div class="w-full max-w-3xl bg-surface-container-lowest border border-primary relative z-10 p-8 md:p-12 shadow-2xl">
+<div class="w-full bg-background border-b border-primary">
+    
+    <div class="w-full max-w-5xl mx-auto border-l border-r border-primary bg-surface-container-lowest min-h-screen flex flex-col">
         
-        <div class="text-center mb-12">
-            <h1 class="font-h1 text-[40px] md:text-[60px] text-primary uppercase tracking-tighter leading-none mb-4">
-                SMART ADVISOR
-            </h1>
-            <p class="font-body-md text-base text-[#787774] uppercase tracking-widest max-w-lg mx-auto">
-                Let our intelligent system find the perfect watch for you based on your unique preferences.
-            </p>
-        </div>
+        <div class="px-6 md:px-12 py-24 md:py-32">
+            <div class="mb-20">
+                <h1 class="font-h1 text-[50px] md:text-[80px] text-primary uppercase tracking-tighter leading-none mb-6">
+                    SMART ADVISOR
+                </h1>
+                <p class="font-body-md text-lg text-primary uppercase tracking-widest max-w-2xl leading-relaxed">
+                    Let our intelligent system find the perfect watch for you based on your unique preferences.
+                </p>
+            </div>
 
-        <form action="{{ route('advisor.process') }}" method="GET" class="space-y-10" x-data="{
-            budget: 1000,
-            updateBudget(val) {
-                this.budget = val;
-            }
-        }">
-            <!-- Budget -->
-            <div>
-                <div class="flex justify-between items-end mb-4">
-                    <label class="font-headline-md text-2xl uppercase text-primary">1. Maximum Budget</label>
-                    <div class="font-body-md text-xl text-primary font-bold">
-                        $<span x-text="budget"></span>
+            <form action="{{ route('advisor.process') }}" method="GET" class="space-y-16" x-data="{
+                budget: 1000
+            }">
+                <!-- 1. Budget -->
+                <div class="border-t border-primary pt-8">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                        <label class="font-headline-md text-2xl md:text-3xl uppercase text-primary">1. Maximum Budget</label>
+                        <div class="font-body-md text-2xl text-primary">
+                            $<span x-text="budget"></span>
+                        </div>
+                    </div>
+                    <input type="range" name="budget" min="100" max="10000" step="100" x-model="budget" class="w-full appearance-none h-1 bg-primary/20 accent-primary cursor-pointer">
+                </div>
+
+                <!-- 2. Gender -->
+                <div class="border-t border-primary pt-8">
+                    <label class="font-headline-md text-2xl md:text-3xl uppercase text-primary block mb-8">2. Who is this for?</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-primary">
+                        @foreach(['men' => 'Men', 'women' => 'Women', 'unisex' => 'Unisex / Anyone'] as $val => $label)
+                            <label class="relative cursor-pointer border-b border-primary md:border-b-0 md:border-r last:border-b-0 md:last:border-r-0 group">
+                                <input type="radio" name="gender" value="{{ $val }}" class="peer sr-only" {{ $val == 'unisex' ? 'checked' : '' }}>
+                                <div class="w-full py-6 px-4 text-center font-body-sm text-sm uppercase tracking-widest text-primary peer-checked:bg-primary peer-checked:text-on-primary hover:bg-primary/5 transition-colors">
+                                    {{ $label }}
+                                </div>
+                            </label>
+                        @endforeach
                     </div>
                 </div>
-                <input type="range" name="budget" min="100" max="10000" step="100" x-model="budget" class="w-full">
-            </div>
 
-            <!-- Gender -->
-            <div>
-                <label class="font-headline-md text-2xl uppercase text-primary block mb-4">2. Who is this for?</label>
-                <div class="grid grid-cols-3 gap-4">
-                    @foreach(['men' => 'Men', 'women' => 'Women', 'unisex' => 'Unisex / Anyone'] as $val => $label)
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="gender" value="{{ $val }}" class="peer sr-only" {{ $val == 'unisex' ? 'checked' : '' }}>
-                            <div class="w-full border-2 border-primary py-3 px-4 text-center font-body-sm uppercase tracking-widest text-primary peer-checked:bg-primary peer-checked:text-on-primary hover:bg-surface-container-highest transition-colors">
-                                {{ $label }}
-                            </div>
-                        </label>
-                    @endforeach
+                <!-- 3. Material -->
+                <div class="border-t border-primary pt-8">
+                    <label class="font-headline-md text-2xl md:text-3xl uppercase text-primary block mb-8">3. Preferred Material</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-0 border border-primary">
+                        @foreach(['Stainless Steel', 'Leather', 'Rubber', 'Titanium'] as $mat)
+                            <label class="relative cursor-pointer border-b border-primary md:border-b-0 md:border-r last:border-b-0 md:last:border-r-0 [&:nth-child(even)]:border-r-0 md:[&:nth-child(even)]:border-r">
+                                <input type="radio" name="material" value="{{ $mat }}" class="peer sr-only">
+                                <div class="w-full py-6 px-4 text-center font-body-sm text-sm uppercase tracking-widest text-primary peer-checked:bg-primary peer-checked:text-on-primary hover:bg-primary/5 transition-colors h-full flex items-center justify-center">
+                                    {{ $mat }}
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <!-- Material -->
-            <div>
-                <label class="font-headline-md text-2xl uppercase text-primary block mb-4">3. Preferred Material</label>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    @foreach(['Stainless Steel', 'Leather', 'Rubber', 'Titanium'] as $mat)
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="material" value="{{ $mat }}" class="peer sr-only">
-                            <div class="w-full border-2 border-primary py-3 px-4 text-center font-body-sm uppercase tracking-widest text-primary peer-checked:bg-primary peer-checked:text-on-primary hover:bg-surface-container-highest transition-colors">
-                                {{ $mat }}
-                            </div>
-                        </label>
-                    @endforeach
+                <!-- 4. Movement -->
+                <div class="border-t border-primary pt-8">
+                    <label class="font-headline-md text-2xl md:text-3xl uppercase text-primary block mb-8">4. Movement Type</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border border-primary">
+                        @foreach(['Automatic', 'Quartz'] as $mov)
+                            <label class="relative cursor-pointer border-b border-primary md:border-b-0 md:border-r last:border-b-0 md:last:border-r-0 group">
+                                <input type="radio" name="movement" value="{{ $mov }}" class="peer sr-only">
+                                <div class="w-full py-6 px-4 text-center font-body-sm text-sm uppercase tracking-widest text-primary peer-checked:bg-primary peer-checked:text-on-primary hover:bg-primary/5 transition-colors">
+                                    {{ $mov }}
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
 
-            <!-- Movement -->
-            <div>
-                <label class="font-headline-md text-2xl uppercase text-primary block mb-4">4. Movement Type</label>
-                <div class="grid grid-cols-2 gap-4">
-                    @foreach(['Automatic', 'Quartz'] as $mov)
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="movement" value="{{ $mov }}" class="peer sr-only">
-                            <div class="w-full border-2 border-primary py-3 px-4 text-center font-body-sm uppercase tracking-widest text-primary peer-checked:bg-primary peer-checked:text-on-primary hover:bg-surface-container-highest transition-colors">
-                                {{ $mov }}
-                            </div>
-                        </label>
-                    @endforeach
+                <div class="border-t border-primary pt-12">
+                    <button type="submit" class="w-full bg-primary text-on-primary py-6 font-headline-md text-xl md:text-2xl uppercase tracking-widest hover:bg-background hover:text-primary border border-primary transition-colors flex items-center justify-between px-8 group">
+                        <span>DISCOVER MY MATCH</span>
+                        <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </button>
                 </div>
-            </div>
-
-            <div class="pt-8">
-                <button type="submit" class="w-full bg-primary text-on-primary py-5 font-h2 text-2xl uppercase tracking-widest hover:bg-background hover:text-primary border-2 border-primary transition-colors flex items-center justify-center gap-4 group">
-                    <span>DISCOVER MY MATCH</span>
-                    <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
+        
     </div>
 </div>
 
