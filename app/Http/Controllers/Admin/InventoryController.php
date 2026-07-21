@@ -42,8 +42,11 @@ class InventoryController extends Controller
         
         // Get global min/max for SMART calculation
         $statsQuery = clone $query;
-        // override order and limits for aggregation
+        // override order, limits, columns and eager loads for aggregation
         $statsQuery->getQuery()->orders = null; 
+        $statsQuery->getQuery()->columns = null;
+        $statsQuery->setEagerLoads([]);
+        
         $stats = $statsQuery->selectRaw('
             MIN(products.stock) as min_stock, MAX(products.stock) as max_stock,
             MIN(COALESCE(v.velocity, 0)) as min_velocity, MAX(COALESCE(v.velocity, 0)) as max_velocity,
