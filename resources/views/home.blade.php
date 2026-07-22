@@ -24,7 +24,7 @@
 
     <!-- 2. Brand Story Section (Ref: Image 2) -->
     <div class="w-full bg-primary text-on-primary py-[120px] md:py-[200px] px-lg flex items-center justify-center border-b border-primary">
-        <p class="font-h1 text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] leading-snug md:leading-tight text-secondary w-full max-w-[65ch] opacity-0 translate-y-10 story-reveal font-italic uppercase">
+        <p class="font-h1 text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] leading-snug md:leading-tight text-secondary w-full max-w-[65ch] opacity-0 story-reveal text-pretty text-left">
             Horology culture is a subgenre of the mechanical lifestyle—an appreciation that emerged from raw engineering and precision craftsmanship. Clementine generally refers to a person who is devoted to acquiring mechanical art, especially premium timepieces. To satisfy your aesthetic need, CLEMENTINE is here. The one and only place with curated, high-end, uncompromising mechanical brands are here waiting for you to acquire 'em down! From classic calibers to modern complications, We got you all covered.
         </p>
     </div>
@@ -317,17 +317,28 @@
         }
         // -----------------------------------
 
-        // 2. Story Text Reveal
-        gsap.to('.story-reveal', {
-            scrollTrigger: {
-                trigger: '.story-reveal',
-                start: 'top 80%',
+        // 2. Story Text Reveal (Physical Scrubbed Motion)
+        gsap.fromTo('.story-reveal', 
+            {
+                y: 50,
+                opacity: 0,
+                scale: 0.98,
+                filter: 'blur(8px)'
             },
-            y: 0,
-            opacity: 1,
-            duration: 1.5,
-            ease: 'power3.out'
-        });
+            {
+                scrollTrigger: {
+                    trigger: '.story-reveal',
+                    start: 'top 95%',
+                    end: 'top 50%',
+                    scrub: 1, // Smooth tactical scrubbing, tying animation directly to scroll momentum
+                },
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                filter: 'blur(0px)',
+                ease: 'none'
+            }
+        );
 
         // 3. Staggered reveal for grid sections
         gsap.utils.toArray('.section-reveal').forEach(section => {
