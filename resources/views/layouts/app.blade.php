@@ -174,8 +174,8 @@
     <footer class="w-full flex flex-col mt-auto border-t border-primary" x-data="{ activeModal: null }">
         @if(request()->routeIs('home'))
         <!-- Top Half (Black) -->
-        <div class="w-full bg-primary text-on-primary py-[100px] md:py-[150px] flex items-center justify-center relative overflow-hidden footer-parallax-container">
-            <h1 class="footer-logo font-h1 text-[80px] sm:text-[120px] md:text-[200px] lg:text-[280px] leading-[0.8] tracking-tighter uppercase text-center relative z-10 w-full px-lg">
+        <div class="w-full bg-primary text-on-primary py-[80px] md:py-[150px] flex items-center justify-center relative overflow-hidden footer-parallax-container">
+            <h1 class="footer-logo font-h1 text-[clamp(3rem,13vw,20rem)] leading-[0.8] tracking-tighter uppercase text-center relative z-10 w-full px-4">
                 CLEMENTINE
             </h1>
             <!-- Abstract decorative element -->
