@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            'super_admin' => 'superadmin@clementine.test',
+            'super_admin' => 'Clementine_SA@outlook.com',
             'inventory_manager' => 'inventory@clementine.test',
             'ops_staff' => 'ops@clementine.test',
             'customer_success' => 'cs@clementine.test',
