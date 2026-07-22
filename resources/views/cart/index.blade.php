@@ -5,7 +5,7 @@
 @section('content')
 <div class="px-lg py-xl max-w-7xl mx-auto w-full gap-xl flex flex-col items-center">
     <header class="w-full border-b border-primary pb-sm mb-lg">
-        <h1 class="font-h1 text-[60px] md:text-[100px] leading-[0.8] tracking-tighter uppercase w-full">YOUR CART</h1>
+        <h1 class="font-h1 text-[60px] md:text-[100px] leading-[0.8] tracking-tighter uppercase w-full">YOUR CART<span class="font-serif italic text-copper lowercase tracking-normal">cart</span></h1>
     </header>
     
     <div class="w-full flex flex-col lg:flex-row gap-xl items-start">

@@ -27,9 +27,8 @@
                     </h1>
                     
                     <!-- Subheadline -->
-                    <p class="font-sans text-secondary/80 text-base md:text-xl max-w-2xl mb-10 leading-relaxed hero-reveal-text opacity-0">
-                        Hundreds of curated timepieces now have a tamper-proof provenance trail. Trusted by the world's leading collectors, purists, and horology enthusiasts.
-                    </p>
+                    <p class="font-body-md text-secondary/80 text-base md:text-xl max-w-2xl mb-10 leading-relaxed hero-reveal-text opacity-0">
+                        Hundreds of curated timepieces now have a <span class="font-serif italic text-secondary text-xl md:text-2xl">tamper-proof</span> provenance trail.
                     
                     <!-- Buttons -->
                     <div class="flex flex-wrap gap-4 hero-reveal-btn opacity-0 pointer-events-auto">

@@ -17,23 +17,29 @@ colors:
   border: "#000000"
 typography:
   h1:
-    fontFamily: "Anton, Impact, sans-serif"
+    fontFamily: "Satoshi, sans-serif"
     fontSize: 4.5rem
     fontWeight: 800
     lineHeight: 1
     letterSpacing: -0.02em
     textTransform: uppercase
   h2:
-    fontFamily: "Anton, Impact, sans-serif"
+    fontFamily: "Satoshi, sans-serif"
     fontSize: 3rem
     fontWeight: 800
     lineHeight: 1.1
     textTransform: uppercase
   body-md:
-    fontFamily: "JetBrains Mono, monospace"
+    fontFamily: "'IBM Plex Sans', sans-serif"
     fontSize: 0.875rem
     fontWeight: 400
     lineHeight: 1.5
+  accent:
+    fontFamily: "'Instrument Serif', serif"
+    fontSize: 1.25rem
+    fontWeight: 400
+    lineHeight: 1.4
+    fontStyle: italic
 rounded:
   none: 0px
 spacing:
@@ -63,7 +69,7 @@ Sistem menggunakan **Laravel** dan **PHP** di *backend* (dengan **Supabase** seb
 ## Colors
 Palet monokromatik ekstrem. Hitam dan Putih digunakan untuk 95% antarmuka. Abu-abu terang (Surface) hanya digunakan untuk memisahkan latar belakang gambar jam tangan dari kanvas putih murni, sementara teks sekunder menggunakan abu-abu medium agar sedikit *muted*.
 ## Typography
-Hierarki sangat agresif. *Heading* menggunakan *font* tipe *display* (seperti Anton/Bebas Neue) dengan *weight* super tebal dan selalu huruf kapital. *Body text* idealnya menggunakan *monospace* untuk memberikan nuansa teknis atau spesifikasi mekanikal yang identik dengan jam tangan.
+Hierarki sangat kuat dan elegan. *Heading* menggunakan *Satoshi* dengan *weight* super tebal dan huruf kapital untuk kesan premium. *Body text* menggunakan *IBM Plex Sans* untuk memberikan nuansa teknis, presisi yang identik dengan jam tangan, dengan tingkat keterbacaan tinggi. Sentuhan *Instrument Serif* (*italic*) digunakan untuk kutipan, aksen editorial, atau slogan agar nuansanya semakin mewah dan klasik (high-end).
 ## Spacing & Layout
 *Layout* bergantung sepenuhnya pada *grid* (terutama 4 kolom untuk produk). *Margin* antarkolom dihilangkan sepenuhnya, diganti dengan *border* 1px yang saling bersinggungan. *Whitespace* sangat lega di area teks/hero, tapi sangat padat di area navigasi dan detail *card*.
 ## Shapes & Elevation

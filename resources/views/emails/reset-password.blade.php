@@ -6,15 +6,16 @@
     <title>Password Reset - Clementine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'JetBrains Mono', monospace; background-color: #ffffff; color: #000000; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-        .h1 { font-family: 'Anton', Impact, sans-serif; font-size: 56px; line-height: 0.9; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; }
+        body { font-family: 'IBM Plex Sans', sans-serif; background-color: #ffffff; color: #000000; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        .h1 { font-family: 'Satoshi', sans-serif; font-size: 56px; line-height: 0.9; text-transform: uppercase; margin: 0; letter-spacing: -0.02em; }
         .wrapper { width: 100%; background-color: #ffffff; padding: 40px 10px; box-sizing: border-box; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #000000; }
         .header { background-color: #000000; color: #ffffff; padding: 50px 40px; }
         .content { padding: 40px; }
-        .btn { display: inline-block; background-color: #000000; color: #ffffff; text-decoration: none; text-transform: uppercase; padding: 20px 40px; font-family: 'Anton', Impact, sans-serif; font-size: 22px; letter-spacing: 1px; border: 1px solid #000000; text-align: center; }
+        .btn { display: inline-block; background-color: #000000; color: #ffffff; text-decoration: none; text-transform: uppercase; padding: 20px 40px; font-family: 'Satoshi', sans-serif; font-size: 22px; letter-spacing: 1px; border: 1px solid #000000; text-align: center; }
         .btn:hover { background-color: #ffffff; color: #000000; }
         .footer { padding: 40px; background-color: #F3F4F6; border-top: 1px solid #000000; font-size: 12px; color: #666666; text-transform: uppercase; }
         @media only screen and (max-width: 600px) {

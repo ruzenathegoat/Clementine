@@ -33,7 +33,7 @@
             </a>
             
             <div>
-                <h1 class="font-h1 text-4xl md:text-5xl mb-6 uppercase">Checkout</h1>
+                <h1 class="font-h1 text-4xl md:text-5xl mb-6 uppercase"><span class="font-serif italic text-copper lowercase tracking-normal">Checkout</span></h1>
                 <div class="flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-primary border-y border-primary py-4 px-2 font-label-caps">
                     <span class="border-b border-primary pb-0.5">Shipping</span>
                     <span>/</span>

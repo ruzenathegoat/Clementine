@@ -8,7 +8,7 @@
         <!-- Macro Typography Header -->
         <div class="mb-12 sm:mb-16 border-b border-[var(--color-border)] pb-6">
             <h1 class="text-6xl md:text-8xl font-[family:var(--font-h1)] uppercase text-[var(--color-primary)] m-0 p-0 leading-none">
-                Live Concierge
+                Live <span class="font-serif italic text-copper lowercase tracking-normal">concierge</span>
             </h1>
             <p class="font-[family:var(--font-body-md)] text-sm uppercase text-[var(--color-text-secondary)] mt-6 max-w-lg leading-relaxed">
                 Direct access to our dedicated team. Speak with a human, instantly.

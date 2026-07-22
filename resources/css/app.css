@@ -20,17 +20,21 @@
     --color-copper: #B5651D;
 
     /* Typography from design.md */
-    --font-h1: "Anton", Impact, sans-serif;
-    --font-h2: "Anton", Impact, sans-serif;
-    --font-body-md: "JetBrains Mono", monospace;
+    --font-sans: "Satoshi", sans-serif;
+    --font-serif: "Instrument Serif", serif;
+    --font-mono: "IBM Plex Sans", sans-serif;
+
+    --font-h1: "Satoshi", sans-serif;
+    --font-h2: "Satoshi", sans-serif;
+    --font-body-md: "IBM Plex Sans", sans-serif;
     
     /* Fallbacks for HTML */
-    --font-headline-lg: "Anton", Impact, sans-serif;
-    --font-label-caps: "JetBrains Mono", monospace;
-    --font-headline-xl: "Anton", Impact, sans-serif;
-    --font-body-sm: "JetBrains Mono", monospace;
-    --font-headline-xl-mobile: "Anton", Impact, sans-serif;
-    --font-headline-md: "Anton", Impact, sans-serif;
+    --font-headline-lg: "Satoshi", sans-serif;
+    --font-label-caps: "Satoshi", sans-serif;
+    --font-headline-xl: "Satoshi", sans-serif;
+    --font-body-sm: "IBM Plex Sans", sans-serif;
+    --font-headline-xl-mobile: "Satoshi", sans-serif;
+    --font-headline-md: "Satoshi", sans-serif;
 
     /* Custom Fluid Typography */
     --text-hero-lg: clamp(4rem, 10vw, 11rem);

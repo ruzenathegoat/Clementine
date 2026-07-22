@@ -8,7 +8,7 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-primary pb-8">
             <div class="flex flex-col gap-2">
-                <h1 class="font-h1 text-4xl uppercase tracking-widest">Clementpay</h1>
+                <h1 class="font-h1 text-4xl uppercase tracking-widest"><span class="font-serif italic text-copper lowercase tracking-normal">Clementpay</span></h1>
                 <p class="font-body-md text-sm text-secondary">Manage your Clementine digital currency and view transaction history.</p>
             </div>
             <div class="flex flex-col items-end gap-1 text-right">

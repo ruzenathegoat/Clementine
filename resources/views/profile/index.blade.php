@@ -9,7 +9,7 @@
         <!-- Sidebar Navigation -->
         <div class="w-full lg:w-[300px] flex-shrink-0">
             <h1 class="font-headline-lg text-5xl md:text-6xl uppercase tracking-tighter mb-12 flex flex-col md:flex-row md:items-center gap-4">
-                MY ACCOUNT
+                MY <span class="font-serif italic text-copper lowercase tracking-normal">account</span>
                 @if($user->is_vip)
                     <span class="bg-primary text-white text-xs md:text-sm px-4 py-2 font-body-md font-bold uppercase tracking-widest whitespace-nowrap border border-primary text-center">VIP MEMBER</span>
                 @endif
