@@ -10,7 +10,7 @@
         <div class="sticky top-0 w-full h-screen overflow-hidden bg-background flex flex-col justify-center items-center" id="hero-sequence-pinned">
             
             <!-- Canvas for Image Sequence -->
-            <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"></canvas>
+            <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
 
             <!-- Typography overlay -->
             <h1 class="font-h1 text-[clamp(3rem,8vw,6rem)] leading-[0.85] tracking-[-0.04em] uppercase text-white w-full text-center hero-reveal relative z-10 pointer-events-none mix-blend-difference">
@@ -270,12 +270,16 @@
             images[0].onload = () => {
                 resizeCanvas();
             };
+            if (images[0].complete) {
+                resizeCanvas();
+            }
 
             function render() {
-                if (!images[seq.frame] || !images[seq.frame].complete) return;
+                const frameIndex = Math.round(seq.frame);
+                if (!images[frameIndex] || !images[frameIndex].complete) return;
                 
                 // Calculate aspect ratios to cover the canvas (object-cover equivalent)
-                const img = images[seq.frame];
+                const img = images[frameIndex];
                 const canvasRatio = canvas.width / canvas.height;
                 const imgRatio = img.width / img.height;
                 
