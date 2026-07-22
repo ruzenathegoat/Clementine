@@ -97,6 +97,7 @@ class CheckoutController extends Controller
         foreach ($cartItems as $item) {
             $product = $item->product;
             if ($product->stock < $item->quantity) {
+                if ($request->ajax()) return response()->json(['error' => 'Insufficient stock for ' . $product->name], 422);
                 return back()->withErrors(['error' => 'Insufficient stock for ' . $product->name]);
             }
             
@@ -107,6 +108,7 @@ class CheckoutController extends Controller
                 $isVip = auth()->user()?->is_vip ?? false;
                 
                 if ($now->lt($t)) {
+                    if ($request->ajax()) return response()->json(['error' => $product->name . ' is not yet available for purchase.'], 422);
                     return back()->withErrors(['error' => $product->name . ' is not yet available for purchase.']);
                 }
                 
@@ -114,6 +116,7 @@ class CheckoutController extends Controller
                 $t40 = (clone $t)->addMinutes(40);
                 
                 if ($now->between($t, $t10) && !$isVip) {
+                    if ($request->ajax()) return response()->json(['error' => 'Exclusive VIP access for ' . $product->name . '. Regular sales open at ' . $t10->format('H:i')], 422);
                     return back()->withErrors(['error' => 'Exclusive VIP access for ' . $product->name . '. Regular sales open at ' . $t10->format('H:i')]);
                 }
                 
@@ -124,6 +127,7 @@ class CheckoutController extends Controller
 
                     $maxQty = $isVip ? 3 : 1;
                     if (($item->quantity + $pastPurchases) > $maxQty) {
+                        if ($request->ajax()) return response()->json(['error' => 'You have reached your purchase limit for ' . $product->name . '. (Max: ' . $maxQty . ', Purchased: ' . $pastPurchases . ')'], 422);
                         return back()->withErrors(['error' => 'You have reached your purchase limit for ' . $product->name . '. (Max: ' . $maxQty . ', Purchased: ' . $pastPurchases . ')']);
                     }
                 }
@@ -287,19 +291,25 @@ class CheckoutController extends Controller
                 return $order;
             });
         } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json(['error' => $e->getMessage()], 422);
+            }
             return back()->withErrors(['error' => $e->getMessage()]);
         }
 
         if ($order->payment_method === 'virtual_account') {
+            if ($request->ajax()) return response()->json(['order' => $order, 'redirect' => route('orders.show', $order)]);
             return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully. Please complete your payment.');
         }
 
         if ($order->payment_method === 'qris') {
-            return redirect()->route('dummy.qris', [
+            $qrisRoute = route('dummy.qris', [
                 'type' => 'order',
                 'reference_id' => $order->id,
                 'amount' => $order->total
             ]);
+            if ($request->ajax()) return response()->json(['order' => $order, 'redirect' => $qrisRoute]);
+            return redirect($qrisRoute);
         }
 
         if ($order->payment_status === 'paid') {
@@ -324,6 +334,7 @@ class CheckoutController extends Controller
             }
         }
 
+        if ($request->ajax()) return response()->json(['order' => $order, 'redirect' => route('orders.show', $order)]);
         return redirect()->route('orders.show', $order)->with('success', 'Checkout successful!');
     }
 }

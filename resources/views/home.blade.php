@@ -190,7 +190,7 @@
                         
                         <!-- Countdown Section -->
                         <div class="mb-8 drop-countdown-block" style="opacity: 0;">
-                            <span class="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 block mb-4">DROP ENDS IN</span>
+                            <span class="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 block mb-4">DROP STARTS IN</span>
                             <div class="flex items-center gap-1 font-mono text-[clamp(1.6rem,4vw,2.4rem)] tracking-wide drop-flip-clock" data-drop-id="{{ $drop->id }}">
                                 <div class="flip-digit-pair" data-unit="h">
                                     <div class="flip-digit relative overflow-hidden inline-block w-[1.2em] h-[1.5em]">
