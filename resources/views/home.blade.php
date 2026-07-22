@@ -13,7 +13,7 @@
             <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"></canvas>
 
             <!-- Typography overlay -->
-            <h1 class="font-h1 text-[clamp(3rem,8vw,9rem)] leading-[0.85] tracking-tighter uppercase text-primary w-full text-center hero-reveal relative z-10 pointer-events-none mix-blend-difference opacity-0 translate-y-10">
+            <h1 class="font-h1 text-[clamp(3rem,8vw,6rem)] leading-[0.85] tracking-[-0.04em] uppercase text-white w-full text-center hero-reveal relative z-10 pointer-events-none mix-blend-difference">
                 MECHANICAL<br>PERFECTION
             </h1>
             
@@ -233,9 +233,9 @@
     window.addEventListener('preloaderFinished', () => {
         
         // 1. Hero Reveal & Canvas Sequence
-        gsap.to('.hero-reveal', {
-            y: 0,
-            opacity: 1,
+        gsap.from('.hero-reveal', {
+            y: 40,
+            opacity: 0,
             duration: 1,
             ease: 'expo.out'
         });
@@ -253,8 +253,8 @@
             }
             window.addEventListener("resize", resizeCanvas);
 
-            const frameCount = 192;
-            const currentFrame = index => `/hero-sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`;
+            const frameCount = 240;
+            const currentFrame = index => `/hero-sequence/ezgif.com-webp-maker-${index + 1}.webp`;
 
             const images = [];
             const seq = { frame: 0 };
