@@ -51,11 +51,29 @@
         </div>
     </div>
 
-    <!-- 2. Brand Story Section (Ref: Image 2) -->
-    <div class="w-full bg-primary text-on-primary py-[120px] md:py-[200px] px-lg flex items-center justify-center border-b border-primary">
-        <p class="font-h1 text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] leading-snug md:leading-tight text-secondary w-full max-w-[65ch] opacity-0 story-reveal text-pretty text-left">
-            Horology culture is a subgenre of the mechanical lifestyle—an appreciation that emerged from raw engineering and precision craftsmanship. Clementine generally refers to a person who is devoted to acquiring mechanical art, especially premium timepieces. To satisfy your aesthetic need, CLEMENTINE is here. The one and only place with curated, high-end, uncompromising mechanical brands are here waiting for you to acquire 'em down! From classic calibers to modern complications, We got you all covered.
-        </p>
+    <!-- 2. Brand Story Section -->
+    <div id="brand-story-section" class="w-full bg-primary text-on-primary py-[150px] md:py-[250px] px-6 md:px-12 flex flex-col items-center justify-center border-b border-primary relative overflow-hidden">
+        <div class="w-full max-w-[850px] flex flex-col items-start mx-auto">
+            
+            <!-- Section Header -->
+            <div class="w-full mb-16 md:mb-24">
+                <div class="w-full h-[1px] bg-secondary/30 mb-6 story-divider origin-left" style="transform: scaleX(0);"></div>
+                <h2 class="font-mono text-[10px] md:text-[12px] uppercase text-secondary/80 story-heading" style="opacity: 0; letter-spacing: 0.12em;">
+                    HOROLOGY CULTURE
+                </h2>
+            </div>
+            
+            <!-- Paragraph 1 -->
+            <div class="story-p1 font-h1 text-[22px] sm:text-[26px] md:text-[32px] lg:text-[40px] leading-[1.4] text-left mb-24 md:mb-32">
+                Horology comes down to this: gears, springs, and jewels arranged with enough precision to track something as slippery as time, no battery required. People have been obsessing over how to do that better for about four hundred years. It's a strange thing to love, and we love it anyway.
+            </div>
+
+            <!-- Paragraph 2 -->
+            <div class="story-p2 font-h1 text-[22px] sm:text-[26px] md:text-[32px] lg:text-[40px] leading-[1.4] text-left">
+                Clementine is for the people who'd rather own one watch they actually understand than five they don't. Some of what we carry is old heritage calibers built the way they always were. Some of it is newer, stranger complications from makers still pushing the mechanics forward. What we won't do is stock a watch just because the name on the dial sells itself. If a piece doesn't earn its place on a wrist, it doesn't earn a place with us.
+            </div>
+
+        </div>
     </div>
 
     @if(isset($theDrop) && $theDrop->isNotEmpty())
@@ -352,43 +370,87 @@
         }
         // -----------------------------------
 
-        // 2. Story Text Reveal (Reading Progress Scrubbed Motion)
-        const storyEl = document.querySelector('.story-reveal');
-        if (storyEl) {
-            // Store original text and split into words
-            const text = storyEl.innerText.trim();
-            const words = text.split(/\s+/);
-            storyEl.innerHTML = '';
-            
-            // Create spans for each word
-            words.forEach((word, index) => {
-                const span = document.createElement('span');
-                span.textContent = word;
-                span.classList.add('story-word');
-                span.style.opacity = '0.2';
-                span.style.transition = 'opacity 0.1s ease'; // optional smooth fallback
-                storyEl.appendChild(span);
-                
-                // Append an actual space node after each word (except the last)
-                if (index < words.length - 1) {
-                    storyEl.appendChild(document.createTextNode(' '));
+        // 2. Editorial Brand Story Reveal
+        const storySection = document.getElementById('brand-story-section');
+        if (storySection && typeof SplitType !== 'undefined') {
+            const divider = storySection.querySelector('.story-divider');
+            const heading = storySection.querySelector('.story-heading');
+            const p1 = storySection.querySelector('.story-p1');
+            const p2 = storySection.querySelector('.story-p2');
+
+            // Split text into lines
+            const splitP1 = new SplitType(p1, { types: 'lines', lineClass: 'story-line' });
+            const splitP2 = new SplitType(p2, { types: 'lines', lineClass: 'story-line' });
+
+            // Restore keywords inside lines for emphasis
+            const keywords = ['precision', 'mechanics', 'heritage', 'complications', 'mechanical'];
+            storySection.querySelectorAll('.story-line').forEach(line => {
+                let html = line.innerHTML;
+                keywords.forEach(kw => {
+                    const regex = new RegExp(`\\b(${kw})\\b`, 'gi');
+                    html = html.replace(regex, `<span class="keyword-emphasis transition-all duration-300" style="font-weight: 400;">$1</span>`);
+                });
+                line.innerHTML = html;
+            });
+
+            // Initial line states (muted gray)
+            gsap.set('.story-line', { opacity: 0.2, color: 'rgba(255, 255, 255, 0.4)' });
+
+            // Main Scrub Timeline
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: storySection,
+                    start: 'top 75%',
+                    end: 'bottom 40%',
+                    scrub: 1, // Smooth tactical scrubbing
                 }
             });
 
-            // Make container visible
-            storyEl.classList.remove('opacity-0');
+            // Step 1: Divider expands
+            tl.to(divider, { scaleX: 1, duration: 0.6, ease: 'power2.out' }, 0);
+            
+            // Step 2: Heading tracking reveal
+            tl.to(heading, { letterSpacing: '0em', opacity: 1, duration: 0.8, ease: 'power2.out' }, 0.2);
 
-            // Animate words opacity sequentially on scroll
-            gsap.to('.story-word', {
-                opacity: 1,
-                stagger: 0.1,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '.story-reveal',
-                    start: 'top 85%',
-                    end: 'bottom 65%',
-                    scrub: 1, // Smooth tactical scrubbing
-                }
+            // P1 Reading Progress
+            const p1Lines = p1.querySelectorAll('.story-line');
+            p1Lines.forEach((line) => {
+                tl.to(line, {
+                    opacity: 1,
+                    color: '#ffffff',
+                    duration: 1,
+                    ease: 'none',
+                    onUpdate: function() {
+                        const keywordsInLine = line.querySelectorAll('.keyword-emphasis');
+                        if (this.progress() > 0.8) {
+                            keywordsInLine.forEach(k => k.style.fontWeight = '600');
+                        } else {
+                            keywordsInLine.forEach(k => k.style.fontWeight = '400');
+                        }
+                    }
+                }, '+=0'); // Sequential
+            });
+
+            // Visual breathing room
+            tl.to({}, { duration: 2 }); // Add empty space in timeline
+
+            // P2 Reading Progress
+            const p2Lines = p2.querySelectorAll('.story-line');
+            p2Lines.forEach((line) => {
+                tl.to(line, {
+                    opacity: 1,
+                    color: '#ffffff',
+                    duration: 1,
+                    ease: 'none',
+                    onUpdate: function() {
+                        const keywordsInLine = line.querySelectorAll('.keyword-emphasis');
+                        if (this.progress() > 0.8) {
+                            keywordsInLine.forEach(k => k.style.fontWeight = '600');
+                        } else {
+                            keywordsInLine.forEach(k => k.style.fontWeight = '400');
+                        }
+                    }
+                }, '+=0');
             });
         }
 
