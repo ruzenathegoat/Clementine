@@ -13,9 +13,11 @@
             <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
 
             <!-- Typography overlay -->
-            <h1 class="font-h1 text-[clamp(3rem,8vw,6rem)] leading-[0.85] tracking-[-0.04em] uppercase text-white w-full text-center hero-reveal relative z-10 pointer-events-none mix-blend-difference">
-                MECHANICAL<br>PERFECTION
-            </h1>
+            <div class="absolute bottom-10 left-6 md:bottom-16 md:left-12 z-20 pointer-events-none mix-blend-difference">
+                <h1 class="font-h1 text-[clamp(2.5rem,5vw,5rem)] leading-[0.85] tracking-[-0.04em] uppercase text-white text-left hero-reveal">
+                    MECHANICAL<br>PERFECTION
+                </h1>
+            </div>
             
         </div>
     </div>
@@ -236,8 +238,9 @@
         gsap.from('.hero-reveal', {
             y: 40,
             opacity: 0,
+            scale: 0.95,
             duration: 1,
-            ease: 'expo.out'
+            ease: 'power4.out' // Using a stronger native GSAP curve equivalent to custom ease-out
         });
 
         // --- Canvas Image Sequence Logic ---
