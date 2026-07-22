@@ -253,6 +253,7 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 render();
+                if (window.ScrollTrigger) ScrollTrigger.refresh();
             }
             window.addEventListener("resize", resizeCanvas);
 
@@ -344,29 +345,37 @@
         gsap.utils.toArray('.section-reveal').forEach(section => {
             const items = section.querySelectorAll('.drop-container, .product-card');
             if (items.length > 0) {
-                gsap.from(items, {
-                    y: 40,
-                    opacity: 0,
-                    scale: 0.98,
-                    stagger: 0.1,
-                    duration: 0.8,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 85%',
+                gsap.fromTo(items, 
+                    { y: 60, opacity: 0, scale: 0.98 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        stagger: 0.1,
+                        duration: 0.8,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
                     }
-                });
+                );
             } else {
-                gsap.from(section, {
-                    y: 40,
-                    opacity: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 85%',
+                gsap.fromTo(section, 
+                    { y: 60, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
                     }
-                });
+                );
             }
         });
         
