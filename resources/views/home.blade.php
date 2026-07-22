@@ -352,28 +352,40 @@
         }
         // -----------------------------------
 
-        // 2. Story Text Reveal (Physical Scrubbed Motion)
-        gsap.fromTo('.story-reveal', 
-            {
-                y: 50,
-                opacity: 0,
-                scale: 0.98,
-                filter: 'blur(8px)'
-            },
-            {
+        // 2. Story Text Reveal (Reading Progress Scrubbed Motion)
+        const storyEl = document.querySelector('.story-reveal');
+        if (storyEl) {
+            // Store original text and split into words
+            const text = storyEl.innerText.trim();
+            const words = text.split(/\s+/);
+            storyEl.innerHTML = '';
+            
+            // Create spans for each word
+            words.forEach(word => {
+                const span = document.createElement('span');
+                span.innerText = word + ' ';
+                span.classList.add('story-word');
+                span.style.opacity = '0.2';
+                span.style.display = 'inline-block';
+                storyEl.appendChild(span);
+            });
+
+            // Make container visible
+            storyEl.classList.remove('opacity-0');
+
+            // Animate words opacity sequentially on scroll
+            gsap.to('.story-word', {
+                opacity: 1,
+                stagger: 0.1,
+                ease: 'none',
                 scrollTrigger: {
                     trigger: '.story-reveal',
-                    start: 'top 95%',
-                    end: 'top 50%',
-                    scrub: 1, // Smooth tactical scrubbing, tying animation directly to scroll momentum
-                },
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                filter: 'blur(0px)',
-                ease: 'none'
-            }
-        );
+                    start: 'top 85%',
+                    end: 'bottom 65%',
+                    scrub: 1, // Smooth tactical scrubbing
+                }
+            });
+        }
 
         // 3. Staggered reveal for grid sections (The Drop & New Arrivals)
         gsap.utils.toArray('.section-reveal').forEach(section => {
