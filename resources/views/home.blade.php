@@ -230,7 +230,7 @@
 
 <script>
     // Page-specific GSAP animations
-    window.addEventListener('preloaderFinished', () => {
+    function initAnimations() {
         
         // 1. Hero Reveal & Canvas Sequence
         gsap.from('.hero-reveal', {
@@ -254,7 +254,8 @@
             window.addEventListener("resize", resizeCanvas);
 
             const frameCount = 240;
-            const currentFrame = index => `/hero-sequence/ezgif.com-webp-maker-${index + 1}.webp`;
+            const basePath = "{{ asset('hero-sequence/ezgif.com-webp-maker-') }}";
+            const currentFrame = index => `${basePath}${index + 1}.webp`;
 
             const images = [];
             const seq = { frame: 0 };
@@ -267,16 +268,14 @@
             }
 
             // Draw first frame when it loads
-            images[0].onload = () => {
-                resizeCanvas();
-            };
+            images[0].onload = resizeCanvas;
             if (images[0].complete) {
                 resizeCanvas();
             }
 
             function render() {
                 const frameIndex = Math.round(seq.frame);
-                if (!images[frameIndex] || !images[frameIndex].complete) return;
+                if (!images[frameIndex] || !images[frameIndex].complete || images[frameIndex].naturalWidth === 0) return;
                 
                 // Calculate aspect ratios to cover the canvas (object-cover equivalent)
                 const img = images[frameIndex];
@@ -353,7 +352,13 @@
             duration: 1,
             ease: 'power4.out'
         });
-    });
+    } // End initAnimations
+
+    if (sessionStorage.getItem('preloaderShown')) {
+        initAnimations();
+    } else {
+        window.addEventListener('preloaderFinished', initAnimations);
+    }
 
     // CRM Drop Countdown Logic & Stock Polling
     function updateCountdowns() {
