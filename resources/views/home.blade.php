@@ -5,14 +5,19 @@
 @section('content')
 <div class="w-full">
     
-    <!-- 1. Hero Section (Ref: Image 1) -->
-    <div class="w-full bg-background pt-[120px] md:pt-[160px] pb-[80px] px-lg border-b border-primary">
-        <h1 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase text-primary w-full text-left hero-reveal opacity-0 translate-y-10">
-            MECHANICAL <br>
-            PERFECTION <br>
-            WITHOUT <br>
-            COMPROMISE
-        </h1>
+    <!-- 1. Hero Section (Canvas Image Sequence) -->
+    <div class="relative w-full h-[300vh] border-b border-primary" id="hero-sequence-container">
+        <div class="sticky top-0 w-full h-screen overflow-hidden bg-background flex flex-col justify-center items-center" id="hero-sequence-pinned">
+            
+            <!-- Canvas for Image Sequence -->
+            <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply"></canvas>
+
+            <!-- Typography overlay -->
+            <h1 class="font-h1 text-[clamp(3rem,8vw,9rem)] leading-[0.85] tracking-tighter uppercase text-primary w-full text-center hero-reveal relative z-10 pointer-events-none mix-blend-difference opacity-0 translate-y-10">
+                MECHANICAL<br>PERFECTION
+            </h1>
+            
+        </div>
     </div>
 
     <!-- 2. Brand Story Section (Ref: Image 2) -->
@@ -227,13 +232,84 @@
     // Page-specific GSAP animations
     window.addEventListener('preloaderFinished', () => {
         
-        // 1. Hero Reveal
+        // 1. Hero Reveal & Canvas Sequence
         gsap.to('.hero-reveal', {
             y: 0,
             opacity: 1,
             duration: 1,
             ease: 'expo.out'
         });
+
+        // --- Canvas Image Sequence Logic ---
+        const canvas = document.getElementById("hero-canvas");
+        if (canvas) {
+            const context = canvas.getContext("2d");
+            
+            // Set canvas size (update on resize)
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                render();
+            }
+            window.addEventListener("resize", resizeCanvas);
+
+            const frameCount = 192;
+            const currentFrame = index => `/hero-sequence/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.jpg`;
+
+            const images = [];
+            const seq = { frame: 0 };
+
+            // Preload images
+            for (let i = 0; i < frameCount; i++) {
+                const img = new Image();
+                img.src = currentFrame(i);
+                images.push(img);
+            }
+
+            // Draw first frame when it loads
+            images[0].onload = () => {
+                resizeCanvas();
+            };
+
+            function render() {
+                if (!images[seq.frame] || !images[seq.frame].complete) return;
+                
+                // Calculate aspect ratios to cover the canvas (object-cover equivalent)
+                const img = images[seq.frame];
+                const canvasRatio = canvas.width / canvas.height;
+                const imgRatio = img.width / img.height;
+                
+                let drawWidth = canvas.width;
+                let drawHeight = canvas.height;
+                let offsetX = 0;
+                let offsetY = 0;
+
+                if (imgRatio > canvasRatio) {
+                    drawWidth = canvas.height * imgRatio;
+                    offsetX = (canvas.width - drawWidth) / 2;
+                } else {
+                    drawHeight = canvas.width / imgRatio;
+                    offsetY = (canvas.height - drawHeight) / 2;
+                }
+                
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+            }
+
+            gsap.to(seq, {
+                frame: frameCount - 1,
+                snap: "frame",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#hero-sequence-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0.5 // Emil Kowalski principle: subtle smooth interpolation instead of raw 1:1 rigid tie
+                },
+                onUpdate: render
+            });
+        }
+        // -----------------------------------
 
         // 2. Story Text Reveal
         gsap.to('.story-reveal', {
