@@ -361,13 +361,18 @@
             storyEl.innerHTML = '';
             
             // Create spans for each word
-            words.forEach(word => {
+            words.forEach((word, index) => {
                 const span = document.createElement('span');
-                span.innerText = word + ' ';
+                span.textContent = word;
                 span.classList.add('story-word');
                 span.style.opacity = '0.2';
-                span.style.display = 'inline-block';
+                span.style.transition = 'opacity 0.1s ease'; // optional smooth fallback
                 storyEl.appendChild(span);
+                
+                // Append an actual space node after each word (except the last)
+                if (index < words.length - 1) {
+                    storyEl.appendChild(document.createTextNode(' '));
+                }
             });
 
             // Make container visible
