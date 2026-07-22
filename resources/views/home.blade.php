@@ -217,74 +217,95 @@
             @endforelse
         </div>
     </div>
-       <!-- 4. Graphic Section: Legit / Authenticity (Swiss Industrial Brutalism) -->
-    <div class="w-full bg-primary relative section-reveal border-b border-primary">
-        <!-- 1px gap grid to create perfect brutalist borders -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-[1px] bg-primary min-h-[400px] md:min-h-[500px]">
+    <!-- 4. Graphic Section: Verification Protocol (Editorial) -->
+    <div class="w-full bg-background relative border-b border-primary/20" id="verification-section">
+        <!-- Grid container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 bg-background min-h-[500px] md:min-h-[700px]">
             
-            <!-- Left Side: Massive Typography & Text -->
-            <div class="md:col-span-8 bg-background flex flex-col justify-between p-lg md:p-2xl relative overflow-hidden">
-                <!-- Top Telemetry Bar -->
-                <div class="flex justify-between items-start font-mono text-[10px] sm:text-xs uppercase tracking-[0.1em] text-primary/70 mb-12 md:mb-20">
-                    <span>[ VERIFICATION PROTOCOL ]</span>
-                    <span class="hidden sm:inline-block">>>> /// SYS. AUTH. 1.0</span>
-                </div>
-                
-                <!-- The Core Statement -->
-                <h2 class="fake-statement font-h1 text-[clamp(3rem,8vw,7rem)] leading-[0.85] tracking-[-0.04em] uppercase text-primary break-words z-20 mb-8 md:mb-12">
-                    FAKE<br>IS<br>BULLSH*T.
-                </h2>
-                
-                <!-- Bottom Description & Reference -->
-                <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-end justify-between z-20 mt-auto">
-                    <p class="font-body-md text-xs md:text-sm text-primary/80 uppercase tracking-widest leading-relaxed max-w-lg">
-                        We don't deal in replicas, clones, or compromises. Mechanical integrity is absolute. Every piece is verified. If it's not real, it doesn't exist here.
-                    </p>
-                    <div class="hidden md:flex flex-col items-end font-mono text-[10px] text-primary/50 tracking-[0.15em] text-right">
-                        <span>REF: Z-99</span>
-                        <span>SEC: ALPHA</span>
+            <!-- Left Side: Typography -->
+            <div class="flex flex-col justify-center p-xl md:p-4xl relative border-b md:border-b-0 md:border-r border-primary/20 overflow-hidden">
+                <div class="flex flex-col h-full justify-center max-w-xl mx-auto md:mx-0">
+                    <!-- The Core Statement -->
+                    <h2 class="veri-headline font-h1 text-[clamp(3.5rem,8vw,7rem)] leading-[0.85] tracking-tight uppercase text-primary mb-12" style="filter: blur(18px) brightness(0.96) contrast(0.95);">
+                        FAKE<br>IS<br>BULLSH*T.
+                    </h2>
+                    
+                    <!-- Bottom Description -->
+                    <div class="veri-paragraph font-body-md text-sm md:text-base text-primary/80 uppercase tracking-widest leading-relaxed max-w-sm">
+                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">We don't deal in replicas.</div>
+                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">Every piece is verified.</div>
+                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">If it's not real,</div>
+                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">it doesn't exist here.</div>
                     </div>
                 </div>
             </div>
             
-            <!-- Right Side: Graphic/Product Image -->
+            <!-- Right Side: Technical Inspection -->
             @php
                 $baseProduct = $newArrivals->first() ?? $theDrop->first();
                 $legitProduct = $baseProduct ? clone $baseProduct : null;
                 $legitImageUrl = $legitProduct && $legitProduct->primaryImage ? $legitProduct->primaryImage->url : 'https://picsum.photos/seed/watch/800/600';
             @endphp
-            <div class="md:col-span-4 bg-background flex flex-col relative group overflow-hidden">
-                <!-- Red Alert Header -->
-                <div class="bg-[#E61919] text-white p-sm px-md flex justify-between items-center font-mono text-[10px] tracking-[0.15em] uppercase z-30 relative">
-                    <span>STATUS: SECURE</span>
-                    <span class="animate-pulse">●</span>
+            <div class="flex flex-col relative overflow-hidden group cursor-default bg-background" id="verification-lab">
+                
+                <!-- Top Telemetry Bar -->
+                <div class="flex justify-between items-center px-lg py-md border-b border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary/70 z-30 bg-background/80 backdrop-blur-sm relative">
+                    <span class="veri-top-label" style="filter: blur(4px); opacity: 0;">[ VERIFICATION PROTOCOL ]</span>
+                    <span class="veri-top-label hidden sm:inline-block" style="filter: blur(4px); opacity: 0;">SYS.AUTH.1.0</span>
                 </div>
 
-                <!-- Image Canvas -->
-                <div class="flex-1 relative flex items-center justify-center p-xl min-h-[300px] overflow-hidden">
-                    <!-- Brutalist Grid Overlay -->
-                    <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(to right, rgba(17,17,17,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,17,17,0.05) 1px, transparent 1px); background-size: 40px 40px;"></div>
-                    
-                    <!-- Center Crosshair -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 pointer-events-none">
-                        <div class="absolute top-1/2 left-0 w-full h-[1px] bg-primary/40"></div>
-                        <div class="absolute top-0 left-1/2 w-[1px] h-full bg-primary/40"></div>
+                <!-- Inspection Stage -->
+                <div class="flex-1 relative flex items-center justify-center p-2xl min-h-[400px]">
+                    <!-- GSAP Drawn Grid -->
+                    <div class="absolute inset-0 pointer-events-none veri-grid overflow-hidden" style="opacity: 0.03;">
+                        <!-- Vertical lines -->
+                        @for ($i = 1; $i < 10; $i++)
+                            <div class="absolute top-0 bottom-0 bg-primary w-[1px] veri-grid-v" style="left: {{ $i * 10 }}%; transform-origin: top; transform: scaleY(0);"></div>
+                        @endfor
+                        <!-- Horizontal lines -->
+                        @for ($i = 1; $i < 10; $i++)
+                            <div class="absolute left-0 right-0 bg-primary h-[1px] veri-grid-h" style="top: {{ $i * 10 }}%; transform-origin: left; transform: scaleX(0);"></div>
+                        @endfor
                     </div>
 
-                    <div class="absolute inset-0 bg-contain bg-center bg-no-repeat graphic-item opacity-0 scale-95 z-20 m-xl mix-blend-multiply" style="background-image: url('{{ $legitImageUrl }}')"></div>
+                    <!-- Watch Image -->
+                    <div class="relative z-20 w-full h-full max-w-[400px] max-h-[400px] flex items-center justify-center">
+                        <!-- Inspection Frame (drawn on hover) -->
+                        <div class="hover-border-top absolute top-0 left-0 w-full h-[1px] bg-primary scale-x-0 origin-left z-10 pointer-events-none"></div>
+                        <div class="hover-border-right absolute top-0 right-0 w-[1px] h-full bg-primary scale-y-0 origin-top z-10 pointer-events-none"></div>
+                        <div class="hover-border-bottom absolute bottom-0 right-0 w-full h-[1px] bg-primary scale-x-0 origin-right z-10 pointer-events-none"></div>
+                        <div class="hover-border-left absolute bottom-0 left-0 w-[1px] h-full bg-primary scale-y-0 origin-bottom z-10 pointer-events-none"></div>
+
+                        <img src="{{ $legitImageUrl }}" class="veri-watch object-contain w-full h-full" style="filter: blur(12px) brightness(0.88) contrast(1); transform: translateY(3px);" alt="Authentication Subject">
+                    </div>
                 </div>
 
-                <!-- Bottom Telemetry Data -->
-                <div class="grid grid-cols-2 gap-[1px] bg-primary border-t border-primary mt-auto z-30 relative">
-                    <div class="bg-background p-md font-mono text-[10px] uppercase tracking-widest flex flex-col items-center justify-center text-center">
-                        <span class="text-primary/50 mb-1">VERIFICATION</span>
-                        <span class="text-primary font-bold">100% AUTHENTIC</span>
-                    </div>
-                    <div class="bg-background p-md font-mono text-[10px] uppercase tracking-widest flex flex-col items-center justify-center text-center">
-                        <span class="text-primary/50 mb-1">POLICY</span>
-                        <span class="text-primary font-bold">ZERO TOLERANCE</span>
+                <!-- Certification Panel -->
+                <div class="bg-background font-mono text-[10px] uppercase tracking-widest text-primary/80 z-30 relative veri-panel-container">
+                    <div class="veri-panel-border absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-0">
+                        <div class="p-lg flex flex-col justify-center border-r border-primary/20 border-opacity-0 veri-panel-item" style="opacity: 0;">
+                            <span class="text-primary/50 mb-2">REFERENCE</span>
+                            <span class="text-primary">REF: Z-99</span>
+                        </div>
+                        <div class="p-lg flex flex-col justify-center border-r border-primary/20 border-opacity-0 veri-panel-item hidden md:flex" style="opacity: 0;">
+                            <span class="text-primary/50 mb-2">INSPECTION</span>
+                            <span class="text-primary">PASSED</span>
+                        </div>
+                        <div class="p-lg flex flex-col justify-center border-r border-primary/20 border-opacity-0 veri-panel-item hidden md:flex" style="opacity: 0;">
+                            <span class="text-primary/50 mb-2">SCORE</span>
+                            <span class="text-primary">100%</span>
+                        </div>
+                        <!-- Status Indicator -->
+                        <div class="p-lg flex flex-col justify-center veri-panel-item" style="opacity: 0;">
+                            <span class="text-primary/50 mb-2">AUTHENTICITY</span>
+                            <span class="text-primary flex items-center">
+                                VERIFIED <span class="veri-dot ml-3 text-primary text-[8px]">●</span> LIVE
+                            </span>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -588,36 +609,119 @@
             });
         });
 
-        // 4. Graphic Item pop-in (Refined mechanical motion)
-        gsap.to('.graphic-item', {
-            scrollTrigger: {
-                trigger: '.graphic-item',
-                start: 'top 70%',
-            },
-            scale: 1,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'expo.out'
-        });
-
-        // 5. Graphic Section Statement Parallax
-        if (document.querySelector('.fake-statement')) {
-            gsap.fromTo('.fake-statement',
-                { y: 50, opacity: 0.2, filter: 'blur(10px)', scale: 0.95 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    filter: 'blur(0px)',
-                    scale: 1,
-                    scrollTrigger: {
-                        trigger: '.fake-statement',
-                        start: 'top 90%',
-                        end: 'top 40%',
-                        scrub: 1
-                    },
-                    ease: 'none'
+        // 4. Verification Protocol (Editorial Graphic Section)
+        const veriSection = document.getElementById('verification-section');
+        if (veriSection) {
+            const tlVeri = gsap.timeline({
+                scrollTrigger: {
+                    trigger: veriSection,
+                    start: 'top 65%',
+                    once: true // Never reverse
                 }
-            );
+            });
+
+            // Step 02: Protocol Initialization
+            tlVeri.to('.veri-top-label', {
+                filter: 'blur(0px)',
+                opacity: 1,
+                duration: 0.4,
+                ease: 'power2.out',
+                stagger: 0.1
+            }, 0);
+
+            // Step 03: Technical Grid (Delay 100ms from start)
+            tlVeri.to('.veri-grid-h', {
+                scaleX: 1,
+                duration: 0.3, // Part of 600ms total
+                ease: 'power2.inOut',
+                stagger: 0.02
+            }, 0.1)
+            .to('.veri-grid-v', {
+                scaleY: 1,
+                duration: 0.3,
+                ease: 'power2.inOut',
+                stagger: 0.02
+            }, "-=0.1"); // overlaps
+
+            // Step 04: Headline Verification
+            tlVeri.to('.veri-headline', {
+                filter: 'blur(0px) brightness(1) contrast(1)',
+                duration: 0.9,
+                ease: 'power2.out'
+            }, 0.5);
+
+            // Step 08: Micro Typography
+            tlVeri.to('.veri-line', {
+                filter: 'blur(0px)',
+                opacity: 1,
+                duration: 0.6,
+                ease: 'power2.out',
+                stagger: 0.15
+            }, 0.7);
+
+            // Step 05: Watch Authentication
+            tlVeri.to('.veri-watch', {
+                filter: 'blur(0px) brightness(1) contrast(1.08)',
+                y: 0,
+                duration: 0.7,
+                ease: 'power2.out'
+            }, 0.9);
+
+            // Step 06: Certification Panel
+            tlVeri.to('.veri-panel-border', {
+                scaleX: 1,
+                duration: 0.5,
+                ease: 'power2.out'
+            }, 1.2)
+            .to('.veri-panel-item', {
+                opacity: 1,
+                duration: 0.3,
+                ease: 'none',
+                stagger: 0.08
+            }, 1.4);
+
+            // Step 07: Status Indicator pulsing
+            tlVeri.add(() => {
+                gsap.fromTo('.veri-dot', 
+                    { opacity: 0.4 },
+                    { 
+                        opacity: 1, 
+                        duration: 1.1, 
+                        ease: 'power1.inOut', 
+                        yoyo: true, 
+                        repeat: -1, 
+                        repeatDelay: 2.8 
+                    }
+                );
+            }, 1.7);
+            
+            // Hover Interaction for the lab section
+            const lab = document.getElementById('verification-lab');
+            const watch = lab.querySelector('.veri-watch');
+            const grid = lab.querySelector('.veri-grid');
+            
+            const bTop = lab.querySelector('.hover-border-top');
+            const bRight = lab.querySelector('.hover-border-right');
+            const bBottom = lab.querySelector('.hover-border-bottom');
+            const bLeft = lab.querySelector('.hover-border-left');
+
+            const tlHover = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+            
+            // Stage 1: Clarity
+            tlHover.to(watch, { filter: 'blur(0px) brightness(1.04) contrast(1.12)', duration: 0.3 }, 0);
+            
+            // Stage 2: Move grid
+            tlHover.to(grid, { x: 2, y: 2, duration: 0.4 }, 0);
+            
+            // Stage 3: Draw thin inspection frame (350ms total)
+            const d = 0.35 / 4;
+            tlHover.to(bTop, { scaleX: 1, duration: d }, 0)
+                   .to(bRight, { scaleY: 1, duration: d }, d)
+                   .to(bBottom, { scaleX: 1, duration: d }, d * 2)
+                   .to(bLeft, { scaleY: 1, duration: d }, d * 3);
+
+            lab.addEventListener('mouseenter', () => tlHover.timeScale(1).play());
+            lab.addEventListener('mouseleave', () => tlHover.timeScale(1).reverse());
         }
     } // End initAnimations
 
