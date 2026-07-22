@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-// use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -117,7 +117,7 @@ Route::get('/_debug/s3', function () {
 
 // --- ACTIVE ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 // Detail page view is still a placeholder (real Blade view comes in the next Phase 4 step),
 // but the route already pulls the real product from the DB via ProductController@show — 404s on bad slugs.
