@@ -7,7 +7,7 @@
     
     <!-- 1. Hero Section (Canvas Image Sequence) -->
     <div class="relative w-full h-[300vh] border-b border-primary" id="hero-sequence-container">
-        <div class="sticky top-0 w-full h-screen overflow-hidden bg-background flex flex-col justify-center items-center" id="hero-sequence-pinned">
+        <div class="sticky top-0 w-full h-screen overflow-hidden bg-primary flex flex-col justify-center items-center" id="hero-sequence-pinned">
             
             <!-- Canvas for Image Sequence -->
             <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
@@ -16,18 +16,18 @@
             <div class="absolute inset-0 bg-primary/60 z-10"></div>
 
             <!-- Typography overlay -->
-            <div class="absolute inset-0 z-20 flex flex-col justify-center px-lg md:px-2xl mix-blend-normal">
-                <div class="w-full max-w-7xl mx-auto pt-20"> <!-- pt-20 to clear nav -->
+            <div class="absolute inset-0 z-20 flex flex-col justify-center mix-blend-normal">
+                <div class="w-full max-w-7xl mx-auto pt-20 px-6 md:px-12 flex flex-col items-start"> <!-- pt-20 to clear nav -->
                     <!-- Horizontal Rule -->
                     <hr class="border-secondary/30 mb-8 md:mb-12 w-full max-w-5xl hero-reveal-line opacity-0 origin-left">
                     
                     <!-- Headline -->
-                    <h1 class="font-sans font-medium text-[clamp(2.5rem,5.5vw,5.5rem)] leading-[1.05] tracking-tight text-secondary text-left text-balance mb-6 md:mb-8 hero-reveal-text opacity-0 normal-case">
+                    <h1 class="font-sans font-medium text-[clamp(2rem,3.5vw,4rem)] leading-[1.1] tracking-tight text-secondary text-left mb-4 md:mb-6 hero-reveal-text opacity-0 normal-case max-w-4xl">
                         Clementine is the World's Premier Mechanical Horology Network
                     </h1>
                     
                     <!-- Subheadline -->
-                    <p class="font-body-md text-secondary/80 text-lg md:text-2xl max-w-3xl mb-12 text-pretty leading-relaxed hero-reveal-text opacity-0">
+                    <p class="font-sans text-secondary/80 text-base md:text-xl max-w-2xl mb-10 leading-relaxed hero-reveal-text opacity-0">
                         Hundreds of curated timepieces now have a tamper-proof provenance trail. Trusted by the world's leading collectors, purists, and horology enthusiasts.
                     </p>
                     
