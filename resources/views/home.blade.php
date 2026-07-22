@@ -143,40 +143,48 @@
                 VIEW MORE
             </a>
         </div>
-        <!-- Hypebizz-style Grid (Explicit borders for perfect brutalism) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full border-l border-primary">
+        <!-- Editorial Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full border-l border-primary/20" id="editorial-products-grid">
             @forelse($newArrivals as $product)
                 @if($product->stock <= 0)
-                <div class="group flex flex-col bg-background border-r border-b border-primary opacity-60 cursor-not-allowed product-card relative h-full">
+                <div class="flex flex-col bg-background border-r border-b border-primary/20 opacity-60 cursor-not-allowed product-card relative h-full">
                 @else
-                <div class="group flex flex-col bg-background transition-colors product-card relative h-full border-r border-b border-primary">
+                <div class="flex flex-col bg-background product-card relative h-full border-r border-b border-primary/20 cursor-pointer">
                 @endif
                 
+                    <!-- Drawn Borders (Mechanical Inspection Mode) -->
+                    <div class="border-top absolute top-0 left-0 w-full h-[1px] bg-primary scale-x-0 origin-left z-20 pointer-events-none"></div>
+                    <div class="border-right absolute top-0 right-0 w-[1px] h-full bg-primary scale-y-0 origin-top z-20 pointer-events-none"></div>
+                    <div class="border-bottom absolute bottom-0 right-0 w-full h-[1px] bg-primary scale-x-0 origin-right z-20 pointer-events-none"></div>
+                    <div class="border-left absolute bottom-0 left-0 w-[1px] h-full bg-primary scale-y-0 origin-bottom z-20 pointer-events-none"></div>
+
                     @if($product->stock <= 0)
-                    <div class="flex-grow flex flex-col">
+                    <div class="flex-grow flex flex-col relative z-10">
                     @else
-                    <a href="{{ route('products.show', $product->slug) }}" class="flex-grow flex flex-col">
+                    <a href="{{ route('products.show', $product->slug) }}" class="flex-grow flex flex-col relative z-10 block">
                     @endif
                     
                         <!-- Top Bar: Logo/Name & Price -->
-                        <div class="flex justify-between items-center px-md py-sm border-b border-primary">
-                            <span class="font-h2 text-sm uppercase tracking-tight">
+                        <div class="flex justify-between items-center px-md py-sm border-b border-primary/20">
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-[#666666] product-meta">
                                 {{ $product->collection->name ?? 'CLE' }}
                             </span>
-                            <span class="font-h2 text-sm">${{ number_format($product->price, 2) }}</span>
+                            <span class="font-mono text-[10px] text-[#666666] product-meta">${{ number_format($product->price, 2) }}</span>
                         </div>
                         
                         <!-- Image Area -->
-                        <div class="w-full aspect-square bg-background border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
+                        <div class="w-full aspect-square bg-background border-b border-primary/20 flex items-center justify-center p-xl relative overflow-hidden">
                             @if ($product->primaryImage)
-                                <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-all duration-500 ease-mechanical group-hover:scale-[1.03] active:scale-95"
-                                     style="background-image: url('{{ $product->primaryImage->url }}')"></div>
+                                <img src="{{ $product->primaryImage->url }}" 
+                                     alt="{{ $product->name }}"
+                                     class="product-image w-full h-full object-contain"
+                                     style="filter: brightness(0.88) contrast(1);" />
                             @else
-                            <div class="w-full h-full bg-background flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
+                                <div class="w-full h-full bg-background flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
                             @endif
                             
                             @if($product->stock <= 0)
-                            <div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] flex items-center justify-center z-10">
+                            <div class="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center z-10">
                                 <span class="font-label-caps text-xs text-background tracking-widest px-4 py-2 bg-primary">[ OUT OF STOCK ]</span>
                             </div>
                             @endif
@@ -189,15 +197,21 @@
                     @endif
                         
                     <!-- Details -->
-                    <div class="p-md flex flex-col">
-                        <h3 class="font-h2 text-lg uppercase leading-tight mb-1"><a href="{{ route('products.show', $product->slug) }}" class="hover:underline">{{ $product->name }}</a></h3>
-                        <p class="font-body-md text-[10px] text-secondary">
+                    <div class="p-md flex flex-col relative z-10">
+                        <h3 class="product-title font-h1 text-lg uppercase leading-tight mb-1 truncate" style="font-weight: 500; letter-spacing: normal;">
+                            @if($product->stock <= 0)
+                                {{ $product->name }}
+                            @else
+                                <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
+                            @endif
+                        </h3>
+                        <p class="font-body-md text-[10px] text-primary/60">
                             {{ $product->tagline ?? 'Premium mechanical timepiece' }}
                         </p>
                     </div>
                 </div>
             @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-body-md text-secondary uppercase bg-background border-r border-b border-primary">
+                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-body-md text-primary/60 uppercase bg-background border-r border-b border-primary/20">
                     No articles at the moment.
                 </div>
             @endforelse
@@ -492,6 +506,88 @@
             }
         });
         
+        // Mechanical Inspection Mode for Editorial Products
+        const inspectCards = document.querySelectorAll('#editorial-products-grid .product-card');
+        
+        inspectCards.forEach(card => {
+            const bTop = card.querySelector('.border-top');
+            const bRight = card.querySelector('.border-right');
+            const bBottom = card.querySelector('.border-bottom');
+            const bLeft = card.querySelector('.border-left');
+            
+            const image = card.querySelector('.product-image');
+            const metas = card.querySelectorAll('.product-meta');
+            const title = card.querySelector('.product-title');
+
+            const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+
+            // Stage 01: Draw border (450ms total, staggered)
+            // Top -> Right -> Bottom -> Left
+            const drawTime = 0.45 / 4;
+            tl.to(bTop, { scaleX: 1, duration: drawTime }, 0)
+              .to(bRight, { scaleY: 1, duration: drawTime }, drawTime)
+              .to(bBottom, { scaleX: 1, duration: drawTime }, drawTime * 2)
+              .to(bLeft, { scaleY: 1, duration: drawTime }, drawTime * 3);
+
+            // Stage 02 & 03: Image lighting & Lift
+            if (image) {
+                // Lighting starts early during border draw
+                tl.to(image, { 
+                    filter: 'brightness(1) contrast(1.08)', 
+                    duration: 0.35 
+                }, 0.1);
+
+                // Lift starts shortly after lighting
+                tl.to(image, {
+                    y: -3,
+                    duration: 0.3
+                }, 0.2);
+            }
+
+            // Stage 04: Metadata emphasis
+            if (metas.length) {
+                tl.to(metas, {
+                    color: '#111111',
+                    fontWeight: 500,
+                    duration: 0.25
+                }, 0.3);
+            }
+
+            // Stage 05: Title emphasis
+            if (title) {
+                tl.to(title, {
+                    fontWeight: 700,
+                    letterSpacing: '-0.01em',
+                    duration: 0.3
+                }, 0.45);
+            }
+
+            card.animation = tl;
+
+            card.addEventListener('mouseenter', () => {
+                // Dim other cards slightly
+                gsap.to(inspectCards, { 
+                    filter: (i, t) => t === card ? 'brightness(1)' : 'brightness(0.96)',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+                
+                card.animation.timeScale(1).play();
+            });
+
+            card.addEventListener('mouseleave', () => {
+                // Restore all cards brightness
+                gsap.to(inspectCards, { 
+                    filter: 'brightness(1)',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+
+                // Reverse timeline: Title -> Metadata -> Watch image -> Image lighting -> Border
+                card.animation.timeScale(1).reverse();
+            });
+        });
+
         // 4. Graphic Item pop-in (Refined mechanical motion)
         gsap.to('.graphic-item', {
             scrollTrigger: {
