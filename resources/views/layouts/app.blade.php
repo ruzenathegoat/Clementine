@@ -18,6 +18,31 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
+        /* Transparent Nav Overrides */
+        .nav-transparent {
+            background-color: transparent !important;
+            border-color: transparent !important;
+            color: white !important;
+        }
+        .nav-transparent .nav-item {
+            color: white !important;
+        }
+        .nav-transparent .nav-item.border-primary {
+            border-color: white !important;
+            color: white !important;
+        }
+        .nav-transparent .nav-item:hover,
+        .nav-transparent .icon-btn:hover {
+            background-color: white !important;
+            color: black !important;
+            border-color: transparent !important;
+        }
+        .nav-transparent .text-primary {
+            color: white !important;
+        }
+        .nav-transparent svg, .nav-transparent path {
+            fill: white !important;
+        }
         body { background-color: #ffffff; color: #000000; }
         .border-black { border-color: #000000; }
         input[type="checkbox"]:checked { background-color: #000000; border-color: #000000; }
@@ -42,7 +67,7 @@
     
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false }">
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > 50)">
 
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
@@ -105,9 +130,11 @@
         </div>
     </aside>
 
-    <nav class="sticky top-0 w-full z-50 flex justify-between items-center px-lg py-md bg-surface-container-lowest border-b border-primary transition-transform duration-300" id="main-nav">
+    <!-- Main Navigation -->
+    <nav :class="!isScrolled && {{ request()->routeIs('home') ? 'true' : 'false' }} ? 'nav-transparent' : 'bg-surface-container-lowest border-primary text-primary'"
+         class="{{ request()->routeIs('home') ? 'fixed' : 'sticky' }} top-0 w-full z-50 flex justify-between items-center px-lg py-md border-b transition-colors duration-300" id="main-nav">
         <div class="flex gap-lg items-center">
-            <a class="flex items-center gap-3 font-headline-md text-headline-md text-primary group" href="{{ route('home') }}">
+            <a class="flex items-center gap-3 font-headline-md text-headline-md group" href="{{ route('home') }}">
                 <x-logo class="w-8 h-8 group-hover:scale-95 transition-transform duration-300 ease-out" />
             </a>
             <div class="hidden md:flex gap-lg font-body-md text-body-md uppercase tracking-widest">
@@ -118,19 +145,19 @@
                 <a class="nav-item {{ request()->routeIs('concierge.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 px-2 py-1' }}" href="{{ route('concierge.index') }}">CONCIERGE</a>
             </div>
         </div>
-        <div class="flex gap-md text-primary">
+        <div class="flex gap-md">
             @auth
-                <a href="{{ route('profile.index') }}" class="hidden md:flex hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 items-center justify-center p-sm border border-transparent hover:border-primary">
+                <a href="{{ route('profile.index') }}" class="icon-btn hidden md:flex hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 items-center justify-center p-sm border border-transparent hover:border-primary">
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
                 </a>
             @endauth
-            <button @click="searchOpen = true" class="hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+            <button @click="searchOpen = true" class="icon-btn hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
             </button>
-            <a href="{{ route('cart.index') }}" class="hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+            <a href="{{ route('cart.index') }}" class="icon-btn hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
             </a>
-            <button @click="sidebarOpen = true" class="hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+            <button @click="sidebarOpen = true" class="icon-btn hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
             </button>
         </div>

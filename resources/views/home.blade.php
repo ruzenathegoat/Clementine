@@ -11,12 +11,36 @@
             
             <!-- Canvas for Image Sequence -->
             <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
+            
+            <!-- Dark Overlay for Contrast -->
+            <div class="absolute inset-0 bg-primary/60 z-10"></div>
 
             <!-- Typography overlay -->
-            <div class="absolute bottom-10 left-6 md:bottom-16 md:left-12 z-20 pointer-events-none mix-blend-difference">
-                <h1 class="font-h1 text-[clamp(2.5rem,5vw,5rem)] leading-[0.85] tracking-[-0.04em] uppercase text-white text-left hero-reveal">
-                    MECHANICAL<br>PERFECTION
-                </h1>
+            <div class="absolute inset-0 z-20 flex flex-col justify-center px-lg md:px-2xl mix-blend-normal">
+                <div class="w-full max-w-7xl mx-auto pt-20"> <!-- pt-20 to clear nav -->
+                    <!-- Horizontal Rule -->
+                    <hr class="border-secondary/30 mb-8 md:mb-12 w-full max-w-5xl hero-reveal-line opacity-0 origin-left">
+                    
+                    <!-- Headline -->
+                    <h1 class="font-sans font-medium text-[clamp(2.5rem,5.5vw,5.5rem)] leading-[1.05] tracking-tight text-secondary text-left text-balance mb-6 md:mb-8 hero-reveal-text opacity-0 normal-case">
+                        Clementine is the World's Premier Mechanical Horology Network
+                    </h1>
+                    
+                    <!-- Subheadline -->
+                    <p class="font-body-md text-secondary/80 text-lg md:text-2xl max-w-3xl mb-12 text-pretty leading-relaxed hero-reveal-text opacity-0">
+                        Hundreds of curated timepieces now have a tamper-proof provenance trail. Trusted by the world's leading collectors, purists, and horology enthusiasts.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div class="flex flex-wrap gap-4 hero-reveal-btn opacity-0 pointer-events-auto">
+                        <a href="{{ route('collections.index') }}" class="bg-secondary text-primary font-mono text-sm md:text-base tracking-widest uppercase px-8 py-4 hover:bg-background/90 transition-colors duration-300 active:scale-95 inline-flex justify-center items-center">
+                            EXPLORE COLLECTION
+                        </a>
+                        <a href="{{ route('profile.index') }}" class="bg-transparent border border-secondary/50 text-secondary font-mono text-sm md:text-base tracking-widest uppercase px-8 py-4 hover:bg-secondary/10 transition-colors duration-300 active:scale-95 inline-flex justify-center items-center">
+                            JOIN THE CLUB
+                        </a>
+                    </div>
+                </div>
             </div>
             
         </div>
@@ -235,13 +259,18 @@
     function initAnimations() {
         
         // 1. Hero Reveal & Canvas Sequence
-        gsap.from('.hero-reveal', {
-            y: 40,
-            opacity: 0,
-            scale: 0.95,
-            duration: 1,
-            ease: 'power4.out' // Using a stronger native GSAP curve equivalent to custom ease-out
-        });
+        gsap.fromTo('.hero-reveal-line', 
+            { scaleX: 0 },
+            { scaleX: 1, opacity: 1, duration: 1.2, ease: 'expo.out', delay: 0.2 }
+        );
+        gsap.fromTo('.hero-reveal-text', 
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: 'power4.out', delay: 0.4 }
+        );
+        gsap.fromTo('.hero-reveal-btn',
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 }
+        );
 
         // --- Canvas Image Sequence Logic ---
         const canvas = document.getElementById("hero-canvas");
