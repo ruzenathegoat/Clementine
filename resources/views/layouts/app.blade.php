@@ -111,26 +111,26 @@
                 <x-logo class="w-8 h-8 group-hover:scale-95 transition-transform duration-300 ease-out" />
             </a>
             <div class="hidden md:flex gap-lg font-body-md text-body-md uppercase tracking-widest">
-                <a class="{{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('home') }}">HOME</a>
-                <a class="{{ request()->routeIs('products.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('products.index') }}">SHOP</a>
-                <a class="{{ request()->routeIs('collections.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('collections.index') }}">COLLECTIONS</a>
-                <a class="{{ request()->routeIs('advisor.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('advisor.index') }}">ADVISOR</a>
-                <a class="{{ request()->routeIs('concierge.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-200 px-2 py-1' }}" href="{{ route('concierge.index') }}">CONCIERGE</a>
+                <a class="nav-item {{ request()->routeIs('home') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 px-2 py-1' }}" href="{{ route('home') }}">HOME</a>
+                <a class="nav-item {{ request()->routeIs('products.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 px-2 py-1' }}" href="{{ route('products.index') }}">SHOP</a>
+                <a class="nav-item {{ request()->routeIs('collections.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 px-2 py-1' }}" href="{{ route('collections.index') }}">COLLECTIONS</a>
+                <a class="nav-item {{ request()->routeIs('advisor.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 px-2 py-1' }}" href="{{ route('advisor.index') }}">ADVISOR</a>
+                <a class="nav-item {{ request()->routeIs('concierge.*') ? 'text-primary border-b-2 border-primary pb-1' : 'text-secondary hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-200 px-2 py-1' }}" href="{{ route('concierge.index') }}">CONCIERGE</a>
             </div>
         </div>
         <div class="flex gap-md text-primary">
             @auth
-                <a href="{{ route('profile.index') }}" class="hidden md:flex hover:bg-primary hover:text-on-primary transition-colors duration-100 items-center justify-center p-sm border border-transparent hover:border-primary">
+                <a href="{{ route('profile.index') }}" class="hidden md:flex hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 items-center justify-center p-sm border border-transparent hover:border-primary">
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
                 </a>
             @endauth
-            <button @click="searchOpen = true" class="hover:bg-primary hover:text-on-primary transition-colors duration-100 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+            <button @click="searchOpen = true" class="hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
             </button>
-            <a href="{{ route('cart.index') }}" class="hover:bg-primary hover:text-on-primary transition-colors duration-100 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+            <a href="{{ route('cart.index') }}" class="hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
             </a>
-            <button @click="sidebarOpen = true" class="hover:bg-primary hover:text-on-primary transition-colors duration-100 flex items-center justify-center p-sm border border-transparent hover:border-primary">
+            <button @click="sidebarOpen = true" class="hover:bg-primary hover:text-on-primary active:scale-95 transition-all duration-150 flex items-center justify-center p-sm border border-transparent hover:border-primary">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
             </button>
         </div>
@@ -146,8 +146,8 @@
     <footer class="w-full flex flex-col mt-auto border-t border-primary" x-data="{ activeModal: null }">
         @if(request()->routeIs('home'))
         <!-- Top Half (Black) -->
-        <div class="w-full bg-primary text-on-primary py-[100px] md:py-[150px] flex items-center justify-center relative overflow-hidden">
-            <h1 class="font-h1 text-[80px] sm:text-[120px] md:text-[200px] lg:text-[280px] leading-[0.8] tracking-tighter uppercase text-center relative z-10 w-full px-lg">
+        <div class="w-full bg-primary text-on-primary py-[100px] md:py-[150px] flex items-center justify-center relative overflow-hidden footer-parallax-container">
+            <h1 class="footer-logo font-h1 text-[80px] sm:text-[120px] md:text-[200px] lg:text-[280px] leading-[0.8] tracking-tighter uppercase text-center relative z-10 w-full px-lg">
                 CLEMENTINE
             </h1>
             <!-- Abstract decorative element -->
@@ -375,6 +375,38 @@
                 lenis.raf(time * 1000);
             });
             gsap.ticker.lagSmoothing(0);
+
+            // 1. Nav Item Staggered Entrance (Run only once on first load)
+            if (!sessionStorage.getItem('navRevealed')) {
+                gsap.from('.nav-item', {
+                    y: -20,
+                    opacity: 0,
+                    stagger: 0.05,
+                    duration: 0.8,
+                    ease: 'power4.out',
+                    delay: 0.2 // Small delay after page loader
+                });
+                sessionStorage.setItem('navRevealed', 'true');
+            }
+
+            // 2. Footer Logo Parallax
+            if (document.querySelector('.footer-logo')) {
+                gsap.fromTo('.footer-logo',
+                    { y: -100, opacity: 0.5, scale: 0.9 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: '.footer-parallax-container',
+                            start: 'top bottom', // Start when container enters viewport
+                            end: 'bottom bottom', // End when container is fully in view
+                            scrub: 0.5
+                        }
+                    }
+                );
+            }
 
             // Preloader Animation Logic
             const preloader = document.getElementById('preloader');

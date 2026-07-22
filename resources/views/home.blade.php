@@ -46,7 +46,7 @@
             <!-- Left: Massive Image -->
             <div class="w-full xl:w-1/2 aspect-square xl:aspect-auto xl:min-h-[800px] bg-primary flex items-center justify-center p-xl relative overflow-hidden border-b xl:border-b-0 xl:border-r border-background/20">
                 @if ($drop->primaryImage)
-                    <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical hover:scale-105"
+                    <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-all duration-500 ease-mechanical hover:scale-[1.03] active:scale-95"
                          style="background-image: url('{{ $drop->primaryImage->url }}')"></div>
                 @else
                     <div class="font-mono text-background/50 uppercase tracking-widest">No Visual Data</div>
@@ -122,8 +122,8 @@
                         <!-- Image Area -->
                         <div class="w-full aspect-square bg-background border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
                             @if ($product->primaryImage)
-                            <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical group-hover:scale-105"
-                                 style="background-image: url('{{ $product->primaryImage->url }}')"></div>
+                                <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-all duration-500 ease-mechanical group-hover:scale-[1.03] active:scale-95"
+                                     style="background-image: url('{{ $product->primaryImage->url }}')"></div>
                             @else
                             <div class="w-full h-full bg-background flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
                             @endif
@@ -170,7 +170,7 @@
                 </div>
                 
                 <!-- The Core Statement -->
-                <h2 class="font-h1 text-[clamp(3rem,8vw,7rem)] leading-[0.85] tracking-[-0.04em] uppercase text-primary break-words z-20 mb-8 md:mb-12">
+                <h2 class="fake-statement font-h1 text-[clamp(3rem,8vw,7rem)] leading-[0.85] tracking-[-0.04em] uppercase text-primary break-words z-20 mb-8 md:mb-12">
                     FAKE<br>IS<br>BULLSH*T.
                 </h2>
                 
@@ -340,18 +340,34 @@
             }
         );
 
-        // 3. Staggered reveal for grid sections
+        // 3. Staggered reveal for grid sections (The Drop & New Arrivals)
         gsap.utils.toArray('.section-reveal').forEach(section => {
-            gsap.from(section, {
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: section,
-                    start: 'top 85%',
-                }
-            });
+            const items = section.querySelectorAll('.drop-container, .product-card');
+            if (items.length > 0) {
+                gsap.from(items, {
+                    y: 40,
+                    opacity: 0,
+                    scale: 0.98,
+                    stagger: 0.1,
+                    duration: 0.8,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 85%',
+                    }
+                });
+            } else {
+                gsap.from(section, {
+                    y: 40,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 85%',
+                    }
+                });
+            }
         });
         
         // 4. Graphic Item pop-in (Refined mechanical motion)
@@ -361,11 +377,30 @@
                 start: 'top 70%',
             },
             scale: 1,
-            rotate: 0,
             opacity: 1,
-            duration: 1,
-            ease: 'power4.out'
+            duration: 1.2,
+            ease: 'expo.out'
         });
+
+        // 5. Graphic Section Statement Parallax
+        if (document.querySelector('.fake-statement')) {
+            gsap.fromTo('.fake-statement',
+                { y: 50, opacity: 0.2, filter: 'blur(10px)', scale: 0.95 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    filter: 'blur(0px)',
+                    scale: 1,
+                    scrollTrigger: {
+                        trigger: '.fake-statement',
+                        start: 'top 90%',
+                        end: 'top 40%',
+                        scrub: 1
+                    },
+                    ease: 'none'
+                }
+            );
+        }
     } // End initAnimations
 
     if (sessionStorage.getItem('preloaderShown')) {
