@@ -10,9 +10,9 @@
 
     <!-- Header -->
     <div class="px-sm md:px-lg mt-xl mb-xl">
-        <h2 class="font-sans font-black text-2xl md:text-4xl text-primary uppercase">The Daily</h2>
-        <h1 class="font-sans font-black text-6xl md:text-9xl uppercase tracking-tighter leading-[0.8] text-primary mt-2">
-            DRIP & TICKS
+        <h2 class="font-h1 font-medium text-2xl md:text-4xl text-primary uppercase">The Daily</h2>
+        <h1 class="font-h1 font-medium text-6xl md:text-9xl uppercase tracking-tighter leading-[0.8] text-primary mt-2">
+            DRIP & <span class="font-serif italic text-copper lowercase tracking-normal">ticks</span>
         </h1>
     </div>
 
@@ -57,7 +57,7 @@
                         
                         <div class="mt-8">
                             <p class="font-mono text-xs text-text-secondary uppercase tracking-widest mb-2">{{ $magazine->source ?? 'Google News' }}</p>
-                            <h3 class="font-sans font-black text-2xl md:text-4xl leading-none text-primary uppercase group-hover:underline decoration-4 underline-offset-4">
+                            <h3 class="font-h1 font-medium text-2xl md:text-4xl leading-none text-primary uppercase group-hover:underline decoration-4 underline-offset-4">
                                 {{ $magazine->title }}
                             </h3>
                         </div>

@@ -49,7 +49,7 @@
 
             <!-- Contact -->
             <section class="flex flex-col gap-4">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-primary font-label-caps">Contact</h2>
+                <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">Cont<span class="font-serif italic text-copper lowercase tracking-normal">act</span></h2>
                 <div class="flex flex-col gap-2">
                     <label class="sr-only" for="contact_email">Email address</label>
                     <input class="w-full p-4 text-sm focus:ring-0 border border-outline-variant focus:border-primary rounded-none bg-white transition-colors font-body-md" id="contact_email" name="contact_email" placeholder="Email address" type="email" required>
@@ -58,7 +58,7 @@
 
             <!-- Delivery -->
             <section class="flex flex-col gap-4 border-t border-outline-variant pt-12">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-primary font-label-caps">Delivery</h2>
+                <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">Deliv<span class="font-serif italic text-copper lowercase tracking-normal">ery</span></h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="md:col-span-2">
                         <label class="sr-only" for="shipping_country">Country/Region</label>
@@ -95,7 +95,7 @@
             <!-- Payment -->
             <section class="flex flex-col gap-4 border-t border-outline-variant pt-12">
                 <div>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-primary font-label-caps">Payment</h2>
+                    <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">Paym<span class="font-serif italic text-copper lowercase tracking-normal">ent</span></h2>
                     <p class="text-xs text-on-surface-variant mt-1 font-body-md">All transactions are secure and encrypted.</p>
                 </div>
                 <div class="border border-outline-variant rounded-none bg-white divide-y divide-outline-variant font-body-md">
@@ -166,7 +166,7 @@
 
             <!-- Billing -->
             <section class="flex flex-col gap-4 border-t border-outline-variant pt-12">
-                <h2 class="text-sm font-bold uppercase tracking-wider text-primary font-label-caps">Billing Address</h2>
+                <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">Bill<span class="font-serif italic text-copper lowercase tracking-normal">ing address</span></h2>
                 <div class="border border-outline-variant rounded-none bg-white divide-y divide-outline-variant font-body-md">
                     <div class="p-4">
                         <label class="flex items-center gap-3 cursor-pointer">

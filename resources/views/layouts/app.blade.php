@@ -68,7 +68,7 @@
     
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > 50)">
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > {{ request()->routeIs('home') ? '(window.innerHeight * 2.9)' : '50' }})">
 
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">

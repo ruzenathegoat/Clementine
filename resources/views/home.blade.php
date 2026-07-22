@@ -27,8 +27,11 @@
                     </h1>
                     
                     <!-- Subheadline -->
-                    <p class="font-body-md text-secondary/80 text-base md:text-xl max-w-2xl mb-10 leading-relaxed hero-reveal-text opacity-0">
-                        Hundreds of curated timepieces now have a <span class="font-serif italic text-secondary text-xl md:text-2xl">tamper-proof</span> provenance trail.
+                    <div class="w-full flex justify-end">
+                        <p class="font-body-md text-secondary/80 text-base md:text-xl max-w-2xl mb-10 leading-relaxed hero-reveal-text opacity-0 text-right">
+                            Hundreds of curated timepieces now have a <span class="font-serif italic text-secondary text-xl md:text-2xl">tamper-proof</span> provenance trail.
+                        </p>
+                    </div>
                     
                     <!-- Buttons -->
                     <div class="flex flex-wrap gap-4 hero-reveal-btn opacity-0 pointer-events-auto">
@@ -56,7 +59,7 @@
     <!-- 2.5 THE DROP Section -->
     <div class="w-full bg-primary text-on-primary section-reveal border-b border-background">
         <div class="p-lg md:p-xl border-b border-background/20">
-            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full text-on-primary">THE DROP</h2>
+            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full text-on-primary">THE <span class="font-serif italic text-copper lowercase tracking-normal">drop</span></h2>
         </div>
         
         <script>
