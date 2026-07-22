@@ -8,7 +8,7 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-primary pb-8">
             <div class="flex flex-col gap-2">
-                <h1 class="font-h1 text-4xl uppercase tracking-widest"><span class="font-serif italic text-copper lowercase tracking-normal">Clementpay</span></h1>
+                <h1 class="font-h1 text-4xl uppercase tracking-widest">CLEMENTPAY</h1>
                 <p class="font-body-md text-sm text-secondary">Manage your Clementine digital currency and view transaction history.</p>
             </div>
             <div class="flex flex-col items-end gap-1 text-right">
@@ -20,7 +20,7 @@
         <!-- Top-up Section -->
         <div class="bg-surface border border-outline-variant p-8 flex flex-col md:flex-row gap-8 justify-between items-center">
             <div class="flex flex-col gap-2 flex-1">
-                <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">Top up <span class="font-serif italic text-copper lowercase tracking-normal">balance</span></h2>
+                <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">TOP UP BALANCE</h2>
                 <p class="font-body-md text-sm text-on-surface-variant">Add funds to your Clementpay wallet securely via QRIS or Virtual Account.</p>
             </div>
             
@@ -41,7 +41,7 @@
 
         <!-- Transactions History -->
         <div class="flex flex-col gap-6">
-            <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">Transact<span class="font-serif italic text-copper lowercase tracking-normal">ion history</span></h2>
+            <h2 class="font-h1 text-2xl uppercase tracking-tight text-primary">TRANSACTION HISTORY</h2>
             
             <div class="border border-outline-variant bg-surface-container-lowest">
                 @forelse($transactions as $tx)

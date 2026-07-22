@@ -12,9 +12,9 @@
                 <x-logo class="w-16 h-16" />
             </div>
             <div class="relative z-10 mt-auto pt-[100px]">
-                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest text-copper">ACCESS CLEMENTINE</p>
+                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest ">ACCESS CLEMENTINE</p>
                 <h2 class="font-h1 text-[40px] md:text-[60px] leading-[0.9] tracking-tighter uppercase">
-                    Enter your personal hub for <span class="font-serif italic text-copper lowercase tracking-normal">high horology</span>.
+                    Enter your personal hub for <span class="font-serif italic  lowercase tracking-normal">high horology</span>.
                 </h2>
             </div>
             <!-- Decorative element -->
@@ -54,7 +54,7 @@
                         <input id="remember" type="checkbox" name="remember" class="w-4 h-4 border border-primary text-primary focus:ring-primary rounded-none bg-transparent">
                         <label for="remember" class="font-label-caps text-[10px] uppercase tracking-wider">Keep me signed in</label>
                     </div>
-                    <a href="{{ route('password.request') }}" class="font-label-caps text-[10px] uppercase text-copper hover:text-primary hover:underline transition-colors font-bold tracking-wider">Forgot Password?</a>
+                    <a href="{{ route('password.request') }}" class="font-label-caps text-[10px] uppercase  hover:text-primary hover:underline transition-colors font-bold tracking-wider">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="w-full bg-primary text-on-primary font-h2 text-xl py-4 px-xl border border-primary hover:bg-background hover:text-primary transition-colors uppercase mt-2">
@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="mt-lg text-center font-label-caps text-xs tracking-wider uppercase">
-                    Don't have an account? <a href="{{ route('register') }}" class="text-copper hover:text-primary hover:underline font-bold transition-colors">Sign up</a>
+                    Don't have an account? <a href="{{ route('register') }}" class=" hover:text-primary hover:underline font-bold transition-colors">Sign up</a>
                 </div>
             </form>
         </div>

@@ -9,7 +9,7 @@
         <!-- Sidebar Navigation -->
         <div class="w-full lg:w-[300px] flex-shrink-0">
             <h1 class="font-headline-lg text-5xl md:text-6xl uppercase tracking-tighter mb-12 flex flex-col md:flex-row md:items-center gap-4">
-                MY <span class="font-serif italic text-copper lowercase tracking-normal">account</span>
+                MY <span class="font-serif italic  lowercase tracking-normal">account</span>
                 @if($user->is_vip)
                     <span class="bg-primary text-white text-xs md:text-sm px-4 py-2 font-body-md font-bold uppercase tracking-widest whitespace-nowrap border border-primary text-center">VIP MEMBER</span>
                 @endif
@@ -27,7 +27,7 @@
                 </button>
                 <form method="POST" action="{{ route('logout') }}" class="mt-8">
                     @csrf
-                    <button type="submit" class="text-left w-full text-copper transition-all duration-300 hover:pl-2 hover:opacity-80">
+                    <button type="submit" class="text-left w-full  transition-all duration-300 hover:pl-2 hover:opacity-80">
                         Log out
                     </button>
                 </form>
@@ -320,7 +320,7 @@
                     <span>$${parseFloat(order.subtotal).toFixed(2)}</span>
                 </div>
                 ${parseFloat(order.discount_amount || 0) > 0 ? `
-                <div class="flex justify-between text-[#D97757]">
+                <div class="flex justify-between text-blue-600">
                     <div class="flex items-center gap-1">
                         <span>{{ auth()->user()?->is_vip ? 'VIP Discount' : 'Discount' }}</span>
                         <span class="text-[10px]">*${parseFloat(order.subtotal) > 0 ? Math.round((parseFloat(order.discount_amount) / parseFloat(order.subtotal)) * 100) : 0}%</span>

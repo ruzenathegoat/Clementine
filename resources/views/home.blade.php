@@ -16,31 +16,34 @@
             <div class="absolute inset-0 bg-primary/60 z-10"></div>
 
             <!-- Typography overlay -->
-            <div class="absolute inset-0 z-20 flex flex-col justify-center mix-blend-normal">
-                <div class="w-full max-w-7xl mx-auto pt-20 px-6 md:px-12 flex flex-col items-start"> <!-- pt-20 to clear nav -->
-                    <!-- Horizontal Rule -->
-                    <hr class="border-secondary/30 mb-8 md:mb-12 w-full max-w-5xl hero-reveal-line opacity-0 origin-left">
-                    
-                    <!-- Headline -->
-                    <h1 class="font-sans font-medium text-[clamp(2rem,3.5vw,4rem)] leading-[1.1] tracking-tight text-secondary text-left mb-4 md:mb-6 hero-reveal-text opacity-0 normal-case max-w-4xl">
-                        Clementine is the World's Premier Mechanical Horology Network
-                    </h1>
-                    
-                    <!-- Subheadline -->
-                    <div class="w-full flex justify-end">
-                        <p class="font-body-md text-secondary/80 text-base md:text-xl max-w-2xl mb-10 leading-relaxed hero-reveal-text opacity-0 text-right">
-                            Hundreds of curated timepieces now have a <span class="font-serif italic text-secondary text-xl md:text-2xl">tamper-proof</span> provenance trail.
-                        </p>
-                    </div>
-                    
-                    <!-- Buttons -->
-                    <div class="flex flex-wrap gap-4 hero-reveal-btn opacity-0 pointer-events-auto">
-                        <a href="{{ route('collections.index') }}" class="bg-secondary text-primary font-mono text-sm md:text-base tracking-widest uppercase px-8 py-4 hover:bg-background/90 transition-colors duration-300 active:scale-95 inline-flex justify-center items-center">
-                            EXPLORE COLLECTION
-                        </a>
-                        <a href="{{ route('profile.index') }}" class="bg-transparent border border-secondary/50 text-secondary font-mono text-sm md:text-base tracking-widest uppercase px-8 py-4 hover:bg-secondary/10 transition-colors duration-300 active:scale-95 inline-flex justify-center items-center">
-                            JOIN THE CLUB
-                        </a>
+            <div class="absolute inset-0 z-20 flex flex-col justify-end pb-24 mix-blend-normal pointer-events-none">
+                <div class="w-full max-w-7xl mx-auto px-6 md:px-12">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
+                        
+                        <!-- Headline -->
+                        <div class="md:col-span-8 lg:col-span-9">
+                            <h1 class="font-h1 text-[clamp(2.5rem,5vw,5.5rem)] leading-[0.95] tracking-tight text-secondary uppercase hero-reveal-text opacity-0" style="text-wrap: balance;">
+                                The World's Premier Mechanical Horology Network
+                            </h1>
+                        </div>
+
+                        <!-- Subheadline & Buttons -->
+                        <div class="md:col-span-4 lg:col-span-3 flex flex-col gap-6 md:pb-3">
+                            <p class="font-body-md text-secondary/80 text-sm md:text-base leading-relaxed hero-reveal-text opacity-0">
+                                Hundreds of curated timepieces now have a tamper-proof provenance trail.
+                            </p>
+                            
+                            <!-- Buttons -->
+                            <div class="flex flex-col sm:flex-row md:flex-col gap-3 hero-reveal-btn opacity-0 pointer-events-auto">
+                                <a href="{{ route('collections.index') }}" class="bg-secondary text-primary font-label-caps text-xs tracking-widest uppercase px-6 py-4 hover:bg-white transition-colors duration-300 text-center w-full">
+                                    EXPLORE COLLECTION
+                                </a>
+                                <a href="{{ route('profile.index') }}" class="bg-transparent border border-secondary/50 text-secondary font-label-caps text-xs tracking-widest uppercase px-6 py-4 hover:bg-secondary/10 transition-colors duration-300 text-center w-full">
+                                    JOIN THE CLUB
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -59,7 +62,7 @@
     <!-- 2.5 THE DROP Section -->
     <div class="w-full bg-primary text-on-primary section-reveal border-b border-background">
         <div class="p-lg md:p-xl border-b border-background/20">
-            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full text-on-primary">THE <span class="font-serif italic text-copper lowercase tracking-normal">drop</span></h2>
+            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full text-on-primary">THE <span class="font-serif italic  lowercase tracking-normal">drop</span></h2>
         </div>
         
         <script>

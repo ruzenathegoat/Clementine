@@ -7,7 +7,7 @@
 <!-- Header Section -->
 <header class="w-full px-lg py-3xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-md">
     <div>
-        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">SHOP ALL <span class="font-serif italic text-copper lowercase tracking-normal">watches</span></h1>
+        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">SHOP ALL WATCHES</h1>
     </div>
     <div class="font-body-md text-sm text-primary border border-primary px-4 py-2 bg-background uppercase shrink-0">
         {{ $products->count() }} WATCH{{ $products->count() === 1 ? '' : 'ES' }}

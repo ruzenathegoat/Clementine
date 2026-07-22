@@ -7,7 +7,7 @@
 <!-- Header Section -->
 <header class="w-full px-lg py-3xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-md">
     <div>
-        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">C<span class="font-serif italic text-copper lowercase tracking-normal">ollections</span></h1>
+        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">COLLECTIONS</h1>
         <p class="font-body-md text-sm text-[#787774] uppercase tracking-widest mt-2 md:mt-4">
             Curated assortments of uncompromising horology
         </p>

@@ -34,7 +34,7 @@
         
         <div class="flex flex-col gap-2 w-full">
             @if($order->payment_status === 'pending' && $order->payment_method === 'virtual_account')
-                <a href="{{ route('orders.show', $order) }}" class="text-center px-6 py-2 bg-copper text-white text-xs font-bold uppercase tracking-wider hover:opacity-80 transition-opacity">
+                <a href="{{ route('orders.show', $order) }}" class="text-center px-6 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider hover:opacity-80 transition-opacity">
                     Pay Now
                 </a>
             @endif

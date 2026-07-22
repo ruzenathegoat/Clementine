@@ -65,8 +65,8 @@
             <!-- Left Side: Instructions -->
             <div class="w-full md:w-3/5 p-xl md:p-[60px] flex flex-col justify-center border-b md:border-b-0 md:border-r border-primary">
                 <div class="flex items-center gap-3 mb-8">
-                    <span class="w-2 h-2 bg-copper rounded-full animate-pulse"></span>
-                    <span class="font-label-caps text-xs uppercase tracking-widest font-bold text-copper">Waiting for Payment</span>
+                    <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                    <span class="font-label-caps text-xs uppercase tracking-widest font-bold ">Waiting for Payment</span>
                 </div>
                 <h1 class="font-h1 text-4xl mb-2 uppercase tracking-tight">Complete your order</h1>
                 <p class="font-body-md text-sm text-secondary mb-12">Please transfer the exact amount to the virtual account number below.</p>
@@ -81,7 +81,7 @@
                             <p class="font-label-caps text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Virtual Account Number</p>
                             <div class="flex items-center gap-4">
                                 <p class="font-headline-md text-3xl font-bold tracking-wider">{{ $order->payment_details['va_number'] ?? '0000000000' }}</p>
-                                <button type="button" class="text-primary hover:text-copper transition-colors" onclick="navigator.clipboard.writeText('{{ $order->payment_details['va_number'] ?? '' }}'); toasts.push({type: 'success', message: 'VA Number copied to clipboard'}); setTimeout(() => toasts.shift(), 3000);" title="Copy">
+                                <button type="button" class="text-primary hover: transition-colors" onclick="navigator.clipboard.writeText('{{ $order->payment_details['va_number'] ?? '' }}'); toasts.push({type: 'success', message: 'VA Number copied to clipboard'}); setTimeout(() => toasts.shift(), 3000);" title="Copy">
                                     <span class="material-symbols-outlined text-[20px]">content_copy</span>
                                 </button>
                             </div>
@@ -95,7 +95,7 @@
                     <!-- Developer Simulation Box -->
                     <div class="mt-auto border border-primary p-6 bg-surface-container-lowest">
                         <div class="flex items-start gap-3 mb-4">
-                            <span class="material-symbols-outlined text-copper">developer_mode</span>
+                            <span class="material-symbols-outlined ">developer_mode</span>
                             <div>
                                 <h3 class="font-label-caps text-xs font-bold uppercase tracking-widest text-primary">Developer Sandbox</h3>
                                 <p class="text-[11px] font-body-md text-on-surface-variant mt-1">Because this is a local environment, you can bypass the actual bank transfer.</p>
@@ -118,7 +118,7 @@
                     <!-- Developer Simulation Box -->
                     <div class="mt-auto border border-primary p-6 bg-surface-container-lowest">
                         <div class="flex items-start gap-3 mb-4">
-                            <span class="material-symbols-outlined text-copper">developer_mode</span>
+                            <span class="material-symbols-outlined ">developer_mode</span>
                             <div>
                                 <h3 class="font-label-caps text-xs font-bold uppercase tracking-widest text-primary">Developer Sandbox</h3>
                                 <p class="text-[11px] font-body-md text-on-surface-variant mt-1">Because this is a local environment, you can bypass the actual bank transfer.</p>
@@ -165,7 +165,7 @@
                         <span class="font-medium">${{ number_format($order->subtotal, 2) }}</span>
                     </div>
                     @if($order->discount_amount > 0)
-                    <div class="flex justify-between items-center text-[#D97757]">
+                    <div class="flex justify-between items-center text-blue-600">
                         <div class="flex items-center gap-1">
                             <span>{{ $order->user && $order->user->is_vip ? 'VIP Discount' : 'Discount' }}</span>
                             <span class="text-[10px]">*{{ $order->subtotal > 0 ? round(($order->discount_amount / $order->subtotal) * 100) : 0 }}%</span>

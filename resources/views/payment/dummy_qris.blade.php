@@ -11,8 +11,8 @@
         <div class="w-full md:w-3/5 p-xl md:p-[60px] flex flex-col justify-center border-b md:border-b-0 md:border-r border-primary bg-surface-container-lowest">
             
             <div class="flex items-center gap-3 mb-8">
-                <span class="w-2 h-2 bg-copper rounded-full animate-pulse"></span>
-                <span class="font-label-caps text-xs uppercase tracking-widest font-bold text-copper">QRIS Sandbox Gateway</span>
+                <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                <span class="font-label-caps text-xs uppercase tracking-widest font-bold ">QRIS Sandbox Gateway</span>
             </div>
             
             <h1 class="font-h1 text-4xl mb-2 uppercase tracking-tight">Scan to Pay</h1>
@@ -76,11 +76,11 @@
             </div>
 
             <!-- Developer Simulation Box -->
-            <div class="mt-auto border border-primary p-6 bg-background group hover:border-copper transition-colors">
+            <div class="mt-auto border border-primary p-6 bg-background group hover:border-primary transition-colors">
                 <div class="flex items-start gap-3 mb-6">
-                    <span class="material-symbols-outlined text-copper">terminal</span>
+                    <span class="material-symbols-outlined ">terminal</span>
                     <div>
-                        <h3 class="font-label-caps text-xs font-bold uppercase tracking-widest text-primary group-hover:text-copper transition-colors">Developer Actions</h3>
+                        <h3 class="font-label-caps text-xs font-bold uppercase tracking-widest text-primary group-hover: transition-colors">Developer Actions</h3>
                         <p class="text-[11px] font-body-md text-on-surface-variant mt-1">Simulate successful payment response from gateway.</p>
                     </div>
                 </div>

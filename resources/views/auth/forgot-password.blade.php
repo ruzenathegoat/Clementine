@@ -12,7 +12,7 @@
                 <x-logo class="w-16 h-16" />
             </div>
             <div class="relative z-10 mt-auto pt-[100px]">
-                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest text-copper">RECOVER ACCESS</p>
+                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest ">RECOVER ACCESS</p>
                 <h2 class="font-h1 text-[40px] md:text-[60px] leading-[0.9] tracking-tighter uppercase">
                     Regain entry to your collection.
                 </h2>
@@ -41,7 +41,7 @@
                 </button>
 
                 <div class="mt-lg text-center font-label-caps text-xs tracking-wider uppercase">
-                    <a href="{{ route('login') }}" class="text-copper hover:text-primary hover:underline font-bold transition-colors">Return to login</a>
+                    <a href="{{ route('login') }}" class=" hover:text-primary hover:underline font-bold transition-colors">Return to login</a>
                 </div>
             </form>
         </div>

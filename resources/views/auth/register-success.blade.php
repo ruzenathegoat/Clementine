@@ -103,7 +103,7 @@
             });
 
             // Brand Colors: Ink, Copper, Warm Bone, White
-            const clementineColors = ['#111111', '#D97757', '#FBFBFA', '#EAEAEA'];
+            const clementineColors = ['#111111', '#2563EB', '#FBFBFA', '#EAEAEA'];
             
             // Fire a dramatic bottom-up burst after GSAP delay
             setTimeout(() => {

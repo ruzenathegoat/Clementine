@@ -12,7 +12,7 @@
                 <x-logo class="w-16 h-16" />
             </div>
             <div class="relative z-10 mt-auto pt-[100px]">
-                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest text-copper">SECURE YOUR ACCOUNT</p>
+                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest ">SECURE YOUR ACCOUNT</p>
                 <h2 class="font-h1 text-[40px] md:text-[60px] leading-[0.9] tracking-tighter uppercase">
                     Set your new password.
                 </h2>

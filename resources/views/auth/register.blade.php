@@ -12,9 +12,9 @@
                 <x-logo class="w-16 h-16" />
             </div>
             <div class="relative z-10 mt-auto pt-[100px]">
-                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest text-copper">JOIN CLEMENTINE</p>
+                <p class="font-label-caps text-xs md:text-sm mb-4 tracking-widest ">JOIN CLEMENTINE</p>
                 <h2 class="font-h1 text-[40px] md:text-[60px] leading-[0.9] tracking-tighter uppercase">
-                    Begin your journey into <span class="font-serif italic text-copper lowercase tracking-normal">high horology</span>.
+                    Begin your journey into <span class="font-serif italic  lowercase tracking-normal">high horology</span>.
                 </h2>
             </div>
             <!-- Decorative element -->
@@ -141,7 +141,7 @@
                 </div>
 
                 <div class="mt-lg text-center font-label-caps text-xs tracking-wider uppercase">
-                    Already have an account? <a href="{{ route('login') }}" class="text-copper hover:text-primary hover:underline font-bold transition-colors">Log in</a>
+                    Already have an account? <a href="{{ route('login') }}" class=" hover:text-primary hover:underline font-bold transition-colors">Log in</a>
                 </div>
             </form>
         </div>

@@ -12,7 +12,7 @@
     <div class="px-sm md:px-lg mt-xl mb-xl">
         <h2 class="font-h1 font-medium text-2xl md:text-4xl text-primary uppercase">The Daily</h2>
         <h1 class="font-h1 font-medium text-6xl md:text-9xl uppercase tracking-tighter leading-[0.8] text-primary mt-2">
-            DRIP & <span class="font-serif italic text-copper lowercase tracking-normal">ticks</span>
+            DRIP & <span class="font-serif italic  lowercase tracking-normal">ticks</span>
         </h1>
     </div>
 
