@@ -42,28 +42,30 @@
                 <!-- BG Grid pattern -->
                 <div class="absolute inset-0 pointer-events-none opacity-30" style="background-size: 10% 10%; background-image: linear-gradient(to right, #e5e5e5 1px, transparent 1px), linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);"></div>
                 
-                <form action="{{ route('clementpay.topup') }}" method="POST" class="flex flex-col w-full relative z-30 max-w-md mx-auto lg:mx-0 cpay-form pointer-events-auto" style="opacity: 0;">
-                    @csrf
-                    
-                    <div class="flex items-center gap-3 mb-8">
-                        <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                        <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-primary">ALLOCATE FUNDS</h2>
-                    </div>
-                    
-                    <div class="flex flex-col gap-3 mb-12 w-full">
-                        <label for="amount" class="font-mono text-[9px] uppercase tracking-widest text-primary/60">AMOUNT (USD)</label>
-                        <div class="relative w-full border-b border-primary/20 focus-within:border-primary transition-colors duration-300">
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-primary/40 text-xl md:text-2xl pointer-events-none">$</span>
-                            <input type="number" name="amount" id="amount" min="100" step="1" required placeholder="100.00" 
-                                   class="w-full pl-8 md:pl-10 py-4 text-xl md:text-2xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none relative z-10">
+                <div class="w-full flex justify-center lg:justify-start">
+                    <form action="{{ route('clementpay.topup') }}" method="POST" class="flex flex-col w-full relative z-30 max-w-md cpay-form pointer-events-auto" style="opacity: 0;">
+                        @csrf
+                        
+                        <div class="flex items-center gap-3 mb-8">
+                            <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                            <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-primary">ALLOCATE FUNDS</h2>
                         </div>
-                    </div>
-                    
-                    <button type="submit" class="bg-primary text-background border border-primary font-label-caps text-xs uppercase tracking-[0.2em] py-5 hover:bg-transparent hover:text-primary transition-all duration-300 ease-out active:scale-[0.98] group flex items-center justify-center gap-4 w-full shrink-0 relative z-20 pointer-events-auto">
-                        <span>AUTHORIZE TRANSFER</span>
-                        <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
-                    </button>
-                </form>
+                        
+                        <div class="flex flex-col gap-3 mb-12 w-full">
+                            <label for="amount" class="font-mono text-[9px] uppercase tracking-widest text-primary/60">AMOUNT (USD)</label>
+                            <div class="relative w-full border-b border-primary/20 focus-within:border-primary transition-colors duration-300">
+                                <span class="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-primary/40 text-xl md:text-2xl pointer-events-none">$</span>
+                                <input type="number" name="amount" id="amount" min="100" step="1" required placeholder="100.00" 
+                                       class="w-full pl-8 md:pl-10 py-4 text-xl md:text-2xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none relative z-10">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="bg-primary text-background border border-primary font-label-caps text-xs uppercase tracking-[0.2em] py-5 hover:bg-transparent hover:text-primary transition-all duration-300 ease-out active:scale-[0.98] group flex items-center justify-center gap-4 w-full shrink-0 relative z-20 pointer-events-auto">
+                            <span>AUTHORIZE TRANSFER</span>
+                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
+                        </button>
+                    </form>
+                </div>
             </div>
             
         </div>
