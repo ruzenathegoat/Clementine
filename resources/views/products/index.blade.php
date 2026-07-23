@@ -5,131 +5,74 @@
 @section('content')
 
 <!-- Header Section -->
-<header class="w-full px-lg py-3xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-md">
-    <div>
-        <h1 class="font-h1 text-[60px] md:text-[80px] text-primary m-0 p-0 leading-none tracking-tighter uppercase">SHOP ALL WATCHES</h1>
+<header class="w-full px-lg md:px-2xl py-3xl md:py-[120px] border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-xl relative overflow-hidden" id="catalog-header">
+    <div class="relative z-10 w-full md:w-3/4">
+        <h1 class="catalog-headline font-h1 text-[4rem] md:text-[7rem] text-primary m-0 p-0 leading-[0.85] tracking-tight uppercase" style="font-weight: 400;">
+            <span class="catalog-word inline-block" style="opacity: 0; letter-spacing: 0.15em;">SHOP</span>
+            <span class="catalog-word inline-block" style="opacity: 0; letter-spacing: 0.15em;">ALL</span>
+            <span class="catalog-word inline-block" style="opacity: 0; letter-spacing: 0.15em;">WATCHES</span>
+        </h1>
     </div>
-    <div class="font-body-md text-sm text-primary border border-primary px-4 py-2 bg-background uppercase shrink-0">
-        {{ $products->count() }} WATCH{{ $products->count() === 1 ? '' : 'ES' }}
+    <div class="catalog-counter font-mono text-[10px] text-primary/70 uppercase tracking-[0.2em] relative z-10 shrink-0 mb-2 md:mb-4" style="opacity: 0; transform: translateY(16px);">
+        <span class="counter-number">{{ $products->count() }}</span> WATCH{{ $products->count() === 1 ? '' : 'ES' }}
     </div>
 </header>
 
-<!-- Filter Summary -->
-@php
-    $activeChips = collect();
-    if (request()->filled('gender')) $activeChips->push(['label' => strtoupper(request('gender')), 'remove' => request()->except('gender')]);
-    if (request()->filled('collection')) $activeChips->push(['label' => strtoupper(request('collection')), 'remove' => request()->except('collection')]);
-    if (request()->filled('material')) foreach ((array) request('material') as $m) $activeChips->push(['label' => strtoupper($m), 'remove' => array_merge(request()->except('material'), ['material' => array_values(array_diff((array) request('material'), [$m]))])]);
-    if (request()->filled('movement')) foreach ((array) request('movement') as $m) $activeChips->push(['label' => strtoupper($m), 'remove' => array_merge(request()->except('movement'), ['movement' => array_values(array_diff((array) request('movement'), [$m]))])]);
-    if (request()->filled('diameter')) foreach ((array) request('diameter') as $d) $activeChips->push(['label' => "{$d}MM", 'remove' => array_merge(request()->except('diameter'), ['diameter' => array_values(array_diff((array) request('diameter'), [$d]))])]);
-    if (request()->filled('price_min') || request()->filled('price_max')) $activeChips->push(['label' => '$' . request('price_min', $priceBounds->min_price) . '-' . request('price_max', $priceBounds->max_price), 'remove' => request()->except(['price_min', 'price_max'])]);
-@endphp
-
-@if ($activeChips->isNotEmpty())
-<div class="w-full px-lg py-md border-b border-primary bg-background flex flex-wrap gap-sm items-center">
-    <span class="font-body-sm text-body-sm text-[#787774] uppercase mr-md">Active Filters:</span>
-    @foreach ($activeChips as $chip)
-        <a href="{{ route('products.index') }}?{{ http_build_query($chip['remove']) }}"
-           class="flex items-center gap-2 border border-primary px-3 py-1 font-body-sm text-body-sm bg-surface-container-highest hover:bg-primary hover:text-on-primary transition-colors">
-            {{ $chip['label'] }} <span class="material-symbols-outlined text-[14px]">close</span>
-        </a>
-    @endforeach
-    <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline text-[#787774] hover:text-primary ml-sm">CLEAR ALL</a>
-</div>
-@endif
-
 <!-- Main Content Area -->
-<div class="flex-1 w-full flex flex-col md:flex-row items-stretch">
-    <!-- Filter Sidebar -->
-    <aside x-data="{ 
-        width: 320, 
-        isDragging: false,
-        startDrag(e) {
-            if(window.innerWidth < 768) return;
-            this.isDragging = true;
-            document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
-            const startX = e.pageX;
-            const startWidth = this.width;
-            
-            const onMouseMove = (e) => {
-                if (!this.isDragging) return;
-                let newWidth = startWidth + (e.pageX - startX);
-                this.width = Math.max(250, Math.min(newWidth, 600));
-            };
-            
-            const onMouseUp = () => {
-                this.isDragging = false;
-                document.body.style.cursor = '';
-                document.body.style.userSelect = '';
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-            };
-            
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        }
-    }" 
-    :style="window.innerWidth >= 768 ? `width: ${width}px; flex-basis: ${width}px; flex-shrink: 0;` : ''"
-    class="relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 group/sidebar">
+<div class="flex-1 w-full flex flex-col md:flex-row items-stretch bg-background">
+    
+    <!-- Filter Sidebar (Sticky) -->
+    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 md:sticky md:top-0 md:h-screen overflow-y-auto" style="opacity: 0; transform: translateY(20px);">
         
-        <!-- Resizer Handle -->
-        <div @mousedown="startDrag" 
-             class="absolute top-0 right-0 h-full w-[10px] cursor-col-resize z-50 hover:bg-primary/10 active:bg-primary/20 transition-colors hidden md:block" 
-             style="transform: translateX(5px);">
-             <div class="absolute inset-y-0 right-[4px] w-[2px] bg-primary opacity-0 group-hover/sidebar:opacity-20 transition-opacity"></div>
-        </div>
-        <div class="p-lg flex justify-between items-center border-b border-primary bg-surface-container-lowest">
-            <h2 class="font-headline-md text-[24px] uppercase">FILTERS</h2>
-            <a href="{{ route('products.index') }}" class="font-body-sm text-body-sm underline hover:text-[#787774]">CLEAR ALL</a>
+        <div class="p-lg flex justify-between items-center border-b border-primary bg-background sticky top-0 z-20">
+            <h2 class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50">FILTERS</h2>
+            <button type="button" class="clear-filters-btn font-mono text-[9px] tracking-[0.1em] uppercase text-primary hover:text-primary/50 transition-colors">CLEAR ALL</button>
         </div>
 
-        <!-- Collection -->
-        <div class="p-lg border-b border-primary">
-            <h3 class="font-body-md text-body-md font-bold mb-md uppercase">COLLECTION</h3>
-            <div class="flex flex-wrap gap-xs">
-                @foreach ($collectionOptions as $opt)
-                    <a href="{{ $opt['href'] }}"
-                       class="border border-primary px-4 py-2 font-body-sm text-body-sm rounded-pill {{ $opt['active'] ? 'bg-primary text-on-primary' : 'hover:bg-surface-container-highest' }}">
-                        {{ $opt['label'] }}
-                    </a>
-                @endforeach
+        <form id="filter-form" method="GET" action="{{ route('products.index') }}" class="flex flex-col pb-24">
+            
+            <!-- Collection -->
+            <div class="p-lg border-b border-primary filter-section">
+                <h3 class="font-mono text-[11px] tracking-[0.15em] mb-md uppercase text-primary">COLLECTION</h3>
+                <div class="flex flex-col gap-0 border border-primary">
+                    @foreach ($collectionOptions as $opt)
+                        <label class="filter-chip relative group cursor-pointer border-b border-primary last:border-b-0 flex items-center justify-between px-3 py-2 bg-background transition-colors duration-200 ease-out {{ $opt['active'] ? 'bg-primary is-active' : 'hover:bg-primary' }}">
+                            <input type="radio" name="collection" value="{{ basename($opt['href']) !== 'products' ? basename($opt['href']) : '' }}"
+                                   {{ $opt['active'] ? 'checked' : '' }}
+                                   class="sr-only filter-input" />
+                            <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $opt['active'] ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $opt['label'] }}</span>
+                            <!-- Sweep indicator -->
+                            <div class="sweep-indicator absolute left-0 top-0 bottom-0 bg-primary w-0 z-0"></div>
+                        </label>
+                    @endforeach
+                </div>
             </div>
-        </div>
-
-        <form method="GET" action="{{ route('products.index') }}">
-            @if (request()->filled('gender'))<input type="hidden" name="gender" value="{{ request('gender') }}">@endif
-            @if (request()->filled('collection'))<input type="hidden" name="collection" value="{{ request('collection') }}">@endif
 
             <!-- Price -->
-            <div class="p-lg border-b border-primary">
-                <h3 class="font-body-md text-body-md font-bold mb-md uppercase">HARGA</h3>
+            <div class="p-lg border-b border-primary filter-section">
+                <h3 class="font-mono text-[11px] tracking-[0.15em] mb-md uppercase text-primary">PRICE</h3>
                 <div class="flex items-center gap-sm">
-                    <input type="number" name="price_min" value="{{ request('price_min', $priceBounds->min_price ?? 0) }}"
-                           min="{{ $priceBounds->min_price ?? 0 }}" max="{{ $priceBounds->max_price ?? 0 }}"
-                           class="w-full border border-primary px-sm py-xs font-body-sm text-body-sm bg-background focus:ring-primary focus:border-primary" />
-                    <span class="font-body-sm text-body-sm">—</span>
-                    <input type="number" name="price_max" value="{{ request('price_max', $priceBounds->max_price ?? 0) }}"
-                           min="{{ $priceBounds->min_price ?? 0 }}" max="{{ $priceBounds->max_price ?? 0 }}"
-                           class="w-full border border-primary px-sm py-xs font-body-sm text-body-sm bg-background focus:ring-primary focus:border-primary" />
-                </div>
-                <div class="flex justify-between font-body-sm text-body-sm mt-2 text-[#787774]">
-                    <span>MIN ${{ $priceBounds->min_price ?? 0 }}</span>
-                    <span>MAX ${{ $priceBounds->max_price ?? 0 }}</span>
+                    <input type="number" name="price_min" value="{{ request('price_min', '') }}" placeholder="MIN"
+                           class="filter-input w-full border border-primary px-sm py-xs font-mono text-[11px] bg-background focus:ring-0 focus:outline-none focus:border-primary placeholder:text-primary/30" />
+                    <span class="font-mono text-[11px] text-primary/50">—</span>
+                    <input type="number" name="price_max" value="{{ request('price_max', '') }}" placeholder="MAX"
+                           class="filter-input w-full border border-primary px-sm py-xs font-mono text-[11px] bg-background focus:ring-0 focus:outline-none focus:border-primary placeholder:text-primary/30" />
                 </div>
             </div>
 
             <!-- Material -->
             @if ($materials->isNotEmpty())
-            <div class="p-lg border-b border-primary">
-                <h3 class="font-body-md text-body-md font-bold mb-md uppercase">MATERIAL</h3>
-                <div class="flex flex-col gap-sm">
+            <div class="p-lg border-b border-primary filter-section">
+                <h3 class="font-mono text-[11px] tracking-[0.15em] mb-md uppercase text-primary">MATERIAL</h3>
+                <div class="flex flex-col gap-0 border border-primary">
                     @foreach ($materials as $material)
-                        <label class="flex items-center gap-3 cursor-pointer">
+                        @php $isActive = in_array($material, (array) request('material', [])); @endphp
+                        <label class="filter-chip relative group cursor-pointer border-b border-primary last:border-b-0 flex items-center px-3 py-2 bg-background transition-colors duration-200 ease-out {{ $isActive ? 'bg-primary is-active' : 'hover:bg-primary' }}">
                             <input type="checkbox" name="material[]" value="{{ $material }}"
-                                   {{ in_array($material, (array) request('material', [])) ? 'checked' : '' }}
-                                   class="w-4 h-4 border-primary rounded-none text-primary focus:ring-primary" />
-                            <span class="font-body-sm text-body-sm uppercase">{{ $material }}</span>
+                                   {{ $isActive ? 'checked' : '' }}
+                                   class="sr-only filter-input" />
+                            <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $isActive ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $material }}</span>
+                            <div class="sweep-indicator absolute left-0 top-0 bottom-0 bg-primary w-0 z-0"></div>
                         </label>
                     @endforeach
                 </div>
@@ -138,17 +81,16 @@
 
             <!-- Diameter -->
             @if ($diameters->isNotEmpty())
-            <div class="p-lg border-b border-primary">
-                <h3 class="font-body-md text-body-md font-bold mb-md uppercase">DIAMETER</h3>
-                <div class="flex flex-wrap gap-xs">
+            <div class="p-lg border-b border-primary filter-section">
+                <h3 class="font-mono text-[11px] tracking-[0.15em] mb-md uppercase text-primary">DIAMETER</h3>
+                <div class="flex flex-wrap border-t border-l border-primary">
                     @foreach ($diameters as $diameter)
-                        <label class="cursor-pointer">
+                        @php $isActive = in_array($diameter, (array) request('diameter', [])); @endphp
+                        <label style="margin-top: -1px; margin-left: -1px;" class="filter-chip relative group cursor-pointer border border-primary flex items-center justify-center px-3 py-2 bg-background transition-colors duration-200 ease-out flex-1 min-w-[33%] {{ $isActive ? 'bg-primary is-active' : 'hover:bg-primary' }}">
                             <input type="checkbox" name="diameter[]" value="{{ $diameter }}"
-                                   {{ in_array($diameter, (array) request('diameter', [])) ? 'checked' : '' }}
-                                   class="peer sr-only" />
-                            <span class="block border border-primary px-3 py-1 font-body-sm text-body-sm rounded-pill peer-checked:bg-primary peer-checked:text-on-primary hover:bg-surface-container-highest">
-                                {{ $diameter }}mm
-                            </span>
+                                   {{ $isActive ? 'checked' : '' }}
+                                   class="sr-only filter-input" />
+                            <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $isActive ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $diameter }}MM</span>
                         </label>
                     @endforeach
                 </div>
@@ -157,89 +99,430 @@
 
             <!-- Movement -->
             @if ($movements->isNotEmpty())
-            <div class="p-lg border-b border-primary">
-                <h3 class="font-body-md text-body-md font-bold mb-md uppercase">MOVEMENT</h3>
-                <div class="flex flex-col gap-sm">
+            <div class="p-lg border-b border-primary filter-section">
+                <h3 class="font-mono text-[11px] tracking-[0.15em] mb-md uppercase text-primary">MOVEMENT</h3>
+                <div class="flex flex-col gap-0 border border-primary">
                     @foreach ($movements as $movement)
-                        <label class="flex items-center gap-3 cursor-pointer">
+                        @php $isActive = in_array($movement, (array) request('movement', [])); @endphp
+                        <label class="filter-chip relative group cursor-pointer border-b border-primary last:border-b-0 flex items-center px-3 py-2 bg-background transition-colors duration-200 ease-out {{ $isActive ? 'bg-primary is-active' : 'hover:bg-primary' }}">
                             <input type="checkbox" name="movement[]" value="{{ $movement }}"
-                                   {{ in_array($movement, (array) request('movement', [])) ? 'checked' : '' }}
-                                   class="w-4 h-4 border-primary rounded-none text-primary focus:ring-primary" />
-                            <span class="font-body-sm text-body-sm uppercase">{{ $movement }}</span>
+                                   {{ $isActive ? 'checked' : '' }}
+                                   class="sr-only filter-input" />
+                            <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $isActive ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $movement }}</span>
                         </label>
                     @endforeach
                 </div>
             </div>
             @endif
-
-            <div class="p-lg">
-                <button type="submit" class="w-full border border-primary bg-primary text-on-primary py-3 font-label-caps text-label-caps uppercase hover:bg-surface hover:text-primary transition-colors">
-                    APPLY FILTERS
-                </button>
-            </div>
+            
+            <button type="submit" class="hidden">Submit</button>
         </form>
     </aside>
 
-    <!-- Product Grid -->
-    <div class="flex-1 bg-surface-container-lowest relative">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full content-start">
-            @forelse ($products as $product)
-                @if($product->stock <= 0)
-                <div class="group flex flex-col bg-background border-r border-b border-primary opacity-60 cursor-not-allowed">
-                @else
-                <a href="{{ route('products.show', $product->slug) }}" class="group flex flex-col bg-background transition-colors border-r border-b border-primary">
-                @endif
-                
-                    <div class="flex justify-between items-center p-md border-b border-primary bg-background">
-                        <span class="font-h2 text-sm uppercase tracking-tight bg-primary text-on-primary px-2 py-1 border border-primary">
-                            {{ $product->collection->name ?? '—' }}
+    <!-- Product Grid Container -->
+    <div class="flex-1 relative bg-background min-h-[50vh]">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-full content-start border-l-0 md:border-l border-primary" id="catalog-grid">
+            @forelse ($products as $index => $product)
+                @php 
+                    $isOutOfStock = $product->stock <= 0;
+                    $colIndex = $index % 3; // For stagger
+                @endphp
+                <div class="catalog-product-card relative flex flex-col bg-background border-r border-b border-primary cursor-pointer" 
+                     data-id="{{ $product->id }}"
+                     data-col="{{ $colIndex }}"
+                     onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
+                    
+                    <!-- Metadata Top Bar -->
+                    <div class="card-meta flex justify-between items-center p-md border-b border-primary bg-background transition-colors duration-300 ease-out">
+                        <span class="font-mono text-[10px] tracking-[0.1em] uppercase text-primary">
+                            {{ $product->collection->name ?? 'ARCHIVE' }}
                         </span>
-                        <span class="font-h2 text-sm text-primary">${{ number_format($product->price, 2) }}</span>
+                        <span class="card-price font-mono text-[10px] text-primary/90 transition-all duration-200 ease-out">
+                            ${{ number_format($product->price, 2) }}
+                        </span>
                     </div>
-                    <div class="w-full aspect-square bg-background border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
+                    
+                    <!-- Image Area -->
+                    <div class="w-full aspect-square bg-background border-b border-primary flex items-center justify-center p-2xl relative overflow-hidden">
                         @if ($product->primaryImage)
-                        <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical group-hover:scale-105"
-                             style="background-image: url('{{ $product->primaryImage->url }}')"></div>
+                            <div class="card-image-wrapper relative w-full h-full flex items-center justify-center">
+                                <div class="watch-breathe w-full h-full bg-contain bg-center bg-no-repeat relative z-10"
+                                     style="background-image: url('{{ $product->primaryImage->url }}')"></div>
+                                
+                                <!-- Shadow (only under watch, appears on hover) -->
+                                <div class="card-shadow absolute bottom-10 left-1/2 -translate-x-1/2 w-[60%] h-[12px] bg-black/10 blur-[6px] rounded-[100%] opacity-0 z-0"></div>
+                            </div>
                         @else
-                        <div class="w-full h-full bg-background flex items-center justify-center text-[#787774] text-xs uppercase">No Image</div>
+                            <div class="w-full h-full bg-background flex items-center justify-center font-mono text-[10px] text-primary/30 uppercase tracking-[0.1em]">NO IMAGE DATA</div>
                         @endif
                         
-                        @if($product->stock <= 0)
-                        <div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] flex items-center justify-center z-10">
-                            <span class="font-label-caps text-xs text-background tracking-widest px-4 py-2 bg-primary">[ OUT OF STOCK ]</span>
-                        </div>
+                        @if($isOutOfStock)
+                            <div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] flex items-center justify-center z-20">
+                                <span class="font-mono text-[10px] text-background tracking-[0.2em] px-3 py-1 bg-primary">ARCHIVED</span>
+                            </div>
                         @endif
                     </div>
-                    <div class="p-lg flex flex-col flex-1">
-                        <h3 class="font-h2 text-lg uppercase leading-tight mb-1">{{ $product->name }}</h3>
-                        <p class="font-body-md text-[10px] text-[#787774] uppercase pt-2">
-                            {{ $product->tagline ?? 'TIMEPIECE' }}
+                    
+                    <!-- Bottom Information -->
+                    <div class="p-lg flex flex-col flex-1 bg-background z-10">
+                        <h3 class="card-title font-h2 text-xl uppercase leading-none tracking-normal">{{ $product->name }}</h3>
+                        <p class="card-subtitle font-body-md text-[11px] text-primary/75 uppercase pt-2 opacity-75">
+                            {{ $product->tagline ?? 'MECHANICAL TIMEPIECE' }}
                         </p>
-                        {{-- Stock Availability Badge --}}
-                        <div class="mt-sm flex items-center gap-xs">
-                            @if($product->status === 'sold_out' || $product->stock <= 0)
-                                <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary opacity-50">[ OUT OF STOCK ]</span>
+                        
+                        <!-- Stock Monitor -->
+                        <div class="mt-xl flex items-center">
+                            @if($isOutOfStock)
+                                <span class="card-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary/40 font-normal">UNAVAILABLE</span>
                             @elseif($product->stock <= 10)
-                                <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary">[ LOW STOCK — {{ $product->stock }} LEFT ]</span>
+                                <span class="card-stock low-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary font-normal">LOW STOCK &mdash; {{ $product->stock }} LEFT</span>
                             @else
-                                <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary">[ IN STOCK — {{ $product->stock }} UNITS ]</span>
+                                <span class="card-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary/70 font-normal">INVENTORY &mdash; {{ $product->stock }} UNITS</span>
                             @endif
                         </div>
                     </div>
                     
-                @if($product->stock <= 0)
                 </div>
-                @else
-                </a>
-                @endif
             @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-3 p-3xl text-center font-body-md text-[#787774] border-b border-r border-primary">
-                    No watches match these filters.
-                    <a href="{{ route('products.index') }}" class="underline text-primary ml-2">Clear filters</a>
+                <div class="col-span-full p-4xl flex flex-col items-center justify-center min-h-[400px] border-b border-primary catalog-empty-state">
+                    <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50 mb-4">NO MATCHING TIMEPIECES</span>
+                    <button type="button" class="clear-filters-btn font-mono text-[11px] tracking-[0.1em] uppercase text-primary border-b border-primary pb-1 hover:text-primary/50 transition-colors">RESET PROTOCOL</button>
                 </div>
             @endforelse
         </div>
     </div>
 </div>
 
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger, Flip);
+
+    const isDesktop = window.innerWidth >= 768;
+
+    // --- PHASE 1-4: ENTRANCE SEQUENCE ---
+    const entranceTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    // Phase 1: Headline
+    entranceTl.to(".catalog-word", {
+        opacity: 1,
+        letterSpacing: "0em", // compresses from 0.15em
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "expo.out"
+    }, 0.1);
+
+    // Phase 2: Counter
+    entranceTl.to(".catalog-counter", {
+        opacity: 1,
+        y: 0,
+        duration: 0.3
+    }, 0.3);
+
+    // Phase 3: Sidebar
+    entranceTl.to(".catalog-sidebar", {
+        opacity: 1,
+        y: 0,
+        duration: 0.45
+    }, 0.4);
+
+    // Phase 4: Product Grid Stagger (by column)
+    const cards = gsap.utils.toArray('.catalog-product-card');
+    gsap.set(cards, { opacity: 0, y: 24 }); // initial state
+    
+    // Create ScrollTrigger batch for staggered reveal
+    ScrollTrigger.batch(".catalog-product-card", {
+        onEnter: batch => {
+            const sorted = batch.sort((a, b) => a.dataset.col - b.dataset.col);
+            gsap.to(sorted, {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.09,
+                ease: "power3.out",
+                overwrite: true
+            });
+        },
+        once: true,
+        start: "top 95%"
+    });
+
+    // --- IDLE: WATCH BREATHING ---
+    function initBreathing() {
+        const watches = document.querySelectorAll('.watch-breathe');
+        watches.forEach((watch, i) => {
+            // Kill existing tweens on this element if any
+            gsap.killTweensOf(watch);
+            gsap.to(watch, {
+                y: 5,
+                duration: 3.5,
+                ease: "none",
+                yoyo: true,
+                repeat: -1,
+                delay: i * 0.2
+            });
+        });
+    }
+    initBreathing();
+
+    // --- LOW STOCK MONITOR ---
+    setInterval(() => {
+        gsap.to(".low-stock", {
+            opacity: 0.4,
+            duration: 0.4,
+            yoyo: true,
+            repeat: 1,
+            ease: "power1.inOut"
+        });
+    }, 12000);
+
+    // --- EDITORIAL FOCUS SYSTEM (HOVER) ---
+    const gridContainer = document.getElementById('catalog-grid');
+    
+    gridContainer.addEventListener('mouseover', (e) => {
+        const card = e.target.closest('.catalog-product-card');
+        if (!card) return;
+        
+        const allCards = Array.from(document.querySelectorAll('.catalog-product-card'));
+        const index = allCards.indexOf(card);
+        
+        allCards.forEach((c, i) => {
+            if (c === card) {
+                gsap.to(c, { opacity: 1, duration: 0.45, ease: "power3.out" });
+                
+                // Animate internals
+                const meta = c.querySelector('.card-meta');
+                const imgWrap = c.querySelector('.card-image-wrapper');
+                const shadow = c.querySelector('.card-shadow');
+                const title = c.querySelector('.card-title');
+                const sub = c.querySelector('.card-subtitle');
+                const stock = c.querySelector('.card-stock');
+                const price = c.querySelector('.card-price');
+                
+                if(meta) gsap.to(meta, { backgroundColor: '#f0f0f0', duration: 0.45, ease: "power3.out" });
+                if(imgWrap) gsap.to(imgWrap, { y: -8, scale: 1.018, duration: 0.45, ease: "power3.out" });
+                if(shadow) gsap.to(shadow, { opacity: 1, duration: 0.45, ease: "power3.out" });
+                if(title) gsap.to(title, { letterSpacing: "0.02em", duration: 0.45, ease: "power3.out" });
+                if(sub) gsap.to(sub, { opacity: 1, duration: 0.45, ease: "power3.out" });
+                if(stock) gsap.to(stock, { fontWeight: 500, color: '#000', duration: 0.45, ease: "power3.out" });
+                if(price) gsap.to(price, { y: -2, opacity: 1, duration: 0.2, ease: "power3.out" });
+
+            } else if (i === index - 1 || i === index + 1) {
+                gsap.to(c, { opacity: 0.92, duration: 0.45, ease: "power3.out" });
+            } else {
+                gsap.to(c, { opacity: 0.86, duration: 0.45, ease: "power3.out" });
+            }
+        });
+    });
+
+    gridContainer.addEventListener('mouseout', (e) => {
+        const card = e.target.closest('.catalog-product-card');
+        if (!card) return;
+        
+        const allCards = Array.from(document.querySelectorAll('.catalog-product-card'));
+        gsap.to(allCards, { opacity: 1, duration: 0.45, ease: "power3.out" });
+        
+        const meta = card.querySelector('.card-meta');
+        const imgWrap = card.querySelector('.card-image-wrapper');
+        const shadow = card.querySelector('.card-shadow');
+        const title = card.querySelector('.card-title');
+        const sub = card.querySelector('.card-subtitle');
+        const stock = card.querySelector('.card-stock');
+        const price = card.querySelector('.card-price');
+        
+        if(meta) gsap.to(meta, { backgroundColor: 'transparent', duration: 0.45, ease: "power3.out" });
+        if(imgWrap) gsap.to(imgWrap, { y: 0, scale: 1, duration: 0.45, ease: "power3.out" });
+        if(shadow) gsap.to(shadow, { opacity: 0, duration: 0.45, ease: "power3.out" });
+        if(title) gsap.to(title, { letterSpacing: "normal", duration: 0.45, ease: "power3.out" });
+        if(sub) gsap.to(sub, { opacity: 0.75, duration: 0.45, ease: "power3.out" });
+        if(stock) gsap.to(stock, { fontWeight: 400, color: '', duration: 0.45, ease: "power3.out" });
+        if(price) gsap.to(price, { y: 0, opacity: 0.9, duration: 0.2, ease: "power3.out" });
+    });
+
+    // --- AJAX FILTERING & GSAP FLIP ---
+    const filterForm = document.getElementById('filter-form');
+    const clearBtns = document.querySelectorAll('.clear-filters-btn');
+    
+    // Need a wrapping function so we don't duplicate code
+    async function performFilterUpdate() {
+        const formData = new FormData(filterForm);
+        const searchParams = new URLSearchParams();
+        
+        for (const [key, value] of formData.entries()) {
+            if (value) searchParams.append(key, value);
+        }
+        
+        const url = `${filterForm.action}?${searchParams.toString()}`;
+        
+        try {
+            const response = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            const htmlString = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlString, 'text/html');
+            
+            const newGridHTML = doc.getElementById('catalog-grid').innerHTML;
+            const newCounterText = doc.querySelector('.counter-number').textContent;
+            
+            updateGridWithFlip(newGridHTML, newCounterText, url);
+        } catch (e) {
+            console.error("Filter fetch failed", e);
+            window.location.href = url; // Fallback
+        }
+    }
+
+    function updateGridWithFlip(newGridHTML, newCounterText, newUrl) {
+        const currentCards = gsap.utils.toArray('.catalog-product-card');
+        
+        // Grab the state of ALL current cards
+        const state = Flip.getState(currentCards, { props: "opacity" });
+        
+        // Replace innerHTML
+        gridContainer.innerHTML = newGridHTML;
+        
+        const newCards = gsap.utils.toArray('.catalog-product-card');
+        
+        // Restart breathing animations
+        initBreathing();
+        
+        // Reset ScrollTrigger batches for new elements
+        ScrollTrigger.getAll().forEach(st => {
+            if (st.vars.trigger === ".catalog-product-card") st.kill();
+        });
+        
+        ScrollTrigger.batch(".catalog-product-card:not(.flip-animating)", {
+            onEnter: batch => {
+                gsap.fromTo(batch, 
+                    { opacity: 0, y: 24 },
+                    { opacity: 1, y: 0, duration: 0.45, stagger: 0.05, ease: "power2.out", overwrite: true }
+                );
+            },
+            once: true,
+            start: "top 95%"
+        });
+
+        // Add class to prevent scrolltrigger from interfering
+        newCards.forEach(c => c.classList.add('flip-animating'));
+
+        Flip.from(state, {
+            targets: newCards,
+            duration: 0.5,
+            ease: "power2.inOut",
+            absolute: true,
+            onEnter: elements => {
+                return gsap.fromTo(elements, 
+                    { opacity: 0, y: 16 }, 
+                    { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+                );
+            },
+            onLeave: elements => {
+                return gsap.to(elements, { opacity: 0, y: 16, duration: 0.4, ease: "power2.in" });
+            },
+            onComplete: () => {
+                newCards.forEach(c => c.classList.remove('flip-animating'));
+            }
+        });
+
+        // Update counter
+        const counterEl = document.querySelector('.counter-number');
+        if (counterEl.textContent !== newCounterText) {
+            gsap.to(counterEl, {
+                y: -10,
+                opacity: 0,
+                duration: 0.2,
+                onComplete: () => {
+                    counterEl.textContent = newCounterText;
+                    gsap.fromTo(counterEl, 
+                        { y: 10, opacity: 0 }, 
+                        { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
+                    );
+                }
+            });
+        }
+        
+        // Update URL quietly
+        window.history.pushState({}, '', newUrl);
+    }
+
+    // Input changes (Checkboxes, Radios)
+    filterForm.addEventListener('change', (e) => {
+        if (!e.target.classList.contains('filter-input')) return;
+        
+        const label = e.target.closest('label');
+        if (label) {
+            if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+                if (e.target.checked) {
+                    label.classList.add('bg-primary', 'is-active');
+                    label.classList.remove('hover:bg-primary');
+                    label.querySelector('span').classList.add('text-background');
+                    label.querySelector('span').classList.remove('text-primary', 'group-hover:text-background');
+                    
+                    const sweep = label.querySelector('.sweep-indicator');
+                    if (sweep) {
+                        gsap.fromTo(sweep, { width: 0 }, { width: '100%', duration: 0.18, ease: "power2.out" });
+                    }
+                } else {
+                    label.classList.remove('bg-primary', 'is-active');
+                    label.classList.add('hover:bg-primary');
+                    label.querySelector('span').classList.remove('text-background');
+                    label.querySelector('span').classList.add('text-primary', 'group-hover:text-background');
+                }
+            }
+        }
+        
+        performFilterUpdate();
+    });
+
+    // Debounced Text Input (Price)
+    let priceTimeout;
+    const priceInputs = document.querySelectorAll('input[type="number"]');
+    priceInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            clearTimeout(priceTimeout);
+            priceTimeout = setTimeout(() => {
+                performFilterUpdate();
+            }, 600);
+        });
+    });
+
+    // Clear All
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.clear-filters-btn')) {
+            e.preventDefault();
+            
+            const activeLabels = document.querySelectorAll('.filter-chip.is-active');
+            
+            if (activeLabels.length > 0) {
+                gsap.to(activeLabels, {
+                    backgroundColor: "transparent",
+                    duration: 0.1,
+                    stagger: 0.12,
+                    onComplete: () => {
+                        filterForm.reset();
+                        activeLabels.forEach(l => {
+                            l.classList.remove('bg-primary', 'is-active');
+                            l.classList.add('hover:bg-primary');
+                            const span = l.querySelector('span');
+                            if(span) {
+                                span.classList.remove('text-background');
+                                span.classList.add('text-primary', 'group-hover:text-background');
+                            }
+                        });
+                        performFilterUpdate();
+                    }
+                });
+            } else {
+                filterForm.reset();
+                performFilterUpdate();
+            }
+        }
+    });
+
+});
+</script>
+@endpush
 @endsection
