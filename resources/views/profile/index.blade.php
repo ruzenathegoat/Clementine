@@ -380,7 +380,7 @@
                                                     <span class="font-mono text-sm md:text-xs uppercase tracking-widest text-[#555]">{{ \Carbon\Carbon::parse($order->created_at)->format('Y.m.d') }}</span>
                                                 </div>
                                                 
-                                                <div class="col-span-12 md:col-span-4">
+                                                <div class="col-span-12 md:col-span-4 min-w-0">
                                                     <span class="md:hidden font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mr-2">Asset:</span>
                                                     <div class="font-h2 text-sm uppercase tracking-widest text-[#1A1A1A] truncate group-hover:text-primary transition-colors">
                                                         {{ $order->items->first()?->product->name ?? 'UNKNOWN ASSET' }}
