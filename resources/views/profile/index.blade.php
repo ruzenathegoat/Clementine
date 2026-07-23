@@ -355,6 +355,10 @@
                                                      id: '{{ $order->id }}',
                                                      ref: '{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}',
                                                      date: '{{ \Carbon\Carbon::parse($order->created_at)->format('Y.m.d') }}',
+                                                     subtotal: '{{ number_format($order->subtotal, 0) }}',
+                                                     tax: '{{ number_format($order->tax ?? 0, 0) }}',
+                                                     shipping: '{{ number_format($order->shipping_fee ?? 0, 0) }}',
+                                                     discount: '{{ number_format($order->discount_amount ?? 0, 0) }}',
                                                      total: '{{ number_format($order->total, 0) }}',
                                                      status: '{{ $order->status }}',
                                                      items: {{ json_encode($order->items->map(function($item) {

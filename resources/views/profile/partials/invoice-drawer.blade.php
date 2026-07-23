@@ -74,12 +74,26 @@
             <div class="border-t border-[rgba(10,10,10,0.15)] pt-6 flex flex-col gap-4">
                 <div class="flex justify-between font-mono text-[10px] tracking-widest text-[#909090] uppercase">
                     <span>Subtotal</span>
-                    <span x-text="selectedOrder ? '$' + selectedOrder.total : ''"></span>
+                    <span x-text="selectedOrder ? '$' + selectedOrder.subtotal : ''"></span>
                 </div>
+                
+                <template x-if="selectedOrder && selectedOrder.discount !== '0'">
+                    <div class="flex justify-between font-mono text-[10px] tracking-widest text-[#909090] uppercase">
+                        <span>Discount</span>
+                        <span x-text="'-$' + selectedOrder.discount"></span>
+                    </div>
+                </template>
+                
+                <div class="flex justify-between font-mono text-[10px] tracking-widest text-[#909090] uppercase">
+                    <span>Tax</span>
+                    <span x-text="selectedOrder ? '$' + selectedOrder.tax : ''"></span>
+                </div>
+                
                 <div class="flex justify-between font-mono text-[10px] tracking-widest text-[#909090] uppercase">
                     <span>Logistics & Handling</span>
-                    <span>$0</span>
+                    <span x-text="selectedOrder ? '$' + selectedOrder.shipping : ''"></span>
                 </div>
+                
                 <div class="flex justify-between items-end mt-4 pt-4 border-t border-[rgba(10,10,10,0.15)]">
                     <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Total Valuation</span>
                     <span class="font-mono text-2xl tracking-widest text-[#1A1A1A]" x-text="selectedOrder ? '$' + selectedOrder.total : ''"></span>
