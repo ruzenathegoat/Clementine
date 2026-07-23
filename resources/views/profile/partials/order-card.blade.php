@@ -125,7 +125,7 @@
 
     <!-- Actions / Invoice Reveal -->
     <div class="absolute bottom-6 right-6 z-20">
-        <button @click.prevent="showInvoice()" class="font-mono text-[9px] tracking-[0.2em] uppercase text-[#1A1A1A] flex items-center gap-2 border-b border-transparent hover:border-[#1A1A1A] transition-colors opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 duration-400 ease-[cubic-bezier(0.23,1,0.32,1)]">
+        <button @click.prevent="showInvoice()" class="font-mono text-[9px] tracking-[0.2em] uppercase text-[#1A1A1A] flex items-center gap-2 border-b border-transparent hover:border-[#1A1A1A] transition-all opacity-100 translate-y-0 md:opacity-0 md:group-hover:opacity-100 transform md:translate-y-4 md:group-hover:translate-y-0 duration-400 ease-[cubic-bezier(0.23,1,0.32,1)]">
             VIEW DOSSIER <span class="material-symbols-outlined text-[12px]">description</span>
         </button>
     </div>
