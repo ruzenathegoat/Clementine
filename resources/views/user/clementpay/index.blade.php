@@ -94,6 +94,12 @@
         color: #000;
         margin-bottom: 48px;
     }
+    /* On desktop the left column is 40% of viewport, so 10vw overflows — scale to fit */
+    @media (min-width: 1024px) {
+        .cpay-headline {
+            font-size: clamp(3.5rem, 4vw, 5.5rem);
+        }
+    }
 
     .cpay-manifesto-line {
         font-family: 'IBM Plex Sans', sans-serif;
