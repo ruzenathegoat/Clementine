@@ -197,12 +197,12 @@
                     [ IDENTIFICATION RECORD ]
                 </div>
                 
-                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-16">
+                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col gap-16">
                     @csrf
                     @method('PUT')
                     
                     <!-- Avatar / ID Card -->
-                    <div class="archive-grid grid grid-cols-1 md:grid-cols-3 max-w-2xl">
+                    <div class="archive-grid grid grid-cols-1 md:grid-cols-3 w-full max-w-2xl">
                         <div class="archive-cell p-4 relative group cursor-crosshair">
                             <div class="w-full aspect-square bg-[#EFEFEF] relative overflow-hidden">
                                 <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
@@ -238,7 +238,7 @@
                     </div>
 
                     <!-- Editorial Form Fields -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-4xl">
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-4xl">
                         <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
                             <div class="flex justify-between">
                                 <label for="name" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Legal Name</label>
