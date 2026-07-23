@@ -155,10 +155,14 @@ class CartController extends Controller
             'quantity' => $request->quantity,
         ]);
 
+        if ($request->wantsJson()) {
+            return $this->getCartTotalsResponse();
+        }
+
         return back()->with('success', 'CART UPDATED.');
     }
 
-    public function destroy(CartItem $cart)
+    public function destroy(CartItem $cart, Request $request)
     {
         $userId = auth()->id();
         if ((int)$cart->user_id !== (int)$userId) {
@@ -167,6 +171,52 @@ class CartController extends Controller
 
         $cart->delete();
 
+        if ($request->wantsJson()) {
+            return $this->getCartTotalsResponse();
+        }
+
         return back()->with('success', 'ITEM REMOVED.');
+    }
+
+    private function getCartTotalsResponse()
+    {
+        $userId = auth()->id();
+        $cartItems = CartItem::with(['product'])
+            ->where('user_id', $userId)
+            ->get();
+            
+        $isVip = auth()->user()?->is_vip ?? false;
+        
+        $subtotal = 0;
+        $totalDiscount = 0;
+        
+        foreach ($cartItems as $item) {
+            $productPrice = $item->product->price;
+            $qty = $item->quantity;
+            $lineTotal = $productPrice * $qty;
+            
+            $subtotal += $lineTotal;
+            
+            $discountPct = 0;
+            if ($item->product->status === 'new') {
+                $discountPct = $isVip ? 0.07 : 0.05;
+            } else {
+                if ($isVip) {
+                    $discountPct = 0.03;
+                }
+            }
+            $totalDiscount += ($lineTotal * $discountPct);
+        }
+        
+        $shipping = $cartItems->isEmpty() ? 0 : 15;
+        $total = $subtotal - $totalDiscount + $shipping;
+        
+        return response()->json([
+            'subtotal' => $subtotal,
+            'totalDiscount' => $totalDiscount,
+            'shipping' => $shipping,
+            'total' => $total,
+            'isEmpty' => $cartItems->isEmpty()
+        ]);
     }
 }
