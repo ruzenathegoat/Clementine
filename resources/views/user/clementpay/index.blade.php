@@ -3,7 +3,7 @@
 @section('title', 'Clementpay | Clementine')
 
 @section('content')
-<div class="w-full bg-background relative pt-[80px] overflow-hidden" id="clementpay-section">
+<div class="w-full bg-background relative pt-[80px]" id="clementpay-section">
     
     <!-- Top Telemetry Bar -->
     <div class="flex justify-between items-center px-6 md:px-xl py-lg border-b border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary z-30 bg-background relative">
@@ -20,10 +20,10 @@
     <div class="w-full grid grid-cols-1 lg:grid-cols-[40%_60%] bg-background min-h-[800px]">
         
         <!-- LEFT SIDE: Treasury Info & Allocation -->
-        <div class="flex flex-col relative border-b lg:border-b-0 lg:border-r border-primary/20 bg-background w-full overflow-hidden">
+        <div class="flex flex-col relative border-b lg:border-b-0 lg:border-r border-primary/20 bg-background w-full">
             
             <!-- Hero Typography Area -->
-            <div class="flex flex-col p-6 md:p-3xl xl:p-4xl border-b border-primary/20 w-full">
+            <div class="flex flex-col p-6 md:p-3xl xl:p-3xl border-b border-primary/20 w-full">
                 <h1 class="cpay-headline font-h1 text-[clamp(4.5rem,10vw,7.5rem)] leading-[0.8] tracking-tight uppercase text-primary mb-12">
                     <span class="cpay-word block" style="opacity: 0; letter-spacing: 0.2em; transform: translateY(20px);">CLEMENT</span>
                     <span class="cpay-word block" style="opacity: 0; letter-spacing: 0.2em; transform: translateY(20px);">PAY.</span>
@@ -38,7 +38,7 @@
             </div>
 
             <!-- Allocation Form Area -->
-            <div class="flex flex-col p-6 md:p-3xl xl:p-4xl bg-[#FAFAFA] flex-grow justify-center relative overflow-hidden w-full z-20">
+            <div class="flex flex-col p-6 md:p-3xl xl:p-3xl bg-[#FAFAFA] flex-grow justify-center relative w-full z-20">
                 <!-- BG Grid pattern -->
                 <div class="absolute inset-0 pointer-events-none opacity-30" style="background-size: 10% 10%; background-image: linear-gradient(to right, #e5e5e5 1px, transparent 1px), linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);"></div>
                 
@@ -74,7 +74,7 @@
         <div class="flex flex-col relative bg-background w-full overflow-hidden">
             
             <!-- Balance Metric Area -->
-            <div class="p-6 md:p-3xl xl:p-4xl border-b border-primary/20 flex flex-col justify-center min-h-[250px] md:min-h-[300px] cpay-balance-area w-full" style="opacity: 0;">
+            <div class="p-6 md:p-3xl xl:p-3xl border-b border-primary/20 flex flex-col justify-center min-h-[250px] md:min-h-[300px] cpay-balance-area w-full" style="opacity: 0;">
                 <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-primary/50 mb-6 block">CURRENT BALANCE</span>
                 <div class="font-mono text-[clamp(3.5rem,8vw,7rem)] tracking-tighter text-primary leading-none w-full break-words">
                     ${{ number_format(auth()->user()->clementpay_balance, 2) }}
