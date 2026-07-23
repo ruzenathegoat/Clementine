@@ -478,19 +478,22 @@
 
                 <!-- DANGER ZONE -->
                 <div class="w-full mt-32 border-t border-[rgba(10,10,10,0.15)] pt-16" x-data="{ termModalOpen: false }">
-                    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 xl:gap-12">
-                        <div class="xl:w-1/4">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                        <!-- Title Column -->
+                        <div class="w-full lg:w-1/4">
                             <h3 class="font-h1 text-xl uppercase title-display text-[#1A1A1A] m-0">Archive Termination</h3>
                         </div>
                         
-                        <div class="xl:flex-1 max-w-2xl">
-                            <p class="font-body-md text-sm text-[#555] leading-relaxed m-0">
+                        <!-- Text Column -->
+                        <div class="w-full lg:w-1/2">
+                            <p class="font-body-md text-sm md:text-base text-[#555] leading-relaxed m-0 text-pretty">
                                 Permanently sever your connection to the Clementine archive. This action destroys all associated identity records and cannot be reversed.
                             </p>
                         </div>
 
-                        <div class="xl:flex-shrink-0">
-                            <button type="button" @click="termModalOpen = true" class="w-full xl:w-auto font-mono text-xs tracking-[0.2em] uppercase text-red-600 px-8 py-4 border border-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 active:scale-[0.97]">
+                        <!-- Button Column -->
+                        <div class="w-full lg:w-1/4 flex lg:justify-end mt-4 lg:mt-0">
+                            <button type="button" @click="termModalOpen = true" class="w-full lg:w-auto font-mono text-xs tracking-[0.2em] uppercase text-red-600 px-8 py-4 border border-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 active:scale-[0.97]">
                                 INITIATE TERMINATION
                             </button>
                         </div>
