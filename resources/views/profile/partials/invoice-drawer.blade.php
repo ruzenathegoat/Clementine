@@ -20,7 +20,7 @@
          x-transition:leave="transform transition ease-in duration-300" 
          x-transition:leave-start="translate-x-0" 
          x-transition:leave-end="translate-x-full" 
-         class="relative w-full max-w-full md:max-w-[40%] bg-[#FAFAFA] border-l border-[rgba(10,10,10,0.15)] shadow-2xl h-full flex flex-col pointer-events-auto invoice-print-area">
+         class="relative w-full max-w-full md:max-w-[40%] bg-[#FAFAFA] border-l border-[rgba(10,10,10,0.15)] shadow-2xl h-full print:h-auto flex flex-col pointer-events-auto invoice-print-area">
         
         <!-- Header -->
         <div class="px-8 md:px-12 py-8 border-b border-[rgba(10,10,10,0.15)] flex justify-between items-start bg-white">
@@ -29,13 +29,13 @@
                 <h2 class="font-h1 text-3xl uppercase tracking-widest text-[#1A1A1A] m-0" id="slide-over-title" x-text="selectedOrder ? selectedOrder.ref : ''"></h2>
             </div>
             
-            <button @click="closeInvoice()" class="w-10 h-10 border border-[rgba(10,10,10,0.15)] flex items-center justify-center text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors duration-300">
+            <button @click="closeInvoice()" class="w-10 h-10 border border-[rgba(10,10,10,0.15)] flex items-center justify-center text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors duration-300 print:hidden">
                 <span class="material-symbols-outlined text-[18px]">close</span>
             </button>
         </div>
 
         <!-- Scrollable Content -->
-        <div class="flex-grow overflow-y-auto overflow-x-hidden p-8 md:px-12 py-12 scrollbar-hide">
+        <div class="flex-grow overflow-y-auto overflow-x-hidden p-8 md:px-12 py-12 scrollbar-hide print:overflow-visible print:h-auto print:p-4">
             
             <div class="flex justify-between items-end border-b border-[rgba(10,10,10,0.15)] pb-6 mb-12">
                 <div>
