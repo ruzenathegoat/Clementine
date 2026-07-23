@@ -22,7 +22,7 @@
 <div class="flex-1 w-full flex flex-col md:flex-row items-stretch bg-background">
     
     <!-- Filter Sidebar (Sticky) -->
-    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 md:sticky md:top-[80px] md:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar" style="opacity: 0; transform: translateY(20px);">
+    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 md:sticky md:top-0 md:h-screen overflow-y-auto" style="opacity: 0; transform: translateY(20px);">
         
         <div class="p-lg flex justify-between items-center border-b border-primary bg-background sticky top-0 z-20">
             <h2 class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50">FILTERS</h2>
@@ -122,37 +122,37 @@
     <!-- Product Grid Container -->
     <div class="flex-1 relative bg-background min-h-[50vh]">
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-full content-start border-l-0 md:border-l border-primary" id="catalog-grid">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] w-full content-start border-l-0 md:border-l border-primary" id="catalog-grid">
             @forelse ($products as $index => $product)
                 @php 
                     $isOutOfStock = $product->stock <= 0;
                     $colIndex = $index % 3; // For stagger
                 @endphp
-                <div class="catalog-product-card relative flex flex-col bg-background border-r border-b border-primary cursor-pointer active:scale-[0.98] transition-transform duration-150" 
+                <div class="catalog-product-card group relative flex flex-col bg-background border-r border-b border-primary cursor-pointer active:scale-[0.98] transition-transform duration-150" 
                      data-id="{{ $product->id }}"
                      data-flip-id="prod-{{ $product->id }}"
                      data-col="{{ $colIndex }}"
                      onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
                     
                     <!-- Metadata Top Bar -->
-                    <div class="card-meta flex justify-between items-center p-md border-b border-primary bg-background transition-colors duration-300 ease-out">
+                    <div class="card-meta flex justify-between items-center p-md border-b border-primary bg-background transition-colors duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:bg-[#f4f4f4]">
                         <span class="font-mono text-[10px] tracking-[0.1em] uppercase text-primary">
                             {{ $product->collection->name ?? 'ARCHIVE' }}
                         </span>
-                        <span class="card-price font-mono text-[10px] text-primary/90 transition-all duration-200 ease-out">
+                        <span class="card-price font-mono text-[10px] text-primary transition-transform duration-300 ease-out group-hover:-translate-y-[1px]">
                             ${{ number_format($product->price, 2) }}
                         </span>
                     </div>
                     
                     <!-- Image Area -->
-                    <div class="w-full aspect-square bg-background border-b border-primary flex items-center justify-center p-2xl relative overflow-hidden">
+                    <div class="w-full aspect-[4/5] bg-background border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
                         @if ($product->primaryImage)
-                            <div class="card-image-wrapper relative w-full h-full flex items-center justify-center">
+                            <div class="card-image-wrapper relative w-full h-full flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.03] group-hover:-translate-y-2">
                                 <div class="watch-breathe w-full h-full bg-contain bg-center bg-no-repeat relative z-10"
                                      style="background-image: url('{{ $product->primaryImage->url }}')"></div>
                                 
                                 <!-- Shadow (only under watch, appears on hover) -->
-                                <div class="card-shadow absolute bottom-10 left-1/2 -translate-x-1/2 w-[60%] h-[12px] bg-black/10 blur-[6px] rounded-[100%] opacity-0 z-0"></div>
+                                <div class="card-shadow absolute bottom-10 left-1/2 -translate-x-1/2 w-[60%] h-[12px] bg-black/10 blur-[8px] rounded-full opacity-0 z-0 transition-opacity duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:opacity-100"></div>
                             </div>
                         @else
                             <div class="w-full h-full bg-background flex items-center justify-center font-mono text-[10px] text-primary/30 uppercase tracking-[0.1em]">NO IMAGE DATA</div>
@@ -166,20 +166,20 @@
                     </div>
                     
                     <!-- Bottom Information -->
-                    <div class="p-lg flex flex-col flex-1 bg-background z-10">
-                        <h3 class="card-title font-h2 text-xl uppercase leading-none tracking-normal">{{ $product->name }}</h3>
-                        <p class="card-subtitle font-body-md text-[11px] text-primary/75 uppercase pt-2 opacity-75">
+                    <div class="p-md flex flex-col flex-1 bg-background z-10 transition-colors duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:bg-[#fafafa]">
+                        <h3 class="card-title font-h2 text-lg uppercase leading-tight tracking-normal transition-all duration-500 ease-out group-hover:tracking-[0.02em]">{{ $product->name }}</h3>
+                        <p class="card-subtitle font-body-md text-[11px] text-primary/75 uppercase pt-1 opacity-75 transition-opacity duration-500 ease-out group-hover:opacity-100">
                             {{ $product->tagline ?? 'MECHANICAL TIMEPIECE' }}
                         </p>
                         
                         <!-- Stock Monitor -->
-                        <div class="mt-xl flex items-center">
+                        <div class="mt-lg flex items-center">
                             @if($isOutOfStock)
                                 <span class="card-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary/40 font-normal">UNAVAILABLE</span>
                             @elseif($product->stock <= 10)
-                                <span class="card-stock low-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary font-normal">LOW STOCK &mdash; {{ $product->stock }} LEFT</span>
+                                <span class="card-stock low-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary font-normal transition-all duration-300 group-hover:font-medium group-hover:text-red-700">LOW STOCK &mdash; {{ $product->stock }} LEFT</span>
                             @else
-                                <span class="card-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary/70 font-normal">INVENTORY &mdash; {{ $product->stock }} UNITS</span>
+                                <span class="card-stock font-mono text-[9px] uppercase tracking-[0.15em] text-primary/70 font-normal transition-colors duration-300 group-hover:text-primary">INVENTORY &mdash; {{ $product->stock }} UNITS</span>
                             @endif
                         </div>
                     </div>
@@ -280,69 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 12000);
 
     // --- EDITORIAL FOCUS SYSTEM (HOVER) ---
-    const gridContainer = document.getElementById('catalog-grid');
-    
-    gridContainer.addEventListener('mouseover', (e) => {
-        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-        const card = e.target.closest('.catalog-product-card');
-        if (!card) return;
-        
-        const allCards = Array.from(document.querySelectorAll('.catalog-product-card'));
-        const index = allCards.indexOf(card);
-        
-        allCards.forEach((c, i) => {
-            if (c === card) {
-                gsap.to(c, { opacity: 1, duration: 0.45, ease: "power3.out" });
-                
-                // Animate internals
-                const meta = c.querySelector('.card-meta');
-                const imgWrap = c.querySelector('.card-image-wrapper');
-                const shadow = c.querySelector('.card-shadow');
-                const title = c.querySelector('.card-title');
-                const sub = c.querySelector('.card-subtitle');
-                const stock = c.querySelector('.card-stock');
-                const price = c.querySelector('.card-price');
-                
-                if(meta) gsap.to(meta, { backgroundColor: '#f0f0f0', duration: 0.45, ease: "power3.out" });
-                if(imgWrap) gsap.to(imgWrap, { y: -8, scale: 1.018, duration: 0.45, ease: "power3.out" });
-                if(shadow) gsap.to(shadow, { opacity: 1, duration: 0.45, ease: "power3.out" });
-                if(title) gsap.to(title, { letterSpacing: "0.02em", duration: 0.45, ease: "power3.out" });
-                if(sub) gsap.to(sub, { opacity: 1, duration: 0.45, ease: "power3.out" });
-                if(stock) gsap.to(stock, { fontWeight: 500, color: '#000', duration: 0.45, ease: "power3.out" });
-                if(price) gsap.to(price, { y: -2, opacity: 1, duration: 0.2, ease: "power3.out" });
-
-            } else if (i === index - 1 || i === index + 1) {
-                gsap.to(c, { opacity: 0.92, duration: 0.45, ease: "power3.out" });
-            } else {
-                gsap.to(c, { opacity: 0.86, duration: 0.45, ease: "power3.out" });
-            }
-        });
-    });
-
-    gridContainer.addEventListener('mouseout', (e) => {
-        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-        const card = e.target.closest('.catalog-product-card');
-        if (!card) return;
-        
-        const allCards = Array.from(document.querySelectorAll('.catalog-product-card'));
-        gsap.to(allCards, { opacity: 1, duration: 0.45, ease: "power3.out" });
-        
-        const meta = card.querySelector('.card-meta');
-        const imgWrap = card.querySelector('.card-image-wrapper');
-        const shadow = card.querySelector('.card-shadow');
-        const title = card.querySelector('.card-title');
-        const sub = card.querySelector('.card-subtitle');
-        const stock = card.querySelector('.card-stock');
-        const price = card.querySelector('.card-price');
-        
-        if(meta) gsap.to(meta, { backgroundColor: 'transparent', duration: 0.45, ease: "power3.out" });
-        if(imgWrap) gsap.to(imgWrap, { y: 0, scale: 1, duration: 0.45, ease: "power3.out" });
-        if(shadow) gsap.to(shadow, { opacity: 0, duration: 0.45, ease: "power3.out" });
-        if(title) gsap.to(title, { letterSpacing: "normal", duration: 0.45, ease: "power3.out" });
-        if(sub) gsap.to(sub, { opacity: 0.75, duration: 0.45, ease: "power3.out" });
-        if(stock) gsap.to(stock, { fontWeight: 400, color: '', duration: 0.45, ease: "power3.out" });
-        if(price) gsap.to(price, { y: 0, opacity: 0.9, duration: 0.2, ease: "power3.out" });
-    });
+    // Note: Hover animations have been moved to CSS (group-hover utilities) for better performance and alignment with Emil's design engineering principles.
 
     // --- AJAX FILTERING & GSAP FLIP ---
     const filterForm = document.getElementById('filter-form');
