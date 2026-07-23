@@ -3,128 +3,601 @@
 @section('title', 'Clementpay | Clementine')
 
 @section('content')
-<div class="w-full bg-background relative pt-[80px]" id="clementpay-section">
-    
-    <!-- Top Telemetry Bar -->
-    <div class="flex justify-between items-center px-6 md:px-xl py-lg border-b border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary z-30 bg-background relative">
-        <span class="cpay-top-label">[ PRIVATE TREASURY PROTOCOL ]</span>
-        <span class="cpay-top-version hidden sm:inline-block text-primary/50">SYS.CPAY.2.0</span>
+<style>
+    /* ClementPay Page Styles — all critical layout uses inline or scoped CSS to avoid Tailwind resolution failures */
+    #cpay-root {
+        width: 100%;
+        background: #ffffff;
+        position: relative;
+        padding-top: 80px;
+    }
+
+    /* Telemetry bars */
+    .cpay-tele-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: #000;
+        position: relative;
+        z-index: 30;
+        background: #fff;
+    }
+    .cpay-status-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: rgba(0,0,0,0.5);
+        background: #FAFAFA;
+        position: relative;
+        z-index: 30;
+    }
+
+    /* Main grid */
+    .cpay-grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        background: #fff;
+        min-height: 800px;
+    }
+    @media (min-width: 1024px) {
+        .cpay-grid {
+            grid-template-columns: 40% 60%;
+        }
+        .cpay-left {
+            border-right: 1px solid rgba(0,0,0,0.12);
+            border-bottom: none;
+        }
+    }
+
+    /* Left panel */
+    .cpay-left {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+        background: #fff;
+        width: 100%;
+    }
+
+    /* Hero section */
+    .cpay-hero {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+        width: 100%;
+    }
+    @media (min-width: 768px) {
+        .cpay-hero { padding: 80px; }
+        .cpay-tele-bar { padding: 24px 32px; }
+    }
+
+    .cpay-headline {
+        font-family: 'Satoshi', sans-serif;
+        font-size: clamp(4.5rem, 10vw, 7.5rem);
+        line-height: 0.8;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: #000;
+        margin-bottom: 48px;
+    }
+
+    .cpay-manifesto-line {
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 13px;
+        color: rgba(0,0,0,0.75);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        line-height: 2;
+    }
+    @media (min-width: 768px) {
+        .cpay-manifesto-line { font-size: 14px; }
+    }
+
+    /* Allocation form area */
+    .cpay-form-area {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        background: #FAFAFA;
+        flex-grow: 1;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        z-index: 20;
+    }
+    @media (min-width: 768px) {
+        .cpay-form-area { padding: 80px; }
+    }
+
+    .cpay-grid-bg {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.3;
+        background-size: 10% 10%;
+        background-image:
+            linear-gradient(to right, #e5e5e5 1px, transparent 1px),
+            linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+    }
+
+    /* Form */
+    .cpay-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 448px;
+        position: relative;
+        z-index: 30;
+    }
+
+    .cpay-form-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+    }
+    .cpay-form-title .dot {
+        width: 8px;
+        height: 8px;
+        background: #000;
+        border-radius: 50%;
+        animation: cpay-pulse 2s ease-in-out infinite;
+    }
+    @keyframes cpay-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+    .cpay-form-title h2 {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #000;
+        margin: 0;
+    }
+
+    .cpay-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 48px;
+        width: 100%;
+    }
+    .cpay-input-group label {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: rgba(0,0,0,0.5);
+    }
+    .cpay-input-wrap {
+        position: relative;
+        width: 100%;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        transition: border-color 0.3s ease;
+    }
+    .cpay-input-wrap:focus-within {
+        border-color: #000;
+    }
+    .cpay-input-wrap .dollar {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: 'IBM Plex Sans', monospace;
+        color: rgba(0,0,0,0.35);
+        font-size: 24px;
+        pointer-events: none;
+    }
+    .cpay-input {
+        width: 100%;
+        padding: 16px 0 16px 40px;
+        font-size: 24px;
+        font-family: 'IBM Plex Sans', monospace;
+        color: #000;
+        background: transparent;
+        border: none;
+        outline: none;
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        border-radius: 0 !important;
+    }
+    .cpay-input::placeholder {
+        color: rgba(0,0,0,0.15);
+    }
+    .cpay-input::-webkit-inner-spin-button,
+    .cpay-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .cpay-submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        width: 100%;
+        padding: 20px 24px;
+        background: #000;
+        color: #fff;
+        border: 1px solid #000;
+        font-family: 'Satoshi', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 20;
+    }
+    .cpay-submit:hover {
+        background: transparent;
+        color: #000;
+    }
+    .cpay-submit:active {
+        transform: scale(0.98);
+    }
+    .cpay-submit .arrow {
+        transition: transform 0.3s ease;
+    }
+    .cpay-submit:hover .arrow {
+        transform: translateX(8px);
+    }
+
+    /* Right panel */
+    .cpay-right {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: #fff;
+        width: 100%;
+    }
+
+    /* Balance area */
+    .cpay-balance {
+        padding: 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 250px;
+        width: 100%;
+    }
+    @media (min-width: 768px) {
+        .cpay-balance { padding: 80px; min-height: 300px; }
+    }
+    .cpay-balance-label {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        color: rgba(0,0,0,0.4);
+        margin-bottom: 24px;
+        display: block;
+    }
+    .cpay-balance-value {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: clamp(3.5rem, 8vw, 7rem);
+        letter-spacing: -0.05em;
+        color: #000;
+        line-height: 1;
+        word-break: break-all;
+    }
+
+    /* Audit log */
+    .cpay-log-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+        background: #fff;
+        width: 100%;
+    }
+    @media (min-width: 768px) {
+        .cpay-log-head { padding: 24px 32px; }
+    }
+    .cpay-log-head h3 {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: #000;
+        margin: 0;
+    }
+    .cpay-log-head .count {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: rgba(0,0,0,0.35);
+    }
+
+    /* Transaction rows */
+    .cpay-tx-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        flex-grow: 1;
+        position: relative;
+    }
+    .cpay-tx {
+        display: flex;
+        flex-direction: column;
+        padding: 32px 24px;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        transition: border-color 0.3s ease;
+        width: 100%;
+    }
+    .cpay-tx:hover {
+        border-color: rgba(0,0,0,0.25);
+    }
+    @media (min-width: 640px) {
+        .cpay-tx {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+    @media (min-width: 768px) {
+        .cpay-tx { padding: 32px; }
+    }
+    .cpay-tx-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+        padding-right: 16px;
+        flex-grow: 1;
+    }
+    .cpay-tx-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .cpay-tx-type {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+    }
+    .cpay-tx-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+    }
+    .cpay-tx-status .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+    .cpay-tx-desc {
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 13px;
+        color: rgba(0,0,0,0.75);
+        word-break: break-word;
+        max-width: 448px;
+    }
+    @media (min-width: 768px) {
+        .cpay-tx-desc { font-size: 14px; }
+    }
+    .cpay-tx-time {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 9px;
+        color: rgba(0,0,0,0.35);
+        letter-spacing: 0.15em;
+    }
+    .cpay-tx-amount {
+        display: flex;
+        flex-direction: column;
+        margin-top: 16px;
+        flex-shrink: 0;
+    }
+    @media (min-width: 640px) {
+        .cpay-tx-amount {
+            align-items: flex-end;
+            margin-top: 0;
+        }
+    }
+    .cpay-tx-amount span {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 18px;
+    }
+    @media (min-width: 768px) {
+        .cpay-tx-amount span { font-size: 20px; }
+    }
+
+    /* Empty state */
+    .cpay-empty {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 128px 24px;
+        text-align: center;
+        width: 100%;
+    }
+    .cpay-empty-line {
+        width: 1px;
+        height: 48px;
+        background: rgba(0,0,0,0.15);
+        margin-bottom: 24px;
+    }
+    .cpay-empty span {
+        font-family: 'IBM Plex Sans', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: rgba(0,0,0,0.35);
+    }
+
+    /* Pagination */
+    .cpay-pagination-wrap {
+        padding: 24px;
+        border-top: 1px solid rgba(0,0,0,0.12);
+        width: 100%;
+    }
+    @media (min-width: 768px) {
+        .cpay-pagination-wrap { padding: 24px 32px; }
+    }
+
+    /* Animation initial states — elements are VISIBLE by default, GSAP hides them before animating */
+    .cpay-anim-fade {
+        opacity: 1;
+    }
+    .cpay-anim-slide {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<div id="cpay-root">
+
+    {{-- Top Telemetry Bar --}}
+    <div class="cpay-tele-bar">
+        <span>[ PRIVATE TREASURY PROTOCOL ]</span>
+        <span style="color: rgba(0,0,0,0.4); display: none;" class="hidden sm:inline-block">SYS.CPAY.2.0</span>
     </div>
 
-    <!-- Secondary Protocol Strip -->
-    <div class="flex justify-center items-center px-6 md:px-xl py-3 border-b border-primary/20 font-mono text-[9px] uppercase tracking-widest text-primary/60 z-30 bg-[#FAFAFA] relative">
-        BALANCE STATUS: <span class="cpay-status-text ml-3 font-medium text-primary">AUTHORIZED</span>
+    {{-- Status Bar --}}
+    <div class="cpay-status-bar">
+        BALANCE STATUS: <span style="margin-left: 12px; font-weight: 500; color: #000;" class="cpay-anim-fade" data-cpay-anim="fade">AUTHORIZED</span>
     </div>
-    
-    <!-- Main Grid Container (Exact % to prevent blowout) -->
-    <div class="w-full grid grid-cols-1 lg:grid-cols-[40%_60%] bg-background min-h-[800px]">
-        
-        <!-- LEFT SIDE: Treasury Info & Allocation -->
-        <div class="flex flex-col relative border-b lg:border-b-0 lg:border-r border-primary/20 bg-background w-full">
-            
-            <!-- Hero Typography Area -->
-            <div class="flex flex-col p-6 md:p-3xl xl:p-3xl border-b border-primary/20 w-full">
-                <h1 class="cpay-headline font-h1 text-[clamp(4.5rem,10vw,7.5rem)] leading-[0.8] tracking-tight uppercase text-primary mb-12">
-                    <span class="cpay-word block" style="opacity: 0; letter-spacing: 0.2em; transform: translateY(20px);">CLEMENT</span>
-                    <span class="cpay-word block" style="opacity: 0; letter-spacing: 0.2em; transform: translateY(20px);">PAY.</span>
+
+    {{-- Main Grid --}}
+    <div class="cpay-grid">
+
+        {{-- LEFT: Treasury Info & Allocation --}}
+        <div class="cpay-left">
+
+            {{-- Hero Typography --}}
+            <div class="cpay-hero">
+                <h1 class="cpay-headline">
+                    <span class="cpay-anim-slide" data-cpay-anim="word" style="display: block;">CLEMENT</span>
+                    <span class="cpay-anim-slide" data-cpay-anim="word" style="display: block;">PAY.</span>
                 </h1>
-                
-                <div class="cpay-manifesto font-body-md text-[13px] md:text-sm text-primary/80 uppercase tracking-[0.15em] leading-loose max-w-sm">
-                    <div class="cpay-line" style="opacity: 0; transform: translateY(10px);">SECURE LEDGER.</div>
-                    <div class="cpay-line" style="opacity: 0; transform: translateY(10px);">PRIVATE ACQUISITIONS.</div>
-                    <div class="cpay-line mt-6" style="opacity: 0; transform: translateY(10px);">AUTHORIZE YOUR FUNDS</div>
-                    <div class="cpay-line" style="opacity: 0; transform: translateY(10px);">TO ACCESS THE DROP.</div>
+
+                <div style="max-width: 384px;">
+                    <div class="cpay-manifesto-line cpay-anim-slide" data-cpay-anim="line">SECURE LEDGER.</div>
+                    <div class="cpay-manifesto-line cpay-anim-slide" data-cpay-anim="line">PRIVATE ACQUISITIONS.</div>
+                    <div class="cpay-manifesto-line cpay-anim-slide" data-cpay-anim="line" style="margin-top: 24px;">AUTHORIZE YOUR FUNDS</div>
+                    <div class="cpay-manifesto-line cpay-anim-slide" data-cpay-anim="line">TO ACCESS THE DROP.</div>
                 </div>
             </div>
 
-            <!-- Allocation Form Area -->
-            <div class="flex flex-col p-6 md:p-3xl xl:p-3xl bg-[#FAFAFA] flex-grow justify-center relative w-full z-20">
-                <!-- BG Grid pattern -->
-                <div class="absolute inset-0 pointer-events-none opacity-30" style="background-size: 10% 10%; background-image: linear-gradient(to right, #e5e5e5 1px, transparent 1px), linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);"></div>
-                
-                <div class="w-full flex justify-center lg:justify-start">
-                    <form action="{{ route('clementpay.topup') }}" method="POST" class="flex flex-col w-full relative z-30 max-w-md cpay-form pointer-events-auto" style="opacity: 0;">
+            {{-- Allocation Form --}}
+            <div class="cpay-form-area">
+                <div class="cpay-grid-bg"></div>
+
+                <div style="width: 100%; display: flex; justify-content: flex-start;">
+                    <form action="{{ route('clementpay.topup') }}" method="POST" class="cpay-form cpay-anim-fade" data-cpay-anim="form" id="cpay-topup-form">
                         @csrf
-                        
-                        <div class="flex items-center gap-3 mb-8">
-                            <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                            <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-primary">ALLOCATE FUNDS</h2>
+
+                        <div class="cpay-form-title">
+                            <span class="dot"></span>
+                            <h2>ALLOCATE FUNDS</h2>
                         </div>
-                        
-                        <div class="flex flex-col gap-3 mb-12 w-full">
-                            <label for="amount" class="font-mono text-[9px] uppercase tracking-widest text-primary/60">AMOUNT (USD)</label>
-                            <div class="relative w-full border-b border-primary/20 focus-within:border-primary transition-colors duration-300">
-                                <span class="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-primary/40 text-xl md:text-2xl pointer-events-none">$</span>
-                                <input type="number" name="amount" id="amount" min="100" step="1" required placeholder="100.00" 
-                                       class="w-full pl-8 md:pl-10 py-4 text-xl md:text-2xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none relative z-10">
+
+                        <div class="cpay-input-group">
+                            <label for="amount">AMOUNT (USD)</label>
+                            <div class="cpay-input-wrap">
+                                <span class="dollar">$</span>
+                                <input type="number"
+                                       name="amount"
+                                       id="amount"
+                                       min="100"
+                                       step="1"
+                                       required
+                                       placeholder="100.00"
+                                       class="cpay-input"
+                                       autocomplete="off">
                             </div>
                         </div>
-                        
-                        <button type="submit" class="bg-primary text-background border border-primary font-label-caps text-xs uppercase tracking-[0.2em] py-5 hover:bg-transparent hover:text-primary transition-all duration-300 ease-out active:scale-[0.98] group flex items-center justify-center gap-4 w-full shrink-0 relative z-20 pointer-events-auto">
+
+                        <button type="submit" class="cpay-submit">
                             <span>AUTHORIZE TRANSFER</span>
-                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
+                            <span class="material-symbols-outlined arrow" style="font-size: 14px;">arrow_forward</span>
                         </button>
                     </form>
                 </div>
             </div>
-            
+
         </div>
-        
-        <!-- RIGHT SIDE: Balance & Audit Log -->
-        <div class="flex flex-col relative bg-background w-full overflow-hidden">
-            
-            <!-- Balance Metric Area -->
-            <div class="p-6 md:p-3xl xl:p-3xl border-b border-primary/20 flex flex-col justify-center min-h-[250px] md:min-h-[300px] cpay-balance-area w-full" style="opacity: 0;">
-                <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-primary/50 mb-6 block">CURRENT BALANCE</span>
-                <div class="font-mono text-[clamp(3.5rem,8vw,7rem)] tracking-tighter text-primary leading-none w-full break-words">
+
+        {{-- RIGHT: Balance & Audit Log --}}
+        <div class="cpay-right">
+
+            {{-- Balance --}}
+            <div class="cpay-balance cpay-anim-fade" data-cpay-anim="balance">
+                <span class="cpay-balance-label">CURRENT BALANCE</span>
+                <div class="cpay-balance-value">
                     ${{ number_format(auth()->user()->clementpay_balance, 2) }}
                 </div>
             </div>
 
-            <!-- Audit Log Header -->
-            <div class="flex justify-between items-center px-6 md:px-xl py-6 border-b border-primary/20 bg-background cpay-log-header w-full" style="opacity: 0;">
-                <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-primary">AUDIT LOG</h3>
-                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40">RECORDS: {{ $transactions->total() }}</span>
+            {{-- Audit Log Header --}}
+            <div class="cpay-log-head cpay-anim-fade" data-cpay-anim="loghead">
+                <h3>AUDIT LOG</h3>
+                <span class="count">RECORDS: {{ $transactions->total() }}</span>
             </div>
 
-            <!-- Transactions List -->
-            <div class="flex flex-col w-full flex-grow relative overflow-hidden">
+            {{-- Transactions --}}
+            <div class="cpay-tx-list">
                 @forelse($transactions as $index => $tx)
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between px-6 md:px-xl py-8 border-b border-primary/10 hover:border-primary/30 transition-colors duration-300 cpay-tx-row w-full" style="opacity: 0; transform: translateY(10px);">
-                    
-                    <!-- Left: TX Info -->
-                    <div class="flex flex-col gap-2 min-w-0 pr-4 w-full sm:w-auto flex-grow">
-                        <div class="flex items-center gap-3">
-                            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] {{ $tx->status === 'success' ? 'text-primary' : 'text-primary/50' }}">
+                <div class="cpay-tx cpay-anim-slide" data-cpay-anim="tx">
+
+                    <div class="cpay-tx-info">
+                        <div class="cpay-tx-meta">
+                            <span class="cpay-tx-type" style="color: {{ $tx->status === 'success' ? '#000' : 'rgba(0,0,0,0.4)' }};">
                                 {{ $tx->type }}
                             </span>
-                            <span class="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest {{ $tx->status === 'success' ? 'text-[#00B050]' : 'text-primary/50' }}">
-                                <span class="w-1.5 h-1.5 rounded-full {{ $tx->status === 'success' ? 'bg-[#00B050]' : 'bg-primary/30' }}"></span>
+                            <span class="cpay-tx-status" style="color: {{ $tx->status === 'success' ? '#00B050' : 'rgba(0,0,0,0.4)' }};">
+                                <span class="dot" style="background: {{ $tx->status === 'success' ? '#00B050' : 'rgba(0,0,0,0.25)' }};"></span>
                                 {{ $tx->status }}
                             </span>
                         </div>
-                        <span class="font-body-md text-[13px] md:text-sm text-primary/80 break-words w-full max-w-md">{{ $tx->description }}</span>
-                        <span class="font-mono text-[9px] text-primary/40 tracking-widest">{{ $tx->created_at->format('Y.m.d H:i:s') }}</span>
+                        <span class="cpay-tx-desc">{{ $tx->description }}</span>
+                        <span class="cpay-tx-time">{{ $tx->created_at->format('Y.m.d H:i:s') }}</span>
                     </div>
 
-                    <!-- Right: TX Amount -->
-                    <div class="flex flex-col sm:items-end mt-4 sm:mt-0 shrink-0">
-                        <span class="font-mono text-lg md:text-xl {{ $tx->amount > 0 ? 'text-primary' : 'text-primary/50' }}">
+                    <div class="cpay-tx-amount">
+                        <span style="color: {{ $tx->amount > 0 ? '#000' : 'rgba(0,0,0,0.4)' }};">
                             {{ $tx->amount > 0 ? '+' : '' }}${{ number_format(abs($tx->amount), 2) }}
                         </span>
                     </div>
                 </div>
                 @empty
-                <div class="flex-grow flex flex-col items-center justify-center py-32 text-center cpay-tx-row w-full" style="opacity: 0;">
-                    <div class="w-[1px] h-12 bg-primary/20 mb-6"></div>
-                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/40">NO RECORDS FOUND IN LEDGER</span>
+                <div class="cpay-empty cpay-anim-fade" data-cpay-anim="tx">
+                    <div class="cpay-empty-line"></div>
+                    <span>NO RECORDS FOUND IN LEDGER</span>
                 </div>
                 @endforelse
             </div>
 
-            <!-- Pagination -->
+            {{-- Pagination --}}
             @if($transactions->hasPages())
-                <div class="px-6 md:px-xl py-lg border-t border-primary/20 cpay-pagination w-full" style="opacity: 0;">
+                <div class="cpay-pagination-wrap cpay-anim-fade" data-cpay-anim="pagination">
                     {{ $transactions->links() }}
                 </div>
             @endif
@@ -135,14 +608,42 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Bail gracefully if GSAP is not available — page stays fully visible and interactive
     if (typeof gsap === 'undefined') return;
-    
-    const tl = gsap.timeline({
-        delay: 0.1
+
+    // Set initial animation states via GSAP (NOT inline styles)
+    // This way, if GSAP fails to load, everything is visible by default
+    gsap.set('[data-cpay-anim="word"]', {
+        opacity: 0,
+        y: 20,
+        letterSpacing: '0.2em'
+    });
+    gsap.set('[data-cpay-anim="line"]', {
+        opacity: 0,
+        y: 10
+    });
+    gsap.set('[data-cpay-anim="form"]', {
+        opacity: 0
+    });
+    gsap.set('[data-cpay-anim="balance"]', {
+        opacity: 0
+    });
+    gsap.set('[data-cpay-anim="loghead"]', {
+        opacity: 0
+    });
+    gsap.set('[data-cpay-anim="tx"]', {
+        opacity: 0,
+        y: 10
+    });
+    gsap.set('[data-cpay-anim="pagination"]', {
+        opacity: 0
     });
 
-    // 1. Stagger Headline Words
-    tl.to('.cpay-word', {
+    // Build timeline
+    const tl = gsap.timeline({ delay: 0.1 });
+
+    // 1. Headline words
+    tl.to('[data-cpay-anim="word"]', {
         y: 0,
         opacity: 1,
         letterSpacing: '0em',
@@ -151,8 +652,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'power3.out'
     }, 0);
 
-    // 2. Stagger Manifesto Lines
-    tl.to('.cpay-line', {
+    // 2. Manifesto lines
+    tl.to('[data-cpay-anim="line"]', {
         y: 0,
         opacity: 1,
         duration: 0.6,
@@ -160,29 +661,29 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'power2.out'
     }, 0.4);
 
-    // 3. Form Reveal
-    tl.to('.cpay-form', {
+    // 3. Form reveal
+    tl.to('[data-cpay-anim="form"]', {
         opacity: 1,
         duration: 0.8,
         ease: 'power2.out'
     }, 0.6);
 
-    // 4. Balance Area Reveal
-    tl.to('.cpay-balance-area', {
+    // 4. Balance area
+    tl.to('[data-cpay-anim="balance"]', {
         opacity: 1,
         duration: 1,
         ease: 'power2.out'
     }, 0.3);
 
-    // 5. Audit Log Header
-    tl.to('.cpay-log-header', {
+    // 5. Log header
+    tl.to('[data-cpay-anim="loghead"]', {
         opacity: 1,
         duration: 0.5,
         ease: 'power2.out'
     }, 0.5);
 
-    // 6. Stagger TX Rows
-    tl.to('.cpay-tx-row', {
+    // 6. Transaction rows
+    tl.to('[data-cpay-anim="tx"]', {
         y: 0,
         opacity: 1,
         duration: 0.5,
@@ -191,8 +692,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 0.6);
 
     // 7. Pagination
-    if (document.querySelector('.cpay-pagination')) {
-        tl.to('.cpay-pagination', {
+    if (document.querySelector('[data-cpay-anim="pagination"]')) {
+        tl.to('[data-cpay-anim="pagination"]', {
             opacity: 1,
             duration: 0.5,
             ease: 'none'
