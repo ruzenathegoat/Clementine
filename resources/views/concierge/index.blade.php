@@ -23,7 +23,7 @@
     <div class="w-full flex-1 flex flex-col items-center py-2xl px-lg md:px-2xl bg-background">
         @if(!$ticket)
             <!-- Ticket Creation Form -->
-            <div class="w-full max-w-2xl mt-xl border border-primary bg-background p-lg sm:p-2xl relative concierge-fade-up" style="opacity: 0; transform: translateY(20px);">
+            <div class="w-[90vw] max-w-[600px] mt-xl border border-primary bg-background p-lg sm:p-2xl relative concierge-fade-up" style="opacity: 0; transform: translateY(20px);">
                 <div class="absolute top-0 right-0 bg-primary text-background font-mono text-[10px] tracking-[0.2em] px-3 py-1 uppercase border-b border-l border-primary">SYS.REQ.01</div>
                 
                 <h2 class="font-mono text-[12px] tracking-[0.2em] uppercase text-primary mb-xl">INITIALIZE SESSION</h2>
@@ -47,7 +47,7 @@
             </div>
         @else
             <!-- Live Chat Interface -->
-            <div class="w-full max-w-6xl mt-xl border border-primary bg-background flex flex-col md:flex-row h-[70vh] min-h-[600px] relative concierge-fade-up" style="opacity: 0; transform: translateY(20px);"
+            <div class="w-[95vw] max-w-[1200px] mt-xl border border-primary bg-background flex flex-col md:flex-row h-[70vh] min-h-[600px] relative concierge-fade-up" style="opacity: 0; transform: translateY(20px);"
                  x-data="conciergeChat({{ $ticket->id }}, {{ auth()->id() }})"
                  x-init="initChat">
                 
