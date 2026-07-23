@@ -205,9 +205,10 @@
                     <div class="archive-grid grid grid-cols-1 md:grid-cols-3 max-w-2xl">
                         <div class="archive-cell p-4 relative group cursor-crosshair">
                             <div class="w-full aspect-square bg-[#EFEFEF] relative overflow-hidden">
-                                <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" class="w-full h-full object-cover grayscale brightness-95 contrast-125 transition-transform duration-500 group-hover:scale-105">
-                                
-                                <!-- Hover Upload Mask -->
+                                <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
+             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+             onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=000000&background=F3F4F6&size=256'">
+        <div class="absolute inset-0 bg-[#1A1A1A]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div class="absolute inset-0 bg-[#0A0A0A]/80 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" onclick="document.getElementById('avatar-input').click()">
                                     <span class="material-symbols-outlined text-[24px] mb-2">upload</span>
                                     <span class="font-mono text-[9px] tracking-[0.2em] uppercase">Update Record</span>
@@ -327,19 +328,82 @@
                         });
                     @endphp
                     
-                    <div class="flex flex-col gap-16">
+                    <div class="flex flex-col">
                         @foreach($groupedOrders as $year => $ordersInYear)
-                            <div>
+                            <div class="mb-16">
                                 <!-- Year Divider -->
                                 <div class="flex items-center gap-6 mb-8">
                                     <span class="font-h1 text-5xl text-[#1A1A1A] opacity-20">{{ $year }}</span>
                                     <div class="h-[1px] bg-[rgba(10,10,10,0.15)] flex-grow"></div>
                                 </div>
                                 
-                                <div class="flex flex-col gap-12">
-                                    @foreach($ordersInYear as $order)
-                                        @include('profile.partials.order-card', ['order' => $order])
-                                    @endforeach
+                                <div class="w-full">
+                                    <!-- Ledger Header -->
+                                    <div class="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-[rgba(10,10,10,0.15)] font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mb-4">
+                                        <div class="col-span-3">Reference</div>
+                                        <div class="col-span-2">Date</div>
+                                        <div class="col-span-4">Asset</div>
+                                        <div class="col-span-2 text-right">Valuation</div>
+                                        <div class="col-span-1 text-right">Status</div>
+                                    </div>
+                                    
+                                    <!-- Ledger Rows -->
+                                    <div class="flex flex-col">
+                                        @foreach($ordersInYear as $order)
+                                            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 py-6 border-b border-[rgba(10,10,10,0.08)] items-center hover:bg-[#FAFAFA] transition-colors group cursor-crosshair"
+                                                 @click="openInvoice({
+                                                     id: '{{ $order->id }}',
+                                                     ref: '{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}',
+                                                     date: '{{ \Carbon\Carbon::parse($order->created_at)->format('Y.m.d') }}',
+                                                     total: '{{ number_format($order->total, 0) }}',
+                                                     status: '{{ $order->status }}',
+                                                     items: {{ json_encode($order->items->map(function($item) {
+                                                         return [
+                                                             'name' => $item->product->name,
+                                                             'price' => number_format($item->price_at_purchase, 0),
+                                                             'qty' => $item->quantity
+                                                         ];
+                                                     })) }}
+                                                 })">
+                                                 
+                                                <div class="col-span-12 md:col-span-3">
+                                                    <span class="md:hidden font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mr-2">Ref:</span>
+                                                    <span class="font-mono text-sm md:text-xs uppercase tracking-widest text-[#1A1A1A]">{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}</span>
+                                                </div>
+                                                
+                                                <div class="col-span-12 md:col-span-2">
+                                                    <span class="md:hidden font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mr-2">Date:</span>
+                                                    <span class="font-mono text-sm md:text-xs uppercase tracking-widest text-[#555]">{{ \Carbon\Carbon::parse($order->created_at)->format('Y.m.d') }}</span>
+                                                </div>
+                                                
+                                                <div class="col-span-12 md:col-span-4">
+                                                    <span class="md:hidden font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mr-2">Asset:</span>
+                                                    <div class="font-h2 text-sm uppercase tracking-widest text-[#1A1A1A] truncate group-hover:text-primary transition-colors">
+                                                        {{ $order->items->first()?->product->name ?? 'UNKNOWN ASSET' }}
+                                                        @if($order->items->count() > 1)
+                                                            <span class="text-[#909090] font-mono text-[9px] ml-1">[+{{ $order->items->count() - 1 }}]</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-span-12 md:col-span-2 md:text-right">
+                                                    <span class="md:hidden font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mr-2">Valuation:</span>
+                                                    <span class="font-mono text-sm md:text-xs tracking-widest text-[#1A1A1A]">${{ number_format($order->total, 0) }}</span>
+                                                </div>
+                                                
+                                                <div class="col-span-12 md:col-span-1 flex items-center md:justify-end gap-2">
+                                                    @php
+                                                        $dotColor = 'bg-[#1A1A1A]';
+                                                        if (in_array($order->status, ['cancelled', 'pending_cancel'])) {
+                                                            $dotColor = 'bg-red-600';
+                                                        }
+                                                    @endphp
+                                                    <span class="w-1.5 h-1.5 rounded-full {{ $dotColor }}"></span>
+                                                </div>
+                                                
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -362,22 +426,24 @@
                     [ SECURITY PROTOCOL ]
                 </div>
                 
-                <form action="{{ route('profile.update') }}" method="POST" class="flex flex-col gap-12 max-w-2xl">
+                <form action="{{ route('profile.update') }}" method="POST" class="flex flex-col gap-12 max-w-4xl">
                     @csrf
                     @method('PUT')
                     
-                    <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
-                        <div class="flex justify-between">
-                            <label for="password" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">New Access Key (Password)</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24">
+                        <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
+                            <div class="flex justify-between">
+                                <label for="password" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">New Access Key (Password)</label>
+                            </div>
+                            <input type="password" id="password" name="password" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl md:text-2xl tracking-widest text-[#1A1A1A] py-1">
                         </div>
-                        <input type="password" id="password" name="password" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl tracking-widest text-[#1A1A1A]">
-                    </div>
-                    
-                    <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
-                        <div class="flex justify-between">
-                            <label for="password_confirmation" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Verify Access Key</label>
+                        
+                        <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
+                            <div class="flex justify-between">
+                                <label for="password_confirmation" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Verify Access Key</label>
+                            </div>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl md:text-2xl tracking-widest text-[#1A1A1A] py-1">
                         </div>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl tracking-widest text-[#1A1A1A]">
                     </div>
 
                     <div>

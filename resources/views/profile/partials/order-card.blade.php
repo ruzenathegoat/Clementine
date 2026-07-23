@@ -11,7 +11,7 @@
                  items: {{ json_encode($order->items->map(function($item) {
                      return [
                          'name' => $item->product->name,
-                         'price' => number_format($item->price, 0),
+                         'price' => number_format($item->price_at_purchase, 0),
                          'qty' => $item->quantity
                      ];
                  })) }}
@@ -108,7 +108,7 @@
                 <div class="mt-4">
                     <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase block mb-1">Valuation</span>
                     <div class="font-mono text-lg tracking-widest text-[#1A1A1A] transition-colors group-hover:text-primary">
-                        ${{ number_format($order->total_amount, 0) }}
+                        ${{ number_format($order->total, 0) }}
                     </div>
                 </div>
             </div>

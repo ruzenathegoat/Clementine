@@ -1,5 +1,5 @@
 <!-- Invoice Drawer Component -->
-<div x-cloak x-show="invoiceOpen" class="fixed inset-0 z-[100] flex justify-end" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+<div x-cloak x-show="invoiceOpen" class="fixed inset-0 z-[100] flex justify-end invoice-drawer-container" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
     
     <!-- Background Overlay -->
     <div x-show="invoiceOpen" 
@@ -9,7 +9,7 @@
          x-transition:leave="transition-opacity ease-in duration-300" 
          x-transition:leave-start="opacity-100" 
          x-transition:leave-end="opacity-0" 
-         class="absolute inset-0 bg-[#0A0A0A]/40 backdrop-blur-sm" 
+         class="absolute inset-0 bg-[#0A0A0A]/40 backdrop-blur-sm print:hidden" 
          @click="closeInvoice()"></div>
 
     <!-- Drawer Panel -->
@@ -20,7 +20,7 @@
          x-transition:leave="transform transition ease-in duration-300" 
          x-transition:leave-start="translate-x-0" 
          x-transition:leave-end="translate-x-full" 
-         class="relative w-full max-w-full md:max-w-[40%] bg-[#FAFAFA] border-l border-[rgba(10,10,10,0.15)] shadow-2xl h-full flex flex-col pointer-events-auto">
+         class="relative w-full max-w-full md:max-w-[40%] bg-[#FAFAFA] border-l border-[rgba(10,10,10,0.15)] shadow-2xl h-full flex flex-col pointer-events-auto invoice-print-area">
         
         <!-- Header -->
         <div class="px-8 md:px-12 py-8 border-b border-[rgba(10,10,10,0.15)] flex justify-between items-start bg-white">
@@ -89,13 +89,36 @@
         </div>
 
         <!-- Footer -->
-        <div class="p-8 md:p-12 border-t border-[rgba(10,10,10,0.15)] bg-white flex justify-between items-center">
+        <div class="p-8 md:p-12 border-t border-[rgba(10,10,10,0.15)] bg-white flex justify-between items-center print:hidden">
             <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase" x-text="selectedOrder ? 'STATUS: ' + selectedOrder.status : ''"></span>
             
-            <button class="font-mono text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A] border-b border-[#1A1A1A] pb-1 hover:text-[#909090] hover:border-[#909090] transition-colors">
+            <button @click="window.print()" class="font-mono text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A] border-b border-[#1A1A1A] pb-1 hover:text-[#909090] hover:border-[#909090] transition-colors">
                 DOWNLOAD PDF
             </button>
         </div>
         
     </div>
 </div>
+
+<style>
+@media print {
+    body > *:not(.invoice-drawer-container) {
+        display: none !important;
+    }
+    .invoice-drawer-container {
+        display: block !important;
+        position: static !important;
+    }
+    .invoice-print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: white !important;
+    }
+}
+</style>
