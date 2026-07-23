@@ -479,7 +479,7 @@
                 <!-- DANGER ZONE -->
                 <div class="w-full mt-32 border-t border-[rgba(10,10,10,0.15)] pt-16 max-w-2xl" x-data="{ termModalOpen: false }">
                     <h3 class="font-h1 text-2xl uppercase title-display text-[#1A1A1A] mb-2">Archive Termination</h3>
-                    <p class="font-body-md text-sm text-[#555] leading-relaxed max-w-[50ch] mb-8">
+                    <p class="font-body-md text-base text-[#555] leading-relaxed max-w-[65ch] mb-8">
                         Permanently sever your connection to the Clementine archive. This action destroys all associated identity records and cannot be reversed.
                     </p>
 
@@ -495,7 +495,7 @@
                         </div>
                     @enderror
 
-                    <button type="button" @click="termModalOpen = true" class="font-mono text-xs tracking-[0.2em] uppercase text-red-600 px-8 py-4 border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-300">
+                    <button type="button" @click="termModalOpen = true" class="font-mono text-xs tracking-[0.2em] uppercase text-red-600 px-8 py-4 border border-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 active:scale-[0.97]">
                         INITIATE TERMINATION
                     </button>
 
@@ -506,7 +506,7 @@
                              x-transition:enter="transition ease-out duration-400"
                              x-transition:enter-start="opacity-0 scale-[0.98] translate-y-4"
                              x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave="transition ease-out duration-200"
                              x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                              x-transition:leave-end="opacity-0 scale-[0.98] translate-y-4"
                              class="relative bg-[#050505] w-full max-w-[600px] border border-red-900 p-12 flex flex-col gap-8 text-white z-10 shadow-[0_0_50px_rgba(220,38,38,0.15)]">
@@ -532,10 +532,10 @@
                                 @endif
 
                                 <div class="flex gap-4 mt-4">
-                                    <button type="button" @click="termModalOpen = false" class="flex-1 px-6 py-4 border border-[#333] text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#111] transition-colors">
+                                    <button type="button" @click="termModalOpen = false" class="flex-1 px-6 py-4 border border-[#333] text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#111] transition-all duration-200 active:scale-[0.97]">
                                         ABORT
                                     </button>
-                                    <button type="submit" class="flex-1 px-6 py-4 bg-red-700 text-white text-xs font-mono font-bold uppercase tracking-widest hover:bg-red-600 transition-colors border border-red-700 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                                    <button type="submit" class="flex-1 px-6 py-4 bg-red-700 text-white text-xs font-mono font-bold uppercase tracking-widest hover:bg-red-600 border border-red-700 shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all duration-200 active:scale-[0.97]">
                                         CONFIRM TERMINATION
                                     </button>
                                 </div>
