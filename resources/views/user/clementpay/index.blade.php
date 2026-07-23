@@ -3,108 +3,129 @@
 @section('title', 'Clementpay | Clementine')
 
 @section('content')
-<div class="w-full bg-background relative pt-[80px] pb-24 lg:pb-32 overflow-x-hidden">
+<div class="w-full bg-background relative pt-[80px] overflow-hidden" id="clementpay-section">
     
-    <!-- 1. Header Section -->
-    <header class="w-full px-6 md:px-12 py-16 md:py-24 border-b border-primary relative">
-        <div class="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12">
+    <!-- Top Telemetry Bar -->
+    <div class="flex justify-between items-center px-6 md:px-xl py-lg border-b border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary z-30 bg-background relative">
+        <span class="cpay-top-label">[ PRIVATE TREASURY PROTOCOL ]</span>
+        <span class="cpay-top-version hidden sm:inline-block text-primary/50">SYS.CPAY.2.0</span>
+    </div>
+
+    <!-- Secondary Protocol Strip -->
+    <div class="flex justify-center items-center px-6 md:px-xl py-3 border-b border-primary/20 font-mono text-[9px] uppercase tracking-widest text-primary/60 z-30 bg-[#FAFAFA] relative">
+        BALANCE STATUS: <span class="cpay-status-text ml-3 font-medium text-primary">AUTHORIZED</span>
+    </div>
+    
+    <!-- Main Grid Container (Exact % to prevent blowout) -->
+    <div class="w-full grid grid-cols-1 lg:grid-cols-[40%_60%] bg-background min-h-[800px]">
+        
+        <!-- LEFT SIDE: Treasury Info & Allocation -->
+        <div class="flex flex-col relative border-b lg:border-b-0 lg:border-r border-primary/20 bg-background w-full overflow-hidden">
             
-            <div class="flex flex-col relative z-10 w-full lg:w-3/5">
-                <h1 class="font-h1 text-[clamp(4rem,10vw,7rem)] leading-[0.85] tracking-tighter text-primary uppercase mb-6 clementpay-header-elem" style="opacity: 0; transform: translateY(20px);">
-                    Clementpay
+            <!-- Hero Typography Area -->
+            <div class="flex flex-col p-6 md:p-3xl xl:p-4xl border-b border-primary/20 w-full">
+                <h1 class="cpay-headline font-h1 text-[clamp(4.5rem,10vw,7.5rem)] leading-[0.8] tracking-tight uppercase text-primary mb-12">
+                    <span class="cpay-word block" style="opacity: 0; letter-spacing: 0.2em; transform: translateY(20px);">CLEMENT</span>
+                    <span class="cpay-word block" style="opacity: 0; letter-spacing: 0.2em; transform: translateY(20px);">PAY.</span>
                 </h1>
-                <p class="font-body-md text-base md:text-lg text-primary max-w-xl leading-relaxed clementpay-header-elem" style="opacity: 0; transform: translateY(20px);">
-                    Your private treasury protocol. Manage your allocations and review provenance transaction records for all acquisitions.
-                </p>
-            </div>
-            
-            <div class="flex flex-col items-start lg:items-end z-10 clementpay-header-elem" style="opacity: 0; transform: translateY(20px);">
-                <span class="font-mono text-xs uppercase tracking-widest text-primary/60 mb-3">Authorized Balance</span>
-                <div class="font-mono text-4xl md:text-6xl tracking-tight text-primary">
-                    ${{ number_format(auth()->user()->clementpay_balance, 2) }}
+                
+                <div class="cpay-manifesto font-body-md text-[13px] md:text-sm text-primary/80 uppercase tracking-[0.15em] leading-loose max-w-sm">
+                    <div class="cpay-line" style="opacity: 0; transform: translateY(10px);">SECURE LEDGER.</div>
+                    <div class="cpay-line" style="opacity: 0; transform: translateY(10px);">PRIVATE ACQUISITIONS.</div>
+                    <div class="cpay-line mt-6" style="opacity: 0; transform: translateY(10px);">AUTHORIZE YOUR FUNDS</div>
+                    <div class="cpay-line" style="opacity: 0; transform: translateY(10px);">TO ACCESS THE DROP.</div>
                 </div>
             </div>
-            
-        </div>
-    </header>
 
-    <!-- 2. Main Content -->
-    <div class="w-full max-w-screen-2xl mx-auto px-6 md:px-12 mt-12 md:mt-24">
-        <div class="flex flex-col lg:flex-row gap-16 xl:gap-24 items-start">
-            
-            <!-- Left: Allocation Input (Top-up) -->
-            <!-- Fixed width on desktop to prevent squishing -->
-            <div class="w-full lg:w-[400px] shrink-0 flex flex-col clementpay-fade-up" style="opacity: 0;">
-                <h2 class="font-h1 text-3xl md:text-4xl uppercase tracking-tight text-primary mb-4">Allocate Funds</h2>
-                <p class="font-body-md text-sm text-primary/70 mb-12 leading-relaxed">
-                    Secure your balance via authenticated QRIS or Virtual Account gateways. Minimum allocation is $100.
-                </p>
-
-                <form action="{{ route('clementpay.topup') }}" method="POST" class="flex flex-col w-full">
+            <!-- Allocation Form Area -->
+            <div class="flex flex-col p-6 md:p-3xl xl:p-4xl bg-[#FAFAFA] flex-grow justify-center relative overflow-hidden w-full">
+                <!-- BG Grid pattern -->
+                <div class="absolute inset-0 pointer-events-none opacity-30" style="background-size: 10% 10%; background-image: linear-gradient(to right, #e5e5e5 1px, transparent 1px), linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);"></div>
+                
+                <form action="{{ route('clementpay.topup') }}" method="POST" class="flex flex-col w-full relative z-10 max-w-md mx-auto lg:mx-0 cpay-form" style="opacity: 0;">
                     @csrf
                     
-                    <div class="flex flex-col gap-3 mb-12">
-                        <label for="amount" class="font-mono text-xs uppercase tracking-widest text-primary/80">Amount (USD)</label>
-                        <div class="relative w-full border-b border-primary/30 focus-within:border-primary transition-colors duration-300">
-                            <span class="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-primary/40 text-xl">$</span>
+                    <div class="flex items-center gap-3 mb-8">
+                        <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                        <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-primary">ALLOCATE FUNDS</h2>
+                    </div>
+                    
+                    <div class="flex flex-col gap-3 mb-12 w-full">
+                        <label for="amount" class="font-mono text-[9px] uppercase tracking-widest text-primary/60">AMOUNT (USD)</label>
+                        <div class="relative w-full border-b border-primary/20 focus-within:border-primary transition-colors duration-300">
+                            <span class="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-primary/40 text-xl md:text-2xl">$</span>
                             <input type="number" name="amount" id="amount" min="100" step="1" required placeholder="100.00" 
-                                   class="w-full pl-8 py-4 text-xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none">
+                                   class="w-full pl-8 md:pl-10 py-4 text-xl md:text-2xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none">
                         </div>
                     </div>
                     
-                    <button type="submit" class="w-full bg-primary text-background font-label-caps text-sm uppercase tracking-[0.2em] py-5 hover:bg-black transition-all duration-200 ease-out active:scale-[0.97] group">
-                        <span class="flex items-center justify-center gap-3">
-                            Authorize Transfer
-                            <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
-                        </span>
+                    <button type="submit" class="bg-primary text-background border border-primary font-label-caps text-xs uppercase tracking-[0.2em] py-5 hover:bg-transparent hover:text-primary transition-all duration-300 ease-out active:scale-[0.98] group flex items-center justify-center gap-4 w-full">
+                        <span>AUTHORIZE TRANSFER</span>
+                        <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-2 transition-transform duration-300">arrow_forward</span>
                     </button>
                 </form>
             </div>
-
-            <!-- Right: Audit Log (Transaction History) -->
-            <div class="w-full flex-1 min-w-0">
-                <div class="flex justify-between items-end border-b border-primary pb-4 mb-8 clementpay-fade-up" style="opacity: 0;">
-                    <h2 class="font-h1 text-2xl md:text-3xl uppercase tracking-tight text-primary">Audit Log</h2>
-                    <span class="font-mono text-xs uppercase tracking-widest text-primary/40">Ref. {{ now()->format('Y.m.d') }}</span>
+            
+        </div>
+        
+        <!-- RIGHT SIDE: Balance & Audit Log -->
+        <div class="flex flex-col relative bg-background w-full overflow-hidden">
+            
+            <!-- Balance Metric Area -->
+            <div class="p-6 md:p-3xl xl:p-4xl border-b border-primary/20 flex flex-col justify-center min-h-[250px] md:min-h-[300px] cpay-balance-area w-full" style="opacity: 0;">
+                <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-primary/50 mb-6 block">CURRENT BALANCE</span>
+                <div class="font-mono text-[clamp(3.5rem,8vw,7rem)] tracking-tighter text-primary leading-none w-full break-words">
+                    ${{ number_format(auth()->user()->clementpay_balance, 2) }}
                 </div>
+            </div>
 
-                <div class="flex flex-col w-full">
-                    @forelse($transactions as $index => $tx)
-                    <div class="group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-primary/10 hover:border-primary/40 transition-colors duration-300 clementpay-tx-row" style="opacity: 0; transform: translateY(15px);">
-                        
-                        <div class="flex flex-col gap-2 mb-3 sm:mb-0 min-w-0 pr-4">
-                            <div class="flex items-center gap-3">
-                                <span class="font-mono text-sm font-bold uppercase tracking-widest {{ $tx->status === 'success' ? 'text-primary' : 'text-primary/50' }}">
-                                    {{ $tx->type }}
-                                </span>
-                                <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest {{ $tx->status === 'success' ? 'text-green-600' : 'text-primary/50' }}">
-                                    <span class="w-1.5 h-1.5 rounded-full {{ $tx->status === 'success' ? 'bg-green-500' : 'bg-primary/30' }}"></span>
-                                    {{ $tx->status }}
-                                </span>
-                            </div>
-                            <span class="font-body-md text-base text-primary/80 truncate">{{ $tx->description }}</span>
-                            <span class="font-mono text-xs text-primary/40">{{ $tx->created_at->format('M d, Y H:i:s') }}</span>
-                        </div>
+            <!-- Audit Log Header -->
+            <div class="flex justify-between items-center px-6 md:px-xl py-6 border-b border-primary/20 bg-background cpay-log-header w-full" style="opacity: 0;">
+                <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-primary">AUDIT LOG</h3>
+                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40">RECORDS: {{ $transactions->total() }}</span>
+            </div>
 
-                        <div class="flex flex-col sm:items-end shrink-0">
-                            <span class="font-mono text-xl md:text-2xl {{ $tx->amount > 0 ? 'text-primary' : 'text-primary/50' }}">
-                                {{ $tx->amount > 0 ? '+' : '' }}${{ number_format(abs($tx->amount), 2) }}
+            <!-- Transactions List -->
+            <div class="flex flex-col w-full flex-grow relative overflow-hidden">
+                @forelse($transactions as $index => $tx)
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between px-6 md:px-xl py-8 border-b border-primary/10 hover:border-primary/30 transition-colors duration-300 cpay-tx-row w-full" style="opacity: 0; transform: translateY(10px);">
+                    
+                    <!-- Left: TX Info -->
+                    <div class="flex flex-col gap-2 min-w-0 pr-4 w-full sm:w-auto flex-grow">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] {{ $tx->status === 'success' ? 'text-primary' : 'text-primary/50' }}">
+                                {{ $tx->type }}
+                            </span>
+                            <span class="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest {{ $tx->status === 'success' ? 'text-[#00B050]' : 'text-primary/50' }}">
+                                <span class="w-1.5 h-1.5 rounded-full {{ $tx->status === 'success' ? 'bg-[#00B050]' : 'bg-primary/30' }}"></span>
+                                {{ $tx->status }}
                             </span>
                         </div>
+                        <span class="font-body-md text-[13px] md:text-sm text-primary/80 break-words w-full max-w-md">{{ $tx->description }}</span>
+                        <span class="font-mono text-[9px] text-primary/40 tracking-widest">{{ $tx->created_at->format('Y.m.d H:i:s') }}</span>
                     </div>
-                    @empty
-                    <div class="py-24 flex flex-col items-center justify-center text-center clementpay-fade-up" style="opacity: 0;">
-                        <span class="font-mono text-sm uppercase tracking-widest text-primary/40">No transaction records found.</span>
-                    </div>
-                    @endforelse
-                </div>
 
-                @if($transactions->hasPages())
-                    <div class="mt-12 pt-6 clementpay-fade-up" style="opacity: 0;">
-                        {{ $transactions->links() }}
+                    <!-- Right: TX Amount -->
+                    <div class="flex flex-col sm:items-end mt-4 sm:mt-0 shrink-0">
+                        <span class="font-mono text-lg md:text-xl {{ $tx->amount > 0 ? 'text-primary' : 'text-primary/50' }}">
+                            {{ $tx->amount > 0 ? '+' : '' }}${{ number_format(abs($tx->amount), 2) }}
+                        </span>
                     </div>
-                @endif
+                </div>
+                @empty
+                <div class="flex-grow flex flex-col items-center justify-center py-32 text-center cpay-tx-row w-full" style="opacity: 0;">
+                    <div class="w-[1px] h-12 bg-primary/20 mb-6"></div>
+                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/40">NO RECORDS FOUND IN LEDGER</span>
+                </div>
+                @endforelse
             </div>
+
+            <!-- Pagination -->
+            @if($transactions->hasPages())
+                <div class="px-6 md:px-xl py-lg border-t border-primary/20 cpay-pagination w-full" style="opacity: 0;">
+                    {{ $transactions->links() }}
+                </div>
+            @endif
 
         </div>
     </div>
@@ -114,33 +135,67 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof gsap === 'undefined') return;
     
-    const easeOut = "power2.out"; 
-
-    gsap.to('.clementpay-header-elem', {
-        y: 0, 
-        opacity: 1, 
-        duration: 0.8, 
-        stagger: 0.1, 
-        ease: easeOut,
+    const tl = gsap.timeline({
         delay: 0.1
     });
 
-    gsap.to('.clementpay-fade-up', {
-        opacity: 1, 
-        duration: 0.6, 
-        stagger: 0.1,
-        ease: easeOut,
-        delay: 0.3
-    });
-
-    gsap.to('.clementpay-tx-row', {
+    // 1. Stagger Headline Words
+    tl.to('.cpay-word', {
         y: 0,
-        opacity: 1, 
-        duration: 0.5, 
-        stagger: 0.05, 
-        ease: easeOut, 
-        delay: 0.4
-    });
+        opacity: 1,
+        letterSpacing: '0em',
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power3.out'
+    }, 0);
+
+    // 2. Stagger Manifesto Lines
+    tl.to('.cpay-line', {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.05,
+        ease: 'power2.out'
+    }, 0.4);
+
+    // 3. Form Reveal
+    tl.to('.cpay-form', {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+    }, 0.6);
+
+    // 4. Balance Area Reveal
+    tl.to('.cpay-balance-area', {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+    }, 0.3);
+
+    // 5. Audit Log Header
+    tl.to('.cpay-log-header', {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+    }, 0.5);
+
+    // 6. Stagger TX Rows
+    tl.to('.cpay-tx-row', {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power2.out'
+    }, 0.6);
+
+    // 7. Pagination
+    if (document.querySelector('.cpay-pagination')) {
+        tl.to('.cpay-pagination', {
+            opacity: 1,
+            duration: 0.5,
+            ease: 'none'
+        }, 0.8);
+    }
 });
 </script>
 @endsection
