@@ -37,7 +37,7 @@
                 <div class="flex flex-col gap-0 border border-primary">
                     @foreach ($collectionOptions as $opt)
                         <label class="filter-chip relative group cursor-pointer border-b border-primary last:border-b-0 flex items-center justify-between px-3 py-2 bg-background transition-colors duration-200 ease-out {{ $opt['active'] ? 'bg-primary is-active' : 'hover:bg-primary' }}">
-                            <input type="radio" name="collection" value="{{ basename($opt['href']) !== 'products' ? basename($opt['href']) : '' }}"
+                            <input type="radio" name="collection" value="{{ $opt['slug'] ?? '' }}"
                                    {{ $opt['active'] ? 'checked' : '' }}
                                    class="sr-only filter-input" />
                             <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $opt['active'] ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $opt['label'] }}</span>
@@ -375,14 +375,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateGridWithFlip(newGridHTML, newCounterText, newUrl) {
-        const currentCards = gsap.utils.toArray('.catalog-product-card');
+        const currentElements = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
         
-        // Grab the state of ALL current cards
-        const state = Flip.getState(currentCards, { props: "opacity" });
+        // Grab the state of ALL current elements
+        const state = Flip.getState(currentElements, { props: "opacity" });
         
         // Replace innerHTML
         gridContainer.innerHTML = newGridHTML;
         
+        const newElements = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
         const newCards = gsap.utils.toArray('.catalog-product-card');
         
         // Restart breathing animations
@@ -408,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newCards.forEach(c => c.classList.add('flip-animating'));
 
         Flip.from(state, {
-            targets: newCards,
+            targets: newElements,
             duration: 0.5,
             ease: "power2.inOut",
             absolute: true,

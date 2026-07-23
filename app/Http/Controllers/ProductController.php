@@ -94,6 +94,7 @@ class ProductController extends Controller
         ])->merge($collections->map(fn ($c) => (object) ['label' => strtoupper($c->name), 'slug' => $c->slug]))
           ->map(fn ($c) => [
               'label' => $c->label,
+              'slug' => $c->slug,
               'active' => $request->collection === $c->slug || (!$request->filled('collection') && $c->slug === null),
               'href' => $buildHref(['collection' => $c->slug]),
           ]);
