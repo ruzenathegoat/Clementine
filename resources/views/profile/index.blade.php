@@ -1,167 +1,454 @@
 @extends('layouts.app')
 
-@section('title', 'Profile - Clementine')
+@section('title', 'Private Archive - ' . $user->name)
+
+@push('styles')
+<style>
+    :root {
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        --bg-color: #FAFAFA;
+        --ink-color: #0A0A0A;
+        --border-color: rgba(10, 10, 10, 0.15);
+    }
+    body {
+        background-color: var(--bg-color);
+        color: var(--ink-color);
+    }
+    .archive-grid {
+        border-top: 1px solid var(--border-color);
+        border-left: 1px solid var(--border-color);
+    }
+    .archive-cell {
+        border-right: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+    .title-display {
+        letter-spacing: -0.04em;
+        text-wrap: balance;
+    }
+    
+    /* Input Underline */
+    .input-wrapper {
+        position: relative;
+    }
+    .input-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--ink-color);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 300ms var(--ease-out);
+        z-index: 10;
+    }
+    .input-wrapper:focus-within::after {
+        transform: scaleX(1);
+    }
+    
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px var(--bg-color) inset !important;
+        -webkit-text-fill-color: var(--ink-color) !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* Tab Transitions */
+    .tab-panel {
+        /* Handled via alpine transitions now, but ensuring absolute stack during transition */
+    }
+
+    /* Button Draw */
+    .btn-draw {
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-draw::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border: 1px solid var(--ink-color);
+        clip-path: inset(0 100% 0 0);
+        transition: clip-path 400ms var(--ease-out);
+    }
+    .btn-draw:hover::before {
+        clip-path: inset(0 0 0 0);
+    }
+    
+    /* Danger Zone Modal */
+    .danger-modal-bg {
+        background-image: repeating-linear-gradient(45deg, #000 0, #000 10px, #111 10px, #111 20px);
+    }
+</style>
+@endpush
 
 @section('content')
-<div id="profile-dashboard" class="w-full max-w-[1400px] mx-auto px-6 py-12 lg:py-24" x-data="{ tab: 'settings', invoiceModalOpen: false, selectedOrder: null }">
-    <div class="flex flex-col lg:flex-row gap-16 lg:gap-32">
-        
-        <!-- Sidebar Navigation -->
-        <div class="w-full lg:w-[300px] flex-shrink-0">
-            <h1 class="font-headline-lg text-5xl md:text-6xl uppercase tracking-tighter mb-12 flex flex-col md:flex-row md:items-center gap-4">
-                MY <span class="font-serif italic  lowercase tracking-normal">account</span>
-                @if($user->is_vip)
-                    <span class="bg-primary text-white text-xs md:text-sm px-4 py-2 font-body-md font-bold uppercase tracking-widest whitespace-nowrap border border-primary text-center">VIP MEMBER</span>
-                @endif
-            </h1>
-            
-            <div class="flex flex-col gap-6 font-headline-md text-xl uppercase tracking-wide">
-                <button @click="tab = 'settings'" class="text-left w-full border-b pb-4 transition-all duration-300 hover:pl-4 hover:text-primary hover:border-primary" :class="tab === 'settings' ? 'border-primary text-primary pl-4' : 'border-outline-variant text-on-surface-variant'">
-                    Account Settings
-                </button>
-                <button @click="tab = 'orders_active'" class="text-left w-full border-b pb-4 transition-all duration-300 hover:pl-4 hover:text-primary hover:border-primary" :class="tab === 'orders_active' ? 'border-primary text-primary pl-4' : 'border-outline-variant text-on-surface-variant'">
-                    Active Orders ({{ $activeOrders->count() }})
-                </button>
-                <button @click="tab = 'orders_past'" class="text-left w-full border-b pb-4 transition-all duration-300 hover:pl-4 hover:text-primary hover:border-primary" :class="tab === 'orders_past' ? 'border-primary text-primary pl-4' : 'border-outline-variant text-on-surface-variant'">
-                    Order History ({{ $pastOrders->count() }})
-                </button>
-                <form method="POST" action="{{ route('logout') }}" class="mt-8">
-                    @csrf
-                    <button type="submit" class="text-left w-full  transition-all duration-300 hover:pl-2 hover:opacity-80">
-                        Log out
-                    </button>
-                </form>
-            </div>
+<div x-data="archiveProfile()" class="w-full relative pb-24" id="archive-container" x-init="initGSAP()">
+
+    <!-- HERO SECTION -->
+    <header class="w-full min-h-[60vh] md:min-h-[80vh] flex flex-col justify-end px-6 md:px-12 py-16 relative overflow-hidden archive-hero">
+        <!-- Giant Background Typography -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden mix-blend-multiply" id="hero-bg-text-container">
+            <span class="font-h1 text-[18vw] uppercase text-[#1A1A1A] opacity-[0.02] whitespace-nowrap title-display" id="hero-bg-text">
+                IDENTITY
+            </span>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="flex-grow">
+        <div class="relative z-10 w-full max-w-[1600px] mx-auto flex flex-col justify-end h-full">
+            <div class="archive-grid grid grid-cols-1 md:grid-cols-4 w-full" id="hero-grid">
+                <!-- Name & ID -->
+                <div class="archive-cell p-8 md:col-span-2 flex flex-col justify-end overflow-hidden">
+                    <span class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase mb-4 hero-reveal">
+                        Member ID: {{ strtoupper(substr(md5($user->id), 0, 12)) }}
+                    </span>
+                    <h1 class="font-h1 text-4xl md:text-7xl uppercase title-display m-0 leading-none hero-reveal hero-title-text" id="hero-name">
+                        {{ $user->name }}
+                    </h1>
+                </div>
+
+                <!-- Status & Level -->
+                <div class="archive-cell p-8 flex flex-col justify-between overflow-hidden">
+                    <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase hero-reveal">
+                        Verification Status
+                    </div>
+                    <div class="mt-8 hero-reveal">
+                        <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#1A1A1A] animate-pulse"></span>
+                            AUTHENTICATED
+                        </span>
+                        @if($user->is_vip)
+                            <div class="mt-4 text-[9px] bg-[#1A1A1A] text-white px-3 py-1.5 inline-block tracking-[0.2em] shadow-[0_0_15px_rgba(0,0,0,0.1)]">VIP ACCESS</div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="archive-cell p-8 flex flex-col justify-between overflow-hidden">
+                    <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase hero-reveal">
+                        Archive Value
+                    </div>
+                    <div class="mt-8 font-mono text-xl tracking-widest hero-reveal">
+                        ${{ number_format($orders->sum('total_amount'), 0) }}
+                    </div>
+                    <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase mt-4 hero-reveal">
+                        {{ str_pad($orders->count(), 2, '0', STR_PAD_LEFT) }} ACQUISITIONS
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT LAYOUT -->
+    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-0 mt-12 relative" id="content-layout">
+        
+        <!-- SIDEBAR ARCHIVE NAVIGATION -->
+        <div class="w-full lg:w-[280px] flex-shrink-0 lg:sticky lg:top-32 h-max mb-12 lg:mb-0 z-20">
+            <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-4">
+                [ ARCHIVE NAVIGATION ]
+            </div>
             
-            <!-- Settings Tab -->
-            <div x-show="tab === 'settings'" x-cloak class="flex flex-col gap-12" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                <h2 class="font-label-caps text-sm font-bold uppercase tracking-widest text-primary border-b border-primary pb-4">Personal Information</h2>
+            <nav class="flex flex-col gap-1 font-h2 text-xs md:text-sm uppercase tracking-widest relative">
+                <!-- GSAP Line Indicator (Desktop only) -->
+                <div id="nav-indicator" class="absolute left-0 w-4 h-[1px] bg-[#1A1A1A] tab-indicator hidden lg:block" style="top: 24px;"></div>
+
+                <button @click="switchTab('identity', $event)" class="nav-btn text-left py-4 transition-colors duration-300 flex items-center gap-4 lg:pl-8 group" :class="activeTab === 'identity' ? 'text-[#1A1A1A]' : 'text-[#909090] hover:text-[#555]'">
+                    <span class="block lg:hidden w-4 h-[1px] transition-colors" :class="activeTab === 'identity' ? 'bg-[#1A1A1A]' : 'bg-transparent group-hover:bg-[#909090]'"></span>
+                    Identity
+                </button>
+                <button @click="switchTab('active', $event)" class="nav-btn text-left py-4 transition-colors duration-300 flex items-center gap-4 lg:pl-8 group" :class="activeTab === 'active' ? 'text-[#1A1A1A]' : 'text-[#909090] hover:text-[#555]'">
+                    <span class="block lg:hidden w-4 h-[1px] transition-colors" :class="activeTab === 'active' ? 'bg-[#1A1A1A]' : 'bg-transparent group-hover:bg-[#909090]'"></span>
+                    Active Acquisitions
+                </button>
+                <button @click="switchTab('history', $event)" class="nav-btn text-left py-4 transition-colors duration-300 flex items-center gap-4 lg:pl-8 group" :class="activeTab === 'history' ? 'text-[#1A1A1A]' : 'text-[#909090] hover:text-[#555]'">
+                    <span class="block lg:hidden w-4 h-[1px] transition-colors" :class="activeTab === 'history' ? 'bg-[#1A1A1A]' : 'bg-transparent group-hover:bg-[#909090]'"></span>
+                    Archive History
+                </button>
+                <button @click="switchTab('security', $event)" class="nav-btn text-left py-4 transition-colors duration-300 flex items-center gap-4 lg:pl-8 group" :class="activeTab === 'security' ? 'text-[#1A1A1A]' : 'text-[#909090] hover:text-[#555]'">
+                    <span class="block lg:hidden w-4 h-[1px] transition-colors" :class="activeTab === 'security' ? 'bg-[#1A1A1A]' : 'bg-transparent group-hover:bg-[#909090]'"></span>
+                    Security Protocol
+                </button>
                 
-                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-12">
+                <form method="POST" action="{{ route('logout') }}" class="mt-8 border-t border-[rgba(10,10,10,0.15)] pt-4">
+                    @csrf
+                    <button type="submit" class="text-left py-4 text-[#909090] hover:text-[#1A1A1A] transition-colors duration-300 font-h2 text-sm uppercase tracking-widest flex items-center gap-2 group lg:pl-8">
+                        <span class="material-symbols-outlined text-[14px] transform group-hover:-translate-x-1 transition-transform">logout</span>
+                        Log Out
+                    </button>
+                </form>
+            </nav>
+        </div>
+
+        <!-- MAIN PANELS -->
+        <div class="flex-grow lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh]">
+            
+            <!-- IDENTITY TAB -->
+            <div x-show="activeTab === 'identity'" 
+                 x-transition:enter="transition ease-out duration-500 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-4" 
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="tab-panel w-full absolute inset-0 lg:static"
+                 style="display: none;">
+                 
+                <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
+                    [ IDENTIFICATION RECORD ]
+                </div>
+                
+                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-16">
                     @csrf
                     @method('PUT')
                     
-                    <!-- Avatar Upload -->
-                    <div class="flex items-center gap-8">
-                        <div class="relative w-32 h-32 border border-primary p-2 flex-shrink-0 group">
-                            <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer" onclick="document.getElementById('avatar-input').click()">
-                                <span class="material-symbols-outlined text-white text-[32px]">edit</span>
+                    <!-- Avatar / ID Card -->
+                    <div class="archive-grid grid grid-cols-1 md:grid-cols-3 max-w-2xl">
+                        <div class="archive-cell p-4 relative group cursor-crosshair">
+                            <div class="w-full aspect-square bg-[#EFEFEF] relative overflow-hidden">
+                                <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" class="w-full h-full object-cover grayscale brightness-95 contrast-125 transition-transform duration-500 group-hover:scale-105">
+                                
+                                <!-- Hover Upload Mask -->
+                                <div class="absolute inset-0 bg-[#0A0A0A]/80 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" onclick="document.getElementById('avatar-input').click()">
+                                    <span class="material-symbols-outlined text-[24px] mb-2">upload</span>
+                                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase">Update Record</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex items-center gap-3">
-                                <span class="font-label-caps text-xs uppercase tracking-widest font-bold">Profile Picture</span>
-                                @if($user->is_vip)
-                                    <span class="bg-primary text-white text-[10px] px-2 py-1 font-bold uppercase tracking-widest leading-none" title="Priority Access Granted">VIP</span>
-                                @endif
-                            </div>
-                            <span class="text-xs text-on-surface-variant font-body-md">Recommended size: 500x500px (Max 2MB)</span>
+                            <!-- Corner Accents -->
+                            <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#1A1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#1A1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            
                             <input type="file" id="avatar-input" name="avatar" class="hidden" accept="image/*" onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
-                            <button type="button" onclick="document.getElementById('avatar-input').click()" class="mt-2 w-max px-6 py-2 border border-primary text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-colors">Upload New</button>
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-outline-variant pt-12">
-                        <div class="flex flex-col gap-2">
-                            <label for="name" class="font-label-caps text-xs uppercase tracking-widest font-bold">Full Name</label>
-                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" class="w-full p-4 border border-outline-variant focus:border-primary focus:ring-0 rounded-none bg-transparent font-body-md text-sm" required>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="email" class="font-label-caps text-xs uppercase tracking-widest font-bold">Email Address</label>
-                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="w-full p-4 border border-outline-variant focus:border-primary focus:ring-0 rounded-none bg-transparent font-body-md text-sm" required>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-8 border-t border-outline-variant pt-12">
-                        <div>
-                            <h3 class="font-label-caps text-xs uppercase tracking-widest font-bold">Change Password</h3>
-                            <p class="text-xs text-on-surface-variant mt-2 font-body-md">Leave blank if you do not wish to change your password.</p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="flex flex-col gap-2 relative">
-                                <label for="password" class="font-label-caps text-xs uppercase tracking-widest font-bold">New Password</label>
-                                <input type="password" id="password" name="password" class="w-full p-4 border border-outline-variant focus:border-primary focus:ring-0 rounded-none bg-transparent font-body-md text-sm">
+                        
+                        <div class="archive-cell md:col-span-2 p-6 flex flex-col justify-center gap-4">
+                            <div>
+                                <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Status</span>
+                                <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A]">Verified Entity</span>
                             </div>
-                            <div class="flex flex-col gap-2 relative">
-                                <label for="password_confirmation" class="font-label-caps text-xs uppercase tracking-widest font-bold">Confirm New Password</label>
-                                <input type="password" id="password_confirmation" name="password_confirmation" class="w-full p-4 border border-outline-variant focus:border-primary focus:ring-0 rounded-none bg-transparent font-body-md text-sm">
+                            <div>
+                                <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Registered</span>
+                                <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A]">{{ $user->created_at->format('Y.m.d') }}</span>
+                            </div>
+                            <div>
+                                <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Clearance</span>
+                                <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A]">{{ $user->is_vip ? 'VIP ACCESS' : 'STANDARD' }}</span>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full md:w-auto md:self-end px-12 py-4 bg-primary text-white text-sm font-bold uppercase tracking-widest hover:opacity-80 transition-opacity border border-primary">
-                        Save Changes
-                    </button>
+                    <!-- Editorial Form Fields -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-4xl">
+                        <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
+                            <div class="flex justify-between">
+                                <label for="name" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Legal Name</label>
+                                <span class="font-mono text-[9px] tracking-[0.2em] text-[#1A1A1A]">[ EDITABLE ]</span>
+                            </div>
+                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl md:text-2xl uppercase tracking-widest text-[#1A1A1A]" required>
+                        </div>
+                        
+                        <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
+                            <div class="flex justify-between">
+                                <label for="email" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Comms Channel (Email)</label>
+                                <span class="font-mono text-[9px] tracking-[0.2em] text-[#1A1A1A]">[ VERIFIED ]</span>
+                            </div>
+                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl md:text-2xl uppercase tracking-widest text-[#1A1A1A]" required>
+                        </div>
+                    </div>
+
+                    <div class="pt-8">
+                        <button type="submit" class="font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A] px-8 py-4 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors duration-300 flex items-center gap-4 group">
+                            UPDATE RECORD
+                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ACTIVE ACQUISITIONS TAB -->
+            <div x-show="activeTab === 'active'" 
+                 x-transition:enter="transition ease-out duration-500 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-4" 
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="tab-panel w-full absolute inset-0 lg:static"
+                 style="display: none;">
+                 
+                <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
+                    [ ACTIVE ACQUISITIONS ]
+                </div>
+                
+                @if($activeOrders->isEmpty())
+                    <div class="border border-[rgba(10,10,10,0.15)] p-16 md:p-24 flex flex-col max-w-2xl">
+                        <h3 class="font-h1 text-4xl uppercase title-display text-[#1A1A1A] mb-4">No Active Records</h3>
+                        <p class="font-body-md text-sm text-[#555] max-w-[40ch] leading-relaxed mb-12">
+                            Your active acquisition queue is empty. Every archive begins with a first discovery.
+                        </p>
+                        <a href="{{ route('products.index') }}" class="w-max font-mono text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A] border-b border-[#1A1A1A] pb-1 hover:text-[#909090] hover:border-[#909090] transition-colors">
+                            Explore Collections
+                        </a>
+                    </div>
+                @else
+                    <div class="flex flex-col gap-12">
+                        @foreach($activeOrders as $order)
+                            @include('profile.partials.order-card', ['order' => $order])
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+
+            <!-- ARCHIVE HISTORY TAB -->
+            <div x-show="activeTab === 'history'" 
+                 x-transition:enter="transition ease-out duration-500 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-4" 
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="tab-panel w-full absolute inset-0 lg:static"
+                 style="display: none;">
+                 
+                <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
+                    [ ARCHIVE HISTORY ]
+                </div>
+                
+                @if($pastOrders->isEmpty())
+                    <div class="border border-[rgba(10,10,10,0.15)] p-16 md:p-24 flex flex-col max-w-2xl">
+                        <h3 class="font-h1 text-4xl uppercase title-display text-[#1A1A1A] mb-4">Empty History</h3>
+                        <p class="font-body-md text-sm text-[#555] max-w-[40ch] leading-relaxed">
+                            No past acquisitions found in this archive. Completed or cancelled records will appear here as a timeline.
+                        </p>
+                    </div>
+                @else
+                    @php
+                        $groupedOrders = $pastOrders->groupBy(function($order) {
+                            return \Carbon\Carbon::parse($order->created_at)->format('Y');
+                        });
+                    @endphp
+                    
+                    <div class="flex flex-col gap-16">
+                        @foreach($groupedOrders as $year => $ordersInYear)
+                            <div>
+                                <!-- Year Divider -->
+                                <div class="flex items-center gap-6 mb-8">
+                                    <span class="font-h1 text-5xl text-[#1A1A1A] opacity-20">{{ $year }}</span>
+                                    <div class="h-[1px] bg-[rgba(10,10,10,0.15)] flex-grow"></div>
+                                </div>
+                                
+                                <div class="flex flex-col gap-12">
+                                    @foreach($ordersInYear as $order)
+                                        @include('profile.partials.order-card', ['order' => $order])
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+
+            <!-- SECURITY PROTOCOL TAB -->
+            <div x-show="activeTab === 'security'" 
+                 x-transition:enter="transition ease-out duration-500 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-4" 
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="tab-panel w-full absolute inset-0 lg:static"
+                 style="display: none;">
+                 
+                <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
+                    [ SECURITY PROTOCOL ]
+                </div>
+                
+                <form action="{{ route('profile.update') }}" method="POST" class="flex flex-col gap-12 max-w-2xl">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
+                        <div class="flex justify-between">
+                            <label for="password" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">New Access Key (Password)</label>
+                        </div>
+                        <input type="password" id="password" name="password" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl tracking-widest text-[#1A1A1A]">
+                    </div>
+                    
+                    <div class="flex flex-col gap-2 relative input-wrapper border-b border-[rgba(10,10,10,0.15)] pb-2">
+                        <div class="flex justify-between">
+                            <label for="password_confirmation" class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase">Verify Access Key</label>
+                        </div>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="w-full bg-transparent border-none focus:ring-0 p-0 font-h2 text-xl tracking-widest text-[#1A1A1A]">
+                    </div>
+
+                    <div>
+                        <button type="submit" class="font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A] px-8 py-4 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors duration-300 flex items-center gap-4 group">
+                            UPDATE SECURITY
+                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">lock</span>
+                        </button>
+                    </div>
                 </form>
 
-                <!-- Danger Zone -->
-                <div class="flex flex-col gap-8 border-t border-red-600/30 pt-12 mt-12" x-data="{ deleteModalOpen: false }">
-                    <div>
-                        <h3 class="font-label-caps text-xs uppercase tracking-widest font-bold text-red-600">Danger Zone</h3>
-                        <p class="text-xs text-on-surface-variant mt-2 font-body-md">Once you delete your account, there is no going back. Please be certain.</p>
-                    </div>
+                <!-- DANGER ZONE -->
+                <div class="mt-32 border-t border-[rgba(10,10,10,0.15)] pt-16 max-w-2xl" x-data="{ termModalOpen: false }">
+                    <h3 class="font-h1 text-2xl uppercase title-display text-[#1A1A1A] mb-2">Archive Termination</h3>
+                    <p class="font-body-md text-sm text-[#555] max-w-[50ch] mb-8">
+                        Permanently sever your connection to the Clementine archive. This action destroys all associated identity records and cannot be reversed.
+                    </p>
 
                     @error('delete_account')
-                        <div class="bg-red-50 text-red-600 p-4 border border-red-600 font-body-md text-xs uppercase tracking-wider">
-                            {{ $message }}
+                        <div class="border border-red-900 bg-[#111] p-4 font-mono text-[10px] tracking-widest uppercase text-red-500 mb-8">
+                            [ SYSTEM ERROR ] {{ $message }}
                         </div>
                     @enderror
 
                     @error('password')
-                        <div class="bg-red-50 text-red-600 p-4 border border-red-600 font-body-md text-xs uppercase tracking-wider">
-                            {{ $message }}
+                        <div class="border border-red-900 bg-[#111] p-4 font-mono text-[10px] tracking-widest uppercase text-red-500 mb-8">
+                            [ VERIFICATION FAILED ] {{ $message }}
                         </div>
                     @enderror
 
-                    <button type="button" @click="deleteModalOpen = true" class="w-full md:w-auto md:self-start px-12 py-4 bg-transparent border border-red-600 text-red-600 text-sm font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all duration-300">
-                        Delete Account
+                    <button type="button" @click="termModalOpen = true" class="font-mono text-xs tracking-[0.2em] uppercase text-red-600 px-8 py-4 border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-300">
+                        INITIATE TERMINATION
                     </button>
 
-                    <!-- Delete Account Confirmation Modal -->
-                    <div x-cloak x-show="deleteModalOpen" class="fixed inset-0 z-[100] flex justify-center items-center p-4">
-                        <div x-show="deleteModalOpen" x-transition.opacity class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="deleteModalOpen = false"></div>
-                        <div x-show="deleteModalOpen" 
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 scale-95"
-                             x-transition:enter-end="opacity-100 scale-100"
+                    <!-- Termination Modal (High-end Warning System) -->
+                    <div x-cloak x-show="termModalOpen" class="fixed inset-0 z-[100] flex justify-center items-center p-4">
+                        <div x-show="termModalOpen" x-transition.opacity class="absolute inset-0 bg-[#0A0A0A]/95 backdrop-blur-md danger-modal-bg" @click="termModalOpen = false"></div>
+                        <div x-show="termModalOpen" 
+                             x-transition:enter="transition ease-out duration-400"
+                             x-transition:enter-start="opacity-0 scale-[0.98] translate-y-4"
+                             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                              x-transition:leave="transition ease-in duration-200"
-                             x-transition:leave-start="opacity-100 scale-100"
-                             x-transition:leave-end="opacity-0 scale-95"
-                             class="relative bg-white w-full max-w-[500px] border border-red-600 shadow-2xl p-8 flex flex-col gap-6 text-black z-10">
+                             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 scale-[0.98] translate-y-4"
+                             class="relative bg-[#050505] w-full max-w-[600px] border border-red-900 p-12 flex flex-col gap-8 text-white z-10 shadow-[0_0_50px_rgba(220,38,38,0.15)]">
                             
-                            <div class="flex justify-between items-center border-b border-outline-variant pb-4">
-                                <h3 class="font-headline-md text-xl uppercase tracking-wider text-red-600">Delete Account</h3>
-                                <button type="button" @click="deleteModalOpen = false" class="text-on-surface-variant hover:text-red-600 transition-colors">
-                                    <span class="material-symbols-outlined">close</span>
-                                </button>
+                            <div class="flex items-center gap-4 text-red-500 border-b border-red-900/50 pb-6">
+                                <span class="material-symbols-outlined text-[32px]">warning</span>
+                                <h3 class="font-h1 text-3xl uppercase tracking-widest m-0 leading-none">Warning</h3>
                             </div>
 
-                            <p class="text-sm font-body-md text-gray-600 leading-relaxed">
-                                Are you sure you want to delete your account? This action is permanent and cannot be undone. All of your personal data will be wiped.
+                            <p class="text-sm font-mono tracking-widest text-[#909090] leading-relaxed uppercase">
+                                You are about to permanently delete this archive. All records, VIP access, and identity data will be wiped from the system. This cannot be undone.
                             </p>
 
-                            <form action="{{ route('profile.destroy') }}" method="POST" class="flex flex-col gap-6">
+                            <form action="{{ route('profile.destroy') }}" method="POST" class="flex flex-col gap-8">
                                 @csrf
                                 @method('DELETE')
 
                                 @if(auth()->user()->password)
-                                <div class="flex flex-col gap-2">
-                                    <label for="delete_password" class="font-label-caps text-xs uppercase tracking-widest font-bold">Verify Password</label>
-                                    <input type="password" id="delete_password" name="password" class="w-full p-4 border border-outline-variant focus:border-red-600 focus:ring-0 rounded-none bg-transparent font-body-md text-sm" required placeholder="Enter your current password">
+                                <div class="flex flex-col gap-2 relative">
+                                    <label for="delete_password" class="font-mono text-[9px] tracking-[0.2em] text-red-500 uppercase">Verify Identity (Password)</label>
+                                    <input type="password" id="delete_password" name="password" class="w-full bg-transparent border-b border-red-900/50 focus:border-red-500 focus:ring-0 p-2 font-h2 text-xl tracking-widest text-white" required>
                                 </div>
                                 @endif
 
-                                <div class="flex gap-4 mt-2">
-                                    <button type="button" @click="deleteModalOpen = false" class="flex-1 px-6 py-3 border border-outline-variant text-xs font-bold uppercase tracking-wider hover:bg-surface transition-colors">
-                                        Cancel
+                                <div class="flex gap-4 mt-4">
+                                    <button type="button" @click="termModalOpen = false" class="flex-1 px-6 py-4 border border-[#333] text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#111] transition-colors">
+                                        ABORT
                                     </button>
-                                    <button type="submit" class="flex-1 px-6 py-3 bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:opacity-80 transition-opacity border border-red-600">
-                                        Delete Permanently
+                                    <button type="submit" class="flex-1 px-6 py-4 bg-red-700 text-white text-xs font-mono font-bold uppercase tracking-widest hover:bg-red-600 transition-colors border border-red-700 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                                        CONFIRM TERMINATION
                                     </button>
                                 </div>
                             </form>
@@ -170,215 +457,112 @@
                 </div>
             </div>
 
-            <!-- Active Orders Tab -->
-            <div x-show="tab === 'orders_active'" x-cloak class="flex flex-col gap-12" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                <h2 class="font-label-caps text-sm font-bold uppercase tracking-widest text-primary border-b border-primary pb-4">Active Orders</h2>
-                
-                @if($activeOrders->isEmpty())
-                    <div class="border border-outline-variant p-12 flex flex-col items-center justify-center text-center bg-surface-container-lowest">
-                        <span class="material-symbols-outlined text-[48px] text-outline mb-4">inventory_2</span>
-                        <p class="font-body-md text-sm text-gray-600">You have no active orders.</p>
-                        <a href="{{ route('products.index') }}" class="mt-6 border border-primary px-8 py-3 text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-colors">Start Shopping</a>
-                    </div>
-                @else
-                    <div class="flex flex-col gap-8">
-                        @foreach($activeOrders as $order)
-                            @include('profile.partials.order-card', ['order' => $order])
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-
-            <!-- Past Orders Tab -->
-            <div x-show="tab === 'orders_past'" x-cloak class="flex flex-col gap-12" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
-                <h2 class="font-label-caps text-sm font-bold uppercase tracking-widest text-primary border-b border-primary pb-4">Order History</h2>
-                
-                @if($pastOrders->isEmpty())
-                    <div class="border border-outline-variant p-12 flex flex-col items-center justify-center text-center bg-surface-container-lowest">
-                        <span class="material-symbols-outlined text-[48px] text-outline mb-4">history</span>
-                        <p class="font-body-md text-sm text-gray-600">Your order history is empty.</p>
-                    </div>
-                @else
-                    <div class="flex flex-col gap-8">
-                        @foreach($pastOrders as $order)
-                            @include('profile.partials.order-card', ['order' => $order])
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-            
         </div>
     </div>
-
-    <!-- Invoice Modal -->
-    <div x-cloak x-show="invoiceModalOpen" class="fixed inset-0 z-[100] flex justify-center items-center p-4 md:p-12">
-        <div x-show="invoiceModalOpen" x-transition.opacity class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="invoiceModalOpen = false"></div>
-        <div x-show="invoiceModalOpen" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             class="relative bg-white w-full max-w-[800px] max-h-[90vh] overflow-y-auto border border-primary shadow-2xl flex flex-col"
-             id="invoice-print-area"
-             data-lenis-prevent>
-            
-            <div class="sticky top-0 w-full flex justify-between items-center p-6 bg-white border-b border-outline-variant z-10 print:hidden">
-                <h3 class="font-headline-md text-xl uppercase tracking-wider">Invoice Details</h3>
-                <div class="flex gap-4">
-                    <button onclick="window.print()" class="flex items-center gap-2 border border-primary px-4 py-2 hover:bg-primary hover:text-white transition-colors text-xs font-bold uppercase tracking-wider">
-                        <span class="material-symbols-outlined text-[16px]">print</span> Print
-                    </button>
-                    <button @click="invoiceModalOpen = false" class="text-on-surface-variant hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Invoice Content to be populated dynamically -->
-            <div class="p-8 md:p-12 flex flex-col gap-12 font-body-md text-sm text-black bg-white" id="invoice-content">
-                <!-- Alpine will inject HTML here via x-html -->
-                <div x-html="selectedOrder ? generateInvoiceHtml(selectedOrder) : ''"></div>
-            </div>
-        </div>
-    </div>
+    
+    <!-- Invoice Drawer (Will be rendered dynamically, passing open logic via Alpine event) -->
+    <template x-teleport="body">
+        @include('profile.partials.invoice-drawer')
+    </template>
 </div>
 
-<script>
-    // Injects the invoice HTML into the modal using Javascript data to avoid reloading the page
-    // For a real production app, this could be a separate fetch endpoint. 
-    // Here we use Alpine to render JSON data passed from Blade.
-    const allOrders = @js($orders ?? []);
-
-    function openInvoice(orderId) {
-        // Alpine data lives on the profile dashboard container
-        const container = document.getElementById('profile-dashboard');
-        const component = Alpine.$data(container);
-        
-        const order = allOrders.find(o => o.id === orderId);
-        if(order) {
-            component.selectedOrder = order;
-            component.invoiceModalOpen = true;
-        }
-    }
-
-    function generateInvoiceHtml(order) {
-        const date = new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        
-        let itemsHtml = order.items.map(item => `
-            <div class="flex justify-between py-4 border-b border-outline-variant">
-                <div class="flex flex-col">
-                    <span class="font-bold uppercase tracking-wide">${item.product?.name ?? 'Unknown Product'}</span>
-                    <span class="text-xs text-gray-500">Qty: ${item.quantity}</span>
-                </div>
-                <span>$${(parseFloat(item.price_at_purchase) * item.quantity).toFixed(2)}</span>
-            </div>
-        `).join('');
-
-        return `
-            <div class="flex justify-between items-start border-b border-black pb-8">
-                <div>
-                    <h1 class="font-headline-lg text-4xl uppercase tracking-tighter mb-2 flex items-center gap-3">
-                        <x-logo class="w-10 h-10" /> CLEMENTINE
-                    </h1>
-                    <p class="text-xs uppercase tracking-widest font-bold">INVOICE</p>
-                </div>
-                <div class="text-right">
-                    <p class="font-bold uppercase tracking-wide">ORDER #${order.id.replace(/-/g, '').substring(order.id.replace(/-/g, '').length - 8).toUpperCase()}</p>
-                    <p class="text-xs text-gray-500 mt-1">${date}</p>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-8">
-                <div>
-                    <p class="font-label-caps text-[10px] uppercase tracking-widest text-gray-500 mb-2">Billed To</p>
-                    <p class="font-bold uppercase">${order.shipping_full_name}</p>
-                    <p>${order.contact_email}</p>
-                </div>
-                <div>
-                    <p class="font-label-caps text-[10px] uppercase tracking-widest text-gray-500 mb-2">Shipped To</p>
-                    <p>${order.shipping_address1}</p>
-                    ${order.shipping_address2 ? `<p>${order.shipping_address2}</p>` : ''}
-                    <p>${order.shipping_city}, ${order.shipping_postal_code}</p>
-                    <p>${order.shipping_country}</p>
-                    ${order.tracking_number ? `
-                        <p class="font-label-caps text-[10px] uppercase tracking-widest text-gray-500 mt-4 mb-1">Tracking Number</p>
-                        <p class="font-bold uppercase tracking-wider">${order.tracking_number}</p>
-                    ` : ''}
-                </div>
-            </div>
-
-            <div class="mt-8">
-                <p class="font-label-caps text-[10px] uppercase tracking-widest text-gray-500 border-b border-black pb-2">Order Items</p>
-                ${itemsHtml}
-            </div>
-
-            <div class="w-full md:w-1/2 ml-auto mt-8 flex flex-col gap-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-500">Subtotal (Excl. Tax)</span>
-                    <span>$${parseFloat(order.subtotal).toFixed(2)}</span>
-                </div>
-                ${parseFloat(order.discount_amount || 0) > 0 ? `
-                <div class="flex justify-between text-blue-600">
-                    <div class="flex items-center gap-1">
-                        <span>{{ auth()->user()?->is_vip ? 'VIP Discount' : 'Discount' }}</span>
-                        <span class="text-[10px]">*${parseFloat(order.subtotal) > 0 ? Math.round((parseFloat(order.discount_amount) / parseFloat(order.subtotal)) * 100) : 0}%</span>
-                    </div>
-                    <span>-$${parseFloat(order.discount_amount).toFixed(2)}</span>
-                </div>` : ''}
-                ${parseFloat(order.tax || 0) > 0 ? `
-                <div class="flex justify-between">
-                    <div class="flex items-center gap-1">
-                        <span class="text-gray-500">Product Tax</span>
-                        <span class="text-[10px] text-gray-500">*${parseFloat(order.subtotal) > 0 ? Math.round((parseFloat(order.tax) / parseFloat(order.subtotal)) * 100) : 0}%</span>
-                    </div>
-                    <span>$${parseFloat(order.tax).toFixed(2)}</span>
-                </div>` : ''}
-                <div class="flex justify-between">
-                    <span class="text-gray-500">Shipping Fee</span>
-                    <span>$${parseFloat(order.shipping_fee).toFixed(2)}</span>
-                </div>
-                ${parseFloat(order.shipping_tax || 0) > 0 ? `
-                <div class="flex justify-between">
-                    <div class="flex items-center gap-1">
-                        <span class="text-gray-500">Shipping Tax</span>
-                        <span class="text-[10px] text-gray-500">*${parseFloat(order.shipping_fee) > 0 ? Math.round((parseFloat(order.shipping_tax) / parseFloat(order.shipping_fee)) * 100) : 0}%</span>
-                    </div>
-                    <span>$${parseFloat(order.shipping_tax).toFixed(2)}</span>
-                </div>` : ''}
-                <div class="flex justify-between border-t border-black pt-4 mt-2">
-                    <span class="font-bold uppercase tracking-widest">Total</span>
-                    <span class="font-bold text-xl">$${parseFloat(order.total).toFixed(2)}</span>
-                </div>
-            </div>
-            
-            <div class="mt-16 pt-8 border-t border-outline-variant text-center text-xs text-gray-500">
-                <p>Thank you for shopping with Clementine Horology.</p>
-            </div>
-        `;
-    }
-</script>
-
-<style>
-    /* Print specific styles */
-    @media print {
-        body * {
-            visibility: hidden;
-        }
-        #invoice-print-area, #invoice-print-area * {
-            visibility: visible;
-        }
-        #invoice-print-area {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            max-width: 100%;
-            box-shadow: none;
-            border: none;
-            overflow: visible;
-        }
-    }
-</style>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('archiveProfile', () => ({
+            activeTab: 'identity',
+            invoiceOpen: false,
+            selectedOrder: null,
+            
+            switchTab(tab, event) {
+                if (this.activeTab === tab) return;
+                this.activeTab = tab;
+                
+                // Move GSAP Indicator if on desktop
+                if(window.innerWidth >= 1024) {
+                    const btn = event.currentTarget;
+                    const navContainer = btn.closest('nav');
+                    const indicator = document.getElementById('nav-indicator');
+                    
+                    // Calculate relative Y position
+                    const btnRect = btn.getBoundingClientRect();
+                    const navRect = navContainer.getBoundingClientRect();
+                    const relativeY = btnRect.top - navRect.top + (btnRect.height / 2);
+                    
+                    gsap.to(indicator, {
+                        y: relativeY - 24, // 24 is the initial top offset in style
+                        duration: 0.4,
+                        ease: 'power3.out'
+                    });
+                }
+            },
+            
+            openInvoice(orderData) {
+                this.selectedOrder = orderData;
+                this.invoiceOpen = true;
+                
+                // Freeze body scroll (Lenis handling if global, otherwise fallback to overflow-hidden)
+                document.documentElement.classList.add('overflow-hidden');
+            },
+            
+            closeInvoice() {
+                this.invoiceOpen = false;
+                setTimeout(() => {
+                    this.selectedOrder = null;
+                    document.documentElement.classList.remove('overflow-hidden');
+                }, 400); // Wait for transition
+            },
+            
+            initGSAP() {
+                if (typeof gsap === 'undefined') return;
+                
+                // Initial Entry Timeline
+                const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+                
+                // Draw hero grid lines (simulated by revealing the grid container)
+                gsap.set('#hero-grid', { opacity: 0 });
+                gsap.set('.hero-reveal', { opacity: 0, y: 10, clipPath: 'inset(100% 0 0 0)' });
+                
+                tl.to('#hero-grid', { opacity: 1, duration: 0.1 })
+                  .to('#hero-bg-text', { opacity: 0.02, duration: 1.5, ease: 'power2.inOut' }, 0)
+                  .to('.hero-reveal', { 
+                      opacity: 1, 
+                      y: 0, 
+                      clipPath: 'inset(0% 0 0 0)',
+                      duration: 0.6, 
+                      stagger: 0.05 
+                  }, 0.2);
+                  
+                // Hero Parallax
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.to('#hero-bg-text', {
+                    yPercent: -30,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: '.archive-hero',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+                
+                // Shrinking Name on scroll
+                gsap.to('#hero-name', {
+                    scale: 0.85,
+                    transformOrigin: 'left bottom',
+                    opacity: 0.5,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: '.archive-hero',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            }
+        }));
+    });
+</script>
+@endpush
