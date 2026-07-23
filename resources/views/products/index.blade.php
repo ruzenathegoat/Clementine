@@ -130,6 +130,7 @@
                 @endphp
                 <div class="catalog-product-card relative flex flex-col bg-background border-r border-b border-primary cursor-pointer active:scale-[0.98] transition-transform duration-150" 
                      data-id="{{ $product->id }}"
+                     data-flip-id="prod-{{ $product->id }}"
                      data-col="{{ $colIndex }}"
                      onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
                     
@@ -412,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
             targets: newElements,
             duration: 0.5,
             ease: "power2.inOut",
-            absolute: true,
+            absoluteOnLeave: true,
             onEnter: elements => {
                 return gsap.fromTo(elements, 
                     { opacity: 0, y: 16 }, 
@@ -451,6 +452,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Input changes (Checkboxes, Radios)
     filterForm.addEventListener('change', (e) => {
         if (!e.target.classList.contains('filter-input')) return;
+        
+        // For radio buttons, we need to clear the active state of other radios in the same group
+        if (e.target.type === 'radio') {
+            document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(radio => {
+                const rLabel = radio.closest('label');
+                if (rLabel && radio !== e.target) {
+                    rLabel.classList.remove('bg-primary', 'is-active');
+                    rLabel.classList.add('hover:bg-primary');
+                    const span = rLabel.querySelector('span');
+                    if (span) {
+                        span.classList.remove('text-background');
+                        span.classList.add('text-primary', 'group-hover:text-background');
+                    }
+                }
+            });
+        }
         
         const label = e.target.closest('label');
         if (label) {
