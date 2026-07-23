@@ -114,7 +114,7 @@
     <div class="archive-grid">
         @forelse ($collection->products as $product)
             @if($product->stock <= 0)
-            <div class="archive-item flex flex-col justify-between h-[420px] opacity-40 cursor-not-allowed">
+            <div class="archive-item flex flex-col justify-between h-[420px] relative overflow-hidden opacity-40 cursor-not-allowed">
             @else
             <a href="{{ route('products.show', $product->slug) }}" class="archive-item group flex flex-col justify-between h-[420px] relative overflow-hidden transition-transform duration-150 active:scale-[0.98]">
             @endif
