@@ -203,7 +203,7 @@
                     
                     <!-- Avatar / ID Card -->
                     <div class="flex flex-col md:flex-row gap-0 w-full max-w-2xl archive-grid">
-                        <div class="archive-cell p-4 md:p-6 relative group cursor-crosshair flex-shrink-0 w-full md:w-72 flex items-center justify-center">
+                        <div class="archive-cell p-4 md:p-6 relative group cursor-crosshair flex-shrink-0 w-full md:w-72 block">
                             <div class="w-full aspect-square bg-[#EFEFEF] relative overflow-hidden">
                                 <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
