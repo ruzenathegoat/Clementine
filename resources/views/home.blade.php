@@ -382,8 +382,9 @@
                 </div>
                 
                 <!-- Secondary Protocol Strip -->
-                <div class="flex justify-center items-center px-xl py-3 border-b border-primary/10 font-mono text-[9px] uppercase tracking-widest text-primary/60 z-30 bg-[#FAFAFA] relative">
-                    STATUS: <span class="veri-status-text ml-3 font-medium text-primary">INITIALIZING...</span>
+                <div class="flex justify-between items-center px-xl py-3 border-b border-primary/10 font-mono text-[9px] uppercase tracking-widest text-primary/60 z-30 bg-[#FAFAFA] relative">
+                    <div>STATUS: <span class="veri-status-text ml-3 font-medium text-primary">INITIALIZING...</span></div>
+                    <div>SCORE: <span class="veri-score-text ml-2 font-medium text-primary">0%</span></div>
                 </div>
 
                 <!-- Inspection Stage -->
@@ -393,7 +394,10 @@
                     </div>
 
                     <!-- Scan Line -->
-                    <div class="veri-scan-line absolute top-0 left-0 w-full h-[1px] bg-primary z-40 pointer-events-none" style="transform: translateY(-10px); opacity: 0;"></div>
+                    <!-- Enhanced Scan Line: laser effect, thicker, glow -->
+                    <div class="veri-scan-line absolute top-0 left-0 w-full h-[2px] bg-primary z-40 pointer-events-none" style="box-shadow: 0 0 12px 2px rgba(var(--color-primary), 0.5), 0 0 24px 4px rgba(var(--color-primary), 0.2); opacity: 0; top: 0%;">
+                        <div class="absolute inset-0 bg-white opacity-50 blur-[1px]"></div>
+                    </div>
 
                     <!-- Watch Image -->
                     <div class="relative z-20 w-full h-full max-w-[450px] max-h-[450px] flex items-center justify-center veri-watch-container">
@@ -414,7 +418,11 @@
                             <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="bottom: 10%; right: 25%;">STRAP</span>
                         </div>
 
-                        <img src="{{ $legitImageUrl }}" class="veri-watch object-contain w-[85%] h-[85%] transition-all duration-300" style="filter: blur(24px) contrast(0.9); transform: translateY(0px);" alt="Authentication Subject">
+                        <!-- Layer 1: Blurred base -->
+                        <img src="{{ $legitImageUrl }}" class="veri-watch-blur absolute inset-0 m-auto object-contain w-[85%] h-[85%]" style="filter: blur(18px) brightness(0.8) contrast(0.85) saturate(0.6);" alt="Authentication Subject Blur">
+                        
+                        <!-- Layer 2: Sharp reveal -->
+                        <img src="{{ $legitImageUrl }}" class="veri-watch-sharp absolute inset-0 m-auto object-contain w-[85%] h-[85%]" style="clip-path: inset(0 0 100% 0);" alt="Authentication Subject Sharp">
                     </div>
                 </div>
 
@@ -1226,21 +1234,21 @@
             }
 
             // --- Phase 2-5: The 900px Scroll Scrub (Protocol Execution) ---
-            const watchImg = document.querySelector('.veri-watch');
+            const watchSharp = document.querySelector('.veri-watch-sharp');
             const gridBg = document.querySelector('.veri-grid');
             const scanLine = document.querySelector('.veri-scan-line');
             const statusText = document.querySelector('.veri-status-text');
+            const scoreText = document.querySelector('.veri-score-text');
             const veriDot = document.querySelector('.veri-dot');
             
             // Status messages mapping to scroll progress (0 to 1)
             const statuses = [
                 { p: 0.00, text: "INITIALIZING..." },
-                { p: 0.15, text: "REFERENCE MATCH" },
-                { p: 0.35, text: "CASE VERIFIED" },
-                { p: 0.55, text: "MOVEMENT VERIFIED" },
-                { p: 0.75, text: "SERIAL VERIFIED" },
-                { p: 0.90, text: "FINAL REVIEW" },
-                { p: 0.99, text: "AUTHENTICATED" }
+                { p: 0.20, text: "SCANNING..." },
+                { p: 0.45, text: "INSPECTING..." },
+                { p: 0.70, text: "COMPARING..." },
+                { p: 0.90, text: "AUTHENTICATING..." },
+                { p: 0.99, text: "VERIFIED" }
             ];
 
             const scrubTl = gsap.timeline({
@@ -1250,8 +1258,9 @@
                     end: '+=900',
                     scrub: 1,
                     onUpdate: (self) => {
-                        // Update status text based on progress
                         const progress = self.progress;
+                        
+                        // Update Status
                         let currentStatus = statuses[0].text;
                         for (let i = 0; i < statuses.length; i++) {
                             if (progress >= statuses[i].p) {
@@ -1262,20 +1271,28 @@
                             statusText.innerText = currentStatus;
                         }
                         
-                        // Update blur linearly
-                        const blurValue = Math.max(0, 24 - (progress * 24));
-                        gsap.set(watchImg, { filter: `blur(${blurValue}px) contrast(${0.9 + (progress * 0.1)})` });
+                        // Update Score
+                        const score = Math.floor(progress * 100);
+                        if (scoreText) scoreText.innerText = score + '%';
+
+                        // Map clip path for sharp image (bottom clip reduces as progress increases)
+                        const clipBottom = 100 - (progress * 100);
+                        
+                        // Scan line opacity (fade in at start, fade out at end)
+                        let opacity = 0;
+                        if (progress > 0.01 && progress < 0.99) {
+                            opacity = 1;
+                        }
+
+                        // Apply updates via set for maximum performance
+                        gsap.set(scanLine, { top: `${progress * 100}%`, opacity: opacity });
+                        gsap.set(watchSharp, { clipPath: `inset(0 0 ${clipBottom}% 0)` });
                     }
                 }
             });
 
             // Grid Opacity slowly increases (Phase 2)
             scrubTl.to(gridBg, { opacity: 0.12, duration: 0.2, ease: 'none' }, 0);
-            
-            // Scan line descends
-            scrubTl.to(scanLine, { opacity: 1, duration: 0.05, ease: 'none' }, 0);
-            scrubTl.to(scanLine, { top: '100%', duration: 0.9, ease: 'none' }, 0.05);
-            scrubTl.to(scanLine, { opacity: 0, duration: 0.05, ease: 'none' }, 0.95);
 
             // Draw Engineering Frame at 90% (FINAL REVIEW)
             const bTop = document.querySelector('.eng-frame-top');
