@@ -1,6 +1,7 @@
 <!-- Acquisition Record (Order Card) -->
 <div class="relative group cursor-crosshair border-b border-[rgba(10,10,10,0.15)] pb-12 transition-colors duration-300 hover:bg-[#FDFDFD]" 
      x-data="{ 
+         isHovered: false,
          showInvoice() { 
              openInvoice({
                  id: '{{ $order->id }}',
@@ -17,10 +18,12 @@
                  })) }}
              });
          } 
-     }">
+     }"
+     @mouseenter="isHovered = true"
+     @mouseleave="isHovered = false">
      
     <!-- Top Meta -->
-    <div class="flex justify-between items-start mb-8 relative z-10">
+    <div class="flex justify-between items-start mb-8 relative z-20">
         <div>
             <div class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mb-1">Reference Number</div>
             <div class="font-h2 text-sm md:text-lg uppercase tracking-widest text-[#1A1A1A]">
@@ -40,26 +43,26 @@
     <div class="flex flex-col md:flex-row gap-8 md:gap-16 items-start relative z-10">
         
         <!-- Image Stack -->
-        <div class="relative w-full max-w-[200px] h-[160px] flex-shrink-0 flex items-center justify-center pointer-events-none">
+        <div class="relative w-full max-w-[200px] h-[160px] overflow-hidden flex flex-shrink-0 items-center justify-center pointer-events-none">
             @if($order->items->count() > 0)
                 @foreach($order->items->take(3) as $index => $item)
                     @if($item->product->primaryImage)
+                        @php
+                            $baseTransform = "translateX(" . ($index * 4) . "px) scale(" . (1 - ($index * 0.05)) . ") rotate(" . ($index * 2) . "deg)";
+                            
+                            $hoverX = $index == 0 ? '-20px' : ($index == 1 ? '20px' : '50px');
+                            $hoverScale = $index == 0 ? '1' : ($index == 1 ? '0.95' : '0.9');
+                            $hoverRotate = $index == 0 ? '-4deg' : ($index == 1 ? '4deg' : '8deg');
+                            $hoverZ = $index == 0 ? 10 : ($index == 1 ? 12 : 3);
+                            
+                            $hoverTransform = "translateX({$hoverX}) scale({$hoverScale}) rotate({$hoverRotate})";
+                        @endphp
                         <img src="{{ $item->product->primaryImage->url }}" 
                              alt="{{ $item->product->name }}" 
                              class="absolute w-[120px] h-auto object-contain grayscale-[20%] brightness-95 contrast-110 transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] origin-center"
-                             style="
-                                z-index: {{ 10 - $index }};
-                                transform: translateX({{ $index * 4 }}px) scale({{ 1 - ($index * 0.05) }}) rotate({{ $index * 2 }}deg);
-                             "
-                             onload="this.classList.add('stack-img-{{ $index }}')">
+                             :style="isHovered ? 'z-index: {{ $hoverZ }}; transform: {{ $hoverTransform }};' : 'z-index: {{ 10 - $index }}; transform: {{ $baseTransform }};'">
                     @endif
                 @endforeach
-                <!-- Fallback CSS for hover spreading if inline styles conflict with tailwind arbitrary groups -->
-                <style>
-                    .group:hover .stack-img-0 { transform: translateX(-20px) scale(1) rotate(-4deg) !important; }
-                    .group:hover .stack-img-1 { transform: translateX(20px) scale(0.95) rotate(4deg) !important; z-index: 12 !important; }
-                    .group:hover .stack-img-2 { transform: translateX(50px) scale(0.9) rotate(8deg) !important; z-index: 13 !important; }
-                </style>
             @else
                 <div class="w-full h-full border border-dashed border-[rgba(10,10,10,0.2)] flex items-center justify-center font-mono text-[9px] text-[#909090]">
                     [ NO ASSET IMAGE ]
