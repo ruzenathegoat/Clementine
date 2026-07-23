@@ -262,84 +262,82 @@
     </section>
     @endif
 
-    <!-- 3. New Arrivals Section (Ref: Image 3) -->
-    <div class="w-full section-reveal">
-        <div class="p-lg md:p-xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-6 overflow-hidden">
-            <h2 class="font-h1 text-hero-lg leading-none tracking-tighter uppercase break-words w-full">NEW ARTICLE</h2>
-            <a href="{{ route('products.index') }}" class="bg-primary text-on-primary border border-primary px-xl py-md md:py-sm font-label-caps uppercase text-sm md:text-xs tracking-widest hover:bg-background hover:text-primary transition-colors flex items-center justify-center h-min whitespace-nowrap shrink-0">
+    <!-- 3. New Arrivals Section - Collector's Selection -->
+    <div class="w-full section-reveal" id="new-arrival-section">
+        <div class="p-lg md:p-2xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-16 overflow-hidden min-h-[300px]">
+            <h2 class="new-arrival-heading font-h1 text-[clamp(4rem,10vw,8rem)] leading-none uppercase break-words w-full" style="font-family: 'Satoshi', sans-serif; font-weight: 200; opacity: 0; transform: translateY(40px);">NEW ARRIVAL</h2>
+            <a href="{{ route('products.index') }}" class="new-arrival-cta text-primary bg-transparent border border-primary px-xl py-lg font-label-caps uppercase text-xs tracking-[0.2em] hover:bg-black hover:text-white transition-colors duration-500 flex items-center justify-center shrink-0 group" style="opacity: 0;">
                 VIEW MORE
+                <span class="material-symbols-outlined ml-3 text-[14px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">arrow_forward</span>
             </a>
         </div>
+        
         <!-- Editorial Product Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full border-l border-primary/20" id="editorial-products-grid">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative" id="editorial-products-grid">
+            
+            <!-- GSAP Constructed Grid Lines -->
+            <div class="grid-lines-container absolute inset-0 pointer-events-none z-20">
+                <div class="grid-line-h absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
+                <div class="grid-line-h absolute bottom-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left hidden md:block lg:hidden"></div>
+                
+                <div class="grid-line-v absolute top-0 left-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+                <div class="grid-line-v absolute top-0 left-[25%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
+                <div class="grid-line-v absolute top-0 left-[50%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden md:block"></div>
+                <div class="grid-line-v absolute top-0 left-[75%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
+                <div class="grid-line-v absolute top-0 right-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+            </div>
+
             @forelse($newArrivals as $product)
                 @if($product->stock <= 0)
-                <div class="flex flex-col bg-background border-r border-b border-primary/20 opacity-60 cursor-not-allowed product-card relative h-full">
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed">
                 @else
-                <div class="flex flex-col bg-background product-card relative h-full border-r border-b border-primary/20 cursor-pointer">
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
                 @endif
                 
-                    <!-- Drawn Borders (Mechanical Inspection Mode) -->
-                    <div class="border-top absolute top-0 left-0 w-full h-[1px] bg-primary scale-x-0 origin-left z-20 pointer-events-none"></div>
-                    <div class="border-right absolute top-0 right-0 w-[1px] h-full bg-primary scale-y-0 origin-top z-20 pointer-events-none"></div>
-                    <div class="border-bottom absolute bottom-0 right-0 w-full h-[1px] bg-primary scale-x-0 origin-right z-20 pointer-events-none"></div>
-                    <div class="border-left absolute bottom-0 left-0 w-[1px] h-full bg-primary scale-y-0 origin-bottom z-20 pointer-events-none"></div>
+                    <!-- Local Card Background for click expansion -->
+                    <div class="card-bg absolute inset-0 bg-background z-0 pointer-events-none"></div>
 
-                    @if($product->stock <= 0)
-                    <div class="flex-grow flex flex-col relative z-10">
-                    @else
-                    <a href="{{ route('products.show', $product->slug) }}" class="flex-grow flex flex-col relative z-10 block">
-                    @endif
-                    
-                        <!-- Top Bar: Logo/Name & Price -->
-                        <div class="flex justify-between items-center px-md py-sm border-b border-primary/20">
-                            <span class="font-mono text-[10px] uppercase tracking-widest text-[#666666] product-meta">
-                                {{ $product->collection->name ?? 'CLE' }}
-                            </span>
-                            <span class="font-mono text-[10px] text-[#666666] product-meta">${{ number_format($product->price, 2) }}</span>
+                    <!-- Card Contents -->
+                    <div class="flex-grow flex flex-col relative z-10 w-full h-full p-8 md:p-12 overflow-hidden items-start justify-between">
+                        
+                        <!-- Top Info -->
+                        <div class="w-full flex justify-between items-start mb-12">
+                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0">{{ $product->collection->name ?? 'CLE' }}</span>
+                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0">${{ number_format($product->price, 2) }}</span>
                         </div>
                         
-                        <!-- Image Area -->
-                        <div class="w-full aspect-square bg-background border-b border-primary/20 flex items-center justify-center p-xl relative overflow-hidden">
+                        <!-- Floating Image Area -->
+                        <div class="w-full aspect-square flex items-center justify-center relative mb-12">
                             @if ($product->primaryImage)
                                 <img src="{{ $product->primaryImage->url }}" 
                                      alt="{{ $product->name }}"
-                                     class="product-image w-full h-full object-contain"
-                                     style="filter: brightness(0.88) contrast(1);" />
+                                     class="product-image w-[80%] h-[80%] object-contain opacity-0"
+                                     style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
                             @else
-                                <div class="w-full h-full bg-background flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
+                                <div class="w-full h-full flex items-center justify-center text-primary/30 text-xs uppercase opacity-0 product-image" style="transform: translateY(30px);">No Image</div>
                             @endif
                             
                             @if($product->stock <= 0)
-                            <div class="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center z-10">
-                                <span class="font-label-caps text-xs text-background tracking-widest px-4 py-2 bg-primary">[ OUT OF STOCK ]</span>
+                            <div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] flex items-center justify-center z-10 product-out-stock opacity-0">
+                                <span class="font-mono text-[9px] text-primary tracking-[0.2em] px-3 py-1 border border-primary/20">OUT OF STOCK</span>
                             </div>
                             @endif
                         </div>
                         
-                    @if($product->stock <= 0)
-                    </div>
-                    @else
-                    </a>
-                    @endif
-                        
-                    <!-- Details -->
-                    <div class="p-md flex flex-col relative z-10">
-                        <h3 class="product-title font-h1 text-lg uppercase leading-tight mb-1 truncate" style="font-weight: 500; letter-spacing: normal;">
-                            @if($product->stock <= 0)
+                        <!-- Details -->
+                        <div class="flex flex-col relative z-10 w-full">
+                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0" style="font-weight: 400; letter-spacing: normal;">
                                 {{ $product->name }}
-                            @else
-                                <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
-                            @endif
-                        </h3>
-                        <p class="font-body-md text-[10px] text-primary/60">
-                            {{ $product->tagline ?? 'Premium mechanical timepiece' }}
-                        </p>
+                            </h3>
+                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0">
+                                {{ $product->tagline ?? 'An exceptional example of mechanical precision, curated for the serious collector.' }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-body-md text-primary/60 uppercase bg-background border-r border-b border-primary/20">
-                    No articles at the moment.
+                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-mono text-[10px] text-primary/50 uppercase tracking-widest">
+                    The gallery is currently empty.
                 </div>
             @endforelse
         </div>
@@ -1038,104 +1036,182 @@
                 });
             }, 60000); // Every 60s
         } // end dropSection
-        // 3. Staggered reveal for grid sections (The Drop & New Arrivals)
-        gsap.utils.toArray('.section-reveal').forEach(section => {
-            const items = section.querySelectorAll('.drop-container, .product-card');
-            if (items.length > 0) {
-                gsap.fromTo(items, 
-                    { y: 60, opacity: 0, scale: 0.98 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        stagger: 0.1,
-                        duration: 0.8,
-                        ease: 'power4.out',
-                        scrollTrigger: {
-                            trigger: section,
-                            start: 'top 85%',
-                            toggleActions: 'play none none reverse'
-                        }
-                    }
-                );
-            } else {
-                gsap.fromTo(section, 
-                    { y: 60, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.8,
-                        ease: 'power4.out',
-                        scrollTrigger: {
-                            trigger: section,
-                            start: 'top 85%',
-                            toggleActions: 'play none none reverse'
-                        }
-                    }
-                );
-            }
-        });
+        // 3. New Arrivals: Collector's Selection (GSAP Orchestration)
+        const newArrivalSection = document.getElementById('new-arrival-section');
+        const gridContainer = document.getElementById('editorial-products-grid');
         
-        // Mechanical Inspection Mode for Editorial Products
-        const inspectCards = document.querySelectorAll('#editorial-products-grid .product-card');
-        
-        inspectCards.forEach(card => {
-            const img = card.querySelector('.product-image');
-            const title = card.querySelector('.product-title');
-            const meta = card.querySelectorAll('.product-meta');
+        if (newArrivalSection && gridContainer) {
             
-            const bTop = card.querySelector('.border-top');
-            const bRight = card.querySelector('.border-right');
-            const bBottom = card.querySelector('.border-bottom');
-            const bLeft = card.querySelector('.border-left');
+            // Phase 8: Scroll Compression
+            gsap.to('.new-arrival-heading', {
+                scale: 0.85,
+                letterSpacing: '-0.02em',
+                ease: 'none',
+                transformOrigin: 'left center',
+                scrollTrigger: {
+                    trigger: newArrivalSection,
+                    start: 'top top',
+                    end: '+=500',
+                    scrub: true
+                }
+            });
 
-            card.animation = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
-            
-            // 1. Text fades out slightly
-            card.animation.to([title, ...meta], { opacity: 0.4, duration: 0.3 }, 0);
-            
-            // 2. Watch moves closer, light hits it
-            if (img) {
-                card.animation.to(img, { 
-                    scale: 1.08, 
-                    y: -10,
-                    filter: 'brightness(1.05) contrast(1.1)',
-                    duration: 0.5,
-                    ease: 'power3.out'
-                }, 0);
-            }
-            
-            // 3. Draw borders (like a targeting reticle)
-            const d = 0.4 / 4;
-            card.animation.to(bTop, { scaleX: 1, duration: d }, 0)
-                          .to(bRight, { scaleY: 1, duration: d }, d)
-                          .to(bBottom, { scaleX: 1, duration: d }, d * 2)
-                          .to(bLeft, { scaleY: 1, duration: d }, d * 3);
+            // Phases 1-3: Arrival & Grid Construction Timeline
+            const arrivalTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: newArrivalSection,
+                    start: 'top 75%',
+                    toggleActions: 'play none none none'
+                }
+            });
 
-            card.addEventListener('mouseenter', () => {
-                // Dim other cards
-                gsap.to(inspectCards, { 
-                    filter: (i, t) => t === card ? 'brightness(1)' : 'brightness(0.3)',
-                    duration: 0.4,
-                    ease: 'power2.out'
-                });
+            // Phase 1: Header Reveal
+            arrivalTl.to('.new-arrival-heading', {
+                y: 0,
+                opacity: 1,
+                duration: 0.9,
+                ease: 'expo.out'
+            })
+            .to('.new-arrival-cta', {
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power2.out'
+            }, "-=0.4");
+
+            // Phase 2: Grid Construction
+            const gridLinesV = document.querySelectorAll('.grid-line-v');
+            const gridLinesH = document.querySelectorAll('.grid-line-h');
+            
+            arrivalTl.to(gridLinesV, {
+                scaleY: 1,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: 'expo.inOut'
+            }, "-=0.2")
+            .to(gridLinesH, {
+                scaleX: 1,
+                duration: 1.2,
+                ease: 'expo.inOut'
+            }, "-=0.8");
+
+            // Phase 3: Curated Product Reveal
+            const cards = document.querySelectorAll('#editorial-products-grid .product-card');
+            
+            cards.forEach((card, index) => {
+                const img = card.querySelector('.product-image');
+                const outStock = card.querySelector('.product-out-stock');
+                const brand = card.querySelector('.product-brand');
+                const price = card.querySelector('.product-price');
+                const title = card.querySelector('.product-title');
+                const desc = card.querySelector('.product-desc');
                 
-                // Play timeline forward
-                card.animation.timeScale(1).play();
+                const startTime = 1.0 + (index * 0.14); // 140ms stagger offset
+
+                arrivalTl.to(img, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.0,
+                    ease: 'power3.out'
+                }, startTime)
+                .to(brand, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.4)
+                .to(price, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.5)
+                .to(title, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.6)
+                .to(desc, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.7);
+                
+                if (outStock) {
+                    arrivalTl.to(outStock, { opacity: 1, duration: 0.5, ease: 'power1.out' }, startTime + 0.3);
+                }
             });
 
-            card.addEventListener('mouseleave', () => {
-                // Restore all cards brightness
-                gsap.to(inspectCards, { 
-                    filter: 'brightness(1)',
-                    duration: 0.3,
-                    ease: 'power2.out'
+            // Phase 4, 5, 6: Collector Focus (Hover State)
+            cards.forEach(card => {
+                const img = card.querySelector('.product-image');
+                const brand = card.querySelector('.product-brand');
+                const price = card.querySelector('.product-price');
+                const title = card.querySelector('.product-title');
+                const desc = card.querySelector('.product-desc');
+                
+                // Set initial states for hover elements
+                gsap.set(desc, { opacity: 0.5 });
+                
+                card.addEventListener('mouseenter', () => {
+                    // Dim/desaturate adjacent cards
+                    gsap.to(cards, { 
+                        opacity: (i, t) => t === card ? 1 : 0.9,
+                        filter: (i, t) => t === card ? 'grayscale(0%)' : 'grayscale(5%) brightness(0.95)',
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    });
+                    
+                    // Hovered card elements
+                    gsap.to(img, { y: -12, filter: 'brightness(0.98) contrast(1.02)', duration: 0.4, ease: 'power2.out' });
+                    gsap.to(brand, { letterSpacing: '0.15em', duration: 0.4, ease: 'power2.out' });
+                    gsap.to(title, { y: -6, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(price, { x: 8, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(desc, { opacity: 1, duration: 0.4, ease: 'power2.out' });
                 });
 
-                // Reverse timeline
-                card.animation.timeScale(1).reverse();
+                card.addEventListener('mouseleave', () => {
+                    // Restore adjacent cards
+                    gsap.to(cards, { 
+                        opacity: 1,
+                        filter: 'grayscale(0%) brightness(1)',
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    });
+                    
+                    // Restore hovered card elements
+                    gsap.to(img, { y: 0, filter: 'brightness(0.92) contrast(1)', duration: 0.4, ease: 'power2.out' });
+                    gsap.to(brand, { letterSpacing: '0.1em', duration: 0.4, ease: 'power2.out' });
+                    gsap.to(title, { y: 0, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(price, { x: 0, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(desc, { opacity: 0.5, duration: 0.4, ease: 'power2.out' });
+                });
             });
-        });
+        }
+        
+        // Phase 7: Shared Element Pre-Navigation Transition
+        window.handlePreNavigation = function(e, cardEl, targetUrl) {
+            e.preventDefault();
+            
+            // Prevent double clicks
+            if (cardEl.dataset.transitioning === "true") return;
+            cardEl.dataset.transitioning = "true";
+            
+            const img = cardEl.querySelector('.product-image');
+            const bg = cardEl.querySelector('.card-bg');
+            const otherCards = Array.from(document.querySelectorAll('.product-card')).filter(c => c !== cardEl);
+            
+            // Lock scrolling
+            document.body.style.overflow = 'hidden';
+            
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    window.location.href = targetUrl;
+                }
+            });
+            
+            // Fade out everything else
+            tl.to(otherCards, { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
+              .to('.grid-lines-container', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
+              .to('.new-arrival-heading', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
+              .to('.new-arrival-cta', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0);
+              
+            // Card transition
+            tl.to(bg, { 
+                scale: 1.02, 
+                backgroundColor: '#FAFAFA', 
+                duration: 0.6, 
+                ease: 'power3.inOut' 
+            }, 0)
+            .to(img, {
+                y: -30,
+                scale: 1.1,
+                filter: 'brightness(1) contrast(1.05)',
+                duration: 0.7,
+                ease: 'power3.inOut'
+            }, 0);
+        };
 
         // 4. Verification Protocol (Editorial Graphic Section)
         const veriSection = document.getElementById('verification-section');
