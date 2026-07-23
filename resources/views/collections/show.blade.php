@@ -1,96 +1,155 @@
 @extends('layouts.app')
 
-@section('title', strtoupper($collection->name) . ' - Clementine')
+@section('title', strtoupper($collection->name) . ' - Archive')
+
+@push('styles')
+<style>
+    /* Mechanical/Archive Custom CSS */
+    :root {
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        --bg-color: #FAFAFA;
+        --ink-color: #0A0A0A;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--ink-color);
+        scrollbar-width: none;
+    }
+    body::-webkit-scrollbar { display: none; }
+
+    .title-display {
+        letter-spacing: -0.04em;
+        text-wrap: balance;
+    }
+
+    .archive-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        border-top: 1px solid rgba(10, 10, 10, 0.1);
+        border-left: 1px solid rgba(10, 10, 10, 0.1);
+    }
+    
+    .archive-item {
+        border-right: 1px solid rgba(10, 10, 10, 0.1);
+        border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+        cursor: crosshair;
+        background-color: var(--bg-color);
+    }
+
+    /* Product Hover Masking */
+    .clip-reveal {
+        clip-path: inset(100% 0 0 0);
+        transition: clip-path 250ms var(--ease-out), transform 250ms var(--ease-out);
+        will-change: clip-path, transform;
+    }
+    .archive-item:hover .clip-reveal {
+        clip-path: inset(0 0 0 0);
+        transform: translateY(-6px);
+    }
+    .base-img {
+        transition: opacity 250ms var(--ease-out);
+    }
+    .archive-item:hover .base-img {
+        opacity: 0; 
+    }
+</style>
+@endpush
 
 @section('content')
 
-<!-- Collection Header -->
-<header class="w-full min-h-[40vh] md:min-h-[50vh] flex flex-col justify-end p-lg md:p-3xl border-b border-primary relative overflow-hidden bg-background">
-    <!-- Optional background image -->
-    @if($collection->image_url)
-        <div class="absolute inset-0 z-0 opacity-20 bg-cover bg-center grayscale mix-blend-multiply" style="background-image: url('{{ $collection->image_url }}');"></div>
-    @endif
+<!-- COLLECTION HERO -->
+<header class="w-full flex flex-col md:flex-row min-h-[60vh] border-b border-[#e5e5e5]">
     
-    <div class="relative z-10 w-full max-w-5xl">
-        <div class="flex items-center gap-4 mb-6">
-            <a href="{{ route('collections.index') }}" class="w-10 h-10 rounded-full border border-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
-                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+    <!-- Left: Typography & Info -->
+    <div class="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#e5e5e5]">
+        <div>
+            <a href="{{ route('collections.index') }}" class="inline-flex items-center gap-2 font-mono text-[10px] tracking-widest text-[#555] hover:text-[#1A1A1A] transition-colors mb-12 md:mb-24 uppercase">
+                <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+                BACK TO ARCHIVES
             </a>
-            <span class="font-label-caps text-xs tracking-widest uppercase text-[#787774]">ARCHIVE SERIES</span>
+            
+            <h1 class="font-h1 text-[12vw] md:text-[80px] leading-[0.9] text-ink-color uppercase title-display m-0" style="view-transition-name: title-{{ $collection->id }};">
+                {{ $collection->name }}
+            </h1>
+            
+            @if($collection->description)
+            <p class="font-body-md text-sm text-[#555] mt-8 max-w-[50ch] text-pretty leading-relaxed">
+                {{ $collection->description }}
+            </p>
+            @endif
         </div>
         
-        <h1 class="font-h1 text-[60px] md:text-[120px] leading-[0.85] tracking-tighter text-primary uppercase break-words">
-            {{ $collection->name }}
-        </h1>
-        
-        @if($collection->description)
-        <p class="font-body-md text-lg md:text-xl text-[#787774] mt-8 max-w-2xl leading-relaxed">
-            {{ $collection->description }}
-        </p>
+        <div class="mt-12 flex items-center gap-12 font-mono text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A]">
+            <div>
+                <span class="text-[#909090] block mb-2">ASSETS</span>
+                <span class="text-base">{{ str_pad($collection->products->count(), 2, '0', STR_PAD_LEFT) }}</span>
+            </div>
+            <div>
+                <span class="text-[#909090] block mb-2">STATUS</span>
+                <span class="flex items-center gap-2 text-base">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#1A1A1A] animate-pulse"></span> ACTIVE
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right: Featured Image -->
+    <div class="w-full md:w-1/2 relative bg-[#F4F4F4] min-h-[40vh] md:min-h-0 flex items-center justify-center p-12 overflow-hidden">
+        @if($collection->image_url)
+            <img src="{{ $collection->image_url }}" 
+                 alt="{{ $collection->name }}" 
+                 class="w-full h-full object-contain max-w-[80%] max-h-[80%]"
+                 style="view-transition-name: img-{{ $collection->id }};">
         @endif
     </div>
 </header>
 
-<!-- Stats Bar -->
-<div class="w-full px-lg py-md border-b border-primary bg-background flex flex-wrap justify-between items-center gap-4">
-    <div class="font-label-caps text-xs tracking-widest uppercase">
-        <span class="text-[#787774] mr-2">TOTAL ASSETS:</span>
-        <strong class="text-primary">{{ $collection->products->count() }}</strong>
+<!-- PRODUCTS GRID -->
+<section class="w-full max-w-[1800px] mx-auto px-6 md:px-12 py-24">
+    <div class="mb-12 font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[#e5e5e5] pb-4">
+        [ CATALOGUED ASSETS ]
     </div>
-    <div class="font-label-caps text-xs tracking-widest uppercase">
-        <span class="text-[#787774] mr-2">STATUS:</span>
-        <strong class="text-primary flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> ACTIVE COLLECTION
-        </strong>
-    </div>
-</div>
-
-<!-- Products Grid -->
-<div class="w-full bg-surface-container-lowest flex-grow">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full border-l border-primary">
+    
+    <div class="archive-grid">
         @forelse ($collection->products as $product)
             @if($product->stock <= 0)
-            <div class="group flex flex-col bg-background border-r border-b border-primary opacity-60 cursor-not-allowed">
+            <div class="archive-item flex flex-col justify-between h-[420px] opacity-40 cursor-not-allowed">
             @else
-            <a href="{{ route('products.show', $product->slug) }}" class="group flex flex-col bg-background transition-colors border-r border-b border-primary hover:bg-surface-container-highest">
+            <a href="{{ route('products.show', $product->slug) }}" class="archive-item group flex flex-col justify-between h-[420px] relative overflow-hidden transition-transform duration-150 active:scale-[0.98]">
             @endif
             
-                <div class="flex justify-between items-center p-md border-b border-primary bg-transparent">
-                    <span class="font-h2 text-sm uppercase tracking-tight bg-primary text-on-primary px-2 py-1 border border-primary">
-                        {{ $collection->name }}
+                <!-- Price / Name top -->
+                <div class="relative z-10 flex justify-between items-start p-6">
+                    <h3 class="font-h1 text-xl md:text-2xl uppercase tracking-tighter text-[#1A1A1A] leading-none m-0 max-w-[70%] text-balance">
+                        {{ $product->name }}
+                    </h3>
+                    <span class="font-mono text-[10px] tracking-widest text-[#1A1A1A]">
+                        ${{ number_format($product->price, 0) }}
                     </span>
-                    <span class="font-h2 text-sm text-primary">${{ number_format($product->price, 2) }}</span>
                 </div>
                 
-                <div class="w-full aspect-square bg-transparent border-b border-primary flex items-center justify-center p-xl relative overflow-hidden">
-                    @if ($product->primaryImage)
-                    <div class="w-full h-full bg-contain bg-center bg-no-repeat transition-transform duration-500 ease-mechanical group-hover:scale-105"
-                         style="background-image: url('{{ $product->primaryImage->url }}')"></div>
-                    @else
-                    <div class="w-full h-full bg-transparent flex items-center justify-center text-secondary text-xs uppercase">No Image</div>
-                    @endif
-                    
-                    @if($product->stock <= 0)
-                    <div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] flex items-center justify-center z-10">
-                        <span class="font-label-caps text-xs text-background tracking-widest px-4 py-2 bg-primary">[ OUT OF STOCK ]</span>
-                    </div>
-                    @endif
-                </div>
-                
-                <div class="p-lg flex flex-col flex-1">
-                    <h3 class="font-h2 text-lg uppercase leading-tight mb-1">{{ $product->name }}</h3>
-                    <p class="font-body-md text-[10px] text-secondary uppercase pt-2">
-                        {{ $product->tagline ?? 'TIMEPIECE' }}
-                    </p>
-                    <div class="mt-sm flex items-center gap-xs">
-                        @if($product->status === 'sold_out' || $product->stock <= 0)
-                            <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary opacity-50">[ OUT OF STOCK ]</span>
-                        @elseif($product->stock <= 10)
-                            <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary">[ LOW STOCK — {{ $product->stock }} LEFT ]</span>
+                <!-- Image -->
+                <div class="absolute inset-0 z-0 flex items-center justify-center p-12 pointer-events-none mt-8">
+                    <div class="w-full h-full relative">
+                        @if ($product->primaryImage)
+                            <img src="{{ $product->primaryImage->url }}" class="absolute inset-0 w-full h-full object-contain grayscale-[40%] brightness-[0.8] contrast-[1.1] base-img" alt="{{ $product->name }}">
+                            <img src="{{ $product->primaryImage->url }}" class="absolute inset-0 w-full h-full object-contain clip-reveal" alt="{{ $product->name }} Detail">
                         @else
-                            <span class="font-label-caps text-[10px] uppercase tracking-wider font-bold text-primary">[ IN STOCK ]</span>
+                            <div class="w-full h-full flex items-center justify-center text-[#909090] text-xs uppercase font-mono tracking-widest">No Image</div>
                         @endif
                     </div>
+                </div>
+                
+                <!-- Stock Status Bottom -->
+                <div class="relative z-10 p-6 flex flex-col justify-end mt-auto">
+                    @if($product->stock <= 0)
+                        <span class="font-mono text-[9px] tracking-[0.2em] text-[#1A1A1A]">[ OUT OF STOCK ]</span>
+                    @elseif($product->stock <= 10)
+                        <span class="font-mono text-[9px] tracking-[0.2em] text-[#1A1A1A]">[ LOW STOCK ]</span>
+                    @else
+                        <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090]">[ IN STOCK ]</span>
+                    @endif
                 </div>
                 
             @if($product->stock <= 0)
@@ -98,14 +157,45 @@
             @else
             </a>
             @endif
-            @empty
-            <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-body-md text-[#787774] border-r border-b border-primary bg-background flex flex-col items-center justify-center min-h-[300px]">
-                <i class="ph-light ph-empty text-4xl mb-4 text-primary"></i>
-                <p>NO ASSETS FOUND IN THIS ARCHIVE.</p>
-                <a href="{{ route('collections.index') }}" class="underline text-primary mt-4 uppercase text-sm tracking-widest">Return to Collections</a>
+        @empty
+            <div class="col-span-full py-24 text-center font-mono text-xs tracking-[0.2em] text-[#909090] uppercase">
+                NO ASSETS FOUND IN THIS ARCHIVE.
             </div>
         @endforelse
     </div>
-</div>
+</section>
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        if (!prefersReducedMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Stagger entrance of grid items
+            const items = gsap.utils.toArray('.archive-item');
+            gsap.set(items, { opacity: 0, y: 20 });
+
+            ScrollTrigger.batch(items, {
+                start: "top 85%",
+                onEnter: batch => {
+                    gsap.to(batch, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        stagger: 0.05,
+                        ease: 'power2.out',
+                        overwrite: true
+                    });
+                },
+                once: true
+            });
+        } else if (prefersReducedMotion && typeof gsap !== 'undefined') {
+            gsap.set('.archive-item', { opacity: 1, y: 0 });
+        }
+    });
+</script>
+@endpush
