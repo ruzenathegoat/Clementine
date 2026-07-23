@@ -368,63 +368,59 @@ document.addEventListener('DOMContentLoaded', () => {
             const newGridHTML = doc.getElementById('catalog-grid').innerHTML;
             const newCounterText = doc.querySelector('.counter-number').textContent;
             
-            updateGridWithFlip(newGridHTML, newCounterText, url);
+            updateGrid(newGridHTML, newCounterText, url);
         } catch (e) {
             console.error("Filter fetch failed", e);
             window.location.href = url; // Fallback
         }
     }
 
-    function updateGridWithFlip(newGridHTML, newCounterText, newUrl) {
-        const currentElements = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
+    function updateGrid(newGridHTML, newCounterText, newUrl) {
+        const gridContainer = document.getElementById('catalog-grid').parentElement;
+        const currentCards = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
         
-        // Grab the state of ALL current elements
-        const state = Flip.getState(currentElements, { props: "opacity" });
-        
-        // Replace innerHTML
-        gridContainer.innerHTML = newGridHTML;
-        
-        const newElements = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
-        const newCards = gsap.utils.toArray('.catalog-product-card');
-        
-        // Restart breathing animations
-        initBreathing();
-        
-        // Reset ScrollTrigger batches for new elements
-        ScrollTrigger.getAll().forEach(st => {
-            if (st.vars.trigger === ".catalog-product-card") st.kill();
-        });
-        
-        ScrollTrigger.batch(".catalog-product-card:not(.flip-animating)", {
-            onEnter: batch => {
-                gsap.fromTo(batch, 
-                    { opacity: 0, y: 24 },
-                    { opacity: 1, y: 0, duration: 0.45, stagger: 0.05, ease: "power2.out", overwrite: true }
-                );
-            },
-            once: true,
-            start: "top 95%"
-        });
-
-        // Add class to prevent scrolltrigger from interfering
-        newCards.forEach(c => c.classList.add('flip-animating'));
-
-        Flip.from(state, {
-            targets: newElements,
-            duration: 0.5,
-            ease: "power2.inOut",
-            absoluteOnLeave: true,
-            onEnter: elements => {
-                return gsap.fromTo(elements, 
-                    { opacity: 0, y: 16 }, 
-                    { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
-                );
-            },
-            onLeave: elements => {
-                return gsap.to(elements, { opacity: 0, y: 16, duration: 0.4, ease: "power2.in" });
-            },
+        // 1. Fade out current items
+        gsap.to(currentCards, {
+            opacity: 0,
+            y: 10,
+            duration: 0.3,
+            stagger: 0.02,
+            ease: "power2.in",
             onComplete: () => {
-                newCards.forEach(c => c.classList.remove('flip-animating'));
+                // 2. Replace HTML
+                gridContainer.innerHTML = newGridHTML;
+                
+                // 3. Restart breathing animations
+                initBreathing();
+                
+                const newCards = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
+                
+                // Reset ScrollTrigger batches for new elements
+                ScrollTrigger.getAll().forEach(st => {
+                    if (st.vars.trigger === ".catalog-product-card") st.kill();
+                });
+                
+                // Set initial state for new items
+                gsap.set(newCards, { opacity: 0, y: 20 });
+                
+                // Re-init ScrollTrigger batch for new elements
+                ScrollTrigger.batch(".catalog-product-card", {
+                    onEnter: batch => {
+                        gsap.to(batch, { 
+                            opacity: 1, 
+                            y: 0, 
+                            duration: 0.45, 
+                            stagger: 0.05, 
+                            ease: "power2.out", 
+                            overwrite: true 
+                        });
+                    },
+                    once: true,
+                    start: "top 95%"
+                });
+                
+                // If there are empty state elements, fade them in
+                gsap.to('.catalog-empty-state', { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" });
             }
         });
 
