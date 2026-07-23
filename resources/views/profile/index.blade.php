@@ -180,7 +180,7 @@
         </div>
 
         <!-- MAIN PANELS -->
-        <div class="flex-grow lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh]">
+        <div class="flex-grow lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
             
             <!-- IDENTITY TAB -->
             <div x-show="activeTab === 'identity'" 
@@ -190,7 +190,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
-                 class="tab-panel w-full absolute inset-0 lg:static"
+                 class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
                 <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
@@ -272,7 +272,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
-                 class="tab-panel w-full absolute inset-0 lg:static"
+                 class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
                 <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
@@ -306,7 +306,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
-                 class="tab-panel w-full absolute inset-0 lg:static"
+                 class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
                 <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
@@ -355,7 +355,7 @@
                  x-transition:leave="transition ease-in duration-200"
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0"
-                 class="tab-panel w-full absolute inset-0 lg:static"
+                 class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
                 <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-12">
