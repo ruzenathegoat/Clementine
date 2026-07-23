@@ -8,7 +8,7 @@
     <!-- 1. Header Section -->
     <header class="w-full px-6 md:px-12 py-16 md:py-32 border-b border-primary relative overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
         <!-- Title and Subtitle -->
-        <div class="md:col-span-7 lg:col-span-8 flex flex-col relative z-10">
+        <div class="md:col-span-7 lg:col-span-8 flex flex-col relative z-10 min-w-0">
             <h1 class="font-h1 text-[clamp(3.5rem,8vw,6rem)] leading-[0.9] tracking-tight text-primary uppercase mb-6">
                 Clementpay
             </h1>
@@ -18,7 +18,7 @@
         </div>
         
         <!-- Balance Display -->
-        <div class="md:col-span-5 lg:col-span-4 flex flex-col items-start md:items-end z-10">
+        <div class="md:col-span-5 lg:col-span-4 flex flex-col items-start md:items-end z-10 min-w-0">
             <span class="font-mono text-xs uppercase tracking-widest text-primary/60 mb-2">Available Balance</span>
             <div class="font-mono text-4xl md:text-5xl lg:text-6xl tracking-tight text-primary">
                 ${{ number_format(auth()->user()->clementpay_balance, 2) }}
@@ -30,7 +30,7 @@
     <div class="w-full flex-grow grid grid-cols-1 lg:grid-cols-12">
         
         <!-- Left: Allocation Input (Top-up) -->
-        <div class="lg:col-span-5 xl:col-span-4 border-b lg:border-b-0 lg:border-r border-primary p-6 md:p-12 flex flex-col">
+        <div class="lg:col-span-5 xl:col-span-4 border-b lg:border-b-0 lg:border-r border-primary p-6 md:p-12 flex flex-col min-w-0">
             <div class="w-full max-w-md mx-auto lg:mx-0">
                 <h2 class="font-h1 text-3xl md:text-4xl uppercase tracking-tight text-primary mb-4">Allocate Funds</h2>
                 <p class="font-body-md text-sm md:text-base text-primary/70 mb-10 leading-relaxed">
@@ -44,14 +44,14 @@
                         <label for="amount" class="font-mono text-xs uppercase tracking-widest text-primary/80">Amount (USD)</label>
                         <div class="relative w-full border-b border-primary/30 focus-within:border-primary transition-colors">
                             <span class="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-primary/50 text-lg md:text-xl">$</span>
-                            <input type="number" name="amount" id="amount" min="100" step="1" required placeholder="100.00" class="w-full pl-8 py-4 text-lg md:text-xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none">
+                            <input type="number" name="amount" id="amount" min="100" step="1" required placeholder="100.00" class="w-full pl-8 py-4 text-lg md:text-xl focus:outline-none focus:ring-0 border-none bg-transparent font-mono text-primary placeholder:text-primary/20 rounded-none min-w-0">
                         </div>
                     </div>
                     
                     <button type="submit" class="w-full bg-primary text-secondary font-label-caps text-sm md:text-base uppercase tracking-[0.2em] py-5 transition-transform duration-150 ease-out active:scale-[0.98] hover:bg-black group">
-                        <span class="flex items-center justify-center gap-3">
-                            Authorize Transfer
-                            <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+                        <span class="flex items-center justify-center gap-3 w-full min-w-0">
+                            <span class="truncate">Authorize Transfer</span>
+                            <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0">arrow_forward</span>
                         </span>
                     </button>
                 </form>
@@ -59,7 +59,7 @@
         </div>
 
         <!-- Right: Audit Log (Transaction History) -->
-        <div class="lg:col-span-7 xl:col-span-8 p-6 md:p-12 flex flex-col">
+        <div class="lg:col-span-7 xl:col-span-8 p-6 md:p-12 flex flex-col min-w-0">
             
             <div class="flex justify-between items-end border-b border-primary pb-6 mb-8">
                 <h2 class="font-h1 text-3xl md:text-4xl uppercase tracking-tight text-primary">Audit Log</h2>
@@ -80,7 +80,7 @@
                                 {{ $tx->status }}
                             </span>
                         </div>
-                        <span class="font-body-md text-sm md:text-base text-primary/80">{{ $tx->description }}</span>
+                        <span class="font-body-md text-sm md:text-base text-primary/80 break-words">{{ $tx->description }}</span>
                         <span class="font-mono text-xs text-primary/50">{{ $tx->created_at->format('M d, Y H:i') }}</span>
                     </div>
 
