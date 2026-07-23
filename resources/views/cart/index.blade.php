@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <!-- PHASE 6: Remove Interaction -->
-                            <button @click="removeItem({{ $item->id }}, $event)" class="cart-remove-btn relative w-[60px] h-[30px] flex items-center justify-end text-black/40 hover:text-black transition-colors overflow-hidden">
+                            <button @click="removeItem('{{ $item->id }}', $event)" class="cart-remove-btn relative w-[60px] h-[30px] flex items-center justify-end text-black/40 hover:text-black transition-colors overflow-hidden">
                                 <span class="material-symbols-outlined text-[16px] absolute right-0 transition-all duration-300 transform remove-icon">close</span>
                                 <span class="font-mono text-[9px] uppercase tracking-widest absolute right-0 opacity-0 transition-all duration-300 transform translate-x-4 remove-text">REMOVE</span>
                             </button>
@@ -64,11 +64,11 @@
                             <div class="flex flex-col gap-2">
                                 <span class="font-mono text-[9px] uppercase tracking-widest text-black/40">QUANTITY</span>
                                 <div class="flex items-center w-[120px] h-[40px] border border-black/10 group-hover:border-black/30 transition-colors qty-container">
-                                    <button @click="updateQty({{ $item->id }}, {{ $item->quantity - 1 }}, $event)" class="h-full w-10 flex items-center justify-center text-black/50 hover:text-black hover:bg-[#F9F9F9] transition-colors font-mono text-lg qty-btn active:scale-[0.98]" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
+                                    <button @click="updateQty('{{ $item->id }}', -1, $event)" class="h-full w-10 flex items-center justify-center text-black/50 hover:text-black hover:bg-[#F9F9F9] transition-colors font-mono text-lg qty-btn active:scale-[0.98]">-</button>
                                     <div class="h-full flex-grow flex items-center justify-center font-mono text-xs text-black overflow-hidden relative">
                                         <span class="qty-value" data-current="{{ $item->quantity }}">{{ $item->quantity }}</span>
                                     </div>
-                                    <button @click="updateQty({{ $item->id }}, {{ $item->quantity + 1 }}, $event)" class="h-full w-10 flex items-center justify-center text-black/50 hover:text-black hover:bg-[#F9F9F9] transition-colors font-mono text-lg qty-btn active:scale-[0.98]">+</button>
+                                    <button @click="updateQty('{{ $item->id }}', 1, $event)" class="h-full w-10 flex items-center justify-center text-black/50 hover:text-black hover:bg-[#F9F9F9] transition-colors font-mono text-lg qty-btn active:scale-[0.98]">+</button>
                                 </div>
                             </div>
                             
@@ -227,9 +227,7 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        async updateQty(id, newQty, event) {
-            if (newQty < 1) return;
-            
+        async updateQty(id, delta, event) {
             const btn = event.currentTarget;
             const container = btn.closest('.qty-container');
             const row = btn.closest('.cart-item-row');
@@ -237,7 +235,9 @@ document.addEventListener('alpine:init', () => {
             const lineTotalEl = row.querySelector('.line-total');
             const unitPrice = parseFloat(lineTotalEl.getAttribute('data-price'));
             const oldQty = parseInt(qtySpan.getAttribute('data-current'));
-
+            const newQty = oldQty + delta;
+            
+            if (newQty < 1) return;
             if (newQty === oldQty) return;
 
             // Phase 5: Button compression visual feedback
