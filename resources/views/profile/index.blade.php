@@ -144,11 +144,11 @@
         
         <!-- SIDEBAR ARCHIVE NAVIGATION -->
         <div class="w-full lg:w-[280px] flex-shrink-0 lg:sticky lg:top-32 h-max mb-12 lg:mb-0 z-20">
-            <div class="font-mono text-[10px] tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-4">
+            <div class="font-mono text-xs md:text-sm tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-4">
                 [ ARCHIVE NAVIGATION ]
             </div>
             
-            <nav class="flex flex-col gap-1 font-h2 text-xs md:text-sm uppercase tracking-widest relative">
+            <nav class="flex flex-col gap-1 font-h2 text-base md:text-lg uppercase tracking-widest relative">
                 <!-- GSAP Line Indicator (Desktop only) -->
                 <div id="nav-indicator" class="absolute left-0 w-4 h-[1px] bg-[#1A1A1A] tab-indicator hidden lg:block" style="top: 24px;"></div>
 
@@ -171,8 +171,8 @@
                 
                 <form method="POST" action="{{ route('logout') }}" class="mt-8 border-t border-[rgba(10,10,10,0.15)] pt-4">
                     @csrf
-                    <button type="submit" class="text-left py-4 text-[#909090] hover:text-[#1A1A1A] transition-colors duration-300 font-h2 text-sm uppercase tracking-widest flex items-center gap-2 group lg:pl-8">
-                        <span class="material-symbols-outlined text-[14px] transform group-hover:-translate-x-1 transition-transform">logout</span>
+                    <button type="submit" class="text-left py-4 text-[#909090] hover:text-[#1A1A1A] transition-colors duration-300 font-h2 text-base md:text-lg uppercase tracking-widest flex items-center gap-2 group lg:pl-8">
+                        <span class="material-symbols-outlined text-[16px] md:text-[18px] transform group-hover:-translate-x-1 transition-transform">logout</span>
                         Log Out
                     </button>
                 </form>
