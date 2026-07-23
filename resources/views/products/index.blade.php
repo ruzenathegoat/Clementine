@@ -5,9 +5,9 @@
 @section('content')
 
 <!-- Header Section -->
-<header class="w-full px-lg md:px-2xl py-3xl md:py-[120px] border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-xl relative overflow-hidden" id="catalog-header">
+<header class="w-full px-lg md:px-2xl py-2xl md:py-4xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-xl relative overflow-hidden" id="catalog-header">
     <div class="relative z-10 w-full md:w-3/4">
-        <h1 class="catalog-headline font-h1 text-[4rem] md:text-[7rem] text-primary m-0 p-0 leading-[0.85] tracking-tight uppercase" style="font-weight: 400;">
+        <h1 class="catalog-headline font-h1 text-[clamp(4rem,8vw,6rem)] text-primary m-0 p-0 leading-[0.85] tracking-tight uppercase" style="font-weight: 400; text-wrap: balance;">
             <span class="catalog-word inline-block" style="opacity: 0; letter-spacing: 0.15em;">SHOP</span>
             <span class="catalog-word inline-block" style="opacity: 0; letter-spacing: 0.15em;">ALL</span>
             <span class="catalog-word inline-block" style="opacity: 0; letter-spacing: 0.15em;">WATCHES</span>
@@ -22,7 +22,7 @@
 <div class="flex-1 w-full flex flex-col md:flex-row items-stretch bg-background">
     
     <!-- Filter Sidebar (Sticky) -->
-    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 md:sticky md:top-0 md:h-screen overflow-y-auto" style="opacity: 0; transform: translateY(20px);">
+    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 md:sticky md:top-[80px] md:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar" style="opacity: 0; transform: translateY(20px);">
         
         <div class="p-lg flex justify-between items-center border-b border-primary bg-background sticky top-0 z-20">
             <h2 class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50">FILTERS</h2>
@@ -128,7 +128,7 @@
                     $isOutOfStock = $product->stock <= 0;
                     $colIndex = $index % 3; // For stagger
                 @endphp
-                <div class="catalog-product-card relative flex flex-col bg-background border-r border-b border-primary cursor-pointer" 
+                <div class="catalog-product-card relative flex flex-col bg-background border-r border-b border-primary cursor-pointer active:scale-[0.98] transition-transform duration-150" 
                      data-id="{{ $product->id }}"
                      data-col="{{ $colIndex }}"
                      onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
@@ -194,10 +194,7 @@
     </div>
 </div>
 
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -285,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.getElementById('catalog-grid');
     
     gridContainer.addEventListener('mouseover', (e) => {
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
         const card = e.target.closest('.catalog-product-card');
         if (!card) return;
         
@@ -321,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     gridContainer.addEventListener('mouseout', (e) => {
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
         const card = e.target.closest('.catalog-product-card');
         if (!card) return;
         
@@ -524,5 +523,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
-@endpush
+
 @endsection
