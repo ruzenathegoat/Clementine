@@ -348,10 +348,10 @@
         <div class="grid grid-cols-1 md:grid-cols-[45%_55%] bg-background min-h-[500px] md:min-h-[800px]">
             
             <!-- Left Side: Typography -->
-            <div class="flex flex-col p-xl md:p-3xl xl:p-4xl relative border-b md:border-b-0 md:border-r border-primary/20 overflow-hidden">
+            <div class="flex flex-col p-xl md:p-3xl relative border-b md:border-b-0 md:border-r border-primary/20">
                 <div class="flex flex-col h-full justify-center w-full">
                     <!-- The Core Statement -->
-                    <h2 class="veri-headline font-h1 text-[clamp(4rem,10vw,8.5rem)] leading-[0.8] tracking-tight uppercase text-primary mb-24 md:mb-32">
+                    <h2 class="veri-headline font-h1 text-[clamp(4rem,10vw,8.5rem)] lg:text-[clamp(3.5rem,4.5vw,6rem)] leading-[0.8] tracking-tight uppercase text-primary mb-24 md:mb-32">
                         <span class="veri-word block" style="opacity: 0; letter-spacing: 0.2em;">FAKE</span>
                         <span class="veri-word block" style="opacity: 0; letter-spacing: 0.2em;">IS</span>
                         <span class="veri-word block" style="opacity: 0; letter-spacing: 0.2em;">BULLSH*T.</span>
@@ -1122,6 +1122,7 @@
                 arrivalTl.to(img, {
                     y: 0,
                     opacity: 1,
+                    filter: 'brightness(1) contrast(1)',
                     duration: 1.0,
                     ease: 'power3.out'
                 }, startTime)
