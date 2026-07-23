@@ -260,6 +260,32 @@
                             </div>
                         </div>
                         
+                        <!-- Virtual Account -->
+                        <label class="payment-card relative flex items-center justify-between p-6 border border-black/10 cursor-pointer transition-all duration-[220ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.05)] hover:border-black/30 hover:border-[2px]" :class="paymentMethod === 'virtual_account' ? 'border-black/30 shadow-[0_6px_15px_rgba(0,0,0,0.05)]' : ''">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-black transition-transform duration-300 origin-bottom" :class="paymentMethod === 'virtual_account' ? 'scale-y-100' : 'scale-y-0'"></div>
+                            <div class="flex items-center gap-4">
+                                <input type="radio" name="payment_method" value="virtual_account" x-model="paymentMethod" class="sr-only">
+                                <span class="font-h1 text-lg uppercase tracking-tight">Virtual Account</span>
+                            </div>
+                        </label>
+                        <div x-show="paymentMethod === 'virtual_account'" x-collapse>
+                            <div class="p-6 bg-black/5 border-l border-r border-b border-black/10 flex flex-col gap-6">
+                                <div class="input-group relative">
+                                    <select name="bank" id="bank" class="w-full bg-transparent border-b border-black/20 pb-2 pt-4 text-sm focus:outline-none appearance-none font-mono tracking-wider uppercase text-[11px]">
+                                        <option value="" disabled selected>Select Bank</option>
+                                        <option value="BCA">BCA Virtual Account</option>
+                                        <option value="Mandiri">Mandiri Virtual Account</option>
+                                        <option value="BNI">BNI Virtual Account</option>
+                                        <option value="BRI">BRI Virtual Account</option>
+                                        <option value="Permata">Permata Virtual Account</option>
+                                    </select>
+                                    <label for="bank" class="absolute left-0 -top-2 text-[10px] uppercase tracking-widest font-mono text-black/50">Supported Banks</label>
+                                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 origin-left transition-transform duration-500"></div>
+                                    <span class="material-symbols-outlined absolute right-0 top-3 text-[18px] text-black/40 pointer-events-none">expand_more</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Clementpay -->
                         <label class="payment-card relative flex items-center justify-between p-6 border border-black/10 cursor-pointer transition-all duration-[220ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.05)] hover:border-black/30 hover:border-[2px]" :class="[paymentMethod === 'clementpay' ? 'border-black/30 shadow-[0_6px_15px_rgba(0,0,0,0.05)]' : '', grandTotal > clementpayBalance ? 'opacity-50 grayscale pointer-events-none' : '']">
                             <div class="absolute left-0 top-0 bottom-0 w-1 bg-black transition-transform duration-300 origin-bottom" :class="paymentMethod === 'clementpay' ? 'scale-y-100' : 'scale-y-0'"></div>
