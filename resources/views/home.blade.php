@@ -273,7 +273,7 @@
         </div>
         
         <!-- Editorial Product Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative" id="editorial-products-grid">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative group/grid" id="editorial-products-grid">
             
             <!-- GSAP Constructed Grid Lines -->
             <div class="grid-lines-container absolute inset-0 pointer-events-none z-20">
@@ -289,9 +289,9 @@
 
             @forelse($newArrivals as $product)
                 @if($product->stock <= 0)
-                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed">
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]">
                 @else
-                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
                 @endif
                 
                     <!-- Local Card Background for click expansion -->
@@ -302,8 +302,8 @@
                         
                         <!-- Top Info -->
                         <div class="w-full flex justify-between items-start mb-12">
-                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0">{{ $product->collection->name ?? 'CLE' }}</span>
-                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0">${{ number_format($product->price, 2) }}</span>
+                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0 transition-all duration-500 ease-out group-hover/card:!tracking-[0.15em]">{{ $product->collection->name ?? 'CLE' }}</span>
+                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!translate-x-2">${{ number_format($product->price, 2) }}</span>
                         </div>
                         
                         <!-- Floating Image Area -->
@@ -311,7 +311,7 @@
                             @if ($product->primaryImage)
                                 <img src="{{ $product->primaryImage->url }}" 
                                      alt="{{ $product->name }}"
-                                     class="product-image w-[80%] h-[80%] object-contain opacity-0"
+                                     class="product-image w-[80%] h-[80%] object-contain opacity-0 transform transition-all duration-500 ease-out group-hover/card:!-translate-y-3 group-hover/card:!brightness-100 group-hover/card:!contrast-105"
                                      style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-primary/30 text-xs uppercase opacity-0 product-image" style="transform: translateY(30px);">No Image</div>
@@ -326,10 +326,10 @@
                         
                         <!-- Details -->
                         <div class="flex flex-col relative z-10 w-full">
-                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0" style="font-weight: 400; letter-spacing: normal;">
+                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!-translate-y-2" style="font-weight: 400; letter-spacing: normal;">
                                 {{ $product->name }}
                             </h3>
-                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0">
+                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0 transition-opacity duration-500 ease-out group-hover/card:!opacity-100">
                                 {{ $product->tagline ?? 'An exceptional example of mechanical precision, curated for the serious collector.' }}
                             </p>
                         </div>
@@ -1128,57 +1128,11 @@
                 .to(brand, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.4)
                 .to(price, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.5)
                 .to(title, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.6)
-                .to(desc, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.7);
+                .to(desc, { opacity: 0.5, duration: 0.6, ease: 'power2.out' }, startTime + 0.7);
                 
                 if (outStock) {
                     arrivalTl.to(outStock, { opacity: 1, duration: 0.5, ease: 'power1.out' }, startTime + 0.3);
                 }
-            });
-
-            // Phase 4, 5, 6: Collector Focus (Hover State)
-            cards.forEach(card => {
-                const img = card.querySelector('.product-image');
-                const brand = card.querySelector('.product-brand');
-                const price = card.querySelector('.product-price');
-                const title = card.querySelector('.product-title');
-                const desc = card.querySelector('.product-desc');
-                
-                // Set initial states for hover elements
-                gsap.set(desc, { opacity: 0.5 });
-                
-                card.addEventListener('mouseenter', () => {
-                    // Dim/desaturate adjacent cards
-                    gsap.to(cards, { 
-                        opacity: (i, t) => t === card ? 1 : 0.9,
-                        filter: (i, t) => t === card ? 'grayscale(0%)' : 'grayscale(5%) brightness(0.95)',
-                        duration: 0.4,
-                        ease: 'power2.out'
-                    });
-                    
-                    // Hovered card elements
-                    gsap.to(img, { y: -12, filter: 'brightness(0.98) contrast(1.02)', duration: 0.4, ease: 'power2.out' });
-                    gsap.to(brand, { letterSpacing: '0.15em', duration: 0.4, ease: 'power2.out' });
-                    gsap.to(title, { y: -6, duration: 0.4, ease: 'power2.out' });
-                    gsap.to(price, { x: 8, duration: 0.4, ease: 'power2.out' });
-                    gsap.to(desc, { opacity: 1, duration: 0.4, ease: 'power2.out' });
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    // Restore adjacent cards
-                    gsap.to(cards, { 
-                        opacity: 1,
-                        filter: 'grayscale(0%) brightness(1)',
-                        duration: 0.4,
-                        ease: 'power2.out'
-                    });
-                    
-                    // Restore hovered card elements
-                    gsap.to(img, { y: 0, filter: 'brightness(0.92) contrast(1)', duration: 0.4, ease: 'power2.out' });
-                    gsap.to(brand, { letterSpacing: '0.1em', duration: 0.4, ease: 'power2.out' });
-                    gsap.to(title, { y: 0, duration: 0.4, ease: 'power2.out' });
-                    gsap.to(price, { x: 0, duration: 0.4, ease: 'power2.out' });
-                    gsap.to(desc, { opacity: 0.5, duration: 0.4, ease: 'power2.out' });
-                });
             });
         }
         
