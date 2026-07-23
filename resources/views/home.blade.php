@@ -342,25 +342,27 @@
             @endforelse
         </div>
     </div>
-    <!-- 4. Graphic Section: Verification Protocol (Editorial) -->
+    <!-- 4. Verification Protocol Laboratory -->
     <div class="w-full bg-background relative border-b border-primary/20" id="verification-section">
         <!-- Grid container -->
-        <div class="grid grid-cols-1 md:grid-cols-2 bg-background min-h-[500px] md:min-h-[700px]">
+        <div class="grid grid-cols-1 md:grid-cols-[45%_55%] bg-background min-h-[500px] md:min-h-[800px]">
             
             <!-- Left Side: Typography -->
-            <div class="flex flex-col justify-center p-xl md:p-4xl relative border-b md:border-b-0 md:border-r border-primary/20 overflow-hidden">
-                <div class="flex flex-col h-full justify-center max-w-xl mx-auto md:mx-0">
+            <div class="flex flex-col p-xl md:p-3xl xl:p-4xl relative border-b md:border-b-0 md:border-r border-primary/20 overflow-hidden">
+                <div class="flex flex-col h-full justify-center w-full">
                     <!-- The Core Statement -->
-                    <h2 class="veri-headline font-h1 text-[clamp(3.5rem,8vw,7rem)] leading-[0.85] tracking-tight uppercase text-primary mb-12" style="filter: blur(18px) brightness(0.96) contrast(0.95);">
-                        FAKE<br>IS<br>BULLSH*T.
+                    <h2 class="veri-headline font-h1 text-[clamp(4rem,10vw,8.5rem)] leading-[0.8] tracking-tight uppercase text-primary mb-24 md:mb-32">
+                        <span class="veri-word block" style="opacity: 0; letter-spacing: 0.2em;">FAKE</span>
+                        <span class="veri-word block" style="opacity: 0; letter-spacing: 0.2em;">IS</span>
+                        <span class="veri-word block" style="opacity: 0; letter-spacing: 0.2em;">BULLSH*T.</span>
                     </h2>
                     
-                    <!-- Bottom Description -->
-                    <div class="veri-paragraph font-body-md text-sm md:text-base text-primary/80 uppercase tracking-widest leading-relaxed max-w-sm">
-                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">We don't deal in replicas.</div>
-                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">Every piece is verified.</div>
-                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">If it's not real,</div>
-                        <div class="veri-line" style="filter: blur(8px); opacity: 0.2;">it doesn't exist here.</div>
+                    <!-- Bottom Description (Manifesto) -->
+                    <div class="veri-manifesto font-body-md text-[13px] md:text-sm text-primary/80 uppercase tracking-[0.15em] leading-loose max-w-md">
+                        <div class="veri-line transition-opacity duration-300 hover:opacity-100" style="opacity: 0;">We don't deal in replicas.</div>
+                        <div class="veri-line transition-opacity duration-300 hover:opacity-100" style="opacity: 0;">Every piece is verified.</div>
+                        <div class="veri-line transition-opacity duration-300 hover:opacity-100 mt-6" style="opacity: 0;">If it's not real,</div>
+                        <div class="veri-line transition-opacity duration-300 hover:opacity-100" style="opacity: 0;">it doesn't exist here.</div>
                     </div>
                 </div>
             </div>
@@ -371,61 +373,71 @@
                 $legitProduct = $baseProduct ? clone $baseProduct : null;
                 $legitImageUrl = $legitProduct && $legitProduct->primaryImage ? $legitProduct->primaryImage->url : 'https://picsum.photos/seed/watch/800/600';
             @endphp
-            <div class="flex flex-col relative overflow-hidden group cursor-default bg-background" id="verification-lab">
+            <div class="flex flex-col relative overflow-hidden bg-background" id="verification-lab">
                 
                 <!-- Top Telemetry Bar -->
-                <div class="flex justify-between items-center px-lg py-md border-b border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary/70 z-30 bg-background/80 backdrop-blur-sm relative">
-                    <span class="veri-top-label" style="filter: blur(4px); opacity: 0;">[ VERIFICATION PROTOCOL ]</span>
-                    <span class="veri-top-label hidden sm:inline-block" style="filter: blur(4px); opacity: 0;">SYS.AUTH.1.0</span>
+                <div class="flex justify-between items-center px-xl py-lg border-b border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary z-30 bg-background relative">
+                    <span class="veri-top-label">[ VERIFICATION PROTOCOL ]</span>
+                    <span class="veri-top-version hidden sm:inline-block text-primary/50">SYS.AUTH.1.0</span>
+                </div>
+                
+                <!-- Secondary Protocol Strip -->
+                <div class="flex justify-center items-center px-xl py-3 border-b border-primary/10 font-mono text-[9px] uppercase tracking-widest text-primary/60 z-30 bg-[#FAFAFA] relative">
+                    STATUS: <span class="veri-status-text ml-3 font-medium text-primary">INITIALIZING...</span>
                 </div>
 
                 <!-- Inspection Stage -->
-                <div class="flex-1 relative flex items-center justify-center p-2xl min-h-[400px]">
+                <div class="flex-1 relative flex items-center justify-center p-2xl min-h-[450px]">
                     <!-- GSAP Drawn Grid -->
-                    <div class="absolute inset-0 pointer-events-none veri-grid overflow-hidden" style="opacity: 0.03;">
-                        <!-- Vertical lines -->
-                        @for ($i = 1; $i < 10; $i++)
-                            <div class="absolute top-0 bottom-0 bg-primary w-[1px] veri-grid-v" style="left: {{ $i * 10 }}%; transform-origin: top; transform: scaleY(0);"></div>
-                        @endfor
-                        <!-- Horizontal lines -->
-                        @for ($i = 1; $i < 10; $i++)
-                            <div class="absolute left-0 right-0 bg-primary h-[1px] veri-grid-h" style="top: {{ $i * 10 }}%; transform-origin: left; transform: scaleX(0);"></div>
-                        @endfor
+                    <div class="absolute inset-0 pointer-events-none veri-grid overflow-hidden transition-transform duration-300 ease-out" style="opacity: 0; background-size: 10% 10%; background-image: linear-gradient(to right, #e5e5e5 1px, transparent 1px), linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);">
                     </div>
 
-                    <!-- Watch Image -->
-                    <div class="relative z-20 w-full h-full max-w-[400px] max-h-[400px] flex items-center justify-center">
-                        <!-- Inspection Frame (drawn on hover) -->
-                        <div class="hover-border-top absolute top-0 left-0 w-full h-[1px] bg-primary scale-x-0 origin-left z-10 pointer-events-none"></div>
-                        <div class="hover-border-right absolute top-0 right-0 w-[1px] h-full bg-primary scale-y-0 origin-top z-10 pointer-events-none"></div>
-                        <div class="hover-border-bottom absolute bottom-0 right-0 w-full h-[1px] bg-primary scale-x-0 origin-right z-10 pointer-events-none"></div>
-                        <div class="hover-border-left absolute bottom-0 left-0 w-[1px] h-full bg-primary scale-y-0 origin-bottom z-10 pointer-events-none"></div>
+                    <!-- Scan Line -->
+                    <div class="veri-scan-line absolute top-0 left-0 w-full h-[1px] bg-primary z-40 pointer-events-none" style="transform: translateY(-10px); opacity: 0;"></div>
 
-                        <img src="{{ $legitImageUrl }}" class="veri-watch object-contain w-full h-full" style="filter: blur(12px) brightness(0.88) contrast(1); transform: translateY(3px);" alt="Authentication Subject">
+                    <!-- Watch Image -->
+                    <div class="relative z-20 w-full h-full max-w-[450px] max-h-[450px] flex items-center justify-center veri-watch-container">
+                        <!-- Engineering Frame -->
+                        <div class="eng-frame-top absolute top-0 left-0 w-full h-[1px] bg-[#D8D8D8] scale-x-0 origin-left z-10 pointer-events-none"></div>
+                        <div class="eng-frame-right absolute top-0 right-0 w-[1px] h-full bg-[#D8D8D8] scale-y-0 origin-top z-10 pointer-events-none"></div>
+                        <div class="eng-frame-bottom absolute bottom-0 right-0 w-full h-[1px] bg-[#D8D8D8] scale-x-0 origin-right z-10 pointer-events-none"></div>
+                        <div class="eng-frame-left absolute bottom-0 left-0 w-[1px] h-full bg-[#D8D8D8] scale-y-0 origin-bottom z-10 pointer-events-none"></div>
+
+                        <!-- Hover Callouts -->
+                        <div class="absolute inset-0 pointer-events-none z-30 flex items-center justify-center">
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="top: 15%; right: 20%;">CASE</span>
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="top: 40%; left: 15%;">MOVEMENT</span>
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="bottom: 40%; right: 15%;">DIAL</span>
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="top: 25%; left: 20%;">BEZEL</span>
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="top: 50%; right: 10%;">CROWN</span>
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="bottom: 30%; left: 25%;">CRYSTAL</span>
+                            <span class="veri-callout font-mono text-[8px] tracking-[0.2em] text-primary bg-background/80 px-2 py-1 border border-[#D8D8D8] absolute opacity-0" style="bottom: 10%; right: 25%;">STRAP</span>
+                        </div>
+
+                        <img src="{{ $legitImageUrl }}" class="veri-watch object-contain w-[85%] h-[85%] transition-all duration-300" style="filter: blur(24px) contrast(0.9); transform: translateY(0px);" alt="Authentication Subject">
                     </div>
                 </div>
 
-                <!-- Certification Panel -->
-                <div class="bg-background font-mono text-[10px] uppercase tracking-widest text-primary/80 z-30 relative veri-panel-container">
-                    <div class="veri-panel-border absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-0">
-                        <div class="p-lg flex flex-col justify-center border-r border-primary/20 border-opacity-0 veri-panel-item" style="opacity: 0;">
-                            <span class="text-primary/50 mb-2">REFERENCE</span>
-                            <span class="text-primary">REF: Z-99</span>
+                <!-- Certification Cards -->
+                <div class="bg-background border-t border-primary/20 font-mono text-[10px] uppercase tracking-widest text-primary z-30 relative veri-cards-container">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-0">
+                        <div class="px-xl py-lg flex flex-col justify-center border-r border-b lg:border-b-0 border-[#D8D8D8] veri-card transition-colors hover:border-primary/50" style="opacity: 0; transform: translateY(8px);">
+                            <span class="text-primary/50 mb-3 text-[9px]">REFERENCE</span>
+                            <span class="text-primary">REF-Z-99</span>
                         </div>
-                        <div class="p-lg flex flex-col justify-center border-r border-primary/20 border-opacity-0 veri-panel-item hidden md:flex" style="opacity: 0;">
-                            <span class="text-primary/50 mb-2">INSPECTION</span>
+                        <div class="px-xl py-lg flex flex-col justify-center border-r border-b lg:border-b-0 border-[#D8D8D8] veri-card transition-colors hover:border-primary/50" style="opacity: 0; transform: translateY(8px);">
+                            <span class="text-primary/50 mb-3 text-[9px]">INSPECTION</span>
                             <span class="text-primary">PASSED</span>
                         </div>
-                        <div class="p-lg flex flex-col justify-center border-r border-primary/20 border-opacity-0 veri-panel-item hidden md:flex" style="opacity: 0;">
-                            <span class="text-primary/50 mb-2">SCORE</span>
+                        <div class="px-xl py-lg flex flex-col justify-center border-r border-[#D8D8D8] veri-card transition-colors hover:border-primary/50" style="opacity: 0; transform: translateY(8px);">
+                            <span class="text-primary/50 mb-3 text-[9px]">SCORE</span>
                             <span class="text-primary">100%</span>
                         </div>
                         <!-- Status Indicator -->
-                        <div class="p-lg flex flex-col justify-center veri-panel-item" style="opacity: 0;">
-                            <span class="text-primary/50 mb-2">AUTHENTICITY</span>
+                        <div class="px-xl py-lg flex flex-col justify-center veri-card transition-colors hover:border-primary/50" style="opacity: 0; transform: translateY(8px);">
+                            <span class="text-primary/50 mb-3 text-[9px]">AUTHENTICITY</span>
                             <span class="text-primary flex items-center">
-                                VERIFIED <span class="veri-dot ml-3 text-primary text-[8px]">●</span> LIVE
+                                VERIFIED <span class="veri-dot ml-3 text-primary text-[8px] opacity-0">●</span> <span class="ml-2">LIVE</span>
                             </span>
                         </div>
                     </div>
@@ -1213,119 +1225,209 @@
             }, 0);
         };
 
-        // 4. Verification Protocol (Editorial Graphic Section)
+        // 4. Verification Protocol (Editorial Laboratory)
         const veriSection = document.getElementById('verification-section');
-        if (veriSection) {
-            const tlVeri = gsap.timeline({
+        const veriLab = document.getElementById('verification-lab');
+        
+        if (veriSection && veriLab) {
+            
+            // --- Phase 1: Statement Reveal ---
+            const statementTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: veriSection,
-                    start: 'top 65%',
-                    once: true // Never reverse
+                    start: 'top 70%',
+                    once: true
                 }
             });
 
-            // Step 02: Protocol Initialization
-            tlVeri.to('.veri-top-label', {
-                filter: 'blur(0px)',
+            // Headline word by word
+            const words = document.querySelectorAll('.veri-word');
+            statementTl.to(words, {
                 opacity: 1,
-                duration: 0.4,
-                ease: 'power2.out',
-                stagger: 0.1
-            }, 0);
+                letterSpacing: 'normal',
+                duration: 0.7,
+                stagger: 0.25,
+                ease: 'expo.out'
+            });
 
-            // Step 03: Technical Grid (Delay 100ms from start)
-            tlVeri.to('.veri-grid-h', {
-                scaleX: 1,
-                duration: 0.3, // Part of 600ms total
-                ease: 'power2.inOut',
-                stagger: 0.02
-            }, 0.1)
-            .to('.veri-grid-v', {
-                scaleY: 1,
-                duration: 0.3,
-                ease: 'power2.inOut',
-                stagger: 0.02
-            }, "-=0.1"); // overlaps
-
-            // Step 04: Headline Verification
-            tlVeri.to('.veri-headline', {
-                filter: 'blur(0px) brightness(1) contrast(1)',
-                duration: 0.9,
-                ease: 'power2.out'
-            }, 0.5);
-
-            // Step 08: Micro Typography
-            tlVeri.to('.veri-line', {
-                filter: 'blur(0px)',
+            // Manifesto lines
+            const lines = document.querySelectorAll('.veri-line');
+            statementTl.to(lines, {
                 opacity: 1,
                 duration: 0.6,
-                ease: 'power2.out',
-                stagger: 0.15
-            }, 0.7);
-
-            // Step 05: Watch Authentication
-            tlVeri.to('.veri-watch', {
-                filter: 'blur(0px) brightness(1) contrast(1.08)',
-                y: 0,
-                duration: 0.7,
+                stagger: 0.15,
                 ease: 'power2.out'
-            }, 0.9);
+            }, "-=0.2");
 
-            // Step 06: Certification Panel
-            tlVeri.to('.veri-panel-border', {
-                scaleX: 1,
-                duration: 0.5,
-                ease: 'power2.out'
-            }, 1.2)
-            .to('.veri-panel-item', {
-                opacity: 1,
-                duration: 0.3,
-                ease: 'none',
-                stagger: 0.08
-            }, 1.4);
+            // Headline hover micro-interaction
+            const headlineContainer = document.querySelector('.veri-headline');
+            if (headlineContainer) {
+                headlineContainer.addEventListener('mouseenter', () => {
+                    gsap.to(words, { letterSpacing: '0.015em', duration: 0.4, ease: 'power2.out' });
+                });
+                headlineContainer.addEventListener('mouseleave', () => {
+                    gsap.to(words, { letterSpacing: 'normal', duration: 0.4, ease: 'power2.out' });
+                });
+            }
 
-            // Step 07: Status Indicator pulsing
-            tlVeri.add(() => {
-                gsap.fromTo('.veri-dot', 
-                    { opacity: 0.4 },
-                    { 
-                        opacity: 1, 
-                        duration: 1.1, 
-                        ease: 'power1.inOut', 
-                        yoyo: true, 
-                        repeat: -1, 
-                        repeatDelay: 2.8 
+            // --- Phase 2-5: The 900px Scroll Scrub (Protocol Execution) ---
+            const watchImg = document.querySelector('.veri-watch');
+            const gridBg = document.querySelector('.veri-grid');
+            const scanLine = document.querySelector('.veri-scan-line');
+            const statusText = document.querySelector('.veri-status-text');
+            const veriDot = document.querySelector('.veri-dot');
+            
+            // Status messages mapping to scroll progress (0 to 1)
+            const statuses = [
+                { p: 0.00, text: "INITIALIZING..." },
+                { p: 0.15, text: "REFERENCE MATCH" },
+                { p: 0.35, text: "CASE VERIFIED" },
+                { p: 0.55, text: "MOVEMENT VERIFIED" },
+                { p: 0.75, text: "SERIAL VERIFIED" },
+                { p: 0.90, text: "FINAL REVIEW" },
+                { p: 0.99, text: "AUTHENTICATED" }
+            ];
+
+            const scrubTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: veriLab,
+                    start: 'top 30%', // Wait a bit until right panel is in view
+                    end: '+=900',
+                    scrub: 1,
+                    onUpdate: (self) => {
+                        // Update status text based on progress
+                        const progress = self.progress;
+                        let currentStatus = statuses[0].text;
+                        for (let i = 0; i < statuses.length; i++) {
+                            if (progress >= statuses[i].p) {
+                                currentStatus = statuses[i].text;
+                            }
+                        }
+                        if (statusText.innerText !== currentStatus) {
+                            statusText.innerText = currentStatus;
+                        }
+                        
+                        // Update blur linearly
+                        const blurValue = Math.max(0, 24 - (progress * 24));
+                        gsap.set(watchImg, { filter: `blur(${blurValue}px) contrast(${0.9 + (progress * 0.1)})` });
                     }
-                );
-            }, 1.7);
-            
-            // Hover Interaction for the lab section
-            const lab = document.getElementById('verification-lab');
-            const watch = lab.querySelector('.veri-watch');
-            const grid = lab.querySelector('.veri-grid');
-            
-            const bTop = lab.querySelector('.hover-border-top');
-            const bRight = lab.querySelector('.hover-border-right');
-            const bBottom = lab.querySelector('.hover-border-bottom');
-            const bLeft = lab.querySelector('.hover-border-left');
+                }
+            });
 
-            const tlHover = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+            // Grid Opacity slowly increases (Phase 2)
+            scrubTl.to(gridBg, { opacity: 0.12, duration: 0.2, ease: 'none' }, 0);
             
-            // Stage 1: Clarity
-            tlHover.to(watch, { filter: 'blur(0px) brightness(1.04) contrast(1.12)', duration: 0.3 }, 0);
-            
-            // Stage 2: Move grid
-            tlHover.to(grid, { x: 2, y: 2, duration: 0.4 }, 0);
-            
-            // Stage 3: Draw thin inspection frame (350ms total)
-            const d = 0.35 / 4;
-            tlHover.to(bTop, { scaleX: 1, duration: d }, 0)
-                   .to(bRight, { scaleY: 1, duration: d }, d)
-                   .to(bBottom, { scaleX: 1, duration: d }, d * 2)
-                   .to(bLeft, { scaleY: 1, duration: d }, d * 3);
+            // Scan line descends
+            scrubTl.to(scanLine, { opacity: 1, duration: 0.05, ease: 'none' }, 0);
+            scrubTl.to(scanLine, { top: '100%', duration: 0.9, ease: 'none' }, 0.05);
+            scrubTl.to(scanLine, { opacity: 0, duration: 0.05, ease: 'none' }, 0.95);
 
-            lab.addEventListener('mouseenter', () => tlHover.timeScale(1).play());
-            lab.addEventListener('mouseleave', () => tlHover.timeScale(1).reverse());
+            // Draw Engineering Frame at 90% (FINAL REVIEW)
+            const bTop = document.querySelector('.eng-frame-top');
+            const bRight = document.querySelector('.eng-frame-right');
+            const bBot = document.querySelector('.eng-frame-bottom');
+            const bLeft = document.querySelector('.eng-frame-left');
+            
+            scrubTl.to(bTop, { scaleX: 1, duration: 0.02, ease: 'none' }, 0.90)
+                   .to(bRight, { scaleY: 1, duration: 0.02, ease: 'none' }, 0.92)
+                   .to(bBot, { scaleX: 1, duration: 0.02, ease: 'none' }, 0.94)
+                   .to(bLeft, { scaleY: 1, duration: 0.02, ease: 'none' }, 0.96);
+
+            // Phase 6: Certification Cards reveal upon complete (99%)
+            const cards = document.querySelectorAll('.veri-card');
+            scrubTl.to(cards, { opacity: 1, y: 0, duration: 0.1, stagger: 0.02, ease: 'none' }, 0.99);
+            scrubTl.to(veriDot, { opacity: 1, duration: 0.01 }, 0.99);
+
+            // Pulse the dot infinitely after it appears
+            gsap.to(veriDot, { 
+                opacity: 0.3, 
+                duration: 1.0, 
+                ease: 'power1.inOut', 
+                yoyo: true, 
+                repeat: -1, 
+                delay: 2 
+            });
+
+            // --- Phase 7 & 8: Product Inspection Mode (Hover) ---
+            const watchContainer = document.querySelector('.veri-watch-container');
+            const callouts = document.querySelectorAll('.veri-callout');
+            
+            // Timeline for callouts loop
+            const calloutTl = gsap.timeline({ paused: true, repeat: -1 });
+            callouts.forEach((callout, index) => {
+                calloutTl.to(callout, { opacity: 1, duration: 0.2, ease: 'power2.out' })
+                         .to(callout, { opacity: 0, duration: 0.2, ease: 'power2.out', delay: 0.5 });
+            });
+
+            // Timeline for Hover status strip loop
+            const hoverStatuses = ["AUTHENTICATION COMPLETE", "CERTIFIED FOR SALE", "LIVE INVENTORY", "READY FOR COLLECTION"];
+            let hoverStatusInterval;
+
+            if (watchContainer) {
+                // Subtle Grid cursor tracking
+                veriLab.addEventListener('mousemove', (e) => {
+                    const rect = veriLab.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    gridBg.style.transform = `translate(${x * 4}px, ${y * 4}px)`; // Max 2px each way
+                    
+                    bTop.style.transform = `scaleX(1) translate(${x * 2}px, ${y * 2}px)`;
+                    bRight.style.transform = `scaleY(1) translate(${x * 2}px, ${y * 2}px)`;
+                    bBot.style.transform = `scaleX(1) translate(${x * 2}px, ${y * 2}px)`;
+                    bLeft.style.transform = `scaleY(1) translate(${x * 2}px, ${y * 2}px)`;
+                });
+
+                watchContainer.addEventListener('mouseenter', () => {
+                    // Only start if authentication is done (scan reached bottom)
+                    if (statusText.innerText === "AUTHENTICATED" || hoverStatuses.includes(statusText.innerText)) {
+                        calloutTl.play();
+                        
+                        // Start status loop
+                        let statusIdx = 0;
+                        hoverStatusInterval = setInterval(() => {
+                            statusText.innerText = hoverStatuses[statusIdx];
+                            statusIdx = (statusIdx + 1) % hoverStatuses.length;
+                        }, 900);
+                        
+                        gsap.to(watchImg, { filter: 'blur(0px) contrast(1.05)', duration: 0.4, ease: 'power2.out' });
+                    }
+                });
+                
+                watchContainer.addEventListener('mouseleave', () => {
+                    calloutTl.pause();
+                    gsap.to(callouts, { opacity: 0, duration: 0.2, ease: 'power2.out' });
+                    
+                    clearInterval(hoverStatusInterval);
+                    if (statusText.innerText !== "INITIALIZING...") {
+                        statusText.innerText = "AUTHENTICATED";
+                    }
+                    
+                    // Reset positions
+                    gridBg.style.transform = `translate(0px, 0px)`;
+                    bTop.style.transform = `scaleX(1) translate(0px, 0px)`;
+                    bRight.style.transform = `scaleY(1) translate(0px, 0px)`;
+                    bBot.style.transform = `scaleX(1) translate(0px, 0px)`;
+                    bLeft.style.transform = `scaleY(1) translate(0px, 0px)`;
+                    
+                    if (statusText.innerText === "AUTHENTICATED") {
+                        gsap.to(watchImg, { filter: 'blur(0px) contrast(1)', duration: 0.4, ease: 'power2.out' });
+                    }
+                });
+            }
+
+            // --- Scroll Exit ---
+            // As the user leaves the section entirely, we soften the right side
+            gsap.to(veriLab, {
+                opacity: 0.6,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: veriSection,
+                    start: 'bottom 80%',
+                    end: 'bottom 30%',
+                    scrub: true
+                }
+            });
+            // The headline container stays opaque naturally until it scrolls out of view.
         }
     } // End initAnimations
 
