@@ -466,9 +466,6 @@
     </template>
 </div>
 
-@endsection
-
-@push('scripts')
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('archiveProfile', () => ({
@@ -565,4 +562,5 @@
         }));
     });
 </script>
-@endpush
+
+@endsection
