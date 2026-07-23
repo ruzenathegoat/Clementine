@@ -202,9 +202,9 @@
                     @method('PUT')
                     
                     <!-- Avatar / ID Card -->
-                    <div class="archive-grid grid grid-cols-1 md:grid-cols-3 w-full max-w-2xl">
-                        <div class="archive-cell p-4 relative group cursor-crosshair">
-                            <div class="w-full aspect-square bg-[#EFEFEF] relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row gap-0 w-full max-w-2xl archive-grid">
+                        <div class="archive-cell p-4 relative group cursor-crosshair flex-shrink-0 w-full md:w-64">
+                            <div class="w-full md:w-56 aspect-square bg-[#EFEFEF] relative overflow-hidden mx-auto">
                                 <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
              onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=000000&background=F3F4F6&size=256'">
@@ -221,7 +221,7 @@
                             <input type="file" id="avatar-input" name="avatar" class="hidden" accept="image/*" onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
                         </div>
                         
-                        <div class="archive-cell md:col-span-2 p-6 flex flex-col justify-center gap-4">
+                        <div class="archive-cell flex-1 p-6 flex flex-col justify-center gap-4">
                             <div>
                                 <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Status</span>
                                 <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A]">Verified Entity</span>
@@ -325,7 +325,7 @@
                     @php
                         $groupedOrders = $pastOrders->groupBy(function($order) {
                             return \Carbon\Carbon::parse($order->created_at)->format('Y');
-                        });
+                        })->sortKeysDesc();
                     @endphp
                     
                     <div class="flex flex-col">
@@ -349,8 +349,8 @@
                                     
                                     <!-- Ledger Rows -->
                                     <div class="flex flex-col">
-                                        @foreach($ordersInYear as $order)
-                                            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 py-6 border-b border-[rgba(10,10,10,0.08)] items-center hover:bg-[#FAFAFA] transition-colors group cursor-crosshair"
+                                        @foreach($ordersInYear->sortByDesc('created_at') as $order)
+                                            <div class="grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-2 py-6 border-b border-[rgba(10,10,10,0.08)] md:items-center hover:bg-[#FAFAFA] transition-colors group cursor-crosshair"
                                                  @click="openInvoice({
                                                      id: '{{ $order->id }}',
                                                      ref: '{{ strtoupper(substr(str_replace('-', '', $order->id), -8)) }}',
@@ -396,13 +396,14 @@
                                                 </div>
                                                 
                                                 <div class="col-span-12 md:col-span-1 flex items-center md:justify-end gap-2">
+                                                    <span class="md:hidden font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mr-2">Status:</span>
                                                     @php
                                                         $dotColor = 'bg-[#1A1A1A]';
                                                         if (in_array($order->status, ['cancelled', 'pending_cancel'])) {
                                                             $dotColor = 'bg-red-600';
                                                         }
                                                     @endphp
-                                                    <span class="w-1.5 h-1.5 rounded-full {{ $dotColor }}"></span>
+                                                    <span class="w-1.5 h-1.5 rounded-full {{ $dotColor }} flex-shrink-0"></span>
                                                 </div>
                                                 
                                             </div>
@@ -461,7 +462,7 @@
                 <!-- DANGER ZONE -->
                 <div class="w-full mt-32 border-t border-[rgba(10,10,10,0.15)] pt-16 max-w-2xl" x-data="{ termModalOpen: false }">
                     <h3 class="font-h1 text-2xl uppercase title-display text-[#1A1A1A] mb-2">Archive Termination</h3>
-                    <p class="font-body-md text-sm text-[#555] max-w-[50ch] mb-8">
+                    <p class="font-body-md text-sm text-[#555] leading-relaxed max-w-[50ch] mb-8">
                         Permanently sever your connection to the Clementine archive. This action destroys all associated identity records and cannot be reversed.
                     </p>
 
@@ -498,7 +499,7 @@
                                 <h3 class="font-h1 text-3xl uppercase tracking-widest m-0 leading-none">Warning</h3>
                             </div>
 
-                            <p class="text-sm font-mono tracking-widest text-[#909090] leading-relaxed uppercase">
+                            <p class="text-sm font-body-md text-[#B0B0B0] leading-relaxed">
                                 You are about to permanently delete this archive. All records, VIP access, and identity data will be wiped from the system. This cannot be undone.
                             </p>
 
