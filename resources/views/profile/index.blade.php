@@ -180,7 +180,7 @@
         </div>
 
         <!-- MAIN PANELS -->
-        <div class="flex-grow lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
+        <div class="flex-1 min-w-0 lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
             
             <!-- IDENTITY TAB -->
             <div x-show="activeTab === 'identity'" 
