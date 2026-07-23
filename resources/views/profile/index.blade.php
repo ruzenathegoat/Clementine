@@ -281,14 +281,22 @@
                 </div>
                 
                 @if($activeOrders->isEmpty())
-                    <div class="border border-[rgba(10,10,10,0.15)] p-16 md:p-24 flex flex-col max-w-2xl">
-                        <h3 class="font-h1 text-4xl uppercase title-display text-[#1A1A1A] mb-4">No Active Records</h3>
-                        <p class="font-body-md text-sm text-[#555] max-w-[40ch] leading-relaxed mb-12">
-                            Your active acquisition queue is empty. Every archive begins with a first discovery.
-                        </p>
-                        <a href="{{ route('products.index') }}" class="w-max font-mono text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A] border-b border-[#1A1A1A] pb-1 hover:text-[#909090] hover:border-[#909090] transition-colors">
-                            Explore Collections
-                        </a>
+                    <div class="archive-grid grid grid-cols-1 md:grid-cols-2 w-full max-w-3xl">
+                        <div class="archive-cell p-8 md:p-12 flex flex-col justify-center min-h-[300px]">
+                            <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mb-4 block">Status Code: 0</span>
+                            <h3 class="font-h1 text-3xl md:text-4xl uppercase title-display text-[#1A1A1A] mb-4">No Active Records</h3>
+                            <p class="font-body-md text-sm text-[#555] max-w-[40ch] leading-relaxed mb-12">
+                                Your active acquisition queue is empty. Every archive begins with a first discovery.
+                            </p>
+                            <a href="{{ route('products.index') }}" class="w-max font-mono text-[10px] tracking-[0.2em] uppercase text-[#1A1A1A] border-b border-[#1A1A1A] pb-1 hover:text-[#909090] hover:border-[#909090] transition-colors">
+                                Explore Collections
+                            </a>
+                        </div>
+                        <div class="archive-cell hidden md:flex items-center justify-center bg-[#FAFAFA] p-8">
+                            <div class="w-full h-full border border-dashed border-[rgba(10,10,10,0.1)] flex items-center justify-center font-mono text-[9px] text-[#909090] uppercase tracking-[0.2em]">
+                                [ QUEUE EMPTY ]
+                            </div>
+                        </div>
                     </div>
                 @else
                     <div class="flex flex-col gap-12">
@@ -315,11 +323,20 @@
                 </div>
                 
                 @if($pastOrders->isEmpty())
-                    <div class="border border-[rgba(10,10,10,0.15)] p-16 md:p-24 flex flex-col max-w-2xl">
-                        <h3 class="font-h1 text-4xl uppercase title-display text-[#1A1A1A] mb-4">Empty History</h3>
-                        <p class="font-body-md text-sm text-[#555] max-w-[40ch] leading-relaxed">
-                            No past acquisitions found in this archive. Completed or cancelled records will appear here as a timeline.
-                        </p>
+                    <div class="archive-grid grid grid-cols-1 md:grid-cols-2 w-full max-w-3xl">
+                        <div class="archive-cell p-8 md:p-12 flex flex-col justify-center min-h-[300px]">
+                            <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] uppercase mb-4 block">Status Code: 404</span>
+                            <h3 class="font-h1 text-3xl md:text-4xl uppercase title-display text-[#1A1A1A] mb-4">Empty History</h3>
+                            <p class="font-body-md text-sm text-[#555] max-w-[40ch] leading-relaxed">
+                                No past acquisitions found in this archive. Completed or cancelled records will appear here as a timeline.
+                            </p>
+                        </div>
+                        <div class="archive-cell hidden md:flex items-center justify-center bg-[#FAFAFA] p-8">
+                            <div class="w-full h-full border border-dashed border-[rgba(10,10,10,0.1)] flex flex-col items-center justify-center gap-4">
+                                <span class="material-symbols-outlined text-[24px] text-[#909090]">history</span>
+                                <span class="font-mono text-[9px] text-[#909090] uppercase tracking-[0.2em]">[ NO RECORDS FOUND ]</span>
+                            </div>
+                        </div>
                     </div>
                 @else
                     @php
