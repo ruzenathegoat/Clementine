@@ -180,7 +180,7 @@
         </div>
 
         <!-- MAIN PANELS -->
-        <div class="flex-1 min-w-0 lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
+        <div class="flex-grow w-full lg:w-auto lg:flex-1 min-w-0 lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
             
             <!-- IDENTITY TAB -->
             <div x-show="activeTab === 'identity'" 
@@ -426,7 +426,7 @@
                     [ SECURITY PROTOCOL ]
                 </div>
                 
-                <form action="{{ route('profile.update') }}" method="POST" class="flex flex-col gap-12 max-w-4xl">
+                <form action="{{ route('profile.update') }}" method="POST" class="w-full flex flex-col gap-12 max-w-4xl">
                     @csrf
                     @method('PUT')
                     
@@ -455,7 +455,7 @@
                 </form>
 
                 <!-- DANGER ZONE -->
-                <div class="mt-32 border-t border-[rgba(10,10,10,0.15)] pt-16 max-w-2xl" x-data="{ termModalOpen: false }">
+                <div class="w-full mt-32 border-t border-[rgba(10,10,10,0.15)] pt-16 max-w-2xl" x-data="{ termModalOpen: false }">
                     <h3 class="font-h1 text-2xl uppercase title-display text-[#1A1A1A] mb-2">Archive Termination</h3>
                     <p class="font-body-md text-sm text-[#555] max-w-[50ch] mb-8">
                         Permanently sever your connection to the Clementine archive. This action destroys all associated identity records and cannot be reversed.
