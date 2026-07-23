@@ -41,7 +41,7 @@
         background-color: var(--ink-color);
         transform: scaleX(0);
         transform-origin: left;
-        transition: transform 300ms var(--ease-out);
+        transition: transform 200ms var(--ease-out);
         z-index: 10;
     }
     .input-wrapper:focus-within::after {
@@ -70,7 +70,7 @@
         top: 0; left: 0; right: 0; bottom: 0;
         border: 1px solid var(--ink-color);
         clip-path: inset(0 100% 0 0);
-        transition: clip-path 400ms var(--ease-out);
+        transition: clip-path 250ms var(--ease-out);
     }
     .btn-draw:hover::before {
         clip-path: inset(0 0 0 0);
@@ -184,12 +184,12 @@
             
             <!-- IDENTITY TAB -->
             <div x-show="activeTab === 'identity'" 
-                 x-transition:enter="transition ease-out duration-500 delay-100" 
-                 x-transition:enter-start="opacity-0 translate-y-4" 
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
+                 x-transition:enter="transition ease-out duration-300 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-2 scale-[0.99]" 
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-out duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-[0.99]"
                  class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
@@ -202,29 +202,33 @@
                     @method('PUT')
                     
                     <!-- Avatar / ID Card -->
-                    <div class="flex flex-col md:flex-row gap-0 w-full max-w-2xl archive-grid">
-                        <div class="archive-cell p-4 md:p-6 relative group cursor-crosshair flex-shrink-0 w-full md:w-72 block">
-                            <div class="w-full aspect-square bg-[#EFEFEF] relative overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] w-full max-w-2xl archive-grid">
+                        <div class="archive-cell p-4 md:p-6 relative group cursor-pointer w-full md:w-72 active:scale-[0.98] transition-transform duration-200" style="transition-timing-function: var(--ease-out);" onclick="document.getElementById('avatar-input').click()">
+                            <div class="w-full relative pt-[100%] bg-[#EFEFEF] overflow-hidden">
                                 <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
-             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-             onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=000000&background=F3F4F6&size=256'">
-        <div class="absolute inset-0 bg-[#1A1A1A]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div class="absolute inset-0 bg-[#0A0A0A]/80 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" onclick="document.getElementById('avatar-input').click()">
-                                    <span class="material-symbols-outlined text-[24px] mb-2">upload</span>
-                                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase">Update Record</span>
+                                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                     onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=000000&background=F3F4F6&size=512'">
+                                
+                                <div class="absolute inset-0 bg-[#0A0A0A]/40 opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[2px] flex flex-col items-center justify-center text-white">
+                                    <span class="material-symbols-outlined text-[24px] mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300" style="transition-timing-function: var(--ease-out);">upload</span>
+                                    <span class="font-mono text-[9px] tracking-[0.2em] uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75" style="transition-timing-function: var(--ease-out);">Update Record</span>
                                 </div>
                             </div>
+                            
                             <!-- Corner Accents -->
-                            <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#1A1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#1A1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 left-4 w-2 h-2 border-t border-l border-[#1A1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            <div class="absolute bottom-4 right-4 w-2 h-2 border-b border-r border-[#1A1A1A] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                             
                             <input type="file" id="avatar-input" name="avatar" class="hidden" accept="image/*" onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
                         </div>
                         
-                        <div class="archive-cell flex-1 p-6 flex flex-col justify-center gap-4">
+                        <div class="archive-cell p-6 md:p-8 flex flex-col justify-center gap-6">
                             <div>
                                 <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Status</span>
-                                <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A]">Verified Entity</span>
+                                <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A] flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#1A1A1A] animate-pulse"></span>
+                                    Verified Entity
+                                </span>
                             </div>
                             <div>
                                 <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Registered</span>
@@ -257,9 +261,9 @@
                     </div>
 
                     <div class="pt-8">
-                        <button type="submit" class="font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A] px-8 py-4 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors duration-300 flex items-center gap-4 group">
+                        <button type="submit" class="font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A] px-8 py-4 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-all duration-200 active:scale-[0.97] flex items-center gap-4 group" style="transition-timing-function: var(--ease-out);">
                             UPDATE RECORD
-                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform duration-200" style="transition-timing-function: var(--ease-out);">arrow_forward</span>
                         </button>
                     </div>
                 </form>
@@ -267,12 +271,12 @@
 
             <!-- ACTIVE ACQUISITIONS TAB -->
             <div x-show="activeTab === 'active'" 
-                 x-transition:enter="transition ease-out duration-500 delay-100" 
-                 x-transition:enter-start="opacity-0 translate-y-4" 
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
+                 x-transition:enter="transition ease-out duration-300 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-2 scale-[0.99]" 
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-out duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-[0.99]"
                  class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
@@ -309,12 +313,12 @@
 
             <!-- ARCHIVE HISTORY TAB -->
             <div x-show="activeTab === 'history'" 
-                 x-transition:enter="transition ease-out duration-500 delay-100" 
-                 x-transition:enter-start="opacity-0 translate-y-4" 
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
+                 x-transition:enter="transition ease-out duration-300 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-2 scale-[0.99]" 
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-out duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-[0.99]"
                  class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
@@ -435,12 +439,12 @@
 
             <!-- SECURITY PROTOCOL TAB -->
             <div x-show="activeTab === 'security'" 
-                 x-transition:enter="transition ease-out duration-500 delay-100" 
-                 x-transition:enter-start="opacity-0 translate-y-4" 
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
+                 x-transition:enter="transition ease-out duration-300 delay-100" 
+                 x-transition:enter-start="opacity-0 translate-y-2 scale-[0.99]" 
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-out duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-[0.99]"
                  class="tab-panel w-full col-start-1 row-start-1"
                  style="display: none;">
                  
@@ -469,9 +473,9 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A] px-8 py-4 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-colors duration-300 flex items-center gap-4 group">
+                        <button type="submit" class="font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A] px-8 py-4 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-all duration-200 active:scale-[0.97] flex items-center gap-4 group" style="transition-timing-function: var(--ease-out);">
                             UPDATE SECURITY
-                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">lock</span>
+                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform duration-200" style="transition-timing-function: var(--ease-out);">lock</span>
                         </button>
                     </div>
                 </form>
@@ -515,12 +519,12 @@
                     <div x-cloak x-show="termModalOpen" class="fixed inset-0 z-[100] flex justify-center items-center p-4">
                         <div x-show="termModalOpen" x-transition.opacity class="absolute inset-0 bg-[#0A0A0A]/95 backdrop-blur-md danger-modal-bg" @click="termModalOpen = false"></div>
                         <div x-show="termModalOpen" 
-                             x-transition:enter="transition ease-out duration-400"
-                             x-transition:enter-start="opacity-0 scale-[0.98] translate-y-4"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-[0.96] translate-y-4"
                              x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                             x-transition:leave="transition ease-out duration-200"
+                             x-transition:leave="transition ease-out duration-150"
                              x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 scale-[0.98] translate-y-4"
+                             x-transition:leave-end="opacity-0 scale-[0.96] translate-y-2"
                              class="relative bg-[#050505] w-full max-w-[600px] border border-red-900 p-12 flex flex-col gap-8 text-white z-10 shadow-[0_0_50px_rgba(220,38,38,0.15)]">
                             
                             <div class="flex items-center gap-4 text-red-500 border-b border-red-900/50 pb-6">
