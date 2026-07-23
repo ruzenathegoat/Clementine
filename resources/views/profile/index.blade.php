@@ -203,8 +203,8 @@
                     
                     <!-- Avatar / ID Card -->
                     <div class="flex flex-col md:flex-row gap-0 w-full max-w-2xl archive-grid">
-                        <div class="archive-cell p-4 relative group cursor-crosshair flex-shrink-0 w-full md:w-64">
-                            <div class="w-full md:w-56 aspect-square bg-[#EFEFEF] relative overflow-hidden mx-auto">
+                        <div class="archive-cell p-4 md:p-6 relative group cursor-crosshair flex-shrink-0 w-full md:w-72 flex items-center justify-center">
+                            <div class="w-48 h-48 md:w-full md:h-auto md:aspect-square bg-[#EFEFEF] relative overflow-hidden">
                                 <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
              onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=000000&background=F3F4F6&size=256'">
