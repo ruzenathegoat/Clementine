@@ -357,12 +357,12 @@
                     </div>
                     
                     <!-- Massive Title -->
-                    <h2 class="notes-title font-h1 text-[clamp(3.5rem,6vw,5.5rem)] leading-[0.85] tracking-tight uppercase text-primary mb-12" style="clip-path: inset(100% 0 0 0);">
+                    <h2 class="notes-title font-h1 text-[clamp(2.5rem,3.5vw,4.5rem)] leading-[0.85] tracking-tight uppercase text-primary mb-12 break-words" style="clip-path: inset(100% 0 0 0);">
                         WATCHMAKER<br>NOTES
                     </h2>
                     
                     <!-- Intro Paragraph -->
-                    <p class="notes-intro font-mono text-xs md:text-sm text-primary/80 leading-relaxed max-w-sm opacity-0 transform translate-y-4">
+                    <p class="notes-intro font-mono text-xs md:text-sm text-primary/80 leading-relaxed max-w-[400px] opacity-0 transform translate-y-4">
                         Every mechanical watch hides hundreds of invisible decisions.<br><br>
                         This archive explains the craftsmanship behind them.
                     </p>
@@ -370,7 +370,7 @@
             </div>
 
             <!-- Right Scrollable / Masonry Grid -->
-            <div class="lg:col-span-8 p-6 md:p-12 lg:p-24 relative notes-grid" style="background-size: 40px 40px; background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);">
+            <div class="lg:col-span-8 p-6 md:p-12 lg:p-24 relative notes-grid" style="background-size: 24px 24px; background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);">
                 <div class="notes-grid-lines absolute inset-0 pointer-events-none z-0">
                     <div class="notes-line-top absolute top-0 left-0 w-full h-[1px] bg-primary/20 origin-left scale-x-0"></div>
                     <div class="notes-line-bottom absolute bottom-0 right-0 w-full h-[1px] bg-primary/20 origin-right scale-x-0"></div>
@@ -390,12 +390,12 @@
                             
                             <!-- Image with clipping mask reveal -->
                             <div class="note-img-wrapper w-full aspect-video bg-[#FAFAFA] overflow-hidden mb-10 relative">
-                                <img src="https://images.unsplash.com/photo-1584988019319-9730594ccfbf?q=80&w=1600&auto=format&fit=crop" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
+                                <img src="{{ asset('images/products/aster-minimalist-01.jpg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
                             </div>
 
                             <h3 class="note-title font-h1 text-3xl md:text-5xl uppercase mb-6 transition-transform duration-500">Balance Wheel</h3>
                             
-                            <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed max-w-2xl">
+                            <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed max-w-[650px]">
                                 The heartbeat of every mechanical watch. While electronic watches rely on a quartz crystal, mechanical watches use a delicate balance wheel oscillating at extremely precise frequencies to regulate the release of energy from the mainspring.
                             </p>
                             
@@ -431,7 +431,7 @@
                             <h3 class="note-title font-h1 text-2xl md:text-4xl uppercase mb-6 transition-transform duration-500">Sapphire Crystal</h3>
                             
                             <div class="note-img-wrapper w-full aspect-square bg-[#FAFAFA] overflow-hidden mb-8 relative">
-                                <img src="https://images.unsplash.com/photo-1632551525992-0b81803dc4d1?q=80&w=1200&auto=format&fit=crop" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
+                                <img src="{{ asset('images/products/meridian-chrono-01.jpg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
                             </div>
                             
                             <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed">
@@ -456,7 +456,7 @@
                     <!-- Quote Block -->
                     <div class="note-quote w-full py-12 md:py-24 flex items-center justify-center relative my-12">
                         <div class="absolute left-0 top-1/2 w-8 h-[1px] bg-primary/20"></div>
-                        <h3 class="font-h1 text-[clamp(2rem,4vw,3.5rem)] leading-[1.1] uppercase text-center max-w-3xl" style="text-wrap: balance;">
+                        <h3 class="font-h1 text-[clamp(2rem,4vw,3.5rem)] leading-[1.1] uppercase text-center max-w-[800px]" style="text-wrap: balance;">
                             <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">"A mechanical watch isn't</span></span>
                             <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">powered by batteries.</span></span>
                             <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">It's powered by engineering."</span></span>
@@ -474,7 +474,7 @@
                             
                             <h3 class="note-title font-h1 text-4xl md:text-6xl uppercase mb-8 transition-transform duration-500">Case Finishing</h3>
                             
-                            <p class="font-mono text-sm md:text-base text-primary leading-relaxed max-w-3xl mb-8">
+                            <p class="font-mono text-sm md:text-base text-primary leading-relaxed max-w-[800px] mb-8">
                                 The transition between brushed and polished surfaces defines the architectural character of a timepiece. Zaratsu polishing, satin brushing, and chamfering require hundreds of hours of manual labor.
                             </p>
                             
