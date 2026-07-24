@@ -265,15 +265,15 @@
 
     
     <!-- 4. HOROLOGY TIMELINE (Pinned Scroll) -->
-    <section id="horology-timeline-section" class="w-full bg-[#fcfcfc] text-black overflow-hidden relative">
+    <section id="horology-timeline-section" class="w-full bg-[#111111] text-white overflow-hidden relative">
         <!-- Entry Sequence Header -->
         <div class="absolute top-0 left-0 w-full px-6 md:px-12 lg:px-24 pt-16 md:pt-24 z-20 pointer-events-none timeline-header">
             <div class="flex items-center gap-4 mb-12">
-                <div class="h-[1px] w-12 bg-black/30 timeline-header-line origin-left scale-x-0"></div>
-                <span class="font-mono text-xs tracking-[0.2em] uppercase text-black/50">ARCHIVE 01</span>
+                <div class="h-[1px] w-12 bg-white/30 timeline-header-line origin-left scale-x-0"></div>
+                <span class="font-mono text-xs tracking-[0.2em] uppercase text-white/50">ARCHIVE 01</span>
             </div>
             <div class="overflow-hidden">
-                <h2 class="font-h1 text-[clamp(2rem,6vw,4rem)] leading-none uppercase tracking-widest text-black timeline-header-title translate-y-full">HOROLOGY<br>TIMELINE</h2>
+                <h2 class="font-h1 text-[clamp(2rem,6vw,4rem)] leading-none uppercase tracking-widest text-white timeline-header-title translate-y-full">HOROLOGY<br>TIMELINE</h2>
             </div>
         </div>
 
@@ -281,32 +281,32 @@
         <div class="timeline-sticky-container h-auto md:h-screen w-full relative flex items-center">
             
             <!-- Global Blueprint Grid (Fades in) -->
-            <div class="absolute inset-0 z-0 opacity-0 timeline-blueprint-grid" style="background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 50px 50px;">
+            <div class="absolute inset-0 z-0 opacity-0 timeline-blueprint-grid" style="background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 50px 50px;">
                 <!-- Crosshairs -->
-                <div class="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-black/10"></div>
-                <div class="absolute bottom-1/4 right-1/4 w-4 h-4 border-r border-b border-black/10"></div>
+                <div class="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-white/10"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-4 h-4 border-r border-b border-white/10"></div>
             </div>
 
             <!-- Horizontal Track -->
             <div class="timeline-track flex h-full w-full relative z-10 flex-col md:flex-row md:w-[800vw]">
 
                 <!-- Scene 1: 1675 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1675</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1675</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1675-BS</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1675-BS</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The Balance Spring</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Mechanical watchmaking did not appear overnight. Every movement, every complication, and every innovation exists because generations of engineers refused to stop improving the impossible.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Mechanical watchmaking did not appear overnight. Every movement, every complication, and every innovation exists because generations of engineers refused to stop improving the impossible.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -314,19 +314,19 @@
                             <!-- Macro Image Wrapper with Clipping Mask -->
                             <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
                                 <!-- Image with subtle parallax -->
-                                <img src="{{ asset('images/products/the-balance-spring-watch.jpg') }}" alt="The Balance Spring" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
+                                <img src="{{ asset('images/products/The balance spring watch.png') }}" alt="The Balance Spring" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 1 // 1675</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 1 // 1675</div>
                             </div>
                         </div>
 
@@ -334,22 +334,22 @@
                 </div>
     
                 <!-- Scene 2: 1759 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1759</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1759</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1759-MC</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1759-MC</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Marine Chronometers</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Precision became a matter of life and death. The ability to calculate longitude at sea required mechanical oscillators that could resist salt, temperature, and the violent motion of the ocean.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Precision became a matter of life and death. The ability to calculate longitude at sea required mechanical oscillators that could resist salt, temperature, and the violent motion of the ocean.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -361,15 +361,15 @@
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 2 // 1759</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 2 // 1759</div>
                             </div>
                         </div>
 
@@ -377,22 +377,22 @@
                 </div>
     
                 <!-- Scene 3: 1810 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1810</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1810</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1810-CP</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1810-CP</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Complicated Pocket Watches</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Miniaturization of grand complications. Perpetual calendars, minute repeaters, and tourbillons were engineered into spaces no larger than a gold coin.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Miniaturization of grand complications. Perpetual calendars, minute repeaters, and tourbillons were engineered into spaces no larger than a gold coin.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -400,19 +400,19 @@
                             <!-- Macro Image Wrapper with Clipping Mask -->
                             <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
                                 <!-- Image with subtle parallax -->
-                                <img src="{{ asset('images/products/Complicated Pocket Watch.jpg') }}" alt="Complicated Pocket Watches" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
+                                <img src="{{ asset('images/products/Complicated Pocket Watch.png') }}" alt="Complicated Pocket Watches" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 3 // 1810</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 3 // 1810</div>
                             </div>
                         </div>
 
@@ -420,22 +420,22 @@
                 </div>
     
                 <!-- Scene 4: 1868 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1868</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1868</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1868-FW</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1868-FW</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The First Wristwatch</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">A transition from the pocket to the wrist. Originally conceived as a piece of jewelry, it soon became an indispensable tool for aviation and military coordination.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">A transition from the pocket to the wrist. Originally conceived as a piece of jewelry, it soon became an indispensable tool for aviation and military coordination.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -443,19 +443,19 @@
                             <!-- Macro Image Wrapper with Clipping Mask -->
                             <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
                                 <!-- Image with subtle parallax -->
-                                <img src="{{ asset('images/products/The first wrist watch.webp') }}" alt="The First Wristwatch" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
+                                <img src="{{ asset('images/products/The first wrist watch.png') }}" alt="The First Wristwatch" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 4 // 1868</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 4 // 1868</div>
                             </div>
                         </div>
 
@@ -463,22 +463,22 @@
                 </div>
     
                 <!-- Scene 5: 1926 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1926</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1926</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1926-RO</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1926-RO</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Rolex Oyster</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The birth of the waterproof case. Hermetically sealed construction protected delicate calibers from dust and moisture, changing the trajectory of tool watches forever.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The birth of the waterproof case. Hermetically sealed construction protected delicate calibers from dust and moisture, changing the trajectory of tool watches forever.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -486,19 +486,19 @@
                             <!-- Macro Image Wrapper with Clipping Mask -->
                             <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
                                 <!-- Image with subtle parallax -->
-                                <img src="{{ asset('images/products/Rolex Oyster.webp') }}" alt="Rolex Oyster" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
+                                <img src="{{ asset('images/products/Rolex Oyster.png') }}" alt="Rolex Oyster" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 5 // 1926</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 5 // 1926</div>
                             </div>
                         </div>
 
@@ -506,22 +506,22 @@
                 </div>
     
                 <!-- Scene 6: 1969 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1969</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1969</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1969-AC</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1969-AC</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The Automatic Chronograph</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The race to build the first self-winding stopwatch. A monumental year that saw rival consortiums achieve the holy grail of mechanical sports timing simultaneously.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The race to build the first self-winding stopwatch. A monumental year that saw rival consortiums achieve the holy grail of mechanical sports timing simultaneously.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -533,15 +533,15 @@
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 6 // 1969</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 6 // 1969</div>
                             </div>
                         </div>
 
@@ -549,22 +549,22 @@
                 </div>
     
                 <!-- Scene 7: 1999 -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1999</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1999</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1999-CE</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-1999-CE</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Co-Axial Escapement</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The first practical new watch escapement in 250 years. Radically reducing sliding friction and redefining the theoretical limits of mechanical chronometry.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The first practical new watch escapement in 250 years. Radically reducing sliding friction and redefining the theoretical limits of mechanical chronometry.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -572,19 +572,19 @@
                             <!-- Macro Image Wrapper with Clipping Mask -->
                             <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
                                 <!-- Image with subtle parallax -->
-                                <img src="{{ asset('images/products/Co Axial Escapement.jpg') }}" alt="Co-Axial Escapement" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
+                                <img src="{{ asset('images/products/Co Axial Escapement.png') }}" alt="Co-Axial Escapement" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 7 // 1999</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 7 // 1999</div>
                             </div>
                         </div>
 
@@ -592,22 +592,22 @@
                 </div>
     
                 <!-- Scene 8: Today -->
-                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-white/10">
                     <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">Today</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">Today</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
                         <div class="col-span-1 md:col-span-5 relative z-10">
                             <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
-                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
-                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-TODAY-RM</span>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-white/40">REF: ARCHIVE-TODAY-RM</span>
                             </div>
                             <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The Renaissance</h3>
-                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Every innovation led to one extraordinary machine.</p>
+                            <p class="font-body text-base md:text-lg text-white/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Every innovation led to one extraordinary machine.</p>
                         </div>
 
                         <!-- Right: Macro Photography & Blueprint -->
@@ -619,15 +619,15 @@
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
                                     <!-- Measurement Marks -->
-                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(255,255,255,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 8 // Today</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 8 // Today</div>
                             </div>
                         </div>
 
@@ -637,8 +637,8 @@
             </div>
             
             <!-- Global Timeline Progress Indicator (Engraved Line) -->
-            <div class="absolute bottom-12 left-12 right-12 h-[1px] bg-black/10 z-20 hidden md:block timeline-progress-track">
-                <div class="h-full bg-black/60 origin-left scale-x-0 timeline-progress-fill"></div>
+            <div class="absolute bottom-12 left-12 right-12 h-[1px] bg-white/10 z-20 hidden md:block timeline-progress-track">
+                <div class="h-full bg-white/60 origin-left scale-x-0 timeline-progress-fill"></div>
             </div>
 
         </div>
@@ -646,32 +646,32 @@
 
 
     <!-- NEW: Movement Lab Section -->
-    <section id="movement-lab-section" class="w-full bg-[#fcfcfc] text-black relative z-20">
+    <section id="movement-lab-section" class="w-full bg-[#111111] text-white relative z-20">
         <!-- Add empty divs to create the scroll distance for ScrollTrigger (e.g. 600vh total) -->
         <div class="ml-scroll-space h-[600vh] w-full absolute top-0 left-0 pointer-events-none"></div>
 
         <div class="ml-sticky-container h-screen w-full sticky top-0 overflow-hidden flex items-center justify-center">
             
             <!-- Grid Background (Fades in) -->
-            <div class="absolute inset-0 z-0 opacity-0 ml-blueprint-grid" style="background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 40px 40px;"></div>
+            <div class="absolute inset-0 z-0 opacity-0 ml-blueprint-grid" style="background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px;"></div>
             
             <!-- Editorial Info Panel (Left) -->
             <div class="absolute left-6 md:left-24 top-1/2 -translate-y-1/2 w-[280px] md:w-80 z-20 opacity-0 ml-editorial-panel pointer-events-none">
-                <div class="font-mono text-[10px] tracking-[0.2em] text-black/50 mb-4 ml-panel-ref">ML-000</div>
+                <div class="font-mono text-[10px] tracking-[0.2em] text-white/50 mb-4 ml-panel-ref">ML-000</div>
                 <h3 class="font-h1 text-2xl md:text-3xl uppercase tracking-wider mb-6 ml-panel-title">COMPONENT</h3>
-                <p class="font-body text-sm md:text-base text-black/70 leading-[1.6] mb-8 ml-panel-desc">Description goes here.</p>
-                <div class="grid grid-cols-2 gap-y-4 gap-x-8 border-t border-black/10 pt-4 font-mono text-[9px] md:text-[10px] uppercase tracking-wider text-black/60 ml-panel-specs">
+                <p class="font-body text-sm md:text-base text-white/70 leading-[1.6] mb-8 ml-panel-desc">Description goes here.</p>
+                <div class="grid grid-cols-2 gap-y-4 gap-x-8 border-t border-white/10 pt-4 font-mono text-[9px] md:text-[10px] uppercase tracking-wider text-white/60 ml-panel-specs">
                     <div>
-                        <div class="text-black/40 mb-1">CATEGORY</div>
-                        <div class="text-black ml-spec-cat">Regulation</div>
+                        <div class="text-white/40 mb-1">CATEGORY</div>
+                        <div class="text-white ml-spec-cat">Regulation</div>
                     </div>
                     <div>
-                        <div class="text-black/40 mb-1">FREQ</div>
-                        <div class="text-black ml-spec-freq">28800 BPH</div>
+                        <div class="text-white/40 mb-1">FREQ</div>
+                        <div class="text-white ml-spec-freq">28800 BPH</div>
                     </div>
                     <div>
-                        <div class="text-black/40 mb-1">DIFFICULTY</div>
-                        <div class="text-black ml-spec-diff">Advanced</div>
+                        <div class="text-white/40 mb-1">DIFFICULTY</div>
+                        <div class="text-white ml-spec-diff">Advanced</div>
                     </div>
                 </div>
             </div>
@@ -679,16 +679,16 @@
             <!-- SVG Connecting Line -->
             <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <!-- Using fixed coordinates that will be updated dynamically via JS -->
-                <path d="M 30 50 L 50 50" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="ml-connect-line opacity-0" stroke-dasharray="100" stroke-dashoffset="100"/>
+                <path d="M 30 50 L 50 50" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="ml-connect-line opacity-0" stroke-dasharray="100" stroke-dashoffset="100"/>
             </svg>
 
             <!-- SVG Movement Graphic (Center) -->
             <div class="relative w-full max-w-[800px] aspect-square z-10 flex items-center justify-center ml-svg-container" style="transform: scale(0.4);">
                 
                 <!-- Tiny Specs Markers -->
-                <div class="absolute top-1/4 left-1/4 font-mono text-[9px] tracking-widest text-black/50 ml-spec-marker opacity-0 -translate-x-1/2 -translate-y-1/2">26 JEWELS</div>
-                <div class="absolute bottom-1/4 right-1/4 font-mono text-[9px] tracking-widest text-black/50 ml-spec-marker opacity-0 translate-x-1/2 translate-y-1/2">72H RESERVE</div>
-                <div class="absolute top-1/4 right-1/4 font-mono text-[9px] tracking-widest text-black/50 ml-spec-marker opacity-0 translate-x-1/2 -translate-y-1/2">SWISS LEVER</div>
+                <div class="absolute top-1/4 left-1/4 font-mono text-[9px] tracking-widest text-white/50 ml-spec-marker opacity-0 -translate-x-1/2 -translate-y-1/2">26 JEWELS</div>
+                <div class="absolute bottom-1/4 right-1/4 font-mono text-[9px] tracking-widest text-white/50 ml-spec-marker opacity-0 translate-x-1/2 translate-y-1/2">72H RESERVE</div>
+                <div class="absolute top-1/4 right-1/4 font-mono text-[9px] tracking-widest text-white/50 ml-spec-marker opacity-0 translate-x-1/2 -translate-y-1/2">SWISS LEVER</div>
                 
                 <!-- The SVG -->
                 <svg class="w-full h-full overflow-visible ml-movement-svg" viewBox="-100 -100 200 200">
@@ -705,16 +705,16 @@
 
                     <!-- Main Barrel (Upper Left) -->
                     <g id="ml-barrel" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="barrel">
-                        <circle cx="-30" cy="-30" r="35" fill="none" stroke="black" stroke-width="0.5" stroke-dasharray="2 1"/>
+                        <circle cx="-30" cy="-30" r="35" fill="none" stroke="#888" stroke-width="0.5" stroke-dasharray="2 1"/>
                         <circle cx="-30" cy="-30" r="33" fill="#f8f8f8" stroke="#333" stroke-width="0.5" filter="url(#shadow)"/>
-                        <path d="M-30,-30 m0,-2 a2,2 0 1,1 0,4 a4,4 0 1,1 0,-8 a6,6 0 1,1 0,12 a8,8 0 1,1 0,-16 a10,10 0 1,1 0,20 a12,12 0 1,1 0,-24 a14,14 0 1,1 0,28 a16,16 0 1,1 0,-32 a18,18 0 1,1 0,36 a20,20 0 1,1 0,-40 a22,22 0 1,1 0,44 a24,24 0 1,1 0,-48 a26,26 0 1,1 0,52" fill="none" stroke="#666" stroke-width="0.3"/>
+                        <path d="M-30,-30 m0,-2 a2,2 0 1,1 0,4 a4,4 0 1,1 0,-8 a6,6 0 1,1 0,12 a8,8 0 1,1 0,-16 a10,10 0 1,1 0,20 a12,12 0 1,1 0,-24 a14,14 0 1,1 0,28 a16,16 0 1,1 0,-32 a18,18 0 1,1 0,36 a20,20 0 1,1 0,-40 a22,22 0 1,1 0,44 a24,24 0 1,1 0,-48 a26,26 0 1,1 0,52" fill="none" stroke="#aaa" stroke-width="0.3"/>
                         <circle cx="-30" cy="-30" r="2" fill="#222"/>
-                        <path d="M -30 -65 A 35 35 0 0 1 5 -30" fill="none" stroke="black" stroke-width="2" stroke-dasharray="1 1.5"/>
+                        <path d="M -30 -65 A 35 35 0 0 1 5 -30" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="1 1.5"/>
                     </g>
 
                     <!-- Gear Train (Center Left) -->
                     <g id="ml-gear-train" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="gears">
-                        <circle cx="0" cy="0" r="20" fill="none" stroke="black" stroke-width="0.5"/>
+                        <circle cx="0" cy="0" r="20" fill="none" stroke="#888" stroke-width="0.5"/>
                         <circle cx="0" cy="0" r="18" fill="#f4f4f4" stroke="#444" stroke-width="0.5" filter="url(#shadow)"/>
                         <circle cx="0" cy="0" r="1.5" fill="#c0392b"/> 
                         <line x1="0" y1="-18" x2="0" y2="18" stroke="#555" stroke-width="1.5"/>
@@ -722,12 +722,12 @@
                         <line x1="-12.7" y1="-12.7" x2="12.7" y2="12.7" stroke="#555" stroke-width="1.5"/>
                         <line x1="-12.7" y1="12.7" x2="12.7" y2="-12.7" stroke="#555" stroke-width="1.5"/>
                         
-                        <circle cx="-15" cy="20" r="14" fill="none" stroke="black" stroke-width="0.5"/>
+                        <circle cx="-15" cy="20" r="14" fill="none" stroke="#888" stroke-width="0.5"/>
                         <circle cx="-15" cy="20" r="12" fill="#eaeaea" stroke="#555" stroke-width="0.3" filter="url(#shadow)"/>
                         <circle cx="-15" cy="20" r="1" fill="#c0392b"/>
                         <circle cx="-15" cy="20" r="8" fill="none" stroke="#777" stroke-width="0.2"/>
                         
-                        <circle cx="10" cy="25" r="10" fill="none" stroke="black" stroke-width="0.5"/>
+                        <circle cx="10" cy="25" r="10" fill="none" stroke="#888" stroke-width="0.5"/>
                         <circle cx="10" cy="25" r="8" fill="#f0f0f0" stroke="#666" stroke-width="0.3" filter="url(#shadow)"/>
                         <circle cx="10" cy="25" r="1" fill="#c0392b"/>
                         <path d="M 10 17 L 10 33 M 2 25 L 18 25" stroke="#777" stroke-width="0.5"/>
@@ -735,7 +735,7 @@
 
                     <!-- Escapement (Bottom) -->
                     <g id="ml-escapement" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="escapement">
-                        <circle cx="25" cy="35" r="8" fill="none" stroke="black" stroke-width="0.3"/>
+                        <circle cx="25" cy="35" r="8" fill="none" stroke="#888" stroke-width="0.3"/>
                         <path d="M 25 27 L 27 30 L 29 27 L 29 29 L 32 30 L 30 33 L 33 35 L 30 37 L 32 40 L 29 39 L 29 42 L 27 39 L 25 43 L 23 39 L 21 42 L 21 39 L 18 40 L 20 37 L 17 35 L 20 33 L 18 30 L 21 29 L 21 27 L 23 30 Z" fill="#e8e8e8" stroke="#333" stroke-width="0.3" filter="url(#shadow)"/>
                         <circle cx="25" cy="35" r="1" fill="#c0392b"/>
                         
@@ -750,11 +750,11 @@
                         <path d="M 60 70 C 60 70, 70 50, 85 45 C 90 43, 95 48, 92 52 C 85 60, 75 75, 65 75 Z" fill="url(#metal)" stroke="#333" stroke-width="0.5" filter="url(#shadow)"/>
                         <path d="M 68 55 A 15 15 0 0 1 78 50" fill="none" stroke="#222" stroke-width="1.5"/>
                         <circle cx="73" cy="52" r="1" fill="#c0392b"/>
-                        <circle cx="45" cy="55" r="22" fill="none" stroke="black" stroke-width="0.5"/>
+                        <circle cx="45" cy="55" r="22" fill="none" stroke="#888" stroke-width="0.5"/>
                         <circle cx="45" cy="55" r="20" fill="none" stroke="#cda434" stroke-width="2.5" filter="url(#shadow)"/> 
                         <circle cx="45" cy="55" r="1.5" fill="#c0392b"/>
                         <line x1="25" y1="55" x2="65" y2="55" stroke="#cda434" stroke-width="1.5"/>
-                        <path d="M 45 55 m 0 -2 a 2 2 0 1 1 0 4 a 4 4 0 1 1 0 -8 a 6 6 0 1 1 0 12 a 8 8 0 1 1 0 -16 a 10 10 0 1 1 0 20 a 12 12 0 1 1 0 -24 a 14 14 0 1 1 0 28 a 16 16 0 1 1 0 -32" fill="none" stroke="#555" stroke-width="0.2"/>
+                        <path d="M 45 55 m 0 -2 a 2 2 0 1 1 0 4 a 4 4 0 1 1 0 -8 a 6 6 0 1 1 0 12 a 8 8 0 1 1 0 -16 a 10 10 0 1 1 0 20 a 12 12 0 1 1 0 -24 a 14 14 0 1 1 0 28 a 16 16 0 1 1 0 -32" fill="none" stroke="#aaa" stroke-width="0.2"/>
                         <circle cx="25" cy="55" r="1" fill="#444"/>
                         <circle cx="65" cy="55" r="1" fill="#444"/>
                         <circle cx="45" cy="35" r="1" fill="#444"/>
@@ -792,35 +792,35 @@
                     </g>
                     
                     <!-- Hover Indicator (Moved via JS) -->
-                    <circle id="ml-hover-indicator" cx="0" cy="0" r="15" fill="none" stroke="black" stroke-width="0.5" stroke-dasharray="2 2" class="opacity-0 pointer-events-none transition-opacity duration-300"/>
+                    <circle id="ml-hover-indicator" cx="0" cy="0" r="15" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="2 2" class="opacity-0 pointer-events-none transition-opacity duration-300"/>
                 </svg>
             </div>
             
             <!-- Technical Labels (Phase 01) -->
-            <div class="absolute inset-0 pointer-events-none ml-tech-labels opacity-0 z-20 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-black/60 hidden md:block">
+            <div class="absolute inset-0 pointer-events-none ml-tech-labels opacity-0 z-20 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/60 hidden md:block">
                 <div class="absolute top-1/4 left-1/3 ml-label" style="transform: translate(-100px, -50px);">
                     <div class="mb-1">CALIBER 400</div>
-                    <div class="w-12 h-[1px] bg-black/30"></div>
+                    <div class="w-12 h-[1px] bg-white/30"></div>
                 </div>
                 <div class="absolute top-1/3 right-1/4 ml-label" style="transform: translate(50px, -20px);">
                     <div class="mb-1">AUTOMATIC</div>
-                    <div class="w-12 h-[1px] bg-black/30"></div>
+                    <div class="w-12 h-[1px] bg-white/30"></div>
                 </div>
                 <div class="absolute bottom-1/3 left-1/4 ml-label" style="transform: translate(-30px, 30px);">
                     <div class="mb-1">28,800 VPH</div>
-                    <div class="w-12 h-[1px] bg-black/30"></div>
+                    <div class="w-12 h-[1px] bg-white/30"></div>
                 </div>
                 <div class="absolute bottom-1/4 right-1/3 ml-label" style="transform: translate(80px, 50px);">
                     <div class="mb-1">CHRONOMETER</div>
-                    <div class="w-12 h-[1px] bg-black/30"></div>
+                    <div class="w-12 h-[1px] bg-white/30"></div>
                 </div>
             </div>
 
             <!-- Final Message -->
-            <div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-[#fcfcfc]/95 backdrop-blur-sm opacity-0 ml-final-msg">
+            <div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-[#111111]/95 backdrop-blur-sm opacity-0 ml-final-msg">
                 <h2 class="font-h1 text-3xl md:text-6xl uppercase tracking-widest text-center leading-[1.2]">
                     <span class="block ml-final-text-1 translate-y-8 opacity-0">True Precision</span>
-                    <span class="block text-black/50 ml-final-text-2 translate-y-8 opacity-0 mt-4 md:mt-6">Is Never An Accident.</span>
+                    <span class="block text-white/50 ml-final-text-2 translate-y-8 opacity-0 mt-4 md:mt-6">Is Never An Accident.</span>
                 </h2>
             </div>
             
