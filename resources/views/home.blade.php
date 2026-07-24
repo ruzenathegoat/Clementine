@@ -77,6 +77,7 @@
     </div>
 
     @if(isset($theDrop) && $theDrop->isNotEmpty())
+
     <!-- 2.5 THE DROP — Private Allocation Room -->
     <script>
         window.isVip = {{ auth()->user()?->is_vip ? 'true' : 'false' }};
@@ -262,87 +263,393 @@
     </section>
     @endif
 
-    <!-- 3. New Arrivals Section - Collector's Selection -->
-    <div class="w-full section-reveal" id="new-arrival-section">
-        <div class="p-lg md:p-2xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-16 overflow-hidden min-h-[300px]">
-            <h2 class="new-arrival-heading font-h1 text-[clamp(4rem,10vw,8rem)] leading-none uppercase break-words w-full" style="font-family: 'Satoshi', sans-serif; font-weight: 200; opacity: 0; transform: translateY(40px);">NEW ARRIVAL</h2>
-            <a href="{{ route('products.index') }}" class="new-arrival-cta text-primary bg-transparent border border-primary px-xl py-lg font-label-caps uppercase text-xs tracking-[0.2em] hover:bg-black hover:text-white transition-colors duration-500 flex items-center justify-center shrink-0 group" style="opacity: 0;">
-                VIEW MORE
-                <span class="material-symbols-outlined ml-3 text-[14px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">arrow_forward</span>
-            </a>
+    
+    <!-- 4. HOROLOGY TIMELINE (Pinned Scroll) -->
+    <section id="horology-timeline-section" class="w-full bg-[#fcfcfc] text-black overflow-hidden relative">
+        <!-- Entry Sequence Header -->
+        <div class="absolute top-0 left-0 w-full px-6 md:px-12 lg:px-24 pt-16 md:pt-24 z-20 pointer-events-none timeline-header">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="h-[1px] w-12 bg-black/30 timeline-header-line origin-left scale-x-0"></div>
+                <span class="font-mono text-xs tracking-[0.2em] uppercase text-black/50">ARCHIVE 01</span>
+            </div>
+            <div class="overflow-hidden">
+                <h2 class="font-h1 text-[clamp(2rem,6vw,4rem)] leading-none uppercase tracking-widest text-black timeline-header-title translate-y-full">HOROLOGY<br>TIMELINE</h2>
+            </div>
         </div>
-        
-        <!-- Editorial Product Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative group/grid" id="editorial-products-grid">
+
+        <!-- Sticky Wrapper (Pinned by GSAP) -->
+        <div class="timeline-sticky-container h-screen w-full relative flex items-center">
             
-            <!-- GSAP Constructed Grid Lines -->
-            <div class="grid-lines-container absolute inset-0 pointer-events-none z-20">
-                <div class="grid-line-h absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
-                <div class="grid-line-h absolute bottom-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left hidden md:block lg:hidden"></div>
-                
-                <div class="grid-line-v absolute top-0 left-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
-                <div class="grid-line-v absolute top-0 left-[25%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
-                <div class="grid-line-v absolute top-0 left-[50%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden md:block"></div>
-                <div class="grid-line-v absolute top-0 left-[75%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
-                <div class="grid-line-v absolute top-0 right-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+            <!-- Global Blueprint Grid (Fades in) -->
+            <div class="absolute inset-0 z-0 opacity-0 timeline-blueprint-grid" style="background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 50px 50px;">
+                <!-- Crosshairs -->
+                <div class="absolute top-1/4 left-1/4 w-4 h-4 border-l border-t border-black/10"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-4 h-4 border-r border-b border-black/10"></div>
             </div>
 
-            @forelse($newArrivals as $product)
-                @if($product->stock <= 0)
-                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]">
-                @else
-                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
-                @endif
-                
-                    <!-- Local Card Background for click expansion -->
-                    <div class="card-bg absolute inset-0 bg-background z-0 pointer-events-none"></div>
+            <!-- Horizontal Track -->
+            <div class="timeline-track flex h-full w-[800vw] relative z-10 flex-col md:flex-row md:w-[800vw]">
 
-                    <!-- Card Contents -->
-                    <div class="flex-grow flex flex-col relative z-10 w-full h-full p-8 md:p-12 overflow-hidden items-start justify-between">
+                <!-- Scene 1: 1675 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
                         
-                        <!-- Top Info -->
-                        <div class="w-full flex justify-between items-start mb-12">
-                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0 transition-all duration-500 ease-out group-hover/card:!tracking-[0.15em]">{{ $product->collection->name ?? 'CLE' }}</span>
-                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!translate-x-2">${{ number_format($product->price, 2) }}</span>
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1675</div>
                         </div>
-                        
-                        <!-- Floating Image Area -->
-                        <div class="w-full aspect-square flex items-center justify-center relative mb-12">
-                            @if ($product->primaryImage)
-                                <img src="{{ $product->primaryImage->url }}" 
-                                     alt="{{ $product->name }}"
-                                     class="product-image w-[80%] h-[80%] object-contain opacity-0 transform transition-all duration-500 ease-out group-hover/card:!-translate-y-3 group-hover/card:!brightness-100 group-hover/card:!contrast-105"
-                                     style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
-                            @else
-                                <div class="w-full h-full flex items-center justify-center text-primary/30 text-xs uppercase opacity-0 product-image" style="transform: translateY(30px);">No Image</div>
-                            @endif
-                            
-                            @if($product->stock <= 0)
-                            <div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] flex items-center justify-center z-10 product-out-stock opacity-0">
-                                <span class="font-mono text-[9px] text-primary tracking-[0.2em] px-3 py-1 border border-primary/20">OUT OF STOCK</span>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1675-BS</span>
                             </div>
-                            @endif
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The Balance Spring</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Mechanical watchmaking did not appear overnight. Every movement, every complication, and every innovation exists because generations of engineers refused to stop improving the impossible.</p>
                         </div>
-                        
-                        <!-- Details -->
-                        <div class="flex flex-col relative z-10 w-full">
-                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!-translate-y-2" style="font-weight: 400; letter-spacing: normal;">
-                                {{ $product->name }}
-                            </h3>
-                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0 transition-opacity duration-500 ease-out group-hover/card:!opacity-100">
-                                {{ $product->tagline ?? 'An exceptional example of mechanical precision, curated for the serious collector.' }}
-                            </p>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/The balance spring watch.jpg') }}" alt="The Balance Spring" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 1 // 1675</div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
-            @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-mono text-[10px] text-primary/50 uppercase tracking-widest">
-                    The gallery is currently empty.
-                </div>
-            @endforelse
-        </div>
-    </div>
     
+                <!-- Scene 2: 1759 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1759</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1759-MC</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Marine Chronometers</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Precision became a matter of life and death. The ability to calculate longitude at sea required mechanical oscillators that could resist salt, temperature, and the violent motion of the ocean.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/Marine Chronometer.jpg') }}" alt="Marine Chronometers" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 2 // 1759</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <!-- Scene 3: 1810 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1810</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1810-CP</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Complicated Pocket Watches</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Miniaturization of grand complications. Perpetual calendars, minute repeaters, and tourbillons were engineered into spaces no larger than a gold coin.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/Complicated Pocket Watch.jpg') }}" alt="Complicated Pocket Watches" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 3 // 1810</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <!-- Scene 4: 1868 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1868</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1868-FW</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The First Wristwatch</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">A transition from the pocket to the wrist. Originally conceived as a piece of jewelry, it soon became an indispensable tool for aviation and military coordination.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/The first wrist watch.webp') }}" alt="The First Wristwatch" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 4 // 1868</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <!-- Scene 5: 1926 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1926</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1926-RO</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Rolex Oyster</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The birth of the waterproof case. Hermetically sealed construction protected delicate calibers from dust and moisture, changing the trajectory of tool watches forever.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/Rolex Oyster.webp') }}" alt="Rolex Oyster" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 5 // 1926</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <!-- Scene 6: 1969 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1969</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1969-AC</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The Automatic Chronograph</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The race to build the first self-winding stopwatch. A monumental year that saw rival consortiums achieve the holy grail of mechanical sports timing simultaneously.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/The Automatic Chronogaph.jpg') }}" alt="The Automatic Chronograph" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 6 // 1969</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <!-- Scene 7: 1999 -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1999</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-1999-CE</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">Co-Axial Escapement</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">The first practical new watch escapement in 250 years. Radically reducing sliding friction and redefining the theoretical limits of mechanical chronometry.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/Co Axial Escapement.jpg') }}" alt="Co-Axial Escapement" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 7 // 1999</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+                <!-- Scene 8: Today -->
+                <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
+                    <div class="w-full max-w-[1400px] grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center relative">
+                        
+                        <!-- Huge Year Background -->
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-black/[0.03] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">Today</div>
+                        </div>
+
+                        <!-- Left: Editorial Text -->
+                        <div class="col-span-1 md:col-span-5 relative z-10">
+                            <div class="flex items-center gap-3 mb-6 timeline-scene-ref opacity-0">
+                                <div class="w-2 h-2 rounded-full bg-black/20"></div>
+                                <span class="font-mono text-[10px] tracking-[0.2em] text-black/40">REF: ARCHIVE-TODAY-RM</span>
+                            </div>
+                            <h3 class="font-h1 text-3xl md:text-5xl uppercase tracking-wider mb-8 timeline-scene-title leading-[1.1] opacity-0">The Renaissance</h3>
+                            <p class="font-body text-base md:text-lg text-black/60 leading-[1.6] max-w-md timeline-scene-desc opacity-0">Every innovation led to one extraordinary machine.</p>
+                        </div>
+
+                        <!-- Right: Macro Photography & Blueprint -->
+                        <div class="col-span-1 md:col-span-7 relative z-10 h-[50vh] md:h-[70vh] flex items-center justify-center">
+                            <!-- Macro Image Wrapper with Clipping Mask -->
+                            <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
+                                <!-- Image with subtle parallax -->
+                                <img src="{{ asset('images/products/Richard Mille Automatic Chronograph.png') }}" alt="The Renaissance" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105" loading="lazy">
+                                
+                                <!-- Blueprint SVG Overlay -->
+                                <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <line x1="10" y1="10" x2="10" y2="90" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <line x1="10" y1="10" x2="90" y2="10" stroke="rgba(0,0,0,0.3)" stroke-width="0.2" class="blueprint-line" stroke-dasharray="100" stroke-dashoffset="100"/>
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(0,0,0,0.2)" stroke-width="0.1" fill="none" class="blueprint-circle" stroke-dasharray="200" stroke-dashoffset="200"/>
+                                    <!-- Measurement Marks -->
+                                    <path d="M 45 20 L 55 20 M 50 18 L 50 22" stroke="rgba(0,0,0,0.4)" stroke-width="0.2" class="blueprint-mark opacity-0"/>
+                                </svg>
+                                
+                                <!-- Technical Labels -->
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-black/60 bg-white/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 8 // Today</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    
+            </div>
+            
+            <!-- Global Timeline Progress Indicator (Engraved Line) -->
+            <div class="absolute bottom-12 left-12 right-12 h-[1px] bg-black/10 z-20 hidden md:block timeline-progress-track">
+                <div class="h-full bg-black/60 origin-left scale-x-0 timeline-progress-fill"></div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- NEW: Movement Lab Placeholder -->
+    <div id="movement-lab-section" class="w-full py-24 bg-background border-b border-primary/20 flex items-center justify-center min-h-[50vh]">
+        <h2 class="font-h1 text-4xl text-primary/30 uppercase tracking-widest">[Movement Lab Section]</h2>
+    </div>
+
     <!-- 3.5 Watchmaker's Notes -->
     <div id="notes-section" class="w-full bg-background relative border-b border-primary/20 overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
@@ -493,6 +800,87 @@
                 </div>
             </div>
             
+        </div>
+    </div>
+    
+    <!-- 3. New Arrivals Section - Collector's Selection -->
+    <div class="w-full section-reveal" id="new-arrival-section">
+        <div class="p-lg md:p-2xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-16 overflow-hidden min-h-[300px]">
+            <h2 class="new-arrival-heading font-h1 text-[clamp(4rem,10vw,8rem)] leading-none uppercase break-words w-full" style="font-family: 'Satoshi', sans-serif; font-weight: 200; opacity: 0; transform: translateY(40px);">NEW ARRIVAL</h2>
+            <a href="{{ route('products.index') }}" class="new-arrival-cta text-primary bg-transparent border border-primary px-xl py-lg font-label-caps uppercase text-xs tracking-[0.2em] hover:bg-black hover:text-white transition-colors duration-500 flex items-center justify-center shrink-0 group" style="opacity: 0;">
+                VIEW MORE
+                <span class="material-symbols-outlined ml-3 text-[14px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">arrow_forward</span>
+            </a>
+        </div>
+        
+        <!-- Editorial Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative group/grid" id="editorial-products-grid">
+            
+            <!-- GSAP Constructed Grid Lines -->
+            <div class="grid-lines-container absolute inset-0 pointer-events-none z-20">
+                <div class="grid-line-h absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
+                <div class="grid-line-h absolute bottom-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left hidden md:block lg:hidden"></div>
+                
+                <div class="grid-line-v absolute top-0 left-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+                <div class="grid-line-v absolute top-0 left-[25%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
+                <div class="grid-line-v absolute top-0 left-[50%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden md:block"></div>
+                <div class="grid-line-v absolute top-0 left-[75%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
+                <div class="grid-line-v absolute top-0 right-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+            </div>
+
+            @forelse($newArrivals as $product)
+                @if($product->stock <= 0)
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]">
+                @else
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
+                @endif
+                
+                    <!-- Local Card Background for click expansion -->
+                    <div class="card-bg absolute inset-0 bg-background z-0 pointer-events-none"></div>
+
+                    <!-- Card Contents -->
+                    <div class="flex-grow flex flex-col relative z-10 w-full h-full p-8 md:p-12 overflow-hidden items-start justify-between">
+                        
+                        <!-- Top Info -->
+                        <div class="w-full flex justify-between items-start mb-12">
+                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0 transition-all duration-500 ease-out group-hover/card:!tracking-[0.15em]">{{ $product->collection->name ?? 'CLE' }}</span>
+                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!translate-x-2">${{ number_format($product->price, 2) }}</span>
+                        </div>
+                        
+                        <!-- Floating Image Area -->
+                        <div class="w-full aspect-square flex items-center justify-center relative mb-12">
+                            @if ($product->primaryImage)
+                                <img src="{{ $product->primaryImage->url }}" 
+                                     alt="{{ $product->name }}"
+                                     class="product-image w-[80%] h-[80%] object-contain opacity-0 transform transition-all duration-500 ease-out group-hover/card:!-translate-y-3 group-hover/card:!brightness-100 group-hover/card:!contrast-105"
+                                     style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-primary/30 text-xs uppercase opacity-0 product-image" style="transform: translateY(30px);">No Image</div>
+                            @endif
+                            
+                            @if($product->stock <= 0)
+                            <div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] flex items-center justify-center z-10 product-out-stock opacity-0">
+                                <span class="font-mono text-[9px] text-primary tracking-[0.2em] px-3 py-1 border border-primary/20">OUT OF STOCK</span>
+                            </div>
+                            @endif
+                        </div>
+                        
+                        <!-- Details -->
+                        <div class="flex flex-col relative z-10 w-full">
+                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!-translate-y-2" style="font-weight: 400; letter-spacing: normal;">
+                                {{ $product->name }}
+                            </h3>
+                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0 transition-opacity duration-500 ease-out group-hover/card:!opacity-100">
+                                {{ $product->tagline ?? 'An exceptional example of mechanical precision, curated for the serious collector.' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-mono text-[10px] text-primary/50 uppercase tracking-widest">
+                    The gallery is currently empty.
+                </div>
+            @endforelse
         </div>
     </div>
     
@@ -787,6 +1175,7 @@
                 }, '+=0');
             });
         }
+
 
         // 2.5 THE DROP — Private Allocation Room
         const dropSection = document.getElementById('drop-section');
@@ -1210,137 +1599,108 @@
                 });
             }, 60000); // Every 60s
         } // end dropSection
-        // 3. New Arrivals: Collector's Selection (GSAP Orchestration)
-        const newArrivalSection = document.getElementById('new-arrival-section');
-        const gridContainer = document.getElementById('editorial-products-grid');
         
-        if (newArrivalSection && gridContainer) {
+        // NEW: Horology Timeline Animations Placeholder
+        const horologySection = document.getElementById('horology-timeline-section');
+        if (horologySection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
             
-            // Phase 8: Scroll Compression
-            gsap.to('.new-arrival-heading', {
-                scale: 0.85,
-                letterSpacing: '-0.02em',
-                ease: 'none',
-                transformOrigin: 'left center',
+            // 1. Pinned Timeline Scroll
+            const track = horologySection.querySelector('.timeline-track');
+            const scenes = gsap.utils.toArray('.timeline-scene');
+            const totalWidth = track.scrollWidth - window.innerWidth;
+            
+            const timelineScroll = gsap.to(track, {
+                x: () => -totalWidth + "px",
+                ease: "none",
                 scrollTrigger: {
-                    trigger: newArrivalSection,
-                    start: 'top top',
-                    end: '+=500',
+                    trigger: horologySection,
+                    pin: '.timeline-sticky-container',
+                    start: "top top",
+                    end: () => "+=" + (totalWidth),
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                    onUpdate: (self) => {
+                        gsap.set('.timeline-progress-fill', { scaleX: self.progress });
+                    }
+                }
+            });
+
+            // 2. Entry Sequence (Header & Grid)
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: horologySection,
+                    start: "top 60%",
+                }
+            })
+            .to('.timeline-header-line', { scaleX: 1, duration: 1, ease: 'power3.inOut' })
+            .to('.timeline-header-title', { y: 0, duration: 1, ease: 'power3.out' }, "-=0.5")
+            .to('.timeline-blueprint-grid', { opacity: 1, duration: 2 }, "-=0.5");
+
+            // 3. Scene Animations (Triggered as they enter horizontally via Container Animation)
+            scenes.forEach((scene, i) => {
+                const yearBg = scene.querySelector('.timeline-year-bg');
+                const title = scene.querySelector('.timeline-scene-title');
+                const desc = scene.querySelector('.timeline-scene-desc');
+                const ref = scene.querySelector('.timeline-scene-ref');
+                const imgWrap = scene.querySelector('.timeline-scene-img-wrap');
+                const img = scene.querySelector('.timeline-scene-img');
+                const blueprintLines = scene.querySelectorAll('.blueprint-line, .blueprint-circle');
+                const labels = scene.querySelectorAll('.blueprint-mark, .timeline-museum-label');
+                
+                // Split text for editorial fade
+                const splitDesc = new SplitType(desc, { types: 'lines' });
+
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: scene,
+                        containerAnimation: timelineScroll,
+                        start: "left center",
+                        toggleActions: "play none none reverse"
+                    }
+                })
+                .to(yearBg, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' })
+                .to(imgWrap, { clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power4.inOut' }, "-=0.8")
+                .to(img, { scale: 1, duration: 1.2, ease: 'power3.out' }, "-=1.2")
+                .to(title, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, "-=0.8")
+                .to(ref, { opacity: 1, duration: 0.5 }, "-=0.6")
+                .to(splitDesc.lines, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out' }, "-=0.6")
+                .to(blueprintLines, { strokeDashoffset: 0, duration: 1.5, ease: 'power2.inOut', stagger: 0.2 }, "-=1")
+                .to(labels, { opacity: 1, duration: 0.5 }, "-=0.5");
+
+                // Tiny Mouse Parallax
+                scene.addEventListener('mousemove', (e) => {
+                    if (img) {
+                        const rect = scene.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+                        gsap.to(img, { x: x * 10, y: y * 10, duration: 1, ease: 'power2.out' });
+                        gsap.to(blueprintLines, { x: x * -5, y: y * -5, duration: 1, ease: 'power2.out' });
+                    }
+                });
+            });
+
+            // 4. Final Scene Dissolve to Movement Lab
+            const lastScene = scenes[scenes.length - 1];
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: lastScene,
+                    containerAnimation: timelineScroll,
+                    start: "left left",
+                    end: "right left",
                     scrub: true
                 }
-            });
-
-            // Phases 1-3: Arrival & Grid Construction Timeline
-            const arrivalTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: newArrivalSection,
-                    start: 'top 75%',
-                    toggleActions: 'play none none none'
-                }
-            });
-
-            // Phase 1: Header Reveal
-            arrivalTl.to('.new-arrival-heading', {
-                y: 0,
-                opacity: 1,
-                duration: 0.9,
-                ease: 'expo.out'
             })
-            .to('.new-arrival-cta', {
-                opacity: 1,
-                duration: 0.8,
-                ease: 'power2.out'
-            }, "-=0.4");
-
-            // Phase 2: Grid Construction
-            const gridLinesV = document.querySelectorAll('.grid-line-v');
-            const gridLinesH = document.querySelectorAll('.grid-line-h');
+            .to('.timeline-blueprint-grid', { opacity: 0, duration: 1 })
+            .to(lastScene.querySelector('.timeline-scene-img-wrap'), { filter: 'blur(10px) brightness(1.5)', opacity: 0, duration: 1 }, 0);
             
-            arrivalTl.to(gridLinesV, {
-                scaleY: 1,
-                duration: 1.2,
-                stagger: 0.1,
-                ease: 'expo.inOut'
-            }, "-=0.2")
-            .to(gridLinesH, {
-                scaleX: 1,
-                duration: 1.2,
-                ease: 'expo.inOut'
-            }, "-=0.8");
-
-            // Phase 3: Curated Product Reveal
-            const cards = document.querySelectorAll('#editorial-products-grid .product-card');
-            
-            cards.forEach((card, index) => {
-                const img = card.querySelector('.product-image');
-                const outStock = card.querySelector('.product-out-stock');
-                const brand = card.querySelector('.product-brand');
-                const price = card.querySelector('.product-price');
-                const title = card.querySelector('.product-title');
-                const desc = card.querySelector('.product-desc');
-                
-                const startTime = 1.0 + (index * 0.14); // 140ms stagger offset
-
-                arrivalTl.to(img, {
-                    y: 0,
-                    opacity: 1,
-                    filter: 'brightness(1) contrast(1)',
-                    duration: 1.0,
-                    ease: 'power3.out'
-                }, startTime)
-                .to(brand, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.4)
-                .to(price, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.5)
-                .to(title, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.6)
-                .to(desc, { opacity: 0.5, duration: 0.6, ease: 'power2.out' }, startTime + 0.7);
-                
-                if (outStock) {
-                    arrivalTl.to(outStock, { opacity: 1, duration: 0.5, ease: 'power1.out' }, startTime + 0.3);
-                }
-            });
         }
-        
-        // Phase 7: Shared Element Pre-Navigation Transition
-        window.handlePreNavigation = function(e, cardEl, targetUrl) {
-            e.preventDefault();
-            
-            // Prevent double clicks
-            if (cardEl.dataset.transitioning === "true") return;
-            cardEl.dataset.transitioning = "true";
-            
-            const img = cardEl.querySelector('.product-image');
-            const bg = cardEl.querySelector('.card-bg');
-            const otherCards = Array.from(document.querySelectorAll('.product-card')).filter(c => c !== cardEl);
-            
-            // Lock scrolling
-            document.body.style.overflow = 'hidden';
-            
-            const tl = gsap.timeline({
-                onComplete: () => {
-                    window.location.href = targetUrl;
-                }
-            });
-            
-            // Fade out everything else
-            tl.to(otherCards, { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
-              .to('.grid-lines-container', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
-              .to('.new-arrival-heading', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
-              .to('.new-arrival-cta', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0);
-              
-            // Card transition
-            tl.to(bg, { 
-                scale: 1.02, 
-                backgroundColor: '#FAFAFA', 
-                duration: 0.6, 
-                ease: 'power3.inOut' 
-            }, 0)
-            .to(img, {
-                y: -30,
-                scale: 1.1,
-                filter: 'brightness(1) contrast(1.05)',
-                duration: 0.7,
-                ease: 'power3.inOut'
-            }, 0);
-        };
+
+
+        // NEW: Movement Lab Animations Placeholder
+        const movementSection = document.getElementById('movement-lab-section');
+        if (movementSection) {
+            // GSAP logic will go here
+        }
 
         // 3.5 Watchmaker's Notes
         const notesSection = document.getElementById('notes-section');
@@ -1510,6 +1870,138 @@
             });
             
         }
+
+        // 3. New Arrivals: Collector's Selection (GSAP Orchestration)
+        const newArrivalSection = document.getElementById('new-arrival-section');
+        const gridContainer = document.getElementById('editorial-products-grid');
+        
+        if (newArrivalSection && gridContainer) {
+            
+            // Phase 8: Scroll Compression
+            gsap.to('.new-arrival-heading', {
+                scale: 0.85,
+                letterSpacing: '-0.02em',
+                ease: 'none',
+                transformOrigin: 'left center',
+                scrollTrigger: {
+                    trigger: newArrivalSection,
+                    start: 'top top',
+                    end: '+=500',
+                    scrub: true
+                }
+            });
+
+            // Phases 1-3: Arrival & Grid Construction Timeline
+            const arrivalTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: newArrivalSection,
+                    start: 'top 75%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Phase 1: Header Reveal
+            arrivalTl.to('.new-arrival-heading', {
+                y: 0,
+                opacity: 1,
+                duration: 0.9,
+                ease: 'expo.out'
+            })
+            .to('.new-arrival-cta', {
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power2.out'
+            }, "-=0.4");
+
+            // Phase 2: Grid Construction
+            const gridLinesV = document.querySelectorAll('.grid-line-v');
+            const gridLinesH = document.querySelectorAll('.grid-line-h');
+            
+            arrivalTl.to(gridLinesV, {
+                scaleY: 1,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: 'expo.inOut'
+            }, "-=0.2")
+            .to(gridLinesH, {
+                scaleX: 1,
+                duration: 1.2,
+                ease: 'expo.inOut'
+            }, "-=0.8");
+
+            // Phase 3: Curated Product Reveal
+            const cards = document.querySelectorAll('#editorial-products-grid .product-card');
+            
+            cards.forEach((card, index) => {
+                const img = card.querySelector('.product-image');
+                const outStock = card.querySelector('.product-out-stock');
+                const brand = card.querySelector('.product-brand');
+                const price = card.querySelector('.product-price');
+                const title = card.querySelector('.product-title');
+                const desc = card.querySelector('.product-desc');
+                
+                const startTime = 1.0 + (index * 0.14); // 140ms stagger offset
+
+                arrivalTl.to(img, {
+                    y: 0,
+                    opacity: 1,
+                    filter: 'brightness(1) contrast(1)',
+                    duration: 1.0,
+                    ease: 'power3.out'
+                }, startTime)
+                .to(brand, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.4)
+                .to(price, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.5)
+                .to(title, { opacity: 1, duration: 0.6, ease: 'power2.out' }, startTime + 0.6)
+                .to(desc, { opacity: 0.5, duration: 0.6, ease: 'power2.out' }, startTime + 0.7);
+                
+                if (outStock) {
+                    arrivalTl.to(outStock, { opacity: 1, duration: 0.5, ease: 'power1.out' }, startTime + 0.3);
+                }
+            });
+        }
+        
+        // Phase 7: Shared Element Pre-Navigation Transition
+        window.handlePreNavigation = function(e, cardEl, targetUrl) {
+            e.preventDefault();
+            
+            // Prevent double clicks
+            if (cardEl.dataset.transitioning === "true") return;
+            cardEl.dataset.transitioning = "true";
+            
+            const img = cardEl.querySelector('.product-image');
+            const bg = cardEl.querySelector('.card-bg');
+            const otherCards = Array.from(document.querySelectorAll('.product-card')).filter(c => c !== cardEl);
+            
+            // Lock scrolling
+            document.body.style.overflow = 'hidden';
+            
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    window.location.href = targetUrl;
+                }
+            });
+            
+            // Fade out everything else
+            tl.to(otherCards, { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
+              .to('.grid-lines-container', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
+              .to('.new-arrival-heading', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0)
+              .to('.new-arrival-cta', { opacity: 0, duration: 0.3, ease: 'power2.inOut' }, 0);
+              
+            // Card transition
+            tl.to(bg, { 
+                scale: 1.02, 
+                backgroundColor: '#FAFAFA', 
+                duration: 0.6, 
+                ease: 'power3.inOut' 
+            }, 0)
+            .to(img, {
+                y: -30,
+                scale: 1.1,
+                filter: 'brightness(1) contrast(1.05)',
+                duration: 0.7,
+                ease: 'power3.inOut'
+            }, 0);
+        };
 
         // 4. Verification Protocol (Editorial Laboratory)
         const veriSection = document.getElementById('verification-section');
