@@ -770,6 +770,9 @@
         </div>
     </section>
 
+    <!-- Smooth Transition to Notes -->
+    <div class="w-full h-48 md:h-64 bg-gradient-to-b from-black to-background relative z-10 pointer-events-none"></div>
+
     <!-- 3.5 Watchmaker's Notes -->
     <div id="notes-section" class="w-full bg-background relative border-b border-primary/20 overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
