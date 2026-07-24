@@ -1894,13 +1894,17 @@
                 .to('.ml-final-text-2', { opacity: 1, y: 0, duration: 0.8 }, 15.8)
                 .to({}, { duration: 1 }); // Padding before unpin
 
+            
             // Helper to update active component based on scroll progress (28% to 78% of scroll space)
             let currentActive = null;
             function updateActiveComponent(progress) {
                 // If before explosion or after reassembly, reset highlights
                 if (progress < 0.28 || progress > 0.78) {
                     if (currentActive) {
-                        gsap.to(components, { opacity: 1, duration: 0.3 });
+                        gsap.to(components, { opacity: 1, duration: 0.5, overwrite: 'auto' });
+                        gsap.to(svgContainer, { xPercent: 0, yPercent: 0, scale: 1, duration: 1, ease: 'power2.out', overwrite: 'auto' });
+                        // Stop all rotations
+                        components.forEach(c => gsap.killTweensOf(c, "rotation"));
                         currentActive = null;
                     }
                     return;
@@ -1918,32 +1922,70 @@
                 if (currentActive !== activeId) {
                     currentActive = activeId;
                     
-                    // Dim others, highlight active (100% vs 35% opacity as per spec)
+                    // Dim others, highlight active. Add overwrite: 'auto' to fix flickering!
                     components.forEach(c => {
-                        gsap.to(c, { opacity: c.dataset.id === activeId ? 1 : 0.35, duration: 0.3 });
+                        const isActive = c.dataset.id === activeId;
+                        gsap.to(c, { 
+                            opacity: isActive ? 1 : 0.2, 
+                            duration: 0.5, 
+                            overwrite: 'auto' 
+                        });
+                        
+                        if (isActive) {
+                            // Rotate the active part slowly
+                            gsap.to(c, {
+                                rotation: "+=360",
+                                transformOrigin: "center center",
+                                duration: 15, // Slow, elegant rotation
+                                ease: "none",
+                                repeat: -1,
+                                overwrite: 'auto' // Prevents conflict with translation tweens
+                            });
+                        } else {
+                            // Stop rotation for inactive parts
+                            gsap.killTweensOf(c, "rotation");
+                        }
+                    });
+                    
+                    // Pan the SVG container to center the active component
+                    const panTargets = {
+                        'rotor': { x: 0, y: 30 },
+                        'bridge': { x: -25, y: -5 },
+                        'barrel': { x: 25, y: 25 },
+                        'gears': { x: 30, y: 0 },
+                        'escapement': { x: -5, y: -25 },
+                        'balance': { x: -35, y: -25 }
+                    };
+                    const pan = panTargets[activeId] || {x: 0, y: 0};
+                    gsap.to(svgContainer, {
+                        xPercent: pan.x,
+                        yPercent: pan.y,
+                        scale: 1.15,
+                        duration: 1.2,
+                        ease: 'power3.out',
+                        overwrite: 'auto'
                     });
                     
                     // Update Editorial Panel Content dynamically
                     const data = compData[activeId];
                     if (data) {
-                        // Fade out, update text, fade in
                         gsap.to([pTitle, pDesc, pRef, pCat, pFreq], { 
                             opacity: 0, 
-                            duration: 0.2, 
+                            duration: 0.2,
+                            overwrite: 'auto',
                             onComplete: () => {
                                 pTitle.textContent = data.title;
                                 pDesc.textContent = data.desc;
                                 pRef.textContent = data.ref;
                                 pCat.textContent = data.cat;
                                 pFreq.textContent = data.freq;
-                                gsap.to([pTitle, pDesc, pRef, pCat, pFreq], { opacity: 1, duration: 0.2 });
+                                gsap.to([pTitle, pDesc, pRef, pCat, pFreq], { opacity: 1, duration: 0.3, overwrite: 'auto' });
                             }
                         });
                     }
 
                     // Animate connecting line target
                     const path = connectLine;
-                    // Approximate SVG viewport coordinates based on component final positions
                     const targets = {
                         'rotor': '50 20',
                         'bridge': '65 40',
@@ -1952,7 +1994,7 @@
                         'escapement': '55 65',
                         'balance': '70 70'
                     };
-                    gsap.to(path, { attr: { d: `M 25 50 L ${targets[activeId]}` }, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(path, { attr: { d: `M 25 50 L ${targets[activeId]}` }, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
                 }
             }
 
