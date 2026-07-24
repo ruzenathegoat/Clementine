@@ -1237,23 +1237,19 @@
                 activeScrambles.set(el, intervalId);
             }
 
-            // --- Score Easing Curve ---
-            const scoreEaseIn = gsap.parseEase('power1.in');
-            const scoreEaseMid = gsap.parseEase('power2.out');
+            // --- Score Easing Curve (revisi) ---
             const scoreEaseFinal = gsap.parseEase('power3.out');
 
             function mapProgressToScore(p) {
-                const progress = Math.min(Math.max(p, 0), 1); 
-                
-                if (progress < 0.7) {
-                    // Fase 1: lambat, 0% -> 60%
-                    return scoreEaseIn(progress / 0.7) * 60;
-                } else if (progress < 0.92) {
-                    // Fase 2: cepat, 60% -> 97%
-                    return 60 + scoreEaseMid((progress - 0.7) / 0.22) * 37;
+                const progress = Math.min(Math.max(p, 0), 1);
+
+                if (progress < 0.95) {
+                    // Linear penuh, sinkron 1:1 dengan scan line & clip-path
+                    return progress * 100 * (95 / 95); // = progress * 100, ditulis eksplisit untuk kejelasan skala
                 } else {
-                    // Fase 3: hesitate, 97% -> 100%
-                    return 97 + scoreEaseFinal((progress - 0.92) / 0.08) * 3;
+                    // Hesitate hanya di 5% terakhir, saat reveal visual sudah nyaris selesai
+                    const t = (progress - 0.95) / 0.05;
+                    return 95 + scoreEaseFinal(t) * 5;
                 }
             }
 
