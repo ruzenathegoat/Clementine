@@ -265,7 +265,7 @@
 
     
     <!-- 4. HOROLOGY TIMELINE (Pinned Scroll) -->
-    <section id="horology-timeline-section" class="w-full bg-[#111111] text-white overflow-hidden relative">
+    <section id="horology-timeline-section" class="w-full bg-black text-white overflow-hidden relative">
         <!-- Entry Sequence Header -->
         <div class="absolute top-0 left-0 w-full px-6 md:px-12 lg:px-24 pt-16 md:pt-24 z-20 pointer-events-none timeline-header">
             <div class="flex items-center gap-4 mb-12">
@@ -296,7 +296,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1675</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1675</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -326,7 +326,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 1 // 1675</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 1 // 1675</div>
                             </div>
                         </div>
 
@@ -339,7 +339,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1759</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1759</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -368,7 +368,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 2 // 1759</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 2 // 1759</div>
                             </div>
                         </div>
 
@@ -381,7 +381,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1810</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1810</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -411,7 +411,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 3 // 1810</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 3 // 1810</div>
                             </div>
                         </div>
 
@@ -424,7 +424,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1868</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1868</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -454,7 +454,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 4 // 1868</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 4 // 1868</div>
                             </div>
                         </div>
 
@@ -467,7 +467,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1926</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1926</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -497,7 +497,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 5 // 1926</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 5 // 1926</div>
                             </div>
                         </div>
 
@@ -510,7 +510,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1969</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1969</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -540,7 +540,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 6 // 1969</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 6 // 1969</div>
                             </div>
                         </div>
 
@@ -553,7 +553,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1999</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">1999</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -583,7 +583,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 7 // 1999</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 7 // 1999</div>
                             </div>
                         </div>
 
@@ -596,7 +596,7 @@
                         
                         <!-- Huge Year Background -->
                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/[0.05] leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">Today</div>
+                            <div class="font-h1 text-[clamp(6rem,20vw,20rem)] text-white/10 leading-none tracking-tighter timeline-year-bg translate-y-20 opacity-0">Today</div>
                         </div>
 
                         <!-- Left: Editorial Text -->
@@ -626,7 +626,7 @@
                                 </svg>
                                 
                                 <!-- Technical Labels -->
-                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-[#111111]/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 8 // Today</div>
+                                <div class="absolute bottom-4 right-4 font-mono text-[9px] tracking-[0.2em] text-white/60 bg-black/80 px-2 py-1 backdrop-blur-sm opacity-0 timeline-museum-label">FIG. 8 // Today</div>
                             </div>
                         </div>
 
@@ -645,7 +645,7 @@
 
 
     <!-- NEW: Movement Lab Section -->
-    <section id="movement-lab-section" class="w-full bg-[#111111] text-white relative z-20">
+    <section id="movement-lab-section" class="w-full bg-black text-white relative z-20">
         <!-- Add empty divs to create the scroll distance for ScrollTrigger (e.g. 600vh total) -->
         <div class="ml-scroll-space h-[600vh] w-full absolute top-0 left-0 pointer-events-none"></div>
 
@@ -816,7 +816,7 @@
             </div>
 
             <!-- Final Message -->
-            <div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-[#111111]/95 backdrop-blur-sm opacity-0 ml-final-msg">
+            <div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-black/95 backdrop-blur-sm opacity-0 ml-final-msg">
                 <h2 class="font-h1 text-3xl md:text-6xl uppercase tracking-widest text-center leading-[1.2]">
                     <span class="block ml-final-text-1 translate-y-8 opacity-0">True Precision</span>
                     <span class="block text-white/50 ml-final-text-2 translate-y-8 opacity-0 mt-4 md:mt-6">Is Never An Accident.</span>
