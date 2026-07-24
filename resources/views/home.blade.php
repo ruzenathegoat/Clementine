@@ -1694,56 +1694,56 @@
             .to(lastScene.querySelector('.timeline-scene-img-wrap'), { filter: 'blur(10px) brightness(1.5)', opacity: 0, duration: 1 }, 0);
             
         } else if (horologySection && window.innerWidth <= 768) {
-            // MOBILE FALLBACK: Remove opacity-0 and reveal all elements for vertical scroll
-            const mobileScenes = horologySection.querySelectorAll('.timeline-scene');
-            
-            // Reveal header
-            const headerLine = horologySection.querySelector('.timeline-header-line');
-            const headerTitle = horologySection.querySelector('.timeline-header-title');
-            const blueprintGrid = horologySection.querySelector('.timeline-blueprint-grid');
-            if (headerLine) headerLine.style.transform = 'scaleX(1)';
-            if (headerTitle) headerTitle.style.transform = 'translateY(0)';
-            if (blueprintGrid) blueprintGrid.style.opacity = '1';
-
-            // Make sticky container non-sticky on mobile
+            // MOBILE: Vertical scroll animations (no pinned horizontal scroll)
             const stickyContainer = horologySection.querySelector('.timeline-sticky-container');
             if (stickyContainer) {
                 stickyContainer.style.height = 'auto';
                 stickyContainer.style.overflow = 'visible';
             }
 
+            // Entry Sequence (Header & Grid) — same as desktop
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: horologySection,
+                    start: "top 80%",
+                }
+            })
+            .to('.timeline-header-line', { scaleX: 1, duration: 1, ease: 'power3.inOut' })
+            .to('.timeline-header-title', { y: 0, duration: 1, ease: 'power3.out' }, "-=0.5")
+            .to('.timeline-blueprint-grid', { opacity: 1, duration: 2 }, "-=0.5");
+
+            // Scene Animations — triggered vertically as each scene enters viewport
+            const mobileScenes = horologySection.querySelectorAll('.timeline-scene');
             mobileScenes.forEach((scene) => {
-                // Reveal year background
                 const yearBg = scene.querySelector('.timeline-year-bg');
-                if (yearBg) { yearBg.style.opacity = '1'; yearBg.style.transform = 'translateY(0)'; }
-
-                // Reveal title
                 const title = scene.querySelector('.timeline-scene-title');
-                if (title) { title.style.opacity = '1'; title.style.transform = 'translateY(0)'; }
-
-                // Reveal ref label
-                const ref = scene.querySelector('.timeline-scene-ref');
-                if (ref) { ref.style.opacity = '1'; }
-
-                // Reveal description
                 const desc = scene.querySelector('.timeline-scene-desc');
-                if (desc) { desc.style.opacity = '1'; desc.style.transform = 'translateY(0)'; }
-
-                // Reveal image (clip-path and scale)
+                const ref = scene.querySelector('.timeline-scene-ref');
                 const imgWrap = scene.querySelector('.timeline-scene-img-wrap');
-                if (imgWrap) { imgWrap.style.clipPath = 'inset(0% 0 0 0)'; }
                 const img = scene.querySelector('.timeline-scene-img');
-                if (img) { img.style.transform = 'scale(1)'; }
+                const blueprintLines = scene.querySelectorAll('.blueprint-line, .blueprint-circle');
+                const labels = scene.querySelectorAll('.blueprint-mark, .timeline-museum-label');
 
-                // Reveal blueprint lines
-                scene.querySelectorAll('.blueprint-line, .blueprint-circle').forEach(el => {
-                    el.style.strokeDashoffset = '0';
-                });
+                // Split text for editorial fade
+                if (typeof SplitType !== 'undefined') {
+                    const splitDesc = new SplitType(desc, { types: 'lines' });
 
-                // Reveal labels
-                scene.querySelectorAll('.blueprint-mark, .timeline-museum-label').forEach(el => {
-                    el.style.opacity = '1';
-                });
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: scene,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    })
+                    .to(yearBg, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' })
+                    .to(ref, { opacity: 1, duration: 0.4 }, "-=0.4")
+                    .to(title, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, "-=0.3")
+                    .to(splitDesc.lines, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power2.out' }, "-=0.4")
+                    .to(imgWrap, { clipPath: 'inset(0% 0 0 0)', duration: 1, ease: 'power4.inOut' }, "-=0.6")
+                    .to(img, { scale: 1, duration: 1, ease: 'power3.out' }, "-=1")
+                    .to(blueprintLines, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', stagger: 0.15 }, "-=0.8")
+                    .to(labels, { opacity: 1, duration: 0.4 }, "-=0.4");
+                }
             });
         }
 
