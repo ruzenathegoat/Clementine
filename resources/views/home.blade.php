@@ -278,7 +278,7 @@
         </div>
 
         <!-- Sticky Wrapper (Pinned by GSAP) -->
-        <div class="timeline-sticky-container h-screen w-full relative flex items-center">
+        <div class="timeline-sticky-container h-auto md:h-screen w-full relative flex items-center">
             
             <!-- Global Blueprint Grid (Fades in) -->
             <div class="absolute inset-0 z-0 opacity-0 timeline-blueprint-grid" style="background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 50px 50px;">
@@ -288,7 +288,7 @@
             </div>
 
             <!-- Horizontal Track -->
-            <div class="timeline-track flex h-full w-[800vw] relative z-10 flex-col md:flex-row md:w-[800vw]">
+            <div class="timeline-track flex h-full w-full relative z-10 flex-col md:flex-row md:w-[800vw]">
 
                 <!-- Scene 1: 1675 -->
                 <div class="timeline-scene w-full min-h-[80vh] md:w-[100vw] md:h-full flex-shrink-0 relative flex items-center justify-center px-6 md:px-24 py-24 md:py-0 border-b md:border-b-0 md:border-r border-black/10">
@@ -1693,6 +1693,58 @@
             .to('.timeline-blueprint-grid', { opacity: 0, duration: 1 })
             .to(lastScene.querySelector('.timeline-scene-img-wrap'), { filter: 'blur(10px) brightness(1.5)', opacity: 0, duration: 1 }, 0);
             
+        } else if (horologySection && window.innerWidth <= 768) {
+            // MOBILE FALLBACK: Remove opacity-0 and reveal all elements for vertical scroll
+            const mobileScenes = horologySection.querySelectorAll('.timeline-scene');
+            
+            // Reveal header
+            const headerLine = horologySection.querySelector('.timeline-header-line');
+            const headerTitle = horologySection.querySelector('.timeline-header-title');
+            const blueprintGrid = horologySection.querySelector('.timeline-blueprint-grid');
+            if (headerLine) headerLine.style.transform = 'scaleX(1)';
+            if (headerTitle) headerTitle.style.transform = 'translateY(0)';
+            if (blueprintGrid) blueprintGrid.style.opacity = '1';
+
+            // Make sticky container non-sticky on mobile
+            const stickyContainer = horologySection.querySelector('.timeline-sticky-container');
+            if (stickyContainer) {
+                stickyContainer.style.height = 'auto';
+                stickyContainer.style.overflow = 'visible';
+            }
+
+            mobileScenes.forEach((scene) => {
+                // Reveal year background
+                const yearBg = scene.querySelector('.timeline-year-bg');
+                if (yearBg) { yearBg.style.opacity = '1'; yearBg.style.transform = 'translateY(0)'; }
+
+                // Reveal title
+                const title = scene.querySelector('.timeline-scene-title');
+                if (title) { title.style.opacity = '1'; title.style.transform = 'translateY(0)'; }
+
+                // Reveal ref label
+                const ref = scene.querySelector('.timeline-scene-ref');
+                if (ref) { ref.style.opacity = '1'; }
+
+                // Reveal description
+                const desc = scene.querySelector('.timeline-scene-desc');
+                if (desc) { desc.style.opacity = '1'; desc.style.transform = 'translateY(0)'; }
+
+                // Reveal image (clip-path and scale)
+                const imgWrap = scene.querySelector('.timeline-scene-img-wrap');
+                if (imgWrap) { imgWrap.style.clipPath = 'inset(0% 0 0 0)'; }
+                const img = scene.querySelector('.timeline-scene-img');
+                if (img) { img.style.transform = 'scale(1)'; }
+
+                // Reveal blueprint lines
+                scene.querySelectorAll('.blueprint-line, .blueprint-circle').forEach(el => {
+                    el.style.strokeDashoffset = '0';
+                });
+
+                // Reveal labels
+                scene.querySelectorAll('.blueprint-mark, .timeline-museum-label').forEach(el => {
+                    el.style.opacity = '1';
+                });
+            });
         }
 
 
