@@ -116,33 +116,27 @@
 
 <style>
 @media print {
-    /* Hide EVERYTHING on the page */
-    body * {
-        visibility: hidden !important;
+    /* Completely remove all other elements from document flow */
+    body > * {
+        display: none !important;
     }
     
-    /* Show only the invoice drawer and its contents */
-    .invoice-drawer-container,
-    .invoice-drawer-container .invoice-print-area,
-    .invoice-drawer-container .invoice-print-area *  {
-        visibility: visible !important;
-    }
-
-    /* Reset the drawer container to normal document flow */
-    .invoice-drawer-container {
-        position: fixed !important;
-        inset: 0 !important;
+    /* Bring back only the teleported invoice drawer */
+    body > .invoice-drawer-container {
         display: block !important;
-        z-index: 99999 !important;
-        background: white !important;
+        position: static !important;
+        height: auto !important;
         overflow: visible !important;
     }
 
-    /* Reset the drawer panel for print */
+    /* Hide the dark backdrop */
+    .invoice-drawer-container > div:first-child {
+        display: none !important;
+    }
+
+    /* Reset the drawer panel to normal document flow so it doesn't repeat */
     .invoice-print-area {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
+        position: static !important;
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
