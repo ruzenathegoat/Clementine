@@ -456,10 +456,8 @@
                     <!-- Quote Block -->
                     <div class="note-quote w-full py-12 md:py-24 flex items-center justify-center relative my-12">
                         <div class="absolute left-0 top-1/2 w-8 h-[1px] bg-primary/20"></div>
-                        <h3 class="font-h1 text-[clamp(2rem,4vw,3.5rem)] leading-[1.1] uppercase text-center max-w-[800px]" style="text-wrap: balance;">
-                            <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">"A mechanical watch isn't</span></span>
-                            <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">powered by batteries.</span></span>
-                            <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">It's powered by engineering."</span></span>
+                        <h3 class="note-quote-text font-h1 text-[clamp(2rem,4vw,3.5rem)] leading-[1.1] uppercase text-center max-w-[800px]" style="text-wrap: balance;">
+                            "A mechanical watch isn't<br>powered by batteries.<br>It's powered by engineering."
                         </h3>
                         <div class="absolute right-0 top-1/2 w-8 h-[1px] bg-primary/20"></div>
                     </div>
@@ -1412,6 +1410,33 @@
                         scrub: true
                     }
                 });
+
+                // Quotes Progressive Reading
+                const quoteElement = notesSection.querySelector('.note-quote-text');
+                if (quoteElement && typeof SplitType !== 'undefined') {
+                    const splitQuote = new SplitType(quoteElement, { types: 'lines', lineClass: 'quote-prog-line' });
+                    
+                    gsap.set('.quote-prog-line', { opacity: 0.2, color: 'rgba(0, 0, 0, 0.4)' });
+
+                    const quoteTl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: '.note-quote',
+                            start: 'top 80%',
+                            end: 'bottom 50%',
+                            scrub: 1
+                        }
+                    });
+
+                    const qLines = quoteElement.querySelectorAll('.quote-prog-line');
+                    qLines.forEach((line) => {
+                        quoteTl.to(line, {
+                            opacity: 1,
+                            color: '#000000',
+                            duration: 1,
+                            ease: 'none'
+                        }, '+=0');
+                    });
+                }
             }
 
             // Article Interactions (Hover & Click/FLIP)
@@ -1484,20 +1509,6 @@
                 });
             });
             
-            // Quotes Reveal
-            const quoteLines = notesSection.querySelectorAll('.quote-text');
-            if (quoteLines.length > 0) {
-                gsap.to(quoteLines, {
-                    y: '0%',
-                    duration: 0.9,
-                    ease: 'power3.out',
-                    stagger: 0.15,
-                    scrollTrigger: {
-                        trigger: '.note-quote',
-                        start: 'top 85%'
-                    }
-                });
-            }
         }
 
         // 4. Verification Protocol (Editorial Laboratory)
