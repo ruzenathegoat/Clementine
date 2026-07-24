@@ -644,185 +644,129 @@
     </section>
 
 
-    <!-- NEW: Movement Lab Section -->
-    <section id="movement-lab-section" class="w-full bg-black text-white relative z-20">
-        <!-- Add empty divs to create the scroll distance for ScrollTrigger (e.g. 600vh total) -->
-        <div class="ml-scroll-space h-[600vh] w-full absolute top-0 left-0 pointer-events-none"></div>
+        <!-- 5. COLLECTOR'S PRINCIPLES (Editorial Section) -->
+    <style>
+        @import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+        
+        .font-satoshi { font-family: 'Satoshi', sans-serif; }
+        .font-plex { font-family: 'IBM Plex Mono', monospace; }
+        .font-helvetica { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    </style>
 
-        <div class="ml-sticky-container h-screen w-full sticky top-0 overflow-hidden flex items-center justify-center">
+    <section id="collectors-principles-section" class="w-full relative z-20 bg-black">
+        <!-- Scroll Spacing for 5 Principles + Entry + Exit -->
+        <div class="cp-scroll-space h-[600vh] w-full absolute top-0 left-0 pointer-events-none"></div>
+
+        <!-- Sticky Container -->
+        <div class="cp-sticky-container h-screen w-full sticky top-0 overflow-hidden flex flex-col justify-center items-center">
             
-            <!-- Grid Background (Fades in) -->
-            <div class="absolute inset-0 z-0 opacity-0 ml-blueprint-grid" style="background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px;"></div>
-            
-            <!-- Editorial Info Panel (Left) -->
-            <div class="absolute left-6 md:left-24 top-1/2 -translate-y-1/2 w-[280px] md:w-80 z-20 opacity-0 ml-editorial-panel pointer-events-none">
-                <div class="font-mono text-[10px] tracking-[0.2em] text-white/50 mb-4 ml-panel-ref">ML-000</div>
-                <h3 class="font-h1 text-2xl md:text-3xl uppercase tracking-wider mb-6 ml-panel-title">COMPONENT</h3>
-                <p class="font-body text-sm md:text-base text-white/70 leading-[1.6] mb-8 ml-panel-desc">Description goes here.</p>
-                <div class="grid grid-cols-2 gap-y-4 gap-x-8 border-t border-white/10 pt-4 font-mono text-[9px] md:text-[10px] uppercase tracking-wider text-white/60 ml-panel-specs">
-                    <div>
-                        <div class="text-white/40 mb-1">CATEGORY</div>
-                        <div class="text-white ml-spec-cat">Regulation</div>
-                    </div>
-                    <div>
-                        <div class="text-white/40 mb-1">FREQ</div>
-                        <div class="text-white ml-spec-freq">28800 BPH</div>
-                    </div>
-                    <div>
-                        <div class="text-white/40 mb-1">DIFFICULTY</div>
-                        <div class="text-white ml-spec-diff">Advanced</div>
-                    </div>
-                </div>
+            <!-- Entry Line & Label -->
+            <div class="absolute top-12 md:top-24 w-full px-6 md:px-16 flex items-center justify-between z-30">
+                <div class="cp-entry-line w-full h-[1px] bg-white scale-x-0 origin-left"></div>
+                <div class="cp-entry-label font-helvetica text-[10px] md:text-xs uppercase tracking-widest text-white/60 opacity-0 ml-6 whitespace-nowrap">EDITORIAL 02</div>
             </div>
 
-            <!-- SVG Connecting Line -->
-            <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <!-- Using fixed coordinates that will be updated dynamically via JS -->
-                <path d="M 30 50 L 50 50" stroke="rgba(255,255,255,0.2)" stroke-width="0.1" fill="none" class="ml-connect-line opacity-0" stroke-dasharray="100" stroke-dashoffset="100"/>
-            </svg>
-
-            <!-- SVG Movement Graphic (Center) -->
-            <div class="relative w-full max-w-[800px] aspect-square z-10 flex items-center justify-center ml-svg-container" style="transform: scale(0.4);">
+            <!-- Global Editorial Layout Container -->
+            <div class="relative w-full max-w-[1200px] px-6 md:px-16 flex flex-col h-[70vh] justify-center mt-12">
                 
-                <!-- Tiny Specs Markers -->
-                <div class="absolute top-1/4 left-1/4 font-mono text-[9px] tracking-widest text-white/50 ml-spec-marker opacity-0 -translate-x-1/2 -translate-y-1/2">26 JEWELS</div>
-                <div class="absolute bottom-1/4 right-1/4 font-mono text-[9px] tracking-widest text-white/50 ml-spec-marker opacity-0 translate-x-1/2 translate-y-1/2">72H RESERVE</div>
-                <div class="absolute top-1/4 right-1/4 font-mono text-[9px] tracking-widest text-white/50 ml-spec-marker opacity-0 translate-x-1/2 -translate-y-1/2">SWISS LEVER</div>
-                
-                <!-- The SVG -->
-                <svg class="w-full h-full overflow-visible ml-movement-svg" viewBox="-100 -100 200 200">
-                    <defs>
-                        <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#eeeeee" />
-                            <stop offset="50%" stop-color="#dddddd" />
-                            <stop offset="100%" stop-color="#cccccc" />
-                        </linearGradient>
-                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.1"/>
-                        </filter>
-                    </defs>
-
-                    <!-- Main Barrel (Upper Left) -->
-                    <g id="ml-barrel" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="barrel">
-                        <circle cx="-30" cy="-30" r="35" fill="none" stroke="#888" stroke-width="0.5" stroke-dasharray="2 1"/>
-                        <circle cx="-30" cy="-30" r="33" fill="#f8f8f8" stroke="#333" stroke-width="0.5" filter="url(#shadow)"/>
-                        <path d="M-30,-30 m0,-2 a2,2 0 1,1 0,4 a4,4 0 1,1 0,-8 a6,6 0 1,1 0,12 a8,8 0 1,1 0,-16 a10,10 0 1,1 0,20 a12,12 0 1,1 0,-24 a14,14 0 1,1 0,28 a16,16 0 1,1 0,-32 a18,18 0 1,1 0,36 a20,20 0 1,1 0,-40 a22,22 0 1,1 0,44 a24,24 0 1,1 0,-48 a26,26 0 1,1 0,52" fill="none" stroke="#aaa" stroke-width="0.3"/>
-                        <circle cx="-30" cy="-30" r="2" fill="#222"/>
-                        <path d="M -30 -65 A 35 35 0 0 1 5 -30" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="1 1.5"/>
-                    </g>
-
-                    <!-- Gear Train (Center Left) -->
-                    <g id="ml-gear-train" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="gears">
-                        <circle cx="0" cy="0" r="20" fill="none" stroke="#888" stroke-width="0.5"/>
-                        <circle cx="0" cy="0" r="18" fill="#f4f4f4" stroke="#444" stroke-width="0.5" filter="url(#shadow)"/>
-                        <circle cx="0" cy="0" r="1.5" fill="#c0392b"/> 
-                        <line x1="0" y1="-18" x2="0" y2="18" stroke="#555" stroke-width="1.5"/>
-                        <line x1="-18" y1="0" x2="18" y2="0" stroke="#555" stroke-width="1.5"/>
-                        <line x1="-12.7" y1="-12.7" x2="12.7" y2="12.7" stroke="#555" stroke-width="1.5"/>
-                        <line x1="-12.7" y1="12.7" x2="12.7" y2="-12.7" stroke="#555" stroke-width="1.5"/>
-                        
-                        <circle cx="-15" cy="20" r="14" fill="none" stroke="#888" stroke-width="0.5"/>
-                        <circle cx="-15" cy="20" r="12" fill="#eaeaea" stroke="#555" stroke-width="0.3" filter="url(#shadow)"/>
-                        <circle cx="-15" cy="20" r="1" fill="#c0392b"/>
-                        <circle cx="-15" cy="20" r="8" fill="none" stroke="#777" stroke-width="0.2"/>
-                        
-                        <circle cx="10" cy="25" r="10" fill="none" stroke="#888" stroke-width="0.5"/>
-                        <circle cx="10" cy="25" r="8" fill="#f0f0f0" stroke="#666" stroke-width="0.3" filter="url(#shadow)"/>
-                        <circle cx="10" cy="25" r="1" fill="#c0392b"/>
-                        <path d="M 10 17 L 10 33 M 2 25 L 18 25" stroke="#777" stroke-width="0.5"/>
-                    </g>
-
-                    <!-- Escapement (Bottom) -->
-                    <g id="ml-escapement" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="escapement">
-                        <circle cx="25" cy="35" r="8" fill="none" stroke="#888" stroke-width="0.3"/>
-                        <path d="M 25 27 L 27 30 L 29 27 L 29 29 L 32 30 L 30 33 L 33 35 L 30 37 L 32 40 L 29 39 L 29 42 L 27 39 L 25 43 L 23 39 L 21 42 L 21 39 L 18 40 L 20 37 L 17 35 L 20 33 L 18 30 L 21 29 L 21 27 L 23 30 Z" fill="#e8e8e8" stroke="#333" stroke-width="0.3" filter="url(#shadow)"/>
-                        <circle cx="25" cy="35" r="1" fill="#c0392b"/>
-                        
-                        <path d="M 35 45 L 33 40 L 29 39 L 31 37 L 34 38 L 37 34 L 39 36 L 36 39 Z" fill="#f5f5f5" stroke="#222" stroke-width="0.4" filter="url(#shadow)"/>
-                        <circle cx="35" cy="45" r="1" fill="#c0392b"/>
-                        <rect x="30.5" y="36.5" width="2" height="1" fill="#c0392b" transform="rotate(-30, 31.5, 37)"/>
-                        <rect x="37" y="34.5" width="2" height="1" fill="#c0392b" transform="rotate(20, 38, 35)"/>
-                    </g>
-
-                    <!-- Balance Wheel (Bottom Right) -->
-                    <g id="ml-balance" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="balance">
-                        <path d="M 60 70 C 60 70, 70 50, 85 45 C 90 43, 95 48, 92 52 C 85 60, 75 75, 65 75 Z" fill="url(#metal)" stroke="#333" stroke-width="0.5" filter="url(#shadow)"/>
-                        <path d="M 68 55 A 15 15 0 0 1 78 50" fill="none" stroke="#222" stroke-width="1.5"/>
-                        <circle cx="73" cy="52" r="1" fill="#c0392b"/>
-                        <circle cx="45" cy="55" r="22" fill="none" stroke="#888" stroke-width="0.5"/>
-                        <circle cx="45" cy="55" r="20" fill="none" stroke="#cda434" stroke-width="2.5" filter="url(#shadow)"/> 
-                        <circle cx="45" cy="55" r="1.5" fill="#c0392b"/>
-                        <line x1="25" y1="55" x2="65" y2="55" stroke="#cda434" stroke-width="1.5"/>
-                        <path d="M 45 55 m 0 -2 a 2 2 0 1 1 0 4 a 4 4 0 1 1 0 -8 a 6 6 0 1 1 0 12 a 8 8 0 1 1 0 -16 a 10 10 0 1 1 0 20 a 12 12 0 1 1 0 -24 a 14 14 0 1 1 0 28 a 16 16 0 1 1 0 -32" fill="none" stroke="#aaa" stroke-width="0.2"/>
-                        <circle cx="25" cy="55" r="1" fill="#444"/>
-                        <circle cx="65" cy="55" r="1" fill="#444"/>
-                        <circle cx="45" cy="35" r="1" fill="#444"/>
-                        <circle cx="45" cy="75" r="1" fill="#444"/>
-                    </g>
-
-                    <!-- Main Bridge (Center Right) -->
-                    <g id="ml-bridge" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="bridge">
-                        <path d="M -15 15 C -25 -10, -5 -35, 15 -25 C 35 -15, 30 10, 40 20 C 50 30, 25 45, 10 35 C -5 25, -5 40, -15 15 Z" fill="url(#metal)" stroke="#444" stroke-width="0.5" filter="url(#shadow)"/>
-                        <circle cx="0" cy="0" r="1.2" fill="#c0392b"/>
-                        <circle cx="10" cy="25" r="1.2" fill="#c0392b"/>
-                        <circle cx="25" cy="10" r="1.2" fill="#c0392b"/>
-                        <circle cx="-5" cy="-20" r="2.5" fill="#ccc" stroke="#333" stroke-width="0.3"/>
-                        <line x1="-7" y1="-20" x2="-3" y2="-20" stroke="#333" stroke-width="0.5"/>
-                        <circle cx="25" cy="-5" r="2.5" fill="#ccc" stroke="#333" stroke-width="0.3"/>
-                        <line x1="23" y1="-7" x2="27" y2="-3" stroke="#333" stroke-width="0.5"/>
-                        <circle cx="15" cy="30" r="2.5" fill="#ccc" stroke="#333" stroke-width="0.3"/>
-                        <line x1="13" y1="28" x2="17" y2="32" stroke="#333" stroke-width="0.5"/>
-                        <text x="0" y="-10" font-family="monospace" font-size="4" fill="#666" transform="rotate(-15, 0, -10)">CLEMENTINE</text>
-                        <text x="5" y="10" font-family="monospace" font-size="3" fill="#666" transform="rotate(-15, 5, 10)">TWENTY-SIX 26 JEWELS</text>
-                    </g>
-
-                    <!-- Rotor (Top) -->
-                    <g id="ml-rotor" class="ml-component cursor-crosshair transition-opacity duration-300" data-id="rotor">
-                        <circle cx="0" cy="0" r="8" fill="#e0e0e0" stroke="#333" stroke-width="0.5"/>
-                        <circle cx="0" cy="0" r="6" fill="#f0f0f0" stroke="#444" stroke-width="0.2"/>
-                        <circle cx="0" cy="0" r="2" fill="#999" stroke="#333" stroke-width="0.3"/>
-                        <path d="M 0 0 L -5 5 M 0 0 L 5 -5 M 0 0 L -5 -5 M 0 0 L 5 5" stroke="#ccc" stroke-width="0.5"/>
-                        <path d="M -50 0 A 50 50 0 0 1 50 0 L 40 0 A 40 40 0 0 0 -40 0 Z" fill="url(#metal)" stroke="#444" stroke-width="0.5" filter="url(#shadow)"/>
-                        <path d="M -52 0 A 52 52 0 0 1 52 0 L 48 0 A 48 48 0 0 0 -48 0 Z" fill="#d4af37" opacity="0.3"/> 
-                        <path d="M -40 0 A 40 40 0 0 1 40 0 L 10 0 A 10 10 0 0 0 -10 0 Z" fill="#e8e8e8" stroke="#555" stroke-width="0.2"/>
-                        <circle cx="0" cy="0" r="10" fill="none" stroke="#bbb" stroke-width="0.5" stroke-dasharray="1 2"/>
-                        <text x="0" y="-30" font-family="sans-serif" font-weight="bold" font-size="6" fill="#555" text-anchor="middle" transform="rotate(0, 0, -30)">CLEMENTINE</text>
-                        <text x="0" y="-23" font-family="monospace" font-size="3" fill="#666" text-anchor="middle">MANUFACTURE CAL. 400</text>
-                    </g>
+                <!-- Principles Container -->
+                <div class="relative w-full h-full">
                     
-                    <!-- Hover Indicator (Moved via JS) -->
-                    <circle id="ml-hover-indicator" cx="0" cy="0" r="15" fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="2 2" class="opacity-0 pointer-events-none transition-opacity duration-300"/>
-                </svg>
-            </div>
-            
-            <!-- Technical Labels (Phase 01) -->
-            <div class="absolute inset-0 pointer-events-none ml-tech-labels opacity-0 z-20 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/60 hidden md:block">
-                <div class="absolute top-1/4 left-1/3 ml-label" style="transform: translate(-100px, -50px);">
-                    <div class="mb-1">CALIBER 400</div>
-                    <div class="w-12 h-[1px] bg-white/30"></div>
-                </div>
-                <div class="absolute top-1/3 right-1/4 ml-label" style="transform: translate(50px, -20px);">
-                    <div class="mb-1">AUTOMATIC</div>
-                    <div class="w-12 h-[1px] bg-white/30"></div>
-                </div>
-                <div class="absolute bottom-1/3 left-1/4 ml-label" style="transform: translate(-30px, 30px);">
-                    <div class="mb-1">28,800 VPH</div>
-                    <div class="w-12 h-[1px] bg-white/30"></div>
-                </div>
-                <div class="absolute bottom-1/4 right-1/3 ml-label" style="transform: translate(80px, 50px);">
-                    <div class="mb-1">CHRONOMETER</div>
-                    <div class="w-12 h-[1px] bg-white/30"></div>
+                    @php
+                        $principles = [
+                            [
+                                "id" => "01",
+                                "title" => "BUY LESS.<br>BUY BETTER.",
+                                "text" => "A carefully chosen watch will outlast trends, seasons, and impulsive purchases.",
+                                "ref" => "CP-001",
+                                "edition" => "Edition 2026",
+                                "journal" => "Field Journal"
+                            ],
+                            [
+                                "id" => "02",
+                                "title" => "CRAFTSMANSHIP<br>OUTLIVES HYPE.",
+                                "text" => "Exceptional engineering earns admiration long after marketing campaigns disappear.",
+                                "ref" => "CP-002",
+                                "edition" => "Edition 2026",
+                                "journal" => "Field Journal"
+                            ],
+                            [
+                                "id" => "03",
+                                "title" => "EVERY SCRATCH<br>TELLS A STORY.",
+                                "text" => "Signs of wear are not imperfections. They are memories carried through time.",
+                                "ref" => "CP-003",
+                                "edition" => "Edition 2026",
+                                "journal" => "Field Journal"
+                            ],
+                            [
+                                "id" => "04",
+                                "title" => "OWN IT.<br>UNDERSTAND IT.",
+                                "text" => "A meaningful collection begins with curiosity, not quantity.",
+                                "ref" => "CP-004",
+                                "edition" => "Edition 2026",
+                                "journal" => "Field Journal"
+                            ],
+                            [
+                                "id" => "05",
+                                "title" => "TIME IS MEASURED.<br>LEGACY IS COLLECTED.",
+                                "text" => "Mechanical watches are not designed to be replaced every year. They are meant to be passed forward.",
+                                "ref" => "CP-005",
+                                "edition" => "Edition 2026",
+                                "journal" => "Field Journal"
+                            ]
+                        ];
+                    @endphp
+
+                    @foreach($principles as $index => $p)
+                    <div class="cp-module absolute inset-0 w-full h-full flex flex-col justify-center items-start opacity-0 pointer-events-none" data-index="{{ $index }}">
+                        
+                        <!-- Headline -->
+                        <div class="cp-headline-wrapper overflow-hidden mb-8 md:mb-16 w-full">
+                            <h2 class="cp-headline font-satoshi font-medium text-[clamp(2.5rem,6vw,6rem)] leading-[1.05] tracking-tight uppercase text-white" style="clip-path: inset(100% 0 0 0);">
+                                {!! $p['title'] !!}
+                            </h2>
+                        </div>
+                        
+                        <!-- Supporting Paragraph Wrapper -->
+                        <div class="relative w-full md:w-[60%] lg:w-[45%] md:ml-auto border-t border-white/20 pt-6 mt-auto mb-12">
+                            <p class="cp-paragraph font-plex text-[14px] md:text-[16px] leading-[1.8] text-white/80 translate-y-12 opacity-0">
+                                {{ $p['text'] }}
+                            </p>
+                        </div>
+                        
+                        <!-- Editorial Details -->
+                        <div class="absolute bottom-4 right-0 font-helvetica text-[9px] uppercase tracking-[0.2em] text-white/40 flex flex-col items-end gap-1 cp-details opacity-0">
+                            <span>{{ $p['ref'] }}</span>
+                            <span>{{ $p['edition'] }}</span>
+                            <span>{{ $p['journal'] }}</span>
+                        </div>
+                        
+                        <!-- Large Watermark Number -->
+                        <div class="absolute top-0 right-0 font-satoshi font-light text-[clamp(8rem,15vw,20rem)] leading-none text-white/[0.03] pointer-events-none -translate-y-1/4 z-[-1]">
+                            {{ $p['id'] }}
+                        </div>
+                    </div>
+                    @endforeach
+
+                    <!-- Final Conclusion State -->
+                    <div class="cp-final-module absolute inset-0 w-full h-full flex flex-col justify-center items-center opacity-0 pointer-events-none text-center">
+                        <h2 class="cp-final-headline font-satoshi font-medium text-[clamp(2rem,5vw,4.5rem)] leading-[1.1] tracking-tight uppercase text-white mb-8">
+                            TIME IS MEASURED.<br>LEGACY IS COLLECTED.
+                        </h2>
+                        <p class="cp-final-caption font-plex text-[12px] md:text-[14px] text-white/60 italic">
+                            The collection begins with understanding.
+                        </p>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- Final Message -->
-            <div class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center bg-black/95 backdrop-blur-sm opacity-0 ml-final-msg">
-                <h2 class="font-h1 text-3xl md:text-6xl uppercase tracking-widest text-center leading-[1.2]">
-                    <span class="block ml-final-text-1 translate-y-8 opacity-0">True Precision</span>
-                    <span class="block text-white/50 ml-final-text-2 translate-y-8 opacity-0 mt-4 md:mt-6">Is Never An Accident.</span>
-                </h2>
+            <!-- Exit Divider -->
+            <div class="absolute bottom-0 w-full px-6 md:px-16 z-30">
+                <div class="cp-exit-line w-full h-[1px] bg-white scale-x-0 origin-left"></div>
             </div>
-            
+
         </div>
     </section>
 
@@ -1811,242 +1755,132 @@
         }
 
 
-        const movementSection = document.getElementById('movement-lab-section');
-        if (movementSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
+                const cpSection = document.getElementById('collectors-principles-section');
+        if (cpSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
             
-            // Elements
-            const svgContainer = movementSection.querySelector('.ml-svg-container');
-            const blueprintGrid = movementSection.querySelector('.ml-blueprint-grid');
-            const techLabels = movementSection.querySelector('.ml-tech-labels');
-            const editorialPanel = movementSection.querySelector('.ml-editorial-panel');
-            const connectLine = movementSection.querySelector('.ml-connect-line');
-            const finalMsg = movementSection.querySelector('.ml-final-msg');
-            const components = movementSection.querySelectorAll('.ml-component');
-            const hoverIndicator = document.getElementById('ml-hover-indicator');
-            const specMarkers = movementSection.querySelectorAll('.ml-spec-marker');
-            
-            // Text elements in panel
-            const pTitle = movementSection.querySelector('.ml-panel-title');
-            const pDesc = movementSection.querySelector('.ml-panel-desc');
-            const pRef = movementSection.querySelector('.ml-panel-ref');
-            const pCat = movementSection.querySelector('.ml-spec-cat');
-            const pFreq = movementSection.querySelector('.ml-spec-freq');
-            
-            // Component Data for Editorial Panel
-            const compData = {
-                'rotor': { title: 'Rotor', ref: 'ML-001', cat: 'Winding', freq: 'N/A', desc: 'A heavy semi-circular metal weight that rotates freely with the motion of the wearer\'s wrist, winding the mainspring to store energy.' },
-                'bridge': { title: 'Main Bridge', ref: 'ML-002', cat: 'Architecture', freq: 'N/A', desc: 'The structural foundation that secures the gear train in place. Machined to tolerances of mere microns to ensure perfect gear meshing.' },
-                'gears': { title: 'Gear Train', ref: 'ML-003', cat: 'Transmission', freq: 'N/A', desc: 'A series of precisely calculated wheels and pinions that transmit energy from the mainspring to the escapement, dividing time into seconds, minutes, and hours.' },
-                'escapement': { title: 'Escapement', ref: 'ML-004', cat: 'Distribution', freq: '28,800 BPH', desc: 'The defining mechanism of a mechanical watch. It catches and releases the energy of the gear train in tiny, exact intervals, producing the iconic ticking sound.' },
-                'balance': { title: 'Balance Wheel', ref: 'ML-005', cat: 'Regulation', freq: '4 Hz', desc: 'The heartbeat of the movement. Oscillating back and forth with incredible precision, its frequency determines the ultimate accuracy of the timepiece.' },
-                'barrel': { title: 'Main Barrel', ref: 'ML-006', cat: 'Energy Storage', freq: '72 Hours', desc: 'Houses the coiled mainspring. As the spring unwinds over 72 hours, it provides the pure mechanical force required to power the entire movement.' }
-            };
+            const modules = cpSection.querySelectorAll('.cp-module');
+            const entryLine = cpSection.querySelector('.cp-entry-line');
+            const entryLabel = cpSection.querySelector('.cp-entry-label');
+            const exitLine = cpSection.querySelector('.cp-exit-line');
+            const finalModule = cpSection.querySelector('.cp-final-module');
+            const finalHeadline = cpSection.querySelector('.cp-final-headline');
+            const finalCaption = cpSection.querySelector('.cp-final-caption');
 
-            // Master Timeline
-            const mlTl = gsap.timeline({
+            // Interactive hover
+            modules.forEach(m => {
+                const headline = m.querySelector('.cp-headline');
+                headline.addEventListener('mouseenter', () => {
+                    gsap.to(headline, { letterSpacing: '0.02em', duration: 0.6, ease: 'power2.out' });
+                });
+                headline.addEventListener('mouseleave', () => {
+                    gsap.to(headline, { letterSpacing: 'normal', duration: 0.6, ease: 'power2.out' });
+                });
+            });
+
+            const cpTl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: movementSection,
-                    pin: '.ml-sticky-container',
+                    trigger: cpSection,
+                    pin: '.cp-sticky-container',
                     start: "top top",
                     end: "+=5000",
-                    scrub: 1,
-                    onUpdate: (self) => {
-                        updateActiveComponent(self.progress);
-                    }
+                    scrub: 1
                 }
             });
 
-            // PHASE 01: Transition & Engineering Mode (Scale up & Draw labels)
-            mlTl.to(svgContainer, { scale: 1, duration: 1.5, ease: 'power2.inOut' }, 0)
-                .to(blueprintGrid, { opacity: 1, duration: 1 }, 0.5)
-                .to(techLabels, { opacity: 1, duration: 1 }, 1);
+            // Entry Phase
+            cpTl.to(entryLine, { scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, 0)
+                .to(entryLabel, { opacity: 1, duration: 0.5 }, 0.2);
 
-            // PHASE 02: Exploded View (Translate SVG groups)
-            // Absolute time mapping makes scrubbing predictable
-            mlTl.to('#ml-rotor', { y: -80, duration: 1.5, ease: 'power1.inOut' }, 2.5)
-                .to('#ml-bridge', { x: 60, duration: 1.5, ease: 'power1.inOut' }, 2.5)
-                .to('#ml-gear-train', { x: -70, duration: 1.5, ease: 'power1.inOut' }, 2.5)
-                .to('#ml-escapement', { y: 50, x: -20, duration: 1.5, ease: 'power1.inOut' }, 2.5)
-                .to('#ml-balance', { x: 80, y: 60, duration: 1.5, ease: 'power1.inOut' }, 2.5)
-                .to('#ml-barrel', { x: -60, y: -60, duration: 1.5, ease: 'power1.inOut' }, 2.5)
-                .to(techLabels, { opacity: 0, duration: 0.5 }, 2.5);
+            modules.forEach((mod, i) => {
+                const headline = mod.querySelector('.cp-headline');
+                const paragraph = mod.querySelector('.cp-paragraph');
+                const details = mod.querySelector('.cp-details');
+                
+                const startTime = (i * 2) + 0.5; // Staggered start
 
-            // PHASE 03: Component Analysis (Scroll linked via onUpdate)
-            // Show Editorial Panel & Connecting Line
-            mlTl.to(editorialPanel, { opacity: 1, duration: 0.5 }, 4)
-                .to('.ml-connect-line', { opacity: 1, strokeDashoffset: 0, duration: 1, ease: 'power2.out' }, 4);
+                // Reveal Module
+                cpTl.to(mod, { opacity: 1, duration: 0.1 }, startTime) // Quick reveal of container
+                    .to(headline, { clipPath: 'inset(0 0 0 0)', duration: 0.8, ease: 'power3.out' }, startTime)
+                    .to(details, { opacity: 1, duration: 0.5 }, startTime + 0.4)
+                    .to(paragraph, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, startTime + 0.2);
+                
+                // Signature interaction: paragraph scrolls upward while headline remains
+                cpTl.to(paragraph, { y: -50, duration: 1.5, ease: 'none' }, startTime + 1);
 
-            // Phase 04: Micro Details (Tiny specs appear)
-            mlTl.to(specMarkers, { opacity: 1, duration: 1, stagger: 0.2 }, 4.5);
+                // If not the very last module (index 4), fade out
+                if (i < modules.length - 1) {
+                    cpTl.to(mod, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, startTime + 1.8);
+                } else {
+                    // For the last module (module 05), we transition to the Final Conclusion State
+                    // The statement remains, supporting text fades away.
+                    cpTl.to([paragraph, details], { opacity: 0, duration: 0.6 }, startTime + 1.8)
+                        .to(headline, { opacity: 0, duration: 0.6 }, startTime + 2.2); // Hide the original headline
+                }
+            });
 
-            // Hold phase 03/04 for a long scroll duration (progress mapped in updateActiveComponent)
-            mlTl.to({}, { duration: 8 });
-
-            // PHASE 05: Precision (Reassembly)
-            mlTl.to(editorialPanel, { opacity: 0, duration: 0.5 }, 13)
-                .to('.ml-connect-line', { opacity: 0, duration: 0.5 }, 13)
-                .to(specMarkers, { opacity: 0, duration: 0.5 }, 13)
-                .to(components, { x: 0, y: 0, opacity: 1, duration: 1.5, ease: 'back.out(1.2)' }, 13.5); // Snap back together
-
-            // Final Message
-            mlTl.to(finalMsg, { opacity: 1, duration: 1 }, 15)
-                .to('.ml-final-text-1', { opacity: 1, y: 0, duration: 0.8 }, 15.5)
-                .to('.ml-final-text-2', { opacity: 1, y: 0, duration: 0.8 }, 15.8)
-                .to({}, { duration: 1 }); // Padding before unpin
-
+            // Final Phase
+            const finalStart = (modules.length * 2) + 0.5;
             
-            // Helper to update active component based on scroll progress (28% to 78% of scroll space)
-            let currentActive = null;
-            function updateActiveComponent(progress) {
-                // If before explosion or after reassembly, reset highlights
-                if (progress < 0.28 || progress > 0.78) {
-                    if (currentActive) {
-                        gsap.to(components, { opacity: 1, duration: 0.5, overwrite: 'auto' });
-                        gsap.to(svgContainer, { xPercent: 0, yPercent: 0, scale: 1, duration: 1, ease: 'power2.out', overwrite: 'auto' });
-                        // Stop all rotations
-                        components.forEach(c => gsap.killTweensOf(c, "rotation"));
-                        currentActive = null;
-                    }
-                    return;
-                }
+            cpTl.to(finalModule, { opacity: 1, duration: 0.1 }, finalStart)
+                .fromTo(finalHeadline, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, finalStart)
+                .fromTo(finalCaption, { opacity: 0 }, { opacity: 1, duration: 1 }, finalStart + 0.5)
+                .to(exitLine, { scaleX: 1, duration: 0.8, ease: 'power2.inOut' }, finalStart + 1)
+                // Hold briefly before leaving
+                .to({}, { duration: 0.5 });
                 
-                // Map progress to 6 segments
-                const compArray = ['rotor', 'bridge', 'barrel', 'gears', 'escapement', 'balance'];
-                const segmentProgress = (progress - 0.28) / 0.5; // 0 to 1
-                let index = Math.floor(segmentProgress * 6);
-                if (index > 5) index = 5;
-                if (index < 0) index = 0;
-                
-                const activeId = compArray[index];
-                
-                if (currentActive !== activeId) {
-                    currentActive = activeId;
-                    
-                    // Dim others, highlight active. Add overwrite: 'auto' to fix flickering!
-                    components.forEach(c => {
-                        const isActive = c.dataset.id === activeId;
-                        gsap.to(c, { 
-                            opacity: isActive ? 1 : 0.2, 
-                            duration: 0.5, 
-                            overwrite: 'auto' 
-                        });
-                        
-                        if (isActive) {
-                            // Rotate the active part slowly
-                            gsap.to(c, {
-                                rotation: "+=360",
-                                transformOrigin: "center center",
-                                duration: 15, // Slow, elegant rotation
-                                ease: "none",
-                                repeat: -1,
-                                overwrite: 'auto' // Prevents conflict with translation tweens
-                            });
-                        } else {
-                            // Stop rotation for inactive parts
-                            gsap.killTweensOf(c, "rotation");
-                        }
-                    });
-                    
-                    // Pan the SVG container to center the active component
-                    const panTargets = {
-                        'rotor': { x: 0, y: 30 },
-                        'bridge': { x: -25, y: -5 },
-                        'barrel': { x: 25, y: 25 },
-                        'gears': { x: 30, y: 0 },
-                        'escapement': { x: -5, y: -25 },
-                        'balance': { x: -35, y: -25 }
-                    };
-                    const pan = panTargets[activeId] || {x: 0, y: 0};
-                    gsap.to(svgContainer, {
-                        xPercent: pan.x,
-                        yPercent: pan.y,
-                        scale: 1.15,
-                        duration: 1.2,
-                        ease: 'power3.out',
-                        overwrite: 'auto'
-                    });
-                    
-                    // Update Editorial Panel Content dynamically
-                    const data = compData[activeId];
-                    if (data) {
-                        gsap.to([pTitle, pDesc, pRef, pCat, pFreq], { 
-                            opacity: 0, 
-                            duration: 0.2,
-                            overwrite: 'auto',
-                            onComplete: () => {
-                                pTitle.textContent = data.title;
-                                pDesc.textContent = data.desc;
-                                pRef.textContent = data.ref;
-                                pCat.textContent = data.cat;
-                                pFreq.textContent = data.freq;
-                                gsap.to([pTitle, pDesc, pRef, pCat, pFreq], { opacity: 1, duration: 0.3, overwrite: 'auto' });
-                            }
-                        });
-                    }
-
-                    // Animate connecting line target
-                    const path = connectLine;
-                    const targets = {
-                        'rotor': '50 20',
-                        'bridge': '65 40',
-                        'barrel': '35 30',
-                        'gears': '40 50',
-                        'escapement': '55 65',
-                        'balance': '70 70'
-                    };
-                    gsap.to(path, { attr: { d: `M 25 50 L ${targets[activeId]}` }, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
-                }
+        } else if (cpSection && window.innerWidth <= 768) {
+            // Mobile: Full screen editorial cards
+            const stickyContainer = cpSection.querySelector('.cp-sticky-container');
+            if (stickyContainer) {
+                stickyContainer.style.height = 'auto';
+                stickyContainer.style.position = 'relative';
+                stickyContainer.classList.remove('h-screen', 'sticky', 'overflow-hidden');
             }
-
-            // Phase 04: Mouse Hover & Parallax
-            components.forEach(comp => {
-                comp.addEventListener('mouseenter', () => {
-                    // Only active during exploded view
-                    if (mlTl.progress() > 0.15 && mlTl.progress() < 0.85) {
-                        gsap.to(hoverIndicator, { opacity: 1, duration: 0.2 });
-                        gsap.to(comp, { filter: 'brightness(1.1) drop-shadow(0 0 5px rgba(0,0,0,0.1))', duration: 0.2 });
-                    }
-                });
-                comp.addEventListener('mouseleave', () => {
-                    gsap.to(hoverIndicator, { opacity: 0, duration: 0.2 });
-                    gsap.to(comp, { filter: 'none', duration: 0.2 });
-                });
-                comp.addEventListener('mousemove', (e) => {
-                    if (mlTl.progress() > 0.15 && mlTl.progress() < 0.85) {
-                        const svgRect = svgContainer.getBoundingClientRect();
-                        // Map mouse position to SVG viewBox (-100 to 100)
-                        const x = ((e.clientX - svgRect.left) / svgRect.width) * 200 - 100;
-                        const y = ((e.clientY - svgRect.top) / svgRect.height) * 200 - 100;
-                        
-                        gsap.to(hoverIndicator, { 
-                            attr: { cx: x, cy: y }, 
-                            duration: 0.1, 
-                            ease: 'none' 
-                        });
-                        
-                        // Subtle 4px translation on the hovered component
-                        gsap.to(comp, { 
-                            x: `+=${(e.movementX * 0.1)}`, 
-                            y: `+=${(e.movementY * 0.1)}`, 
-                            duration: 0.5, 
-                            ease: 'power2.out',
-                            overwrite: 'auto'
-                        });
-                    }
-                });
-            });
-
-            // Global Blueprint Layer Parallax
-            movementSection.addEventListener('mousemove', (e) => {
-                const rect = movementSection.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
+            
+            const spacer = cpSection.querySelector('.cp-scroll-space');
+            if (spacer) spacer.remove();
+            
+            const modules = cpSection.querySelectorAll('.cp-module');
+            modules.forEach((mod, i) => {
+                mod.classList.remove('absolute', 'inset-0', 'opacity-0', 'pointer-events-none');
+                mod.classList.add('relative', 'min-h-[70vh]', 'py-20', 'opacity-100');
                 
-                // Labels move 15%
-                gsap.to(techLabels, { x: x * 30, y: y * 30, duration: 1, ease: 'power2.out' });
-                // Grid moves 10%
-                gsap.to(blueprintGrid, { backgroundPosition: `${x * 20}px ${y * 20}px`, duration: 1, ease: 'power2.out' });
+                const headline = mod.querySelector('.cp-headline');
+                const p = mod.querySelector('.cp-paragraph');
+                const details = mod.querySelector('.cp-details');
+                
+                if (headline) headline.style.clipPath = 'inset(0 0 0 0)';
+                if (p) {
+                    p.classList.remove('translate-y-12', 'opacity-0');
+                }
+                if (details) {
+                    details.classList.remove('opacity-0');
+                }
+                
+                mod.style.backgroundColor = '#000000';
+                mod.style.paddingLeft = '1.5rem';
+                mod.style.paddingRight = '1.5rem';
+                
+                const pWrapper = mod.querySelector('.relative.w-full');
+                if (pWrapper) {
+                    pWrapper.classList.remove('w-[60%]', 'ml-auto', 'lg:w-[45%]', 'md:ml-auto');
+                    pWrapper.classList.add('w-full');
+                }
+                
+                // Add separator for mobile
+                if (i > 0) {
+                     const sep = document.createElement('div');
+                     sep.className = 'w-full h-[1px] bg-white/10 absolute top-0 left-0';
+                     mod.appendChild(sep);
+                }
             });
+            
+            const finalMod = cpSection.querySelector('.cp-final-module');
+            if (finalMod) {
+                finalMod.classList.remove('absolute', 'inset-0', 'opacity-0', 'pointer-events-none');
+                finalMod.classList.add('relative', 'py-32', 'opacity-100');
+                finalMod.style.backgroundColor = '#000000';
+            }
         }
 
         // 3.5 Watchmaker's Notes
