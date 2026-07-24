@@ -357,7 +357,7 @@
                             <!-- Macro Image Wrapper with Clipping Mask -->
                             <div class="relative w-full h-full max-w-[600px] max-h-[800px] overflow-hidden timeline-scene-img-wrap" style="clip-path: inset(100% 0 0 0);">
                                 <!-- Image with subtle parallax -->
-                                <img src="{{ asset('images/products/marine-chronometer.jpg') }}" alt="Marine Chronometers" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
+                                <img src="{{ asset('images/products/Marine Chronometer.png') }}" alt="Marine Chronometers" class="w-full h-full object-cover grayscale contrast-125 opacity-90 timeline-scene-img scale-105 " loading="lazy">
                                 
                                 <!-- Blueprint SVG Overlay -->
                                 <svg class="absolute inset-0 w-full h-full pointer-events-none timeline-blueprint-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
