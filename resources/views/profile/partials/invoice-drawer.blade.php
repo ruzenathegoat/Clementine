@@ -116,23 +116,58 @@
 
 <style>
 @media print {
-    body > *:not(.invoice-drawer-container) {
-        display: none !important;
+    /* Hide EVERYTHING on the page */
+    body * {
+        visibility: hidden !important;
     }
+    
+    /* Show only the invoice drawer and its contents */
+    .invoice-drawer-container,
+    .invoice-drawer-container .invoice-print-area,
+    .invoice-drawer-container .invoice-print-area *  {
+        visibility: visible !important;
+    }
+
+    /* Reset the drawer container to normal document flow */
     .invoice-drawer-container {
+        position: fixed !important;
+        inset: 0 !important;
         display: block !important;
-        position: static !important;
+        z-index: 99999 !important;
+        background: white !important;
+        overflow: visible !important;
     }
+
+    /* Reset the drawer panel for print */
     .invoice-print-area {
-        position: absolute;
-        left: 0;
-        top: 0;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
         border: none !important;
         box-shadow: none !important;
         background: white !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Prevent page breaks inside the invoice */
+    .invoice-print-area > * {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    /* Reset the scrollable content area */
+    .invoice-print-area .flex-grow {
+        overflow: visible !important;
+        height: auto !important;
+        flex-grow: 0 !important;
     }
 }
 </style>
