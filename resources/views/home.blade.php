@@ -342,6 +342,162 @@
             @endforelse
         </div>
     </div>
+    
+    <!-- 3.5 Watchmaker's Notes -->
+    <div id="notes-section" class="w-full bg-background relative border-b border-primary/20 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
+            
+            <!-- Left Sticky Column -->
+            <div class="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-primary/20 relative">
+                <div class="sticky top-0 p-xl md:p-3xl h-screen flex flex-col justify-center overflow-hidden">
+                    <!-- Section Intro Labels -->
+                    <div class="notes-labels flex items-center justify-between mb-8 opacity-0">
+                        <span class="font-mono text-[9px] uppercase tracking-widest text-primary/60">FIELD MANUAL 01</span>
+                        <div class="w-8 h-[1px] bg-primary/20"></div>
+                    </div>
+                    
+                    <!-- Massive Title -->
+                    <h2 class="notes-title font-h1 text-[clamp(3.5rem,6vw,5.5rem)] leading-[0.85] tracking-tight uppercase text-primary mb-12" style="clip-path: inset(100% 0 0 0);">
+                        WATCHMAKER<br>NOTES
+                    </h2>
+                    
+                    <!-- Intro Paragraph -->
+                    <p class="notes-intro font-mono text-xs md:text-sm text-primary/80 leading-relaxed max-w-sm opacity-0 transform translate-y-4">
+                        Every mechanical watch hides hundreds of invisible decisions.<br><br>
+                        This archive explains the craftsmanship behind them.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Scrollable / Masonry Grid -->
+            <div class="lg:col-span-8 p-6 md:p-12 lg:p-24 relative notes-grid" style="background-size: 40px 40px; background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);">
+                <div class="notes-grid-lines absolute inset-0 pointer-events-none z-0">
+                    <div class="notes-line-top absolute top-0 left-0 w-full h-[1px] bg-primary/20 origin-left scale-x-0"></div>
+                    <div class="notes-line-bottom absolute bottom-0 right-0 w-full h-[1px] bg-primary/20 origin-right scale-x-0"></div>
+                    <div class="notes-line-left absolute bottom-0 left-0 w-[1px] h-full bg-primary/20 origin-bottom scale-y-0"></div>
+                    <div class="notes-line-right absolute top-0 right-0 w-[1px] h-full bg-primary/20 origin-top scale-y-0"></div>
+                </div>
+
+                <div class="flex flex-col gap-12 md:gap-24 relative z-10 notes-article-stack">
+                    
+                    <!-- Article 1: Large Feature -->
+                    <article class="note-module relative bg-background border border-primary/10 transition-colors duration-300 w-full cursor-pointer overflow-hidden group">
+                        <div class="p-6 md:p-10 flex flex-col note-content-wrapper transition-all duration-500 relative z-10">
+                            <div class="flex justify-between items-center mb-8">
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/50">FIELD NOTE 04</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-04</span>
+                            </div>
+                            
+                            <!-- Image with clipping mask reveal -->
+                            <div class="note-img-wrapper w-full aspect-video bg-[#FAFAFA] overflow-hidden mb-10 relative">
+                                <img src="https://images.unsplash.com/photo-1584988019319-9730594ccfbf?q=80&w=1600&auto=format&fit=crop" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
+                            </div>
+
+                            <h3 class="note-title font-h1 text-3xl md:text-5xl uppercase mb-6 transition-transform duration-500">Balance Wheel</h3>
+                            
+                            <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed max-w-2xl">
+                                The heartbeat of every mechanical watch. While electronic watches rely on a quartz crystal, mechanical watches use a delicate balance wheel oscillating at extremely precise frequencies to regulate the release of energy from the mainspring.
+                            </p>
+                            
+                            <!-- Expanded Specifications (Hidden initially) -->
+                            <div class="note-specs hidden mt-12 border-t border-primary/10 pt-8 flex-col gap-4">
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest border-b border-primary/5 pb-4 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">ARCHIVE</span>
+                                    <span>WM-014</span>
+                                </div>
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest border-b border-primary/5 pb-4 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">PUBLICATION YEAR</span>
+                                    <span>2026</span>
+                                </div>
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest pb-4 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">DIFFICULTY</span>
+                                    <span>LEVEL II</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Reading Progress Line -->
+                            <div class="note-progress absolute top-0 left-0 w-[2px] h-0 bg-primary z-20"></div>
+                        </div>
+                    </article>
+
+                    <!-- Article 2: Narrow Vertical -->
+                    <article class="note-module relative bg-background border border-primary/10 transition-colors duration-300 w-full md:w-[60%] ml-auto cursor-pointer overflow-hidden group">
+                        <div class="p-6 md:p-10 flex flex-col note-content-wrapper transition-all duration-500 relative z-10">
+                            <div class="flex justify-between items-center mb-8">
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/50">FIELD NOTE 07</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-07</span>
+                            </div>
+                            
+                            <h3 class="note-title font-h1 text-2xl md:text-4xl uppercase mb-6 transition-transform duration-500">Sapphire Crystal</h3>
+                            
+                            <div class="note-img-wrapper w-full aspect-square bg-[#FAFAFA] overflow-hidden mb-8 relative">
+                                <img src="https://images.unsplash.com/photo-1632551525992-0b81803dc4d1?q=80&w=1200&auto=format&fit=crop" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
+                            </div>
+                            
+                            <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed">
+                                Second only to diamond in hardness, synthetic sapphire provides unparalleled scratch resistance and optical clarity, protecting the intricate dial and mechanics below.
+                            </p>
+                            
+                            <!-- Expanded Specifications -->
+                            <div class="note-specs hidden mt-10 border-t border-primary/10 pt-6 flex-col gap-3">
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest border-b border-primary/5 pb-3 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">MATERIAL</span>
+                                    <span>CORUNDUM</span>
+                                </div>
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest pb-3 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">MOHS SCALE</span>
+                                    <span>9.0</span>
+                                </div>
+                            </div>
+                            <div class="note-progress absolute top-0 left-0 w-[2px] h-0 bg-primary z-20"></div>
+                        </div>
+                    </article>
+
+                    <!-- Quote Block -->
+                    <div class="note-quote w-full py-12 md:py-24 flex items-center justify-center relative my-12">
+                        <div class="absolute left-0 top-1/2 w-8 h-[1px] bg-primary/20"></div>
+                        <h3 class="font-h1 text-[clamp(2rem,4vw,3.5rem)] leading-[1.1] uppercase text-center max-w-3xl" style="text-wrap: balance;">
+                            <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">"A mechanical watch isn't</span></span>
+                            <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">powered by batteries.</span></span>
+                            <span class="quote-line block overflow-hidden"><span class="quote-text block transform translate-y-[120%]">It's powered by engineering."</span></span>
+                        </h3>
+                        <div class="absolute right-0 top-1/2 w-8 h-[1px] bg-primary/20"></div>
+                    </div>
+
+                    <!-- Article 3: Typography Dominant -->
+                    <article class="note-module relative bg-background border border-primary/10 transition-colors duration-300 w-full cursor-pointer overflow-hidden group">
+                        <div class="p-6 md:p-10 flex flex-col note-content-wrapper transition-all duration-500 relative z-10">
+                            <div class="flex justify-between items-center mb-8">
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/50">FIELD NOTE 12</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-12</span>
+                            </div>
+                            
+                            <h3 class="note-title font-h1 text-4xl md:text-6xl uppercase mb-8 transition-transform duration-500">Case Finishing</h3>
+                            
+                            <p class="font-mono text-sm md:text-base text-primary leading-relaxed max-w-3xl mb-8">
+                                The transition between brushed and polished surfaces defines the architectural character of a timepiece. Zaratsu polishing, satin brushing, and chamfering require hundreds of hours of manual labor.
+                            </p>
+                            
+                            <div class="note-specs hidden border-t border-primary/10 pt-8 flex-col gap-4">
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest border-b border-primary/5 pb-4 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">TECHNIQUE</span>
+                                    <span>ZARATSU POLISHING</span>
+                                </div>
+                                <div class="spec-row flex justify-between font-mono text-[10px] uppercase tracking-widest pb-4 opacity-0 transform -translate-x-4">
+                                    <span class="text-primary/50">DIFFICULTY</span>
+                                    <span>LEVEL IV</span>
+                                </div>
+                            </div>
+                            <div class="note-progress absolute top-0 left-0 w-[2px] h-0 bg-primary z-20"></div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
     <!-- 4. Verification Protocol Laboratory -->
     <div class="w-full bg-background relative border-b border-primary/20" id="verification-section">
         <!-- Grid container -->
@@ -1188,6 +1344,162 @@
             }, 0);
         };
 
+        // 3.5 Watchmaker's Notes
+        const notesSection = document.getElementById('notes-section');
+        if (notesSection && typeof gsap !== 'undefined') {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            // Elements
+            const labels = notesSection.querySelector('.notes-labels');
+            const title = notesSection.querySelector('.notes-title');
+            const intro = notesSection.querySelector('.notes-intro');
+            const lines = {
+                top: notesSection.querySelector('.notes-line-top'),
+                bottom: notesSection.querySelector('.notes-line-bottom'),
+                left: notesSection.querySelector('.notes-line-left'),
+                right: notesSection.querySelector('.notes-line-right')
+            };
+            const articles = notesSection.querySelectorAll('.note-module');
+            const gridBg = notesSection.querySelector('.notes-grid');
+
+            if (prefersReducedMotion) {
+                gsap.set([labels, intro], { opacity: 1, y: 0 });
+                gsap.set(title, { clipPath: 'inset(0 0 0 0)' });
+                gsap.set(Object.values(lines), { scaleX: 1, scaleY: 1 });
+                gsap.set('.note-img', { clipPath: 'inset(0 0 0 0)' });
+            } else {
+                // Section Entry Timeline
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: notesSection,
+                        start: 'top 75%',
+                        end: 'bottom bottom'
+                    }
+                });
+
+                tl.to(labels, { opacity: 1, duration: 0.9, ease: 'power3.out' }, 0)
+                  .to(title, { clipPath: 'inset(0 0 0 0)', duration: 0.9, ease: 'power3.out' }, 0.2)
+                  .to(lines.top, { scaleX: 1, duration: 0.6, ease: 'power2.inOut' }, 0.3)
+                  .to(lines.bottom, { scaleX: 1, duration: 0.6, ease: 'power2.inOut' }, 0.5)
+                  .to(lines.left, { scaleY: 1, duration: 0.6, ease: 'power2.inOut' }, 0.7)
+                  .to(lines.right, { scaleY: 1, duration: 0.6, ease: 'power2.inOut' }, 0.9)
+                  .to(intro, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, 0.6);
+
+                // Article Reveal
+                articles.forEach((article, i) => {
+                    const img = article.querySelector('.note-img');
+                    if (img) {
+                        gsap.to(img, {
+                            clipPath: 'inset(0 0 0 0)',
+                            duration: 0.9,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: article,
+                                start: 'top 85%'
+                            }
+                        });
+                    }
+                });
+
+                // Scroll Parallax
+                gsap.to(gridBg, {
+                    backgroundPosition: '0px 100px',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: notesSection,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            }
+
+            // Article Interactions (Hover & Click/FLIP)
+            articles.forEach(article => {
+                const imgWrapper = article.querySelector('.note-img-wrapper');
+                const noteTitle = article.querySelector('.note-title');
+                const specs = article.querySelector('.note-specs');
+                const specRows = article.querySelectorAll('.spec-row');
+                const noteProgress = article.querySelector('.note-progress');
+                let isExpanded = false;
+
+                // Hover
+                article.addEventListener('mouseenter', () => {
+                    if (isExpanded || prefersReducedMotion) return;
+                    if (imgWrapper) gsap.to(imgWrapper, { y: -8, duration: 0.4, ease: 'power2.out' });
+                    if (noteTitle) gsap.to(noteTitle, { y: -6, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(article, { backgroundColor: '#FAFAFA', borderColor: 'rgba(0,0,0,0.15)', duration: 0.3 });
+                });
+
+                article.addEventListener('mouseleave', () => {
+                    if (isExpanded || prefersReducedMotion) return;
+                    if (imgWrapper) gsap.to(imgWrapper, { y: 0, duration: 0.4, ease: 'power2.out' });
+                    if (noteTitle) gsap.to(noteTitle, { y: 0, duration: 0.4, ease: 'power2.out' });
+                    gsap.to(article, { backgroundColor: '', borderColor: 'rgba(0,0,0,0.1)', duration: 0.3 });
+                });
+
+                // Click (Inline Expand FLIP)
+                article.addEventListener('click', (e) => {
+                    // Prevent triggering if clicking something that should be a link later
+                    if (e.target.tagName === 'A') return;
+                    if (typeof Flip === 'undefined') return;
+
+                    const state = Flip.getState(article);
+                    
+                    isExpanded = !isExpanded;
+                    
+                    if (isExpanded) {
+                        // Expand inline
+                        article.classList.add('expanded');
+                        // Make narrow articles full width on expand
+                        if (article.classList.contains('md:w-[60%]')) {
+                            article.classList.remove('md:w-[60%]', 'ml-auto');
+                            article.dataset.narrow = 'true';
+                        }
+                        specs.classList.remove('hidden');
+                        specs.classList.add('flex');
+                        
+                        gsap.to(specRows, { opacity: 1, x: 0, duration: 0.5, stagger: 0.1, delay: 0.3, ease: 'power2.out' });
+                        
+                        // Fake progress fill for expanded view
+                        gsap.to(noteProgress, { height: '100%', duration: 1.5, ease: 'power2.inOut' });
+                    } else {
+                        // Collapse
+                        article.classList.remove('expanded');
+                        if (article.dataset.narrow === 'true') {
+                            article.classList.add('md:w-[60%]', 'ml-auto');
+                        }
+                        specs.classList.add('hidden');
+                        specs.classList.remove('flex');
+                        
+                        gsap.set(specRows, { opacity: 0, x: -16 });
+                        gsap.to(noteProgress, { height: '0%', duration: 0.4, ease: 'power2.out' });
+                    }
+
+                    Flip.from(state, {
+                        duration: 0.7,
+                        ease: 'power3.inOut',
+                        nested: true
+                    });
+                });
+            });
+            
+            // Quotes Reveal
+            const quoteLines = notesSection.querySelectorAll('.quote-text');
+            if (quoteLines.length > 0) {
+                gsap.to(quoteLines, {
+                    y: '0%',
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    stagger: 0.15,
+                    scrollTrigger: {
+                        trigger: '.note-quote',
+                        start: 'top 85%'
+                    }
+                });
+            }
+        }
+
         // 4. Verification Protocol (Editorial Laboratory)
         const veriSection = document.getElementById('verification-section');
         const veriLab = document.getElementById('verification-lab');
@@ -1587,5 +1899,11 @@
             .catch(err => console.error('Stock poll error:', err));
     }, 5000);
 
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<script>
+    if (typeof gsap !== 'undefined' && typeof Flip !== 'undefined') {
+        gsap.registerPlugin(Flip);
+    }
 </script>
 @endsection
