@@ -770,8 +770,7 @@
         </div>
     </section>
 
-    <!-- Smooth Transition to Notes -->
-    <div class="w-full h-48 md:h-64 bg-gradient-to-b from-black to-background relative z-10 pointer-events-none"></div>
+
 
     <!-- 3.5 Watchmaker's Notes -->
     <div id="notes-section" class="w-full bg-background relative border-b border-primary/20 overflow-hidden">
@@ -1759,7 +1758,7 @@
 
 
                 const cpSection = document.getElementById('collectors-principles-section');
-        if (cpSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
+        if (cpSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             
             const modules = cpSection.querySelectorAll('.cp-module');
             const entryLine = cpSection.querySelector('.cp-entry-line');
@@ -1828,62 +1827,15 @@
                 .fromTo(finalHeadline, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, finalStart)
                 .fromTo(finalCaption, { opacity: 0 }, { opacity: 1, duration: 1 }, finalStart + 0.5)
                 .to(exitLine, { scaleX: 1, duration: 0.8, ease: 'power2.inOut' }, finalStart + 1)
+                
+                // Animated background transition from Black to White
+                .to(cpSection, { backgroundColor: '#FFFFFF', duration: 1.5, ease: 'power2.inOut' }, finalStart + 1.5)
+                .to([finalHeadline, finalCaption], { color: '#000000', duration: 1.5, ease: 'power2.inOut' }, finalStart + 1.5)
+                .to(exitLine, { backgroundColor: '#000000', duration: 1.5, ease: 'power2.inOut' }, finalStart + 1.5)
+                
                 // Hold briefly before leaving
                 .to({}, { duration: 0.5 });
                 
-        } else if (cpSection && window.innerWidth <= 768) {
-            // Mobile: Full screen editorial cards
-            const stickyContainer = cpSection.querySelector('.cp-sticky-container');
-            if (stickyContainer) {
-                stickyContainer.style.height = 'auto';
-                stickyContainer.style.position = 'relative';
-                stickyContainer.classList.remove('h-screen', 'sticky', 'overflow-hidden');
-            }
-            
-            const spacer = cpSection.querySelector('.cp-scroll-space');
-            if (spacer) spacer.remove();
-            
-            const modules = cpSection.querySelectorAll('.cp-module');
-            modules.forEach((mod, i) => {
-                mod.classList.remove('absolute', 'inset-0', 'opacity-0', 'pointer-events-none');
-                mod.classList.add('relative', 'min-h-[70vh]', 'py-20', 'opacity-100');
-                
-                const headline = mod.querySelector('.cp-headline');
-                const p = mod.querySelector('.cp-paragraph');
-                const details = mod.querySelector('.cp-details');
-                
-                if (headline) headline.style.clipPath = 'inset(0 0 0 0)';
-                if (p) {
-                    p.classList.remove('translate-y-12', 'opacity-0');
-                }
-                if (details) {
-                    details.classList.remove('opacity-0');
-                }
-                
-                mod.style.backgroundColor = '#000000';
-                mod.style.paddingLeft = '1.5rem';
-                mod.style.paddingRight = '1.5rem';
-                
-                const pWrapper = mod.querySelector('.relative.w-full');
-                if (pWrapper) {
-                    pWrapper.classList.remove('w-[60%]', 'ml-auto', 'lg:w-[45%]', 'md:ml-auto');
-                    pWrapper.classList.add('w-full');
-                }
-                
-                // Add separator for mobile
-                if (i > 0) {
-                     const sep = document.createElement('div');
-                     sep.className = 'w-full h-[1px] bg-white/10 absolute top-0 left-0';
-                     mod.appendChild(sep);
-                }
-            });
-            
-            const finalMod = cpSection.querySelector('.cp-final-module');
-            if (finalMod) {
-                finalMod.classList.remove('absolute', 'inset-0', 'opacity-0', 'pointer-events-none');
-                finalMod.classList.add('relative', 'py-32', 'opacity-100');
-                finalMod.style.backgroundColor = '#000000';
-            }
         }
 
         // 3.5 Watchmaker's Notes
