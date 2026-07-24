@@ -202,8 +202,8 @@
                     @method('PUT')
                     
                     <!-- Avatar / ID Card -->
-                    <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] w-full max-w-2xl archive-grid">
-                        <div class="archive-cell p-4 md:p-6 relative group cursor-pointer w-full md:w-72 active:scale-[0.98] transition-transform duration-200" style="transition-timing-function: var(--ease-out);" onclick="document.getElementById('avatar-input').click()">
+                    <div class="grid grid-cols-[auto_1fr] w-full max-w-2xl archive-grid">
+                        <div class="archive-cell p-4 md:p-6 relative group cursor-pointer w-32 sm:w-44 md:w-72 active:scale-[0.98] transition-transform duration-200" style="transition-timing-function: var(--ease-out);" onclick="document.getElementById('avatar-input').click()">
                             <div class="w-full relative pt-[100%] bg-[#EFEFEF] overflow-hidden">
                                 <img id="avatar-preview" src="{{ $user->avatar_url }}" alt="Avatar" 
                                      class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -222,7 +222,7 @@
                             <input type="file" id="avatar-input" name="avatar" class="hidden" accept="image/*" onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
                         </div>
                         
-                        <div class="archive-cell p-6 md:p-8 flex flex-col justify-center gap-6">
+                        <div class="archive-cell p-4 sm:p-6 md:p-8 flex flex-col justify-center gap-4 sm:gap-6">
                             <div>
                                 <span class="font-mono text-[9px] tracking-[0.2em] text-[#909090] block uppercase mb-1">Status</span>
                                 <span class="font-mono text-xs uppercase tracking-widest text-[#1A1A1A] flex items-center gap-2">
