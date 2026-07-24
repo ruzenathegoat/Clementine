@@ -1191,177 +1191,262 @@
         // 4. Verification Protocol (Editorial Laboratory)
         const veriSection = document.getElementById('verification-section');
         const veriLab = document.getElementById('verification-lab');
-        
-        if (veriSection && veriLab) {
+          if (veriSection && veriLab) {
             
-            // --- Phase 1: Statement Reveal ---
-            const statementTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: veriSection,
-                    start: 'top 70%',
-                    once: true
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // --- Scramble Text Effect ---
+            const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*';
+            const activeScrambles = new WeakMap();
+
+            function scrambleToText(el, finalText, options = {}) {
+                const { duration = 200, revealDelay = 30 } = options;
+
+                if (activeScrambles.has(el)) {
+                    clearInterval(activeScrambles.get(el));
+                    activeScrambles.delete(el);
                 }
-            });
 
-            // Headline word by word
-            const words = document.querySelectorAll('.veri-word');
-            statementTl.to(words, {
-                opacity: 1,
-                letterSpacing: 'normal',
-                duration: 0.7,
-                stagger: 0.25,
-                ease: 'expo.out'
-            });
+                const targetLength = finalText.length;
+                let frame = 0;
+                const totalFrames = Math.ceil(duration / revealDelay);
+                const lockedCount = () => Math.floor((frame / totalFrames) * targetLength);
 
-            // Manifesto lines
-            const lines = document.querySelectorAll('.veri-line');
-            statementTl.to(lines, {
-                opacity: 1,
-                duration: 0.6,
-                stagger: 0.15,
-                ease: 'power2.out'
-            }, "-=0.2");
+                const intervalId = setInterval(() => {
+                    frame++;
+                    const locked = lockedCount();
+                    let output = '';
+                    for (let i = 0; i < targetLength; i++) {
+                        if (i < locked) {
+                            output += finalText[i];
+                        } else if (finalText[i] === ' ' || finalText[i] === '.') {
+                            output += finalText[i];
+                        } else {
+                            output += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+                        }
+                    }
+                    el.innerText = output;
 
-            // Headline hover micro-interaction
-            const headlineContainer = document.querySelector('.veri-headline');
-            if (headlineContainer) {
-                headlineContainer.addEventListener('mouseenter', () => {
-                    gsap.to(words, { letterSpacing: '0.015em', duration: 0.4, ease: 'power2.out' });
-                });
-                headlineContainer.addEventListener('mouseleave', () => {
-                    gsap.to(words, { letterSpacing: 'normal', duration: 0.4, ease: 'power2.out' });
-                });
+                    if (frame >= totalFrames) {
+                        el.innerText = finalText;
+                        clearInterval(intervalId);
+                        activeScrambles.delete(el);
+                    }
+                }, revealDelay);
+
+                activeScrambles.set(el, intervalId);
             }
 
-            // --- Phase 2-5: The 900px Scroll Scrub (Protocol Execution) ---
+            // --- Score Easing Curve ---
+            const scoreEaseIn = gsap.parseEase('power1.in');
+            const scoreEaseMid = gsap.parseEase('power2.out');
+            const scoreEaseFinal = gsap.parseEase('power3.out');
+
+            function mapProgressToScore(p) {
+                const progress = Math.min(Math.max(p, 0), 1); 
+                
+                if (progress < 0.7) {
+                    // Fase 1: lambat, 0% -> 60%
+                    return scoreEaseIn(progress / 0.7) * 60;
+                } else if (progress < 0.92) {
+                    // Fase 2: cepat, 60% -> 97%
+                    return 60 + scoreEaseMid((progress - 0.7) / 0.22) * 37;
+                } else {
+                    // Fase 3: hesitate, 97% -> 100%
+                    return 97 + scoreEaseFinal((progress - 0.92) / 0.08) * 3;
+                }
+            }
+
+            // --- Query Elements Once ---
+            const words = document.querySelectorAll('.veri-word');
+            const lines = document.querySelectorAll('.veri-line');
+            const headlineContainer = document.querySelector('.veri-headline');
             const watchSharp = document.querySelector('.veri-watch-sharp');
+            const watchBlur = document.querySelector('.veri-watch-blur');
             const gridBg = document.querySelector('.veri-grid');
             const scanLine = document.querySelector('.veri-scan-line');
             const statusText = document.querySelector('.veri-status-text');
             const scoreText = document.querySelector('.veri-score-text');
             const veriDot = document.querySelector('.veri-dot');
-            
-            // Status messages mapping to scroll progress (0 to 1)
-            const statuses = [
-                { p: 0.00, text: "INITIALIZING..." },
-                { p: 0.20, text: "SCANNING..." },
-                { p: 0.45, text: "INSPECTING..." },
-                { p: 0.70, text: "COMPARING..." },
-                { p: 0.90, text: "AUTHENTICATING..." },
-                { p: 0.99, text: "VERIFIED" }
-            ];
-
-            const scrubTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: veriLab,
-                    start: 'top 30%', // Wait a bit until right panel is in view
-                    end: '+=900',
-                    scrub: 1,
-                    onUpdate: (self) => {
-                        const progress = self.progress;
-                        
-                        // Update Status
-                        let currentStatus = statuses[0].text;
-                        for (let i = 0; i < statuses.length; i++) {
-                            if (progress >= statuses[i].p) {
-                                currentStatus = statuses[i].text;
-                            }
-                        }
-                        if (statusText.innerText !== currentStatus) {
-                            statusText.innerText = currentStatus;
-                        }
-                        
-                        // Update Score
-                        const score = Math.floor(progress * 100);
-                        if (scoreText) scoreText.innerText = score + '%';
-
-                        // Map clip path for sharp image (bottom clip reduces as progress increases)
-                        const clipBottom = 100 - (progress * 100);
-                        
-                        // Scan line opacity (fade in at start, fade out at end)
-                        let opacity = 0;
-                        if (progress > 0.01 && progress < 0.99) {
-                            opacity = 1;
-                        }
-
-                        // Apply updates via set for maximum performance
-                        gsap.set(scanLine, { top: `${progress * 100}%`, opacity: opacity });
-                        gsap.set(watchSharp, { clipPath: `inset(0 0 ${clipBottom}% 0)` });
-                    }
-                }
-            });
-
-            // Grid Opacity slowly increases (Phase 2)
-            scrubTl.to(gridBg, { opacity: 0.12, duration: 0.2, ease: 'none' }, 0);
-
-            // Draw Engineering Frame at 90% (FINAL REVIEW)
             const bTop = document.querySelector('.eng-frame-top');
             const bRight = document.querySelector('.eng-frame-right');
             const bBot = document.querySelector('.eng-frame-bottom');
             const bLeft = document.querySelector('.eng-frame-left');
-            
-            scrubTl.to(bTop, { scaleX: 1, duration: 0.02, ease: 'none' }, 0.90)
-                   .to(bRight, { scaleY: 1, duration: 0.02, ease: 'none' }, 0.92)
-                   .to(bBot, { scaleX: 1, duration: 0.02, ease: 'none' }, 0.94)
-                   .to(bLeft, { scaleY: 1, duration: 0.02, ease: 'none' }, 0.96);
-
-            // Phase 6: Certification Cards reveal upon complete (99%)
             const cards = document.querySelectorAll('.veri-card');
-            scrubTl.to(cards, { opacity: 1, y: 0, duration: 0.1, stagger: 0.02, ease: 'none' }, 0.99);
-            scrubTl.to(veriDot, { opacity: 1, duration: 0.01 }, 0.99);
-
-            // Pulse the dot infinitely after it appears
-            gsap.to(veriDot, { 
-                opacity: 0.3, 
-                duration: 1.0, 
-                ease: 'power1.inOut', 
-                yoyo: true, 
-                repeat: -1, 
-                delay: 2 
-            });
-
-            // --- Phase 7 & 8: Product Inspection Mode (Hover) ---
             const watchContainer = document.querySelector('.veri-watch-container');
             const callouts = document.querySelectorAll('.veri-callout');
-            
-            // Timeline for callouts loop
-            const calloutTl = gsap.timeline({ paused: true, repeat: -1 });
-            callouts.forEach((callout, index) => {
-                calloutTl.to(callout, { opacity: 1, duration: 0.2, ease: 'power2.out' })
-                         .to(callout, { opacity: 0, duration: 0.2, ease: 'power2.out', delay: 0.5 });
-            });
 
-            // Timeline for Hover status strip loop
             const hoverStatuses = ["AUTHENTICATION COMPLETE", "CERTIFIED FOR SALE", "LIVE INVENTORY", "READY FOR COLLECTION"];
-            let hoverStatusInterval;
+            let hoverStatusInterval = null;
+            let frameRevealed = false;
+
+            if (prefersReducedMotion) {
+                // Reduced Motion: Snap to End State immediately
+                
+                // Phase 1: Statement
+                gsap.set(words, { opacity: 1, clearProps: 'letterSpacing' });
+                gsap.set(lines, { opacity: 1 });
+
+                // Phase 2-5: Produk
+                gsap.set(watchSharp, { clipPath: 'inset(0 0 0% 0)' });
+                gsap.set(gridBg, { opacity: 0.12 });
+                gsap.set(scanLine, { opacity: 0 }); 
+                
+                // Frame
+                gsap.set([bTop, bBot], { scaleX: 1 });
+                gsap.set([bRight, bLeft], { scaleY: 1 });
+
+                // Status & Skor
+                statusText.innerText = 'VERIFIED';
+                if (scoreText) scoreText.innerText = '100%';
+
+                // Cards & Dot
+                gsap.set(cards, { opacity: 1, y: 0 });
+                gsap.set(veriDot, { opacity: 1 });
+                frameRevealed = true;
+                
+            } else {
+                // --- Normal Motion: ScrollTrigger Timelines & Scrub ---
+                
+                // Phase 1: Statement Reveal
+                const statementTl = gsap.timeline({
+                    scrollTrigger: { trigger: veriSection, start: 'top 70%', once: true }
+                });
+
+                statementTl.to(words, { opacity: 1, letterSpacing: '0em', clearProps: 'letterSpacing', duration: 0.7, stagger: 0.25, ease: 'expo.out' });
+                statementTl.to(lines, { opacity: 1, duration: 0.6, stagger: 0.15, ease: 'power2.out' }, "-=0.2");
+
+                // Phase 2-5: Protocol Scrub
+                const statuses = [
+                    { p: 0.00, text: "INITIALIZING..." },
+                    { p: 0.20, text: "SCANNING..." },
+                    { p: 0.45, text: "INSPECTING..." },
+                    { p: 0.70, text: "COMPARING..." },
+                    { p: 0.90, text: "AUTHENTICATING..." },
+                    { p: 0.99, text: "VERIFIED" }
+                ];
+
+                let containerHeight = veriLab.getBoundingClientRect().height;
+                window.addEventListener('resize', () => { containerHeight = veriLab.getBoundingClientRect().height; });
+                let dotPulseStarted = false;
+                let pulseTween = null;
+
+                const scrubTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: veriLab,
+                        start: 'top 30%', 
+                        end: '+=900',
+                        scrub: 1,
+                        onUpdate: (self) => {
+                            const progress = self.progress;
+                            
+                            if (!hoverStatusInterval) {
+                                let currentStatus = statuses[0].text;
+                                for (let i = 0; i < statuses.length; i++) {
+                                    if (progress >= statuses[i].p) currentStatus = statuses[i].text;
+                                }
+                                if (statusText.innerText !== currentStatus && !activeScrambles.has(statusText)) {
+                                    scrambleToText(statusText, currentStatus);
+                                }
+                            }
+                            
+                            const score = Math.floor(mapProgressToScore(progress));
+                            if (scoreText) scoreText.innerText = score + '%';
+
+                            const clipBottom = 100 - (progress * 100);
+                            let opacity = 0;
+                            if (progress > 0.01 && progress < 0.99) opacity = 1;
+
+                            gsap.set(scanLine, { y: progress * containerHeight, opacity: opacity });
+                            gsap.set(watchSharp, { clipPath: `inset(0 0 ${clipBottom}% 0)` });
+                            
+                            frameRevealed = progress >= 0.96;
+                            
+                            if (progress >= 0.85 && !dotPulseStarted) {
+                                dotPulseStarted = true;
+                                pulseTween = gsap.to(veriDot, { opacity: 0.3, duration: 1.0, ease: 'power1.inOut', yoyo: true, repeat: -1 });
+                            } else if (progress < 0.85 && dotPulseStarted) {
+                                dotPulseStarted = false;
+                                if (pulseTween) {
+                                    pulseTween.kill();
+                                    gsap.set(veriDot, { clearProps: 'opacity' });
+                                }
+                            }
+                        }
+                    }
+                });
+
+                scrubTl.to(gridBg, { opacity: 0.12, duration: 0.2, ease: 'none' }, 0);
+                scrubTl.to(bTop, { scaleX: 1, duration: 0.02, ease: 'none' }, 0.90)
+                       .to(bRight, { scaleY: 1, duration: 0.02, ease: 'none' }, 0.92)
+                       .to(bBot, { scaleX: 1, duration: 0.02, ease: 'none' }, 0.94)
+                       .to(bLeft, { scaleY: 1, duration: 0.02, ease: 'none' }, 0.96);
+
+                scrubTl.to(cards, { opacity: 1, y: 0, duration: 0.1, stagger: 0.02, ease: 'none' }, 0.85);
+                scrubTl.to(veriDot, { opacity: 1, duration: 0.01 }, 0.85);
+
+                // Scroll Exit
+                gsap.to(veriLab, {
+                    opacity: 0.6,
+                    ease: 'none',
+                    scrollTrigger: { trigger: veriSection, start: 'bottom 80%', end: 'bottom 30%', scrub: true }
+                });
+
+                if (watchContainer) {
+                    veriLab.addEventListener('mousemove', (e) => {
+                        const rect = veriLab.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+                        
+                        gsap.set(gridBg, { x: x * 4, y: y * 4 }); 
+                        
+                        if (frameRevealed) {
+                            gsap.set(bTop, { scaleX: 1, x: x * 2, y: y * 2 });
+                            gsap.set(bRight, { scaleY: 1, x: x * 2, y: y * 2 });
+                            gsap.set(bBot, { scaleX: 1, x: x * 2, y: y * 2 });
+                            gsap.set(bLeft, { scaleY: 1, x: x * 2, y: y * 2 });
+                        } else {
+                            gsap.set(bTop, { x: x * 2, y: y * 2 });
+                            gsap.set(bRight, { x: x * 2, y: y * 2 });
+                            gsap.set(bBot, { x: x * 2, y: y * 2 });
+                            gsap.set(bLeft, { x: x * 2, y: y * 2 });
+                        }
+                    });
+                }
+            } // End normal motion
+
+            // --- Interactive Parts Safe for Reduced Motion ---
+            if (headlineContainer) {
+                headlineContainer.addEventListener('mouseenter', () => {
+                    gsap.to(words, { letterSpacing: '0.015em', duration: 0.4, ease: 'power2.out' });
+                });
+                headlineContainer.addEventListener('mouseleave', () => {
+                    gsap.to(words, { letterSpacing: '0em', clearProps: 'letterSpacing', duration: 0.4, ease: 'power2.out' });
+                });
+            }
 
             if (watchContainer) {
-                // Subtle Grid cursor tracking
-                veriLab.addEventListener('mousemove', (e) => {
-                    const rect = veriLab.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width - 0.5;
-                    const y = (e.clientY - rect.top) / rect.height - 0.5;
-                    gridBg.style.transform = `translate(${x * 4}px, ${y * 4}px)`; // Max 2px each way
-                    
-                    bTop.style.transform = `scaleX(1) translate(${x * 2}px, ${y * 2}px)`;
-                    bRight.style.transform = `scaleY(1) translate(${x * 2}px, ${y * 2}px)`;
-                    bBot.style.transform = `scaleX(1) translate(${x * 2}px, ${y * 2}px)`;
-                    bLeft.style.transform = `scaleY(1) translate(${x * 2}px, ${y * 2}px)`;
+                let hoverEngaged = false;
+                const calloutTl = gsap.timeline({ paused: true, repeat: -1 });
+                callouts.forEach((callout) => {
+                    calloutTl.to(callout, { opacity: 1, duration: 0.2, ease: 'power2.out' })
+                             .to(callout, { opacity: 0, duration: 0.2, ease: 'power2.out', delay: 0.5 });
                 });
 
                 watchContainer.addEventListener('mouseenter', () => {
-                    // Only start if authentication is done (scan reached bottom)
-                    if (statusText.innerText === "AUTHENTICATED" || hoverStatuses.includes(statusText.innerText)) {
+                    if (statusText.innerText === "VERIFIED" || hoverStatuses.includes(statusText.innerText)) {
+                        hoverEngaged = true;
                         calloutTl.play();
                         
-                        // Start status loop
                         let statusIdx = 0;
                         hoverStatusInterval = setInterval(() => {
-                            statusText.innerText = hoverStatuses[statusIdx];
+                            scrambleToText(statusText, hoverStatuses[statusIdx]);
                             statusIdx = (statusIdx + 1) % hoverStatuses.length;
                         }, 900);
                         
-                        gsap.to(watchImg, { filter: 'blur(0px) contrast(1.05)', duration: 0.4, ease: 'power2.out' });
+                        if (watchBlur) {
+                            gsap.to(watchBlur, { filter: 'blur(0px) contrast(1.05)', duration: 0.4, ease: 'power2.out' });
+                        }
                     }
                 });
                 
@@ -1369,37 +1454,28 @@
                     calloutTl.pause();
                     gsap.to(callouts, { opacity: 0, duration: 0.2, ease: 'power2.out' });
                     
-                    clearInterval(hoverStatusInterval);
-                    if (statusText.innerText !== "INITIALIZING...") {
-                        statusText.innerText = "AUTHENTICATED";
+                    if (hoverStatusInterval) {
+                        clearInterval(hoverStatusInterval);
+                        hoverStatusInterval = null;
+                    }
+
+                    if (hoverEngaged) {
+                        scrambleToText(statusText, "VERIFIED");
+                        if (watchBlur) {
+                            gsap.to(watchBlur, { filter: 'blur(0px) contrast(1)', duration: 0.4, ease: 'power2.out' });
+                        }
+                        hoverEngaged = false;
                     }
                     
-                    // Reset positions
-                    gridBg.style.transform = `translate(0px, 0px)`;
-                    bTop.style.transform = `scaleX(1) translate(0px, 0px)`;
-                    bRight.style.transform = `scaleY(1) translate(0px, 0px)`;
-                    bBot.style.transform = `scaleX(1) translate(0px, 0px)`;
-                    bLeft.style.transform = `scaleY(1) translate(0px, 0px)`;
-                    
-                    if (statusText.innerText === "AUTHENTICATED") {
-                        gsap.to(watchImg, { filter: 'blur(0px) contrast(1)', duration: 0.4, ease: 'power2.out' });
+                    if (!prefersReducedMotion) {
+                        gsap.set(gridBg, { x: 0, y: 0 });
+                        gsap.set(bTop, frameRevealed ? { scaleX: 1, x: 0, y: 0 } : { x: 0, y: 0 });
+                        gsap.set(bRight, frameRevealed ? { scaleY: 1, x: 0, y: 0 } : { x: 0, y: 0 });
+                        gsap.set(bBot, frameRevealed ? { scaleX: 1, x: 0, y: 0 } : { x: 0, y: 0 });
+                        gsap.set(bLeft, frameRevealed ? { scaleY: 1, x: 0, y: 0 } : { x: 0, y: 0 });
                     }
                 });
             }
-
-            // --- Scroll Exit ---
-            // As the user leaves the section entirely, we soften the right side
-            gsap.to(veriLab, {
-                opacity: 0.6,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: veriSection,
-                    start: 'bottom 80%',
-                    end: 'bottom 30%',
-                    scrub: true
-                }
-            });
-            // The headline container stays opaque naturally until it scrolls out of view.
         }
     } // End initAnimations
 
