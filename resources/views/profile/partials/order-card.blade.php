@@ -1,5 +1,5 @@
 <!-- Acquisition Record (Order Card) -->
-<div class="relative group cursor-crosshair border-b border-[rgba(10,10,10,0.15)] pb-12 transition-colors duration-300 hover:bg-[#FDFDFD]" 
+<div class="relative group cursor-crosshair border-b border-[rgba(10,10,10,0.15)] pl-6 pb-12 transition-colors duration-300 hover:bg-[#FDFDFD]" 
      x-data="{ 
          isHovered: false,
          showInvoice() { 
@@ -131,5 +131,5 @@
     </div>
 
     <!-- Hover Border Drawer Accent -->
-    <div class="absolute top-0 left-0 h-full w-[1px] bg-[#1A1A1A] transform scale-y-0 origin-top group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"></div>
+    <div class="absolute top-0 left-0 h-full w-[2px] bg-[#1A1A1A] transform scale-y-0 origin-top group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] z-0 pointer-events-none"></div>
 </div>
