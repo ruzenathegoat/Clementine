@@ -122,7 +122,7 @@
     <!-- Product Grid Container -->
     <div class="flex-1 relative bg-background min-h-[50vh]">
         
-        <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] w-full content-start border-l-0 md:border-l border-primary" id="catalog-grid">
+        <div class="grid w-full content-start border-l-0 md:border-l border-primary" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));" id="catalog-grid">
             @forelse ($products as $index => $product)
                 @php 
                     $isOutOfStock = $product->stock <= 0;
