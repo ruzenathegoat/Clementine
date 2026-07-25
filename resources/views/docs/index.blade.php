@@ -293,6 +293,10 @@
 <!-- AJAX Logic for Certificate Lookup -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+        // =========================================================
+        // 1. AJAX CERTIFICATE LOOKUP (kode lama kamu, tidak berubah)
+        // =========================================================
         const form = document.getElementById('certLookupForm');
         const submitBtn = document.getElementById('certSubmitBtn');
         const resContainer = document.getElementById('certResultContainer');
@@ -300,9 +304,8 @@
         const success = document.getElementById('certSuccess');
         const error = document.getElementById('certError');
 
-        if(form) {
+        if (form) {
             @if(isset($searched_sn) && $searched_sn)
-                // Auto trigger if arrived from landing page
                 setTimeout(() => {
                     form.dispatchEvent(new Event('submit'));
                     document.getElementById('authentication').scrollIntoView({ behavior: 'smooth' });
@@ -312,8 +315,7 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const sn = document.getElementById('cert_sn').value;
-                
-                // UI Reset
+
                 resContainer.classList.remove('hidden');
                 loading.classList.remove('hidden');
                 success.classList.add('hidden');
@@ -328,12 +330,11 @@
                             'Accept': 'application/json'
                         }
                     });
-                    
+
                     const data = await response.json();
-                    
                     loading.classList.add('hidden');
-                    
-                    if(data.success) {
+
+                    if (data.success) {
                         document.getElementById('res-sn').textContent = data.certificate.sn;
                         document.getElementById('res-product').textContent = data.certificate.product_name;
                         document.getElementById('res-date').textContent = data.certificate.date;
@@ -350,6 +351,88 @@
                     submitBtn.style.opacity = '1';
                 }
             });
+        }
+
+        // =========================================================
+        // 2. SMOOTH SCROLL SAAT LINK SIDEBAR DIKLIK
+        // =========================================================
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const targetId = link.getAttribute('href').slice(1);
+                const targetEl = document.getElementById(targetId);
+                if (!targetEl) return;
+
+                e.preventDefault();
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // update URL hash tanpa jump instan
+                history.pushState(null, '', `#${targetId}`);
+            });
+        });
+
+        // =========================================================
+        // 3. SCROLL-SPY: highlight otomatis sub-bab sesuai posisi scroll
+        // =========================================================
+        // Ambil SEMUA elemen yang punya id dan dituju oleh link sidebar
+        const sectionIds = Array.from(navLinks).map(a => a.getAttribute('href').slice(1));
+        const sections = sectionIds
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
+
+        // Map id -> link, supaya lookup cepat
+        const linkMap = {};
+        navLinks.forEach(link => {
+            const id = link.getAttribute('href').slice(1);
+            linkMap[id] = link;
+        });
+
+        function setActiveLink(id) {
+            navLinks.forEach(link => {
+                link.classList.remove('text-white', 'font-bold');
+                link.classList.add('text-secondary/40');
+            });
+
+            const activeLink = linkMap[id];
+            if (activeLink) {
+                activeLink.classList.remove('text-secondary/40');
+                activeLink.classList.add('text-white', 'font-bold');
+
+                // auto-scroll sidebar itu sendiri supaya link aktif selalu terlihat
+                activeLink.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            }
+        }
+
+        // rootMargin: trigger saat section berada di ~20% teratas viewport,
+        // supaya highlight berpindah tepat saat section itu jadi fokus utama
+        const observer = new IntersectionObserver((entries) => {
+            // Cari entry yang paling "terlihat" (intersectionRatio terbesar) di antara yang isIntersecting
+            const visibleEntries = entries.filter(e => e.isIntersecting);
+
+            if (visibleEntries.length > 0) {
+                // Ambil yang paling atas (paling dekat ke top viewport)
+                const topMost = visibleEntries.reduce((a, b) => {
+                    return a.boundingClientRect.top < b.boundingClientRect.top ? a : b;
+                });
+                setActiveLink(topMost.target.id);
+            }
+        }, {
+            root: null,
+            rootMargin: '-15% 0px -70% 0px', // zona "aktif" ada di 15%-30% dari atas viewport
+            threshold: 0
+        });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Set active link awal berdasarkan hash URL saat page load (kalau ada)
+        if (window.location.hash) {
+            const initialId = window.location.hash.slice(1);
+            if (linkMap[initialId]) setActiveLink(initialId);
         }
     });
 </script>
