@@ -210,7 +210,7 @@ class InventoryController extends Controller
 
     public function edit(string $id)
     {
-        $product = \App\Models\Product::with(['primaryImage', 'collection', 'strapOptions'])->findOrFail($id);
+        $product = \App\Models\Product::with(['primaryImage', 'collection', 'straps'])->findOrFail($id);
         $collections = \App\Models\Collection::orderBy('name')->get();
         return view('admin.inventory.edit', compact('product', 'collections'));
     }
@@ -249,19 +249,19 @@ class InventoryController extends Controller
         $submittedStrapIds = array_filter(array_column($submittedStraps, 'id'));
         
         // Delete strap options that are not in the submitted list
-        $product->strapOptions()->whereNotIn('id', $submittedStrapIds)->delete();
+        $product->straps()->whereNotIn('id', $submittedStrapIds)->delete();
         
         foreach ($submittedStraps as $strapData) {
             if (!empty($strapData['id'])) {
                 // Update existing
-                $product->strapOptions()->where('id', $strapData['id'])->update([
+                $product->straps()->where('id', $strapData['id'])->update([
                     'strap_name' => $strapData['strap_name'],
                     'price_delta' => $strapData['price_delta'],
                     'sort_order' => $strapData['sort_order']
                 ]);
             } else {
                 // Create new
-                $product->strapOptions()->create([
+                $product->straps()->create([
                     'strap_name' => $strapData['strap_name'],
                     'price_delta' => $strapData['price_delta'],
                     'sort_order' => $strapData['sort_order']
