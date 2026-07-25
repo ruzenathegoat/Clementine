@@ -140,26 +140,31 @@
     </header>
 
     <!-- CONTENT LAYOUT -->
-    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col gap-0 mt-12 relative" id="content-layout" x-data="{ mobileNavOpen: false }">
+    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-0 mt-12 relative" id="content-layout" x-data="{ mobileNavOpen: false }">
         
-        <!-- Nav Toggle (Mobile & Desktop) -->
-        <button @click="mobileNavOpen = !mobileNavOpen" class="w-full flex items-center justify-between border-b border-[rgba(10,10,10,0.15)] pb-4 mb-8 font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A]">
+        <!-- Nav Toggle (Mobile ONLY) -->
+        <button @click="mobileNavOpen = !mobileNavOpen" class="lg:hidden w-full flex items-center justify-between border-b border-[rgba(10,10,10,0.15)] pb-4 mb-8 font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A]">
             <span>Archive Navigation</span>
             <span class="material-symbols-outlined text-[16px]" x-text="mobileNavOpen ? 'close' : 'menu'">menu</span>
         </button>
 
         <!-- SIDEBAR ARCHIVE NAVIGATION -->
-        <div class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-96 bg-[#FAFAFA] border-r border-[rgba(10,10,10,0.15)] p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar lg:!fixed lg:!z-[100] lg:!w-80 lg:!bg-[#FAFAFA] lg:!border-r lg:!border-[rgba(10,10,10,0.15)] lg:!p-8 lg:!h-full lg:!top-0"
+        <div class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-80 bg-[#FAFAFA] border-r border-[rgba(10,10,10,0.15)] p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar lg:!relative lg:!translate-x-0 lg:!w-[280px] lg:!border-none lg:!p-0 lg:!bg-transparent lg:!flex-shrink-0 lg:!sticky lg:!top-32 h-max mb-12 lg:!mb-0 lg:!z-auto lg:!inset-auto"
              :class="mobileNavOpen ? '!translate-x-0' : ''"
              data-lenis-prevent>
              
-            <div class="flex justify-between items-center mb-12 border-b border-[rgba(10,10,10,0.15)] pb-6">
+            <div class="flex justify-between items-center lg:hidden mb-12 border-b border-[rgba(10,10,10,0.15)] pb-6">
                 <span class="font-mono text-xs md:text-sm tracking-[0.2em] text-[#909090] uppercase">
                     [ ARCHIVE NAVIGATION ]
                 </span>
                 <button @click="mobileNavOpen = false" class="text-[#1A1A1A] hover:opacity-50 p-2 -mr-2">
                     <span class="material-symbols-outlined">close</span>
                 </button>
+            </div>
+            
+            <div class="hidden lg:block font-mono text-xs md:text-sm tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-4">
+                [ ARCHIVE NAVIGATION ]
+            </div>
             
             <nav class="flex flex-col gap-1 font-h2 text-base md:text-lg uppercase tracking-widest relative" @click="mobileNavOpen = false">
                 <!-- GSAP Line Indicator (Desktop only) -->
@@ -193,7 +198,7 @@
         </div>
 
         <!-- Nav Backdrop -->
-        <div x-cloak x-show="mobileNavOpen" x-transition.opacity class="fixed inset-0 z-[90] bg-[#0A0A0A]/80 backdrop-blur-sm" @click="mobileNavOpen = false"></div>
+        <div x-cloak x-show="mobileNavOpen" x-transition.opacity class="fixed inset-0 z-[90] bg-[#0A0A0A]/80 backdrop-blur-sm lg:hidden" @click="mobileNavOpen = false"></div>
 
         <!-- MAIN PANELS -->
         <div class="flex-grow w-full lg:w-auto lg:flex-1 min-w-0 lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
