@@ -38,10 +38,10 @@
                         <span class="relative z-10 block transition-all duration-300 origin-left">ABOUT</span>
                         <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-0 origin-left"></span>
                     </button>
-                    <button data-modal-target="faq" class="footer-link relative group text-left block w-fit">
-                        <span class="relative z-10 block transition-all duration-300 origin-left">FAQ</span>
+                    <a href="{{ route('docs.index') }}" class="footer-link relative group text-left block w-fit">
+                        <span class="relative z-10 block transition-all duration-300 origin-left">DOCS</span>
                         <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-0 origin-left"></span>
-                    </button>
+                    </a>
                     <button data-modal-target="contact" class="footer-link relative group text-left block w-fit">
                         <span class="relative z-10 block transition-all duration-300 origin-left">CONTACT</span>
                         <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-0 origin-left"></span>
