@@ -17,7 +17,7 @@ class CheckoutController extends Controller
     public function index()
     {
         $userId = auth()->id() ?? 1;
-        $cartItems = CartItem::with(['product'])->where('user_id', $userId)->get();
+        $cartItems = CartItem::with(['product', 'strapOption'])->where('user_id', $userId)->get();
 
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index');
@@ -31,6 +31,9 @@ class CheckoutController extends Controller
 
         foreach ($cartItems as $item) {
             $productPrice = $item->product->price;
+            if ($item->strapOption) {
+                $productPrice += $item->strapOption->price_delta;
+            }
             $qty = $item->quantity;
             $lineTotal = $productPrice * $qty;
             $subtotal += $lineTotal;
@@ -143,6 +146,9 @@ class CheckoutController extends Controller
 
         foreach ($cartItems as $item) {
             $productPrice = $item->product->price;
+            if ($item->strapOption) {
+                $productPrice += $item->strapOption->price_delta;
+            }
             $qty = $item->quantity;
             $lineTotal = $productPrice * $qty;
             $subtotal += $lineTotal;
@@ -265,12 +271,17 @@ class CheckoutController extends Controller
                     $item = $data['cartItem'];
                     $lockedProduct = $lockedProducts[$item->product_id];
                     
+                    $priceAtPurchase = $lockedProduct->price;
+                    if ($item->strapOption) {
+                        $priceAtPurchase += $item->strapOption->price_delta;
+                    }
+                    
                     OrderItem::create([
                         'order_id' => $order->id,
                         'product_id' => $item->product_id,
                         'strap_option_id' => $item->strap_option_id,
                         'quantity' => $item->quantity,
-                        'price_at_purchase' => $lockedProduct->price,
+                        'price_at_purchase' => $priceAtPurchase,
                         'tax_amount' => $data['tax_amount'],
                         'discount_amount' => $data['discount_amount'],
                     ]);
