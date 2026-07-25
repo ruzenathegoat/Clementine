@@ -23,7 +23,7 @@ class DocsController extends Controller
                 ->first();
         }
 
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             if ($item) {
                 return response()->json([
                     'success' => true,

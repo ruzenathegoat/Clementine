@@ -301,28 +301,36 @@
                 </div>
                 <!-- Section 06: Trust & Assurances -->
                 <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-4 mb-4 mt-6">
-                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">05 / ASSURANCES</h2>
+                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">05 / ACQUISITION GUARANTEES</h2>
                     
-                    <div class="flex flex-col gap-4 border border-black/10 bg-[#f9f9f9] p-6">
-                        <div class="flex gap-4 items-start pb-4 border-b border-black/10">
-                            <span class="material-symbols-outlined text-[18px] text-black/60 mt-0.5">verified_user</span>
-                            <div class="flex flex-col gap-1">
-                                <span class="font-mono text-[10px] uppercase tracking-widest text-black">Returns & Warranty</span>
-                                <span class="font-body-md text-xs text-black/60 leading-relaxed">7-Day Inspection Window & 12-Month Mechanical Warranty provided on all authenticated units.</span>
+                    <div class="flex flex-col border border-black/10 bg-[#FAFAFA] divide-y divide-black/10">
+                        <div class="p-6 flex gap-5 items-start transition-colors hover:bg-white">
+                            <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[18px] text-white">verified</span>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <span class="font-h1 text-lg uppercase tracking-widest text-black">Authenticity & 12-Month Warranty</span>
+                                <span class="font-body-md text-xs text-black/60 leading-relaxed">Every unit includes a cryptographically linked NFC Certificate of Authenticity. Covered by our 12-month mechanical warranty. Includes a 7-day inspection window with hassle-free returns.</span>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-black/10">
-                            <span class="material-symbols-outlined text-[18px] text-black/60 mt-0.5">local_shipping</span>
-                            <div class="flex flex-col gap-1">
-                                <span class="font-mono text-[10px] uppercase tracking-widest text-black">Fully Insured Priority Delivery</span>
-                                <span class="font-body-md text-xs text-black/60 leading-relaxed">Shipment is 100% insured against loss or damage until signed for at your designated destination.</span>
+                        
+                        <div class="p-6 flex gap-5 items-start transition-colors hover:bg-white">
+                            <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[18px] text-white">security</span>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <span class="font-h1 text-lg uppercase tracking-widest text-black">Encrypted Payment Protocol</span>
+                                <span class="font-body-md text-xs text-black/60 leading-relaxed">Your transaction is secured with 256-bit SSL military-grade encryption via PCI-DSS compliant gateways. Financial data is never stored on our servers.</span>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-start">
-                            <span class="material-symbols-outlined text-[18px] text-black/60 mt-0.5">lock</span>
-                            <div class="flex flex-col gap-1">
-                                <span class="font-mono text-[10px] uppercase tracking-widest text-black">Encrypted Payment Protocol</span>
-                                <span class="font-body-md text-xs text-black/60 leading-relaxed">256-bit SSL encryption. All transactions are processed securely via PCI-DSS compliant gateways.</span>
+                        
+                        <div class="p-6 flex gap-5 items-start transition-colors hover:bg-white">
+                            <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[18px] text-white">local_shipping</span>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <span class="font-h1 text-lg uppercase tracking-widest text-black">Fully Insured Priority Transit</span>
+                                <span class="font-body-md text-xs text-black/60 leading-relaxed">Shipment is 100% insured for its full acquisition value against loss, theft, or damage until signed for at your designated destination.</span>
                             </div>
                         </div>
                     </div>

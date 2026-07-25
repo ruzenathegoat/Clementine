@@ -152,25 +152,38 @@
                 <div class="flex flex-col lg:flex-row gap-12 items-center pdp-reveal-item opacity-0 translate-y-6">
                     <!-- NFC / Certificate Card Visual -->
                     <div class="w-full lg:w-1/2 flex justify-center">
-                        <div class="w-full max-w-[320px] aspect-[1/1.4] bg-white border border-black/10 shadow-[0_20px_40px_rgba(0,0,0,0.06)] relative p-8 flex flex-col justify-between transform transition-transform duration-700 hover:scale-[1.02]">
-                            <div class="flex justify-between items-start">
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-black/40">Clementine Verification</span>
-                                <span class="material-symbols-outlined text-[16px] text-black/20">contactless</span>
-                            </div>
+                        <div class="w-full max-w-[340px] aspect-[1/1.58] bg-black text-white relative p-8 flex flex-col justify-between overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.2)] transform transition-transform duration-700 hover:scale-[1.02] hover:rotate-1 hover:shadow-[0_40px_80px_rgba(0,0,0,0.3)]">
+                            <!-- Holographic overlay effect -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                             
-                            <div class="flex flex-col gap-2 text-center items-center mt-4">
-                                <div class="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center mb-2">
-                                    <span class="material-symbols-outlined text-black/60">verified</span>
+                            <!-- Top Section -->
+                            <div class="flex justify-between items-start relative z-10">
+                                <div class="flex flex-col gap-1">
+                                    <span class="font-mono text-[9px] uppercase tracking-[0.2em] text-white/50">Clementine Authentication</span>
+                                    <span class="font-h1 text-sm tracking-widest uppercase">NFC Provenance Tag</span>
                                 </div>
-                                <h4 class="font-h1 text-xl uppercase tracking-widest text-black">Authentic</h4>
-                                <span class="font-mono text-[10px] text-black/50">REF: {{ $product->slug }}</span>
-                                <div class="h-[1px] w-8 bg-black/20 my-3"></div>
-                                <span class="font-mono text-[8px] uppercase tracking-widest text-black/40">Unit Serial Mapped to Ledger</span>
+                                <span class="material-symbols-outlined text-[20px] text-white/40">contactless</span>
                             </div>
                             
-                            <div class="flex justify-between items-end border-t border-black/10 pt-4 mt-8">
-                                <span class="font-mono text-[8px] uppercase tracking-widest text-black/30">4-STAGE INSPECTION</span>
-                                <span class="font-mono text-[8px] uppercase tracking-widest text-black/50">PASSED</span>
+                            <!-- Middle Section -->
+                            <div class="flex flex-col gap-1 text-center items-center relative z-10 my-8">
+                                <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 bg-white/5 backdrop-blur-sm">
+                                    <span class="material-symbols-outlined text-white text-[24px]">verified</span>
+                                </div>
+                                <h4 class="font-h1 text-2xl uppercase tracking-widest text-white">{{ $product->name }}</h4>
+                                <span class="font-mono text-[10px] text-white/50 tracking-[0.1em]">REF: {{ $product->slug }}</span>
+                            </div>
+                            
+                            <!-- Bottom Section -->
+                            <div class="flex flex-col gap-3 relative z-10 pt-6 border-t border-white/10">
+                                <div class="flex justify-between items-end">
+                                    <span class="font-mono text-[8px] uppercase tracking-[0.1em] text-white/40">Cryptographic Serial</span>
+                                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-white">GENERATED POST-ACQUISITION</span>
+                                </div>
+                                <div class="flex justify-between items-end">
+                                    <span class="font-mono text-[8px] uppercase tracking-[0.1em] text-white/40">Ledger Status</span>
+                                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#00FF00]">AWAITING REGISTRATION</span>
+                                </div>
                             </div>
                         </div>
                     </div>

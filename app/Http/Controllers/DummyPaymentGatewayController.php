@@ -55,6 +55,8 @@ class DummyPaymentGatewayController extends Controller
                         'html' => $html,
                     ]);
 
+                    sleep(1); // prevent Resend rate limit issues
+
                     // Send Certificate Email
                     $certHtml = view('emails.orders.certificates', ['order' => $order])->render();
                     $resend->emails->send([
