@@ -225,16 +225,17 @@
                     @if($product->straps->isNotEmpty())
                     <div class="flex flex-col gap-6 pdp-reveal-item opacity-0 translate-y-6">
                         <label class="font-mono text-[10px] uppercase tracking-widest text-black/50">STRAP CONFIGURATION</label>
-                        <div class="flex flex-col gap-0 border border-black/10">
-                            @foreach($product->straps as $strap)
-                                <label class="cursor-pointer bg-white p-6 flex items-center justify-between hover:bg-[#F9F9F9] transition-colors relative border-b border-black/10 last:border-b-0 group">
-                                    <input type="radio" name="strap_option_id" value="{{ $strap->id }}" class="peer sr-only" {{ $loop->first ? 'checked' : '' }} required>
-                                    <div class="font-mono text-xs uppercase tracking-widest text-black/60 peer-checked:text-black peer-checked:font-bold transition-colors">{{ $strap->strap_name }}</div>
-                                    <div class="w-3 h-3 border border-black/30 rounded-full flex items-center justify-center peer-checked:border-black transition-colors">
-                                        <div class="w-1.5 h-1.5 bg-black rounded-full opacity-0 peer-checked:opacity-100 transition-opacity transform scale-50 peer-checked:scale-100"></div>
-                                    </div>
-                                </label>
-                            @endforeach
+                        <div class="relative border border-black/10 hover:border-black/30 transition-colors bg-white">
+                            <select name="strap_option_id" class="w-full bg-transparent p-4 pr-12 font-mono text-xs uppercase tracking-widest text-black focus:outline-none cursor-pointer appearance-none" required>
+                                @foreach($product->straps as $strap)
+                                    <option value="{{ $strap->id }}" class="bg-white text-black font-mono">
+                                        {{ $strap->strap_name }} @if($strap->price_delta > 0) (+${{ number_format($strap->price_delta, 2) }}) @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-[18px] text-black/50">expand_more</span>
+                            </div>
                         </div>
                     </div>
                     @endif
