@@ -177,7 +177,7 @@
                         
                         <!-- Strap Options -->
                         <div class="space-y-6 pt-6 border-t border-[#EAEAEA]" x-data="{ 
-                            straps: {{ Js::from($product->strapOptions ?? []) }},
+                            straps: @js($product->strapOptions ?? []),
                             addStrap() { this.straps.push({ id: '', strap_name: '', price_delta: 0, sort_order: this.straps.length }); },
                             removeStrap(index) { this.straps.splice(index, 1); }
                         }">
