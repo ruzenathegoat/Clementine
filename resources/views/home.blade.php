@@ -410,6 +410,87 @@
 
     
 
+    <!-- 3. New Arrivals Section - Collector's Selection -->
+    <div class="w-full section-reveal" id="new-arrival-section">
+        <div class="p-lg md:p-2xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-16 overflow-hidden min-h-[300px]">
+            <h2 class="new-arrival-heading font-h1 text-[clamp(4rem,10vw,8rem)] leading-none uppercase break-words w-full" style="font-family: 'Satoshi', sans-serif; font-weight: 200; opacity: 0; transform: translateY(40px);">NEW ARRIVAL</h2>
+            <a href="{{ route('products.index') }}" class="new-arrival-cta text-primary bg-transparent border border-primary px-xl py-lg font-label-caps uppercase text-xs tracking-[0.2em] hover:bg-black hover:text-white transition-colors duration-500 flex items-center justify-center shrink-0 group" style="opacity: 0;">
+                VIEW MORE
+                <span class="material-symbols-outlined ml-3 text-[14px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">arrow_forward</span>
+            </a>
+        </div>
+        
+        <!-- Editorial Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative group/grid" id="editorial-products-grid">
+            
+            <!-- GSAP Constructed Grid Lines -->
+            <div class="grid-lines-container absolute inset-0 pointer-events-none z-20">
+                <div class="grid-line-h absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
+                <div class="grid-line-h absolute bottom-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left hidden md:block lg:hidden"></div>
+                
+                <div class="grid-line-v absolute top-0 left-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+                <div class="grid-line-v absolute top-0 left-[25%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
+                <div class="grid-line-v absolute top-0 left-[50%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden md:block"></div>
+                <div class="grid-line-v absolute top-0 left-[75%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
+                <div class="grid-line-v absolute top-0 right-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
+            </div>
+
+            @forelse($newArrivals as $product)
+                @if($product->stock <= 0)
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]">
+                @else
+                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
+                @endif
+                
+                    <!-- Local Card Background for click expansion -->
+                    <div class="card-bg absolute inset-0 bg-background z-0 pointer-events-none"></div>
+
+                    <!-- Card Contents -->
+                    <div class="flex-grow flex flex-col relative z-10 w-full h-full p-8 md:p-12 overflow-hidden items-start justify-between">
+                        
+                        <!-- Top Info -->
+                        <div class="w-full flex justify-between items-start mb-12">
+                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0 transition-all duration-500 ease-out group-hover/card:!tracking-[0.15em]">{{ $product->collection->name ?? 'CLE' }}</span>
+                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!translate-x-2">${{ number_format($product->price, 2) }}</span>
+                        </div>
+                        
+                        <!-- Floating Image Area -->
+                        <div class="w-full aspect-square flex items-center justify-center relative mb-12">
+                            @if ($product->primaryImage)
+                                <img src="{{ $product->primaryImage->url }}" 
+                                     alt="{{ $product->name }}"
+                                     class="product-image w-[80%] h-[80%] object-contain opacity-0 transform transition-all duration-500 ease-out group-hover/card:!-translate-y-3 group-hover/card:!brightness-100 group-hover/card:!contrast-105"
+                                     style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-primary/30 text-xs uppercase opacity-0 product-image" style="transform: translateY(30px);">No Image</div>
+                            @endif
+                            
+                            @if($product->stock <= 0)
+                            <div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] flex items-center justify-center z-10 product-out-stock opacity-0">
+                                <span class="font-mono text-[9px] text-primary tracking-[0.2em] px-3 py-1 border border-primary/20">OUT OF STOCK</span>
+                            </div>
+                            @endif
+                        </div>
+                        
+                        <!-- Details -->
+                        <div class="flex flex-col relative z-10 w-full">
+                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!-translate-y-2" style="font-weight: 400; letter-spacing: normal;">
+                                {{ $product->name }}
+                            </h3>
+                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0 transition-opacity duration-500 ease-out group-hover/card:!opacity-100">
+                                {{ $product->tagline ?? 'An exceptional example of mechanical precision, curated for the serious collector.' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-mono text-[10px] text-primary/50 uppercase tracking-widest">
+                    The gallery is currently empty.
+                </div>
+            @endforelse
+        </div>
+    </div>
+    
     <!-- 3.5 Watchmaker's Notes -->
     <div id="notes-section" class="w-full bg-background relative border-b border-primary/20 overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
@@ -560,87 +641,6 @@
                 </div>
             </div>
             
-        </div>
-    </div>
-    
-    <!-- 3. New Arrivals Section - Collector's Selection -->
-    <div class="w-full section-reveal" id="new-arrival-section">
-        <div class="p-lg md:p-2xl border-b border-primary bg-background flex flex-col xl:flex-row justify-between xl:items-end gap-16 overflow-hidden min-h-[300px]">
-            <h2 class="new-arrival-heading font-h1 text-[clamp(4rem,10vw,8rem)] leading-none uppercase break-words w-full" style="font-family: 'Satoshi', sans-serif; font-weight: 200; opacity: 0; transform: translateY(40px);">NEW ARRIVAL</h2>
-            <a href="{{ route('products.index') }}" class="new-arrival-cta text-primary bg-transparent border border-primary px-xl py-lg font-label-caps uppercase text-xs tracking-[0.2em] hover:bg-black hover:text-white transition-colors duration-500 flex items-center justify-center shrink-0 group" style="opacity: 0;">
-                VIEW MORE
-                <span class="material-symbols-outlined ml-3 text-[14px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">arrow_forward</span>
-            </a>
-        </div>
-        
-        <!-- Editorial Product Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full bg-background relative group/grid" id="editorial-products-grid">
-            
-            <!-- GSAP Constructed Grid Lines -->
-            <div class="grid-lines-container absolute inset-0 pointer-events-none z-20">
-                <div class="grid-line-h absolute top-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left"></div>
-                <div class="grid-line-h absolute bottom-0 left-0 w-full h-[1px] bg-primary/20 scale-x-0 origin-left hidden md:block lg:hidden"></div>
-                
-                <div class="grid-line-v absolute top-0 left-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
-                <div class="grid-line-v absolute top-0 left-[25%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
-                <div class="grid-line-v absolute top-0 left-[50%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden md:block"></div>
-                <div class="grid-line-v absolute top-0 left-[75%] w-[1px] h-full bg-primary/20 scale-y-0 origin-top hidden lg:block"></div>
-                <div class="grid-line-v absolute top-0 right-0 w-[1px] h-full bg-primary/20 scale-y-0 origin-top"></div>
-            </div>
-
-            @forelse($newArrivals as $product)
-                @if($product->stock <= 0)
-                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-not-allowed group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]">
-                @else
-                <div class="flex flex-col bg-background product-card relative h-full p-0 m-0 border-b md:border-b-0 border-primary/20 lg:border-none cursor-pointer group/card transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:!opacity-100 hover:!grayscale-0 group-hover/grid:opacity-90 group-hover/grid:grayscale-[20%]" onclick="handlePreNavigation(event, this, '{{ route('products.show', $product->slug) }}')">
-                @endif
-                
-                    <!-- Local Card Background for click expansion -->
-                    <div class="card-bg absolute inset-0 bg-background z-0 pointer-events-none"></div>
-
-                    <!-- Card Contents -->
-                    <div class="flex-grow flex flex-col relative z-10 w-full h-full p-8 md:p-12 overflow-hidden items-start justify-between">
-                        
-                        <!-- Top Info -->
-                        <div class="w-full flex justify-between items-start mb-12">
-                            <span class="product-brand font-mono text-[9px] uppercase tracking-widest text-[#666666] opacity-0 transition-all duration-500 ease-out group-hover/card:!tracking-[0.15em]">{{ $product->collection->name ?? 'CLE' }}</span>
-                            <span class="product-price font-mono text-[9px] text-[#666666] opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!translate-x-2">${{ number_format($product->price, 2) }}</span>
-                        </div>
-                        
-                        <!-- Floating Image Area -->
-                        <div class="w-full aspect-square flex items-center justify-center relative mb-12">
-                            @if ($product->primaryImage)
-                                <img src="{{ $product->primaryImage->url }}" 
-                                     alt="{{ $product->name }}"
-                                     class="product-image w-[80%] h-[80%] object-contain opacity-0 transform transition-all duration-500 ease-out group-hover/card:!-translate-y-3 group-hover/card:!brightness-100 group-hover/card:!contrast-105"
-                                     style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
-                            @else
-                                <div class="w-full h-full flex items-center justify-center text-primary/30 text-xs uppercase opacity-0 product-image" style="transform: translateY(30px);">No Image</div>
-                            @endif
-                            
-                            @if($product->stock <= 0)
-                            <div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] flex items-center justify-center z-10 product-out-stock opacity-0">
-                                <span class="font-mono text-[9px] text-primary tracking-[0.2em] px-3 py-1 border border-primary/20">OUT OF STOCK</span>
-                            </div>
-                            @endif
-                        </div>
-                        
-                        <!-- Details -->
-                        <div class="flex flex-col relative z-10 w-full">
-                            <h3 class="product-title font-h1 text-xl md:text-2xl uppercase leading-tight mb-3 opacity-0 transform transition-transform duration-500 ease-out group-hover/card:!-translate-y-2" style="font-weight: 400; letter-spacing: normal;">
-                                {{ $product->name }}
-                            </h3>
-                            <p class="product-desc font-body-md text-[11px] text-primary/50 leading-relaxed opacity-0 transition-opacity duration-500 ease-out group-hover/card:!opacity-100">
-                                {{ $product->tagline ?? 'An exceptional example of mechanical precision, curated for the serious collector.' }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3xl text-center font-mono text-[10px] text-primary/50 uppercase tracking-widest">
-                    The gallery is currently empty.
-                </div>
-            @endforelse
         </div>
     </div>
     
