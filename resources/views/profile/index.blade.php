@@ -140,7 +140,7 @@
     </header>
 
     <!-- CONTENT LAYOUT -->
-    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-0 mt-12 relative" id="content-layout" x-data="{ mobileNavOpen: false }">
+    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col gap-0 mt-12 relative" id="content-layout" x-data="{ mobileNavOpen: false }">
         
         <!-- Nav Toggle (Mobile & Desktop) -->
         <button @click="mobileNavOpen = !mobileNavOpen" class="w-full flex items-center justify-between border-b border-[rgba(10,10,10,0.15)] pb-4 mb-8 font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A]">

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="w-full bg-primary text-secondary min-h-screen pt-24 pb-24">
-    <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 lg:gap-24 relative" x-data="{ mobileNavOpen: false }">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col gap-12 relative" x-data="{ mobileNavOpen: false }">
         
         <!-- Nav Toggle (Mobile & Desktop) -->
         <button @click="mobileNavOpen = !mobileNavOpen" class="w-full flex items-center justify-between border-b border-secondary/20 pb-4 mb-4 font-mono text-xs tracking-[0.2em] uppercase text-secondary">
@@ -321,7 +321,7 @@
         const loading = document.getElementById('certLoading');
         const success = document.getElementById('certSuccess');
         const error = document.getElementById('certError');
-
+        if (form) {
             @if(isset($searched_sn) && $searched_sn)
                 setTimeout(() => {
                     form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
