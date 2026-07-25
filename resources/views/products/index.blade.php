@@ -46,7 +46,8 @@
     <!-- Filter Sidebar (Sticky) -->
     <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 md:border-r border-primary bg-background flex-col border-b md:border-b-0 md:sticky md:top-0 md:h-screen overflow-y-auto" 
            :class="mobileMenuOpen ? 'flex' : 'hidden md:flex'"
-           style="opacity: 0; transform: translateY(20px);">
+           style="opacity: 0; transform: translateY(20px);"
+           data-lenis-prevent>
         
         <div class="p-lg flex justify-between items-center border-b border-primary bg-background sticky top-0 z-20">
             <h2 class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50">FILTERS</h2>

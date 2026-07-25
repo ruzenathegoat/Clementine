@@ -1,3 +1,4 @@
+@if(request()->routeIs('home'))
 <footer class="w-full flex flex-col bg-background text-primary overflow-hidden relative z-50 border-t border-primary/20" id="editorial-footer">
     
     <!-- Hero Footer (Visual Closing Statement) -->
@@ -399,3 +400,23 @@
         }
     });
 </script>
+@else
+    @php
+        $isDocs = request()->routeIs('docs.*');
+        $footerBg = $isDocs ? 'bg-primary' : 'bg-background';
+        $footerText = $isDocs ? 'text-secondary' : 'text-primary';
+        $footerBorder = $isDocs ? 'border-secondary/20' : 'border-primary/20';
+        $linkHover = $isDocs ? 'hover:text-white' : 'hover:opacity-60';
+    @endphp
+    <footer class="w-full {{ $footerBg }} {{ $footerText }} relative z-50 border-t {{ $footerBorder }}">
+        <div class="flex flex-col md:flex-row justify-between items-center px-lg md:px-2xl py-8 font-body-md text-[10px] md:text-xs font-bold uppercase tracking-widest gap-8">
+            <div class="{{ $isDocs ? 'opacity-40' : 'opacity-60' }}">©2026 CLEMENTINE. ALL RIGHTS RESERVED.</div>
+            <div class="flex gap-12">
+                <a href="https://www.instagram.com" target="_blank" class="transition-opacity {{ $linkHover }}">INSTAGRAM</a>
+                <a href="#" class="transition-opacity {{ $linkHover }}">TWITTER</a>
+                <a href="#" class="transition-opacity {{ $linkHover }}">FACEBOOK</a>
+                <a href="#" class="transition-opacity {{ $linkHover }}">LINKEDIN</a>
+            </div>
+        </div>
+    </footer>
+@endif
