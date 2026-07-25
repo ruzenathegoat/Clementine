@@ -82,7 +82,7 @@
                     @if($product->collection)
                         <span class="font-mono text-[10px] uppercase tracking-widest text-black/40">{{ $product->collection->name }}</span>
                     @endif
-                    <h1 class="font-h1 text-6xl md:text-8xl tracking-tighter leading-[0.85] uppercase text-black">{{ $product->name }}</h1>
+                    <h1 class="font-h1 text-[clamp(3rem,8vw,6rem)] tracking-tighter leading-[0.85] uppercase text-black break-words" style="text-wrap: balance; hyphens: auto;">{{ $product->name }}</h1>
                     <h2 class="font-mono text-sm uppercase tracking-widest text-black/60 mt-4">{{ $product->tagline }}</h2>
                 </div>
 
@@ -177,8 +177,8 @@
                                     <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 bg-white/5 backdrop-blur-sm">
                                         <span class="material-symbols-outlined text-white text-[24px]">verified</span>
                                     </div>
-                                    <h4 class="font-h1 text-2xl uppercase tracking-widest text-white">{{ $product->name }}</h4>
-                                    <span class="font-mono text-[10px] text-white/50 tracking-[0.1em]">REF: {{ $product->slug }}</span>
+                                    <h4 class="font-h1 text-xl lg:text-2xl uppercase tracking-tight text-white break-words w-full" style="text-wrap: balance;">{{ $product->name }}</h4>
+                                    <span class="font-mono text-[10px] text-white/50 tracking-[0.1em] mt-2">REF: {{ $product->slug }}</span>
                                 </div>
                                 
                                 <!-- Bottom Section -->
