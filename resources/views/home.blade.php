@@ -138,11 +138,11 @@
                     <h3 class="font-h1 text-[clamp(1.4rem,2.4vw,2rem)] uppercase leading-[1.15] mb-5" style="font-weight: 500;">Verify your timepiece</h3>
                     <p class="font-mono text-[13px] leading-[1.8] text-secondary/60 mb-10 max-w-[400px]">Enter the certificate number located on your provenance card or in your purchase confirmation email.</p>
                     
-                    <div class="flex border border-secondary/15">
-                        <input id="serialInput" type="text" placeholder="e.g. CLM-2044-0071" value="CLM-2044-0071" class="flex-1 bg-transparent border-none py-4 px-5 font-mono text-[13px] tracking-[0.05em] text-secondary outline-none uppercase placeholder-secondary/40">
-                        <button id="verifyBtn" class="bg-secondary text-primary px-6 font-mono text-[11px] tracking-[0.2em] uppercase cursor-pointer transition-colors duration-300 hover:bg-secondary hover:text-white whitespace-nowrap">Verify</button>
-                    </div>
-                    <p class="font-mono text-[10px] text-secondary/40 mt-4 tracking-[0.05em]">Click Verify to preview the interaction.</p>
+                    <form action="{{ route('docs.verify') }}" method="GET" class="flex border border-secondary/15">
+                        <input name="certificate_sn" id="serialInput" type="text" placeholder="e.g. CLM-2044-0071" value="" required class="flex-1 bg-transparent border-none py-4 px-5 font-mono text-[13px] tracking-[0.05em] text-secondary outline-none uppercase placeholder-secondary/40">
+                        <button type="submit" class="bg-secondary text-primary px-6 font-mono text-[11px] tracking-[0.2em] uppercase cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black whitespace-nowrap">Verify</button>
+                    </form>
+                    <p class="font-mono text-[10px] text-secondary/40 mt-4 tracking-[0.05em]">Click Verify to search the official ledger.</p>
                 </div>
                 
                 <!-- Right -->
