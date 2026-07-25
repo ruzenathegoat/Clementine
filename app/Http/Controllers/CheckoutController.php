@@ -328,6 +328,15 @@ class CheckoutController extends Controller
                     'subject' => 'Acquisition Confirmed - #' . $orderId,
                     'html' => $html,
                 ]);
+
+                // Send Certificate Email
+                $certHtml = view('emails.orders.certificates', ['order' => $order])->render();
+                $resend->emails->send([
+                    'from' => 'Clementine <' . config('mail.from.address') . '>',
+                    'to' => [$recipient],
+                    'subject' => 'Your Digital Certificates - #' . $orderId,
+                    'html' => $certHtml,
+                ]);
                 \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error('OrderPaid (checkout): email FAILED via SDK', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);

@@ -21,6 +21,7 @@ class OrderItem extends Model
         'tax_amount',
         'discount_amount',
         'cogs_at_purchase',
+        'certificate_sn',
     ];
 
     public function order(): BelongsTo
@@ -36,5 +37,14 @@ class OrderItem extends Model
     public function strapOption(): BelongsTo
     {
         return $this->belongsTo(Productstrapoption::class, 'strap_option_id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($item) {
+            if (empty($item->certificate_sn)) {
+                $item->certificate_sn = 'CLM-' . date('y') . strtoupper(\Illuminate\Support\Str::random(8));
+            }
+        });
     }
 }
