@@ -110,8 +110,7 @@
                     Abort Protocol
                 </a>
                 
-                <h1 class="font-h1 text-4xl lg:text-5xl uppercase tracking-tight mb-2">Final Verification</h1>
-                <p class="font-mono text-[10px] uppercase tracking-widest text-black/40">Secure Acquisition Protocol Initiated</p>
+                <h1 class="font-h1 text-4xl lg:text-5xl tracking-tight mb-2 text-black">Final Verification</h1>
             </div>
             
             <!-- Form starts here -->
@@ -120,7 +119,7 @@
                 
                 <!-- Section 02: Verification Status -->
                 <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-4">
-                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-2">01 / Authentication Status</h2>
+                    <h2 class="font-h2 text-xl tracking-tight text-black mb-2">Authentication Status</h2>
                     <div class="border border-black/10 p-6 flex flex-col gap-4 font-mono text-[11px] uppercase tracking-widest bg-black/5">
                         <div class="veri-check flex items-center gap-3 opacity-0 transform translate-x-[-10px]">
                             <span class="material-symbols-outlined text-[14px]">check</span>
@@ -139,7 +138,7 @@
                 
                 <!-- Section 03: Order Summary -->
                 <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-6">
-                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-2">02 / Financial Summary</h2>
+                    <h2 class="font-h2 text-xl tracking-tight text-black mb-2">Financial Summary</h2>
                     
                     <div class="flex flex-col gap-4 font-body text-sm text-black/70">
                         @foreach($cartItems as $item)
@@ -181,9 +180,9 @@
                     </div>
                 </div>
                 
-                <!-- Section 04: Shipping Information -->
-                <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-8">
-                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">03 / Destination</h2>
+                <!-- Section: Delivery Details -->
+                <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-6">
+                    <h2 class="font-h2 text-xl tracking-tight text-black mb-2">Delivery Details</h2>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
                         <div class="input-group relative col-span-2 md:col-span-1">
@@ -236,9 +235,9 @@
                     </div>
                 </div>
                 
-                <!-- Section 05: Payment Method -->
+                <!-- Section: Payment Method -->
                 <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-6">
-                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">04 / Payment Protocol</h2>
+                    <h2 class="font-h2 text-xl tracking-tight text-black mb-2">Payment</h2>
                     
                     <div class="flex flex-col gap-4">
                         <!-- Card -->
@@ -310,9 +309,10 @@
                         </label>
                     </div>
                 </div>
-                <!-- Section 06: Trust & Assurances -->
+                
+                <!-- Section: Trust & Assurances -->
                 <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-4 mb-4 mt-6">
-                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">05 / ACQUISITION GUARANTEES</h2>
+                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">Acquisition Guarantees</h2>
                     
                     <div class="flex flex-col border border-black/10 bg-[#FAFAFA] divide-y divide-black/10">
                         <div class="p-6 flex gap-5 items-start transition-colors hover:bg-white">
@@ -347,15 +347,19 @@
                     </div>
                 </div>
                 
-                <!-- Section 07: Final Purchase Button -->
-                <div class="panel-section opacity-0 transform translate-y-4 pt-6">
-                    <button type="submit" id="submit-btn" class="group relative w-full bg-black text-white py-6 overflow-hidden flex items-center justify-center gap-3">
-                        <span class="sweep-highlight absolute inset-0 bg-white opacity-0 transform -translate-x-full" style="width: 10px; filter: blur(5px);"></span>
-                        <span id="submit-text" class="font-h1 text-xl tracking-widest uppercase transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">Complete Acquisition</span>
-                        <span id="submit-arrow" class="material-symbols-outlined text-[18px] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">arrow_forward</span>
-                        
-                        <!-- Progress line for authorizing -->
-                        <div id="submit-progress" class="absolute bottom-0 left-0 h-[2px] bg-white w-full transform scale-x-0 origin-left"></div>
+                <!-- Section: Action -->
+                <div class="panel-section opacity-0 transform translate-y-4 mt-8 relative">
+                    <!-- Loading Overlay (Visible on Submit) -->
+                    <div id="submit-overlay" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-20 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+                        <div class="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn" class="cta-button group relative w-full border border-black bg-black text-white py-6 overflow-hidden flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98]">
+                        <span class="font-h1 text-xl tracking-tight uppercase relative z-10 flex items-center gap-3">
+                            Initiate Transfer
+                            <span class="material-symbols-outlined text-[18px] transform transition-transform duration-300 group-hover:translate-x-2">arrow_forward</span>
+                        </span>
+                        <div class="absolute inset-0 bg-white translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"></div>
                     </button>
                 </div>
             </form>

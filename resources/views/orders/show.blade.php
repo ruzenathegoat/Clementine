@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 
-                <h1 class="font-h1 text-6xl md:text-8xl uppercase tracking-tighter mb-8 leading-none">ACQUISITION<br>CONFIRMED.</h1>
+                <h1 class="font-h1 text-6xl md:text-[80px] tracking-tighter uppercase mb-8 leading-[0.9]">ACQUISITION<br>CONFIRMED.</h1>
                 
                 <p class="font-body-md text-sm text-primary/70 max-w-2xl leading-relaxed">
                     Your allocation has been secured. The official folio and provenance documents have been dispatched to 
@@ -50,11 +50,11 @@
                     <span class="font-h2 text-3xl md:text-4xl text-primary">${{ number_format($order->total, 2) }}</span>
                 </div>
                 
-                <a href="{{ route('profile.index') }}" class="p-8 md:p-12 flex flex-col justify-between gap-6 bg-surface hover:bg-primary hover:text-secondary transition-colors group">
-                    <span class="font-body-md text-xs font-bold uppercase tracking-widest group-hover:text-secondary/70 text-primary/60 transition-colors">Next Steps</span>
+                <a href="{{ route('profile.index') }}" class="p-8 md:p-12 flex flex-col justify-between gap-6 bg-surface hover:bg-primary hover:text-secondary transition-colors duration-300 group active:scale-[0.98]" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">
+                    <span class="font-body-md text-xs font-bold uppercase tracking-widest group-hover:text-secondary/70 text-primary/60 transition-colors duration-300">Next Steps</span>
                     <div class="font-h2 text-2xl md:text-3xl flex items-center justify-between">
                         Access Collection
-                        <span class="material-symbols-outlined text-[32px] group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                        <span class="material-symbols-outlined text-[32px] group-hover:translate-x-2 transition-transform duration-300" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">arrow_forward</span>
                     </div>
                 </a>
             </div>
@@ -117,12 +117,12 @@
                     <div class="mt-24 pt-8 border-t border-black/10 payment-block opacity-0 translate-y-4">
                         <form action="{{ route('orders.simulate_payment', $order) }}" method="POST">
                             @csrf
-                            <button type="submit" class="primary-btn group relative w-full border border-black bg-white text-black py-6 overflow-hidden flex items-center justify-between px-8 hover:bg-black hover:text-white transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.99]">
+                            <button type="submit" class="primary-btn group relative w-full border border-black bg-white text-black py-6 overflow-hidden flex items-center justify-between px-8 transition-all duration-300 hover:bg-black hover:text-white active:scale-[0.98]" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">
                                 <div class="flex items-center gap-4 relative z-10">
                                     <span class="material-symbols-outlined text-[16px] text-black/40 group-hover:text-white/60">developer_mode</span>
-                                    <span class="font-h1 text-xl tracking-widest uppercase">SIMULATE VA PAYMENT</span>
+                                    <span class="font-h1 text-xl tracking-tight uppercase">SIMULATE VA PAYMENT</span>
                                 </div>
-                                <span class="material-symbols-outlined text-[18px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2 relative z-10">arrow_forward</span>
+                                <span class="material-symbols-outlined text-[18px] transform transition-transform duration-300 group-hover:translate-x-2 relative z-10" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">arrow_forward</span>
                             </button>
                         </form>
                         <p class="font-mono text-[9px] uppercase tracking-widest text-black/40 mt-4">LOCAL ENVIRONMENT SANDBOX BYPASS.</p>

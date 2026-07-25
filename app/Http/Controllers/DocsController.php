@@ -33,7 +33,7 @@ class DocsController extends Controller
                             'product_name' => $item->product->name,
                             'order_id' => strtoupper(substr(str_replace('-', '', $item->order_id), -8)),
                             'date' => $item->order->created_at->format('d M Y'),
-                            'strap' => $item->strapOption ? $item->strapOption->name : 'N/A',
+                            'strap' => $item->strapOption ? $item->strapOption->strap_name : 'N/A',
                         ],
                     ]);
                 }

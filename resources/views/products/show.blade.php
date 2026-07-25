@@ -78,16 +78,16 @@
             <div class="px-8 md:px-16 pb-16 flex flex-col gap-6 relative">
                 <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 scale-x-0 origin-left editorial-grid-line"></div>
                 
-                <div class="flex flex-col gap-1 pdp-reveal-item opacity-0 translate-y-6">
+                <div class="flex flex-col gap-2 pdp-reveal-item opacity-0 translate-y-6">
                     @if($product->collection)
                         <span class="font-mono text-[10px] uppercase tracking-widest text-black/40">{{ $product->collection->name }}</span>
                     @endif
-                    <h1 class="font-h1 text-5xl md:text-6xl tracking-tight leading-[0.9] uppercase text-black">{{ $product->name }}</h1>
-                    <h2 class="font-mono text-xs uppercase tracking-widest text-black/60 mt-2">{{ $product->tagline }}</h2>
+                    <h1 class="font-h1 text-6xl md:text-8xl tracking-tighter leading-[0.85] uppercase text-black">{{ $product->name }}</h1>
+                    <h2 class="font-mono text-sm uppercase tracking-widest text-black/60 mt-4">{{ $product->tagline }}</h2>
                 </div>
 
-                <div class="pdp-reveal-item opacity-0 translate-y-6 mt-4">
-                    <span class="font-h1 text-3xl uppercase tracking-widest text-black">${{ number_format($product->price, 2) }}</span>
+                <div class="pdp-reveal-item opacity-0 translate-y-6 mt-8">
+                    <span class="font-h1 text-4xl md:text-5xl uppercase tracking-tighter text-black">${{ number_format($product->price, 2) }}</span>
                 </div>
                 
                 <!-- Allocation Block -->
@@ -112,14 +112,14 @@
             <!-- 2. Overview Block -->
             <div class="px-8 md:px-16 py-16 relative">
                 <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 scale-x-0 origin-left editorial-grid-line"></div>
-                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">01 / OVERVIEW</h3>
+                <h3 class="font-h2 text-2xl tracking-tight text-black mb-6 pdp-reveal-item opacity-0 translate-y-6">The details</h3>
                 <p class="font-body-md text-base md:text-lg leading-relaxed text-black/80 whitespace-pre-line max-w-[45ch] pdp-reveal-item opacity-0 translate-y-6">{{ $product->description }}</p>
             </div>
 
             <!-- 3. Specifications Block (Scroll Reveal) -->
             <div class="px-8 md:px-16 py-16 relative">
                 <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 scale-x-0 origin-left editorial-grid-line"></div>
-                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">02 / SPECIFICATIONS</h3>
+                <h3 class="font-h2 text-2xl tracking-tight text-black mb-8 pdp-reveal-item opacity-0 translate-y-6">Technical specifications</h3>
                 
                 <div class="flex flex-col border-t border-black/10">
                     @php
@@ -148,7 +148,7 @@
             <div class="px-8 md:px-16 py-16 relative bg-[#f9f9f9]" x-data="{ open: false }">
                 <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 scale-x-0 origin-left editorial-grid-line"></div>
                 <div class="flex justify-between items-center mb-8 pdp-reveal-item opacity-0 translate-y-6">
-                    <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40">03 / PROVENANCE & AUTHENTICITY</h3>
+                    <h3 class="font-h2 text-2xl tracking-tight text-black">Provenance</h3>
                     <button @click="open = !open" class="font-mono text-[10px] uppercase tracking-widest text-black/60 hover:text-black transition-colors flex items-center gap-1 group">
                         <span x-text="open ? 'Close' : 'View'"></span>
                         <span class="material-symbols-outlined text-[14px] transform transition-transform" :class="open ? 'rotate-180' : 'group-hover:translate-x-1'">keyboard_arrow_right</span>
@@ -215,7 +215,7 @@
 
             <!-- 5. Acquisition Block -->
             <div class="px-8 md:px-16 py-16" x-data="{ qty: 1, maxQty: {{ $maxQty }} }">
-                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">04 / SECURE ALLOCATION</h3>
+                <h3 class="font-h2 text-2xl tracking-tight text-black mb-8 pdp-reveal-item opacity-0 translate-y-6">Secure allocation</h3>
                 
                 <form action="{{ route('cart.store') }}" method="POST" class="flex flex-col gap-12">
                     @csrf
@@ -257,10 +257,11 @@
                         </div>
                     </div>
                     
-                    <div class="pdp-reveal-item opacity-0 translate-y-6" id="add-to-cart-wrapper">
-                        <button type="submit" class="cta-button group relative w-full border border-black bg-white text-black py-6 overflow-hidden flex items-center justify-between px-8 hover:bg-black hover:text-white transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]">
-                            <span class="font-h1 text-xl tracking-widest uppercase relative z-10">ACQUIRE</span>
-                            <span class="material-symbols-outlined text-[18px] transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2 relative z-10">arrow_forward</span>
+                    <div class="pdp-reveal-item opacity-0 translate-y-6 mt-4" id="add-to-cart-wrapper">
+                        <button type="submit" class="magnetic-btn cta-button group relative w-full border border-black bg-white text-black py-8 overflow-hidden flex items-center justify-between px-10 transition-all duration-300 hover:bg-black hover:text-white active:scale-[0.97]" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">
+                            <span class="font-h1 text-3xl tracking-tight uppercase relative z-10 pointer-events-none">ACQUIRE</span>
+                            <span class="material-symbols-outlined text-[24px] transform transition-transform duration-300 group-hover:translate-x-3 relative z-10 pointer-events-none" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">arrow_forward</span>
+                            <div class="absolute inset-0 bg-black translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);"></div>
                         </button>
                     </div>
                     @endif

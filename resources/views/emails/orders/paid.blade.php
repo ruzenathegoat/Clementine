@@ -89,7 +89,7 @@
                                 <strong>{{ $item->product->name }}</strong><br>
                                 <span style="color: #666666; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span>
                                 @if($item->strapOption)
-                                <br><span style="color: #666666; font-size: 12px;">Strap: {{ $item->strapOption->strap_name }}</span>
+                                <br><span style="color: #666666; font-size: 12px;">Strap: {{ $item->strapOption->strap_name }} @if($item->strapOption->price_delta > 0) (+${{ number_format($item->strapOption->price_delta, 2) }}) @endif</span>
                                 @endif
                             </td>
                             <td style="text-align: center; font-weight: bold;">{{ $item->quantity }}</td>
