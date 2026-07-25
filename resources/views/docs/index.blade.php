@@ -19,7 +19,7 @@
                     <div class="flex flex-col gap-2 pl-4 border-l border-secondary/15 text-[10px] text-secondary/40">
                         <a href="#auth-process" class="hover:text-secondary transition-colors">How We Verify</a>
                         <a href="#auth-certificate" class="hover:text-secondary transition-colors">Reading Your Certificate</a>
-                        <a href="#auth-lookup" class="hover:text-secondary transition-colors text-white font-bold flex items-center gap-2"><span class="w-1.5 h-1.5 bg-white rounded-full block"></span> Certificate Lookup</a>
+                        <a href="#auth-lookup" class="hover:text-secondary transition-colors">Certificate Lookup</a>
                         <a href="#auth-report" class="hover:text-secondary transition-colors">Reporting Counterfeits</a>
                     </div>
                 </div>
