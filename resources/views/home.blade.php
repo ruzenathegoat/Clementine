@@ -65,12 +65,12 @@
             
             <!-- Paragraph 1 -->
             <div class="story-p1 font-h1 text-[22px] sm:text-[26px] md:text-[32px] lg:text-[40px] leading-[1.4] text-left mb-24 md:mb-32">
-                Horology comes down to this: gears, springs, and jewels arranged with enough precision to track something as slippery as time, no battery required. People have been obsessing over how to do that better for about four hundred years. It's a strange thing to love, and we love it anyway.
+                Horology is the pursuit of tracking time through gears, springs, and absolute precision.
             </div>
 
             <!-- Paragraph 2 -->
             <div class="story-p2 font-h1 text-[22px] sm:text-[26px] md:text-[32px] lg:text-[40px] leading-[1.4] text-left">
-                Clementine is for the people who'd rather own one watch they actually understand than five they don't. Some of what we carry is old heritage calibers built the way they always were. Some of it is newer, stranger complications from makers still pushing the mechanics forward. What we won't do is stock a watch just because the name on the dial sells itself. If a piece doesn't earn its place on a wrist, it doesn't earn a place with us.
+                Clementine is for collectors who would rather own one timepiece they truly understand than five they don't. We curate mechanical watches based on engineering and heritage, never just the name on the dial.
             </div>
 
         </div>
