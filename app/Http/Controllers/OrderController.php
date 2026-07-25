@@ -53,6 +53,16 @@ class OrderController extends Controller
                 'subject' => 'Acquisition Confirmed - #' . $orderId,
                 'html' => $html,
             ]);
+            
+            // Send Certificate Email
+            $certHtml = view('emails.orders.certificates', ['order' => $order])->render();
+            $resend->emails->send([
+                'from' => 'Clementine <' . config('mail.from.address') . '>',
+                'to' => [$recipient],
+                'subject' => 'Your Digital Certificates - #' . $orderId,
+                'html' => $certHtml,
+            ]);
+            
             Log::info('OrderPaid: email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
         } catch (\Exception $e) {
             Log::error('OrderPaid: email FAILED via SDK', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
