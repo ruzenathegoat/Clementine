@@ -4,16 +4,35 @@
 
 @section('content')
 <div class="w-full bg-primary text-secondary min-h-screen pt-24 pb-24">
-    <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 lg:gap-24 relative">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 lg:gap-24 relative" x-data="{ mobileNavOpen: false }">
         
+        <!-- Mobile Nav Toggle -->
+        <button @click="mobileNavOpen = true" class="md:hidden w-full flex items-center justify-between border-b border-secondary/20 pb-4 mb-4 font-mono text-xs tracking-[0.2em] uppercase text-secondary">
+            <span>Documentation Menu</span>
+            <span class="material-symbols-outlined text-[16px]">menu</span>
+        </button>
+
         <!-- Sticky Sidebar Navigation -->
-        <aside class="w-full md:w-64 lg:w-72 shrink-0 md:sticky md:top-32 md:max-h-[calc(100vh-8rem)] overflow-y-auto hidden-scrollbar pb-12">
-            <div class="mb-10 border-b border-secondary/15 pb-6">
+        <aside class="fixed inset-y-0 left-0 z-[100] w-[85vw] max-w-sm bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 md:relative md:translate-x-0 md:w-64 lg:w-72 md:border-none md:p-0 md:bg-transparent md:flex-shrink-0 md:sticky md:top-32 md:max-h-[calc(100vh-8rem)] overflow-y-auto hidden-scrollbar md:pb-12"
+               :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'"
+               data-lenis-prevent>
+            
+            <div class="flex justify-between items-start md:hidden mb-12 border-b border-secondary/20 pb-6">
+                <div>
+                    <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-secondary/40 block mb-2">Protocol 01</span>
+                    <h1 class="font-h1 text-2xl uppercase tracking-wide">Documentation</h1>
+                </div>
+                <button @click="mobileNavOpen = false" class="text-secondary hover:text-white p-2 -mr-2">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="hidden md:block mb-10 border-b border-secondary/15 pb-6">
                 <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-secondary/40 block mb-2">Protocol 01</span>
                 <h1 class="font-h1 text-2xl uppercase tracking-wide">Documentation</h1>
             </div>
             
-            <nav class="flex flex-col gap-6 font-mono text-[11px] tracking-[0.1em] uppercase">
+            <nav class="flex flex-col gap-6 font-mono text-[11px] tracking-[0.1em] uppercase" @click="mobileNavOpen = false">
                 <div>
                     <a href="#authentication" class="text-secondary/70 hover:text-secondary block mb-3 transition-colors">Authentication & Provenance</a>
                     <div class="flex flex-col gap-2 pl-4 border-l border-secondary/15 text-[10px] text-secondary/40">
@@ -63,6 +82,9 @@
                 <a href="#faq" class="text-secondary/70 hover:text-secondary block transition-colors">FAQ</a>
             </nav>
         </aside>
+
+        <!-- Mobile Nav Backdrop -->
+        <div x-cloak x-show="mobileNavOpen" x-transition.opacity class="fixed inset-0 z-[90] bg-black/80 backdrop-blur-sm md:hidden" @click="mobileNavOpen = false"></div>
 
         <!-- Main Content Area -->
         <main class="flex-1 font-body-md text-sm md:text-[15px] leading-relaxed text-secondary/70 space-y-32">

@@ -140,15 +140,33 @@
     </header>
 
     <!-- CONTENT LAYOUT -->
-    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-0 mt-12 relative" id="content-layout">
+    <div class="w-full max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-0 mt-12 relative" id="content-layout" x-data="{ mobileNavOpen: false }">
         
+        <!-- Mobile Nav Toggle -->
+        <button @click="mobileNavOpen = true" class="lg:hidden flex items-center justify-between w-full border-b border-[rgba(10,10,10,0.15)] pb-4 mb-8 font-mono text-xs tracking-[0.2em] uppercase text-[#1A1A1A]">
+            <span>Archive Navigation</span>
+            <span class="material-symbols-outlined text-[16px]">menu</span>
+        </button>
+
         <!-- SIDEBAR ARCHIVE NAVIGATION -->
-        <div class="w-full lg:w-[280px] flex-shrink-0 lg:sticky lg:top-32 h-max mb-12 lg:mb-0 z-20">
-            <div class="font-mono text-xs md:text-sm tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-4">
+        <div class="fixed inset-y-0 left-0 z-[100] w-[85vw] max-w-sm bg-[#FAFAFA] border-r border-[rgba(10,10,10,0.15)] p-8 transform transition-transform duration-300 lg:relative lg:translate-x-0 lg:w-[280px] lg:border-none lg:p-0 lg:bg-transparent lg:flex-shrink-0 lg:sticky lg:top-32 h-max mb-12 lg:mb-0"
+             :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'"
+             data-lenis-prevent>
+             
+            <div class="flex justify-between items-center lg:hidden mb-12 border-b border-[rgba(10,10,10,0.15)] pb-6">
+                <span class="font-mono text-xs md:text-sm tracking-[0.2em] text-[#909090] uppercase">
+                    [ ARCHIVE NAVIGATION ]
+                </span>
+                <button @click="mobileNavOpen = false" class="text-[#1A1A1A] p-2 -mr-2">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="hidden lg:block font-mono text-xs md:text-sm tracking-[0.2em] text-[#909090] uppercase border-b border-[rgba(10,10,10,0.15)] pb-4 mb-4">
                 [ ARCHIVE NAVIGATION ]
             </div>
             
-            <nav class="flex flex-col gap-1 font-h2 text-base md:text-lg uppercase tracking-widest relative">
+            <nav class="flex flex-col gap-1 font-h2 text-base md:text-lg uppercase tracking-widest relative" @click="mobileNavOpen = false">
                 <!-- GSAP Line Indicator (Desktop only) -->
                 <div id="nav-indicator" class="absolute left-0 w-4 h-[1px] bg-[#1A1A1A] tab-indicator hidden lg:block" style="top: 24px;"></div>
 
@@ -171,13 +189,16 @@
                 
                 <form method="POST" action="{{ route('logout') }}" class="mt-8 border-t border-[rgba(10,10,10,0.15)] pt-4">
                     @csrf
-                    <button type="submit" class="text-left py-4 text-[#909090] hover:text-[#1A1A1A] transition-colors duration-300 font-h2 text-base md:text-lg uppercase tracking-widest flex items-center gap-2 group lg:pl-8">
+                    <button type="submit" class="w-full text-left py-4 text-[#909090] hover:text-[#1A1A1A] transition-colors duration-300 font-h2 text-base md:text-lg uppercase tracking-widest flex items-center gap-2 group lg:pl-8">
                         <span class="material-symbols-outlined text-[16px] md:text-[18px] transform group-hover:-translate-x-1 transition-transform">logout</span>
                         Log Out
                     </button>
                 </form>
             </nav>
         </div>
+
+        <!-- Mobile Nav Backdrop -->
+        <div x-cloak x-show="mobileNavOpen" x-transition.opacity class="fixed inset-0 z-[90] bg-[#0A0A0A]/80 backdrop-blur-sm lg:hidden" @click="mobileNavOpen = false"></div>
 
         <!-- MAIN PANELS -->
         <div class="flex-grow w-full lg:w-auto lg:flex-1 min-w-0 lg:pl-16 lg:border-l border-[rgba(10,10,10,0.15)] relative min-h-[60vh] grid grid-cols-1 grid-rows-1">
