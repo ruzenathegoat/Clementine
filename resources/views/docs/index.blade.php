@@ -13,7 +13,7 @@
         </button>
 
         <!-- Sticky Sidebar Navigation -->
-        <aside class="fixed inset-y-0 left-0 z-[100] w-[85vw] max-w-sm bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 md:relative md:translate-x-0 md:w-64 lg:w-72 md:border-none md:p-0 md:bg-transparent md:flex-shrink-0 md:sticky md:top-32 md:max-h-[calc(100vh-8rem)] overflow-y-auto hidden-scrollbar md:pb-12"
+        <aside class="fixed inset-y-0 left-0 z-[100] w-4/5 sm:w-80 bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 md:relative md:translate-x-0 md:w-64 lg:w-72 md:border-none md:p-0 md:bg-transparent md:flex-shrink-0 md:sticky md:top-32 md:max-h-[calc(100vh-8rem)] overflow-y-auto hidden-scrollbar md:pb-12"
                :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'"
                data-lenis-prevent>
             
