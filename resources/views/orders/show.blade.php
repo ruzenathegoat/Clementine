@@ -177,6 +177,9 @@
                                 <div class="flex flex-col justify-center flex-1 pt-1">
                                     <span class="font-h1 text-2xl uppercase tracking-tighter leading-none">{{ $item->product->name }}</span>
                                     <span class="font-mono text-[9px] uppercase tracking-widest text-black/40 mt-3">{{ $item->product->collection->name ?? 'Vault' }}</span>
+                                    @if($item->strapOption)
+                                    <span class="font-mono text-[9px] uppercase tracking-widest text-black/60 mt-1">Strap: {{ $item->strapOption->strap_name }} (+${{ number_format($item->strapOption->price_delta, 2) }})</span>
+                                    @endif
                                     <div class="flex items-center mt-3">
                                         <span class="font-mono text-[10px] tracking-widest text-black/60">QTY: {{ $item->quantity }}</span>
                                     </div>
