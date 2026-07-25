@@ -357,9 +357,9 @@ Route::get('/_debug/env', function () {
         'app_url' => config('app.url'),
         'mail_from' => config('mail.from.address'),
     ]);
-});Route::redirect('/verification-policy', '/docs#authentication')->name('verification.policy');
+});
 
-Route::view('/verification-policy', 'verification-policy')->name('verification.policy');
+Route::redirect('/verification-policy', '/docs#authentication')->name('verification.policy');
 
 use App\Http\Controllers\DocsController;
 Route::get('/docs', [DocsController::class, 'index'])->name('docs.index');
