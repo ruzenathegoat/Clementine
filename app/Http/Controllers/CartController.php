@@ -25,6 +25,9 @@ class CartController extends Controller
         
         foreach ($cartItems as $item) {
             $productPrice = $item->product->price;
+            if ($item->strapOption) {
+                $productPrice += $item->strapOption->price_delta;
+            }
             $qty = $item->quantity;
             $lineTotal = $productPrice * $qty;
             
