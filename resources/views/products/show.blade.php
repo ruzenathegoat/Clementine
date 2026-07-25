@@ -144,9 +144,57 @@
                 </div>
             </div>
 
-            <!-- 4. Acquisition Block -->
+            <!-- 4. Provenance & Authenticity Block (Scroll Reveal) -->
+            <div class="px-8 md:px-16 py-16 relative bg-[#f9f9f9]">
+                <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 scale-x-0 origin-left editorial-grid-line"></div>
+                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">03 / PROVENANCE & AUTHENTICITY</h3>
+                
+                <div class="flex flex-col lg:flex-row gap-12 items-center pdp-reveal-item opacity-0 translate-y-6">
+                    <!-- NFC / Certificate Card Visual -->
+                    <div class="w-full lg:w-1/2 flex justify-center">
+                        <div class="w-full max-w-[320px] aspect-[1/1.4] bg-white border border-black/10 shadow-[0_20px_40px_rgba(0,0,0,0.06)] relative p-8 flex flex-col justify-between transform transition-transform duration-700 hover:scale-[1.02]">
+                            <div class="flex justify-between items-start">
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-black/40">Clementine Verification</span>
+                                <span class="material-symbols-outlined text-[16px] text-black/20">contactless</span>
+                            </div>
+                            
+                            <div class="flex flex-col gap-2 text-center items-center mt-4">
+                                <div class="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center mb-2">
+                                    <span class="material-symbols-outlined text-black/60">verified</span>
+                                </div>
+                                <h4 class="font-h1 text-xl uppercase tracking-widest text-black">Authentic</h4>
+                                <span class="font-mono text-[10px] text-black/50">REF: {{ $product->slug }}</span>
+                                <div class="h-[1px] w-8 bg-black/20 my-3"></div>
+                                <span class="font-mono text-[8px] uppercase tracking-widest text-black/40">Unit Serial Mapped to Ledger</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-end border-t border-black/10 pt-4 mt-8">
+                                <span class="font-mono text-[8px] uppercase tracking-widest text-black/30">4-STAGE INSPECTION</span>
+                                <span class="font-mono text-[8px] uppercase tracking-widest text-black/50">PASSED</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Text Description -->
+                    <div class="w-full lg:w-1/2 flex flex-col gap-6">
+                        <h4 class="font-h1 text-2xl uppercase tracking-widest text-black">Verified & Immutable</h4>
+                        <p class="font-body-md text-sm leading-relaxed text-black/70">
+                            Every single unit of the <strong class="font-mono uppercase text-xs">{{ $product->name }}</strong> entering our vault undergoes a rigorous 4-stage mechanical and aesthetic inspection by WOSTEP-certified watchmakers.
+                        </p>
+                        <p class="font-body-md text-sm leading-relaxed text-black/70">
+                            Upon acquisition, you will receive a cryptographic Certificate of Authenticity bound to the movement's serial number, accessible via the hidden NFC tag embedded in the presentation box.
+                        </p>
+                        <a href="{{ route('docs.index') }}#authentication" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-black/50 hover:text-black transition-colors flex items-center gap-2 mt-2 w-fit group">
+                            <span>Read Full Verification Policy</span>
+                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Acquisition Block -->
             <div class="px-8 md:px-16 py-16" x-data="{ qty: 1, maxQty: {{ $maxQty }} }">
-                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">03 / SECURE ALLOCATION</h3>
+                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">04 / SECURE ALLOCATION</h3>
                 
                 <form action="{{ route('cart.store') }}" method="POST" class="flex flex-col gap-12">
                     @csrf

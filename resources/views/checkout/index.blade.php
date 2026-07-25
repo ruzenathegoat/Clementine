@@ -299,9 +299,37 @@
                         </label>
                     </div>
                 </div>
+                <!-- Section 06: Trust & Assurances -->
+                <div class="panel-section opacity-0 transform translate-y-4 flex flex-col gap-4 mb-4 mt-6">
+                    <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40">05 / ASSURANCES</h2>
+                    
+                    <div class="flex flex-col gap-4 border border-black/10 bg-[#f9f9f9] p-6">
+                        <div class="flex gap-4 items-start pb-4 border-b border-black/10">
+                            <span class="material-symbols-outlined text-[18px] text-black/60 mt-0.5">verified_user</span>
+                            <div class="flex flex-col gap-1">
+                                <span class="font-mono text-[10px] uppercase tracking-widest text-black">Returns & Warranty</span>
+                                <span class="font-body-md text-xs text-black/60 leading-relaxed">7-Day Inspection Window & 12-Month Mechanical Warranty provided on all authenticated units.</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-black/10">
+                            <span class="material-symbols-outlined text-[18px] text-black/60 mt-0.5">local_shipping</span>
+                            <div class="flex flex-col gap-1">
+                                <span class="font-mono text-[10px] uppercase tracking-widest text-black">Fully Insured Priority Delivery</span>
+                                <span class="font-body-md text-xs text-black/60 leading-relaxed">Shipment is 100% insured against loss or damage until signed for at your designated destination.</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <span class="material-symbols-outlined text-[18px] text-black/60 mt-0.5">lock</span>
+                            <div class="flex flex-col gap-1">
+                                <span class="font-mono text-[10px] uppercase tracking-widest text-black">Encrypted Payment Protocol</span>
+                                <span class="font-body-md text-xs text-black/60 leading-relaxed">256-bit SSL encryption. All transactions are processed securely via PCI-DSS compliant gateways.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Section 07: Final Purchase Button -->
-                <div class="panel-section opacity-0 transform translate-y-4 pt-8">
+                <div class="panel-section opacity-0 transform translate-y-4 pt-6">
                     <button type="submit" id="submit-btn" class="group relative w-full bg-black text-white py-6 overflow-hidden flex items-center justify-center gap-3">
                         <span class="sweep-highlight absolute inset-0 bg-white opacity-0 transform -translate-x-full" style="width: 10px; filter: blur(5px);"></span>
                         <span id="submit-text" class="font-h1 text-xl tracking-widest uppercase transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-2">Complete Acquisition</span>
