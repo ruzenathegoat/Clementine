@@ -145,62 +145,70 @@
             </div>
 
             <!-- 4. Provenance & Authenticity Block (Scroll Reveal) -->
-            <div class="px-8 md:px-16 py-16 relative bg-[#f9f9f9]">
+            <div class="px-8 md:px-16 py-16 relative bg-[#f9f9f9]" x-data="{ open: false }">
                 <div class="absolute bottom-0 left-0 w-full h-[1px] bg-black/10 scale-x-0 origin-left editorial-grid-line"></div>
-                <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-8 pdp-reveal-item opacity-0 translate-y-6">03 / PROVENANCE & AUTHENTICITY</h3>
+                <div class="flex justify-between items-center mb-8 pdp-reveal-item opacity-0 translate-y-6">
+                    <h3 class="font-mono text-[10px] uppercase tracking-widest text-black/40">03 / PROVENANCE & AUTHENTICITY</h3>
+                    <button @click="open = !open" class="font-mono text-[10px] uppercase tracking-widest text-black/60 hover:text-black transition-colors flex items-center gap-1 group">
+                        <span x-text="open ? 'Close' : 'View'"></span>
+                        <span class="material-symbols-outlined text-[14px] transform transition-transform" :class="open ? 'rotate-180' : 'group-hover:translate-x-1'">keyboard_arrow_right</span>
+                    </button>
+                </div>
                 
-                <div class="flex flex-col lg:flex-row gap-12 items-center pdp-reveal-item opacity-0 translate-y-6">
-                    <!-- NFC / Certificate Card Visual -->
-                    <div class="w-full lg:w-1/2 flex justify-center">
-                        <div class="w-full max-w-[340px] aspect-[1/1.58] bg-black text-white relative p-8 flex flex-col justify-between overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.2)] transform transition-transform duration-700 hover:scale-[1.02] hover:rotate-1 hover:shadow-[0_40px_80px_rgba(0,0,0,0.3)]">
-                            <!-- Holographic overlay effect -->
-                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                            
-                            <!-- Top Section -->
-                            <div class="flex justify-between items-start relative z-10">
-                                <div class="flex flex-col gap-1">
-                                    <span class="font-mono text-[9px] uppercase tracking-[0.2em] text-white/50">Clementine Authentication</span>
-                                    <span class="font-h1 text-sm tracking-widest uppercase">NFC Provenance Tag</span>
+                <div x-show="open" x-collapse x-cloak class="overflow-hidden">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center pdp-reveal-item pt-4 pb-8">
+                        <!-- NFC / Certificate Card Visual -->
+                        <div class="w-full lg:w-1/2 flex justify-center">
+                            <div class="w-full max-w-[340px] aspect-[1/1.58] bg-black text-white relative p-8 flex flex-col justify-between overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.2)] transform transition-transform duration-700 hover:scale-[1.02] hover:rotate-1 hover:shadow-[0_40px_80px_rgba(0,0,0,0.3)]">
+                                <!-- Holographic overlay effect -->
+                                <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                                
+                                <!-- Top Section -->
+                                <div class="flex justify-between items-start relative z-10">
+                                    <div class="flex flex-col gap-1">
+                                        <span class="font-mono text-[9px] uppercase tracking-[0.2em] text-white/50">Clementine Authentication</span>
+                                        <span class="font-h1 text-sm tracking-widest uppercase">NFC Provenance Tag</span>
+                                    </div>
+                                    <span class="material-symbols-outlined text-[20px] text-white/40">contactless</span>
                                 </div>
-                                <span class="material-symbols-outlined text-[20px] text-white/40">contactless</span>
-                            </div>
-                            
-                            <!-- Middle Section -->
-                            <div class="flex flex-col gap-1 text-center items-center relative z-10 my-8">
-                                <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 bg-white/5 backdrop-blur-sm">
-                                    <span class="material-symbols-outlined text-white text-[24px]">verified</span>
+                                
+                                <!-- Middle Section -->
+                                <div class="flex flex-col gap-1 text-center items-center relative z-10 my-8">
+                                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 bg-white/5 backdrop-blur-sm">
+                                        <span class="material-symbols-outlined text-white text-[24px]">verified</span>
+                                    </div>
+                                    <h4 class="font-h1 text-2xl uppercase tracking-widest text-white">{{ $product->name }}</h4>
+                                    <span class="font-mono text-[10px] text-white/50 tracking-[0.1em]">REF: {{ $product->slug }}</span>
                                 </div>
-                                <h4 class="font-h1 text-2xl uppercase tracking-widest text-white">{{ $product->name }}</h4>
-                                <span class="font-mono text-[10px] text-white/50 tracking-[0.1em]">REF: {{ $product->slug }}</span>
-                            </div>
-                            
-                            <!-- Bottom Section -->
-                            <div class="flex flex-col gap-3 relative z-10 pt-6 border-t border-white/10">
-                                <div class="flex justify-between items-end">
-                                    <span class="font-mono text-[8px] uppercase tracking-[0.1em] text-white/40">Cryptographic Serial</span>
-                                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-white">GENERATED POST-ACQUISITION</span>
-                                </div>
-                                <div class="flex justify-between items-end">
-                                    <span class="font-mono text-[8px] uppercase tracking-[0.1em] text-white/40">Ledger Status</span>
-                                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#00FF00]">AWAITING REGISTRATION</span>
+                                
+                                <!-- Bottom Section -->
+                                <div class="flex flex-col gap-3 relative z-10 pt-6 border-t border-white/10">
+                                    <div class="flex justify-between items-end">
+                                        <span class="font-mono text-[8px] uppercase tracking-[0.1em] text-white/40">Cryptographic Serial</span>
+                                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-white">GENERATED POST-ACQUISITION</span>
+                                    </div>
+                                    <div class="flex justify-between items-end">
+                                        <span class="font-mono text-[8px] uppercase tracking-[0.1em] text-white/40">Ledger Status</span>
+                                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#00FF00]">AWAITING REGISTRATION</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Text Description -->
-                    <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                        <h4 class="font-h1 text-2xl uppercase tracking-widest text-black">Verified & Immutable</h4>
-                        <p class="font-body-md text-sm leading-relaxed text-black/70">
-                            Every single unit of the <strong class="font-mono uppercase text-xs">{{ $product->name }}</strong> entering our vault undergoes a rigorous 4-stage mechanical and aesthetic inspection by WOSTEP-certified watchmakers.
-                        </p>
-                        <p class="font-body-md text-sm leading-relaxed text-black/70">
-                            Upon acquisition, you will receive a cryptographic Certificate of Authenticity bound to the movement's serial number, accessible via the hidden NFC tag embedded in the presentation box.
-                        </p>
-                        <a href="{{ route('docs.index') }}#authentication" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-black/50 hover:text-black transition-colors flex items-center gap-2 mt-2 w-fit group">
-                            <span>Read Full Verification Policy</span>
-                            <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                        </a>
+                        
+                        <!-- Text Description -->
+                        <div class="w-full lg:w-1/2 flex flex-col gap-6">
+                            <h4 class="font-h1 text-2xl uppercase tracking-widest text-black">Verified & Immutable</h4>
+                            <p class="font-body-md text-sm leading-relaxed text-black/70">
+                                Every single unit of the <strong class="font-mono uppercase text-xs">{{ $product->name }}</strong> entering our vault undergoes a rigorous 4-stage mechanical and aesthetic inspection by WOSTEP-certified watchmakers.
+                            </p>
+                            <p class="font-body-md text-sm leading-relaxed text-black/70">
+                                Upon acquisition, you will receive a cryptographic Certificate of Authenticity bound to the movement's serial number, accessible via the hidden NFC tag embedded in the presentation box.
+                            </p>
+                            <a href="{{ route('docs.index') }}#authentication" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-black/50 hover:text-black transition-colors flex items-center gap-2 mt-2 w-fit group">
+                                <span>Read Full Verification Policy</span>
+                                <span class="material-symbols-outlined text-[14px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

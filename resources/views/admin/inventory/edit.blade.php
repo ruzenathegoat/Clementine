@@ -174,6 +174,49 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Strap Options -->
+                        <div class="space-y-6 pt-6 border-t border-[#EAEAEA]" x-data="{ 
+                            straps: {{ Js::from($product->strapOptions ?? []) }},
+                            addStrap() { this.straps.push({ id: '', strap_name: '', price_delta: 0, sort_order: this.straps.length }); },
+                            removeStrap(index) { this.straps.splice(index, 1); }
+                        }">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-mono uppercase tracking-widest text-[#111111]">Strap Options</h3>
+                                <button type="button" @click="addStrap()" class="text-xs font-medium bg-[#111111] text-white px-3 py-1.5 rounded-lg hover:bg-[#333333] transition-colors">
+                                    + Add Strap
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <template x-for="(strap, index) in straps" :key="index">
+                                    <div class="flex items-center gap-4 p-4 bg-[#F9F9F8] border border-[#EAEAEA] rounded-lg">
+                                        <input type="hidden" :name="`strap_options[${index}][id]`" x-model="strap.id">
+                                        <input type="hidden" :name="`strap_options[${index}][sort_order]`" x-model="strap.sort_order">
+                                        
+                                        <div class="flex-1">
+                                            <label class="block text-xs font-mono uppercase tracking-widest text-[#787774] mb-1">Strap Name</label>
+                                            <input type="text" :name="`strap_options[${index}][strap_name]`" x-model="strap.strap_name" placeholder="e.g. Black Leather" class="w-full px-3 py-2 bg-white border border-[#EAEAEA] rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#111111]" required>
+                                        </div>
+                                        
+                                        <div class="w-32">
+                                            <label class="block text-xs font-mono uppercase tracking-widest text-[#787774] mb-1">Price Delta</label>
+                                            <input type="number" step="0.01" :name="`strap_options[${index}][price_delta]`" x-model="strap.price_delta" placeholder="0.00" class="w-full px-3 py-2 bg-white border border-[#EAEAEA] rounded-md text-sm font-mono focus:outline-none focus:ring-1 focus:ring-[#111111]" required>
+                                        </div>
+                                        
+                                        <div class="pt-5">
+                                            <button type="button" @click="removeStrap(index)" class="text-[#9F2F2D] hover:text-red-700 p-2">
+                                                <i class="ph-light ph-trash text-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                                
+                                <div x-show="straps.length === 0" class="text-sm text-[#787774] py-4 text-center border border-dashed border-[#EAEAEA] rounded-lg">
+                                    No strap options configured.
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

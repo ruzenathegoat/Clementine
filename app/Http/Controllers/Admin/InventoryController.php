@@ -210,7 +210,7 @@ class InventoryController extends Controller
 
     public function edit(string $id)
     {
-        $product = \App\Models\Product::with(['primaryImage', 'collection'])->findOrFail($id);
+        $product = \App\Models\Product::with(['primaryImage', 'collection', 'strapOptions'])->findOrFail($id);
         $collections = \App\Models\Collection::orderBy('name')->get();
         return view('admin.inventory.edit', compact('product', 'collections'));
     }
@@ -235,9 +235,39 @@ class InventoryController extends Controller
             'crystal' => 'nullable|string',
             'warranty_years' => 'nullable|integer',
             'primary_image' => 'nullable|image|max:2048',
+            'strap_options' => 'nullable|array',
+            'strap_options.*.id' => 'nullable|string',
+            'strap_options.*.strap_name' => 'required|string|max:255',
+            'strap_options.*.price_delta' => 'required|numeric',
+            'strap_options.*.sort_order' => 'required|integer',
         ]);
 
         $product->update($validated);
+
+        // Handle strap options
+        $submittedStraps = $request->input('strap_options', []);
+        $submittedStrapIds = array_filter(array_column($submittedStraps, 'id'));
+        
+        // Delete strap options that are not in the submitted list
+        $product->strapOptions()->whereNotIn('id', $submittedStrapIds)->delete();
+        
+        foreach ($submittedStraps as $strapData) {
+            if (!empty($strapData['id'])) {
+                // Update existing
+                $product->strapOptions()->where('id', $strapData['id'])->update([
+                    'strap_name' => $strapData['strap_name'],
+                    'price_delta' => $strapData['price_delta'],
+                    'sort_order' => $strapData['sort_order']
+                ]);
+            } else {
+                // Create new
+                $product->strapOptions()->create([
+                    'strap_name' => $strapData['strap_name'],
+                    'price_delta' => $strapData['price_delta'],
+                    'sort_order' => $strapData['sort_order']
+                ]);
+            }
+        }
 
         if ($request->hasFile('primary_image')) {
             $disk = config('filesystems.default');

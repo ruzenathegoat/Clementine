@@ -4,16 +4,16 @@
 
 @section('content')
 <div class="w-full bg-primary text-secondary min-h-screen pt-24 pb-24">
-    <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col gap-12 relative" x-data="{ mobileNavOpen: false }">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12 relative" x-data="{ mobileNavOpen: false }">
         
-        <!-- Nav Toggle (Mobile & Desktop) -->
-        <button @click="mobileNavOpen = !mobileNavOpen" class="w-full flex items-center justify-between border-b border-secondary/20 pb-4 mb-4 font-mono text-xs tracking-[0.2em] uppercase text-secondary">
+        <!-- Nav Toggle (Mobile ONLY) -->
+        <button @click="mobileNavOpen = !mobileNavOpen" class="md:hidden w-full flex items-center justify-between border-b border-secondary/20 pb-4 mb-4 font-mono text-xs tracking-[0.2em] uppercase text-secondary">
             <span>Documentation Menu</span>
             <span class="material-symbols-outlined text-[16px]" x-text="mobileNavOpen ? 'close' : 'menu'">menu</span>
         </button>
 
         <!-- Sidebar Navigation -->
-        <aside class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-96 bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar md:!fixed md:!z-[100] md:!w-80 md:!bg-primary md:!border-r md:!border-secondary/20 md:!p-8"
+        <aside class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-96 bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar md:!relative md:!translate-x-0 md:!w-80 md:!border-none md:!p-0 md:!bg-transparent md:!flex-shrink-0 md:!sticky md:!top-32 md:!h-max md:!z-auto md:!inset-auto"
                :class="mobileNavOpen ? '!translate-x-0' : ''"
                data-lenis-prevent>
             
@@ -22,7 +22,7 @@
                     <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-secondary/40 block mb-2">Protocol 01</span>
                     <h1 class="font-h1 text-2xl uppercase tracking-wide">Documentation</h1>
                 </div>
-                <button @click="mobileNavOpen = false" class="text-secondary hover:text-white p-2 -mr-2">
+                <button @click="mobileNavOpen = false" class="text-secondary hover:text-white p-2 -mr-2 md:hidden">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
@@ -80,7 +80,7 @@
         </aside>
 
         <!-- Nav Backdrop -->
-        <div x-cloak x-show="mobileNavOpen" x-transition.opacity class="fixed inset-0 z-[90] bg-black/80 backdrop-blur-sm" @click="mobileNavOpen = false"></div>
+        <div x-cloak x-show="mobileNavOpen" x-transition.opacity class="fixed inset-0 z-[90] bg-black/80 backdrop-blur-sm md:hidden" @click="mobileNavOpen = false"></div>
 
         <!-- Main Content Area -->
         <main class="flex-1 font-body-md text-sm md:text-[15px] leading-relaxed text-secondary/70 space-y-32">
