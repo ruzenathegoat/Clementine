@@ -4,6 +4,19 @@
 
 @section('content')
 
+<style>
+    /* CSS GPU-accelerated sweep animation */
+    .sweep-indicator {
+        width: 100% !important;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .is-active .sweep-indicator {
+        transform: scaleX(1);
+    }
+</style>
+
 <!-- Header Section -->
 <header class="w-full px-lg md:px-2xl py-2xl md:py-4xl border-b border-primary bg-background flex flex-col md:flex-row md:items-end justify-between gap-xl relative overflow-hidden" id="catalog-header">
     <div class="relative z-10 w-full md:w-3/4">
@@ -19,10 +32,21 @@
 </header>
 
 <!-- Main Content Area -->
-<div class="flex-1 w-full flex flex-col md:flex-row items-stretch bg-background">
+<div class="flex-1 w-full flex flex-col md:flex-row items-stretch bg-background" x-data="{ mobileMenuOpen: false }">
     
+    <!-- Mobile Filter Toggle -->
+    <div class="md:hidden border-b border-primary p-lg flex justify-between items-center bg-background sticky top-0 z-30">
+        <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50">CATALOG OPTIONS</span>
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="font-mono text-[10px] uppercase tracking-widest text-primary flex items-center gap-2">
+            <span x-text="mobileMenuOpen ? 'CLOSE' : 'FILTERS'"></span>
+            <span class="material-symbols-outlined text-[14px]" x-text="mobileMenuOpen ? 'close' : 'tune'"></span>
+        </button>
+    </div>
+
     <!-- Filter Sidebar (Sticky) -->
-    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 border-r border-primary bg-background flex flex-col border-b md:border-b-0 md:sticky md:top-0 md:h-screen overflow-y-auto" style="opacity: 0; transform: translateY(20px);">
+    <aside class="catalog-sidebar relative w-full md:w-[320px] shrink-0 md:border-r border-primary bg-background flex-col border-b md:border-b-0 md:sticky md:top-0 md:h-screen overflow-y-auto" 
+           :class="mobileMenuOpen ? 'flex' : 'hidden md:flex'"
+           style="opacity: 0; transform: translateY(20px);">
         
         <div class="p-lg flex justify-between items-center border-b border-primary bg-background sticky top-0 z-20">
             <h2 class="font-mono text-[10px] tracking-[0.2em] uppercase text-primary/50">FILTERS</h2>
@@ -42,7 +66,7 @@
                                    class="sr-only filter-input" />
                             <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $opt['active'] ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $opt['label'] }}</span>
                             <!-- Sweep indicator -->
-                            <div class="sweep-indicator absolute left-0 top-0 bottom-0 bg-primary w-0 z-0"></div>
+                            <div class="sweep-indicator absolute left-0 top-0 bottom-0 bg-primary z-0"></div>
                         </label>
                     @endforeach
                 </div>
@@ -72,7 +96,7 @@
                                    {{ $isActive ? 'checked' : '' }}
                                    class="sr-only filter-input" />
                             <span class="font-mono text-[11px] tracking-[0.05em] uppercase z-10 transition-colors duration-200 ease-out {{ $isActive ? 'text-background' : 'text-primary group-hover:text-background' }}">{{ $material }}</span>
-                            <div class="sweep-indicator absolute left-0 top-0 bottom-0 bg-primary w-0 z-0"></div>
+                            <div class="sweep-indicator absolute left-0 top-0 bottom-0 bg-primary z-0"></div>
                         </label>
                     @endforeach
                 </div>
@@ -314,18 +338,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateGrid(newGridHTML, newCounterText, newUrl) {
-        const gridContainer = document.getElementById('catalog-grid').parentElement;
+        const gridContainer = document.getElementById('catalog-grid');
         const currentCards = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
         
         // 1. Fade out current items
         gsap.to(currentCards, {
             opacity: 0,
             y: 10,
-            duration: 0.3,
-            stagger: 0.02,
+            duration: 0.2,
+            stagger: 0.01,
             ease: "power2.in",
             onComplete: () => {
-                // 2. Replace HTML
+                // 2. Replace HTML directly inside the grid
                 gridContainer.innerHTML = newGridHTML;
                 
                 // 3. Restart breathing animations
@@ -333,32 +357,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const newCards = gsap.utils.toArray('.catalog-product-card, .catalog-empty-state');
                 
-                // Reset ScrollTrigger batches for new elements
-                ScrollTrigger.getAll().forEach(st => {
-                    if (st.vars.trigger === ".catalog-product-card") st.kill();
-                });
-                
-                // Set initial state for new items
-                gsap.set(newCards, { opacity: 0, y: 20 });
-                
-                // Re-init ScrollTrigger batch for new elements
-                ScrollTrigger.batch(".catalog-product-card", {
-                    onEnter: batch => {
-                        gsap.to(batch, { 
-                            opacity: 1, 
-                            y: 0, 
-                            duration: 0.45, 
-                            stagger: 0.05, 
-                            ease: "power2.out", 
-                            overwrite: true 
-                        });
-                    },
-                    once: true,
-                    start: "top 95%"
-                });
-                
-                // If there are empty state elements, fade them in
-                gsap.to('.catalog-empty-state', { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" });
+                // Simple stagger reveal instead of recreating ScrollTrigger batches
+                gsap.fromTo(newCards, 
+                    { opacity: 0, y: 15 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 0.4, 
+                        stagger: 0.03, 
+                        ease: "power2.out" 
+                    }
+                );
             }
         });
 
@@ -411,11 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     label.classList.remove('hover:bg-primary');
                     label.querySelector('span').classList.add('text-background');
                     label.querySelector('span').classList.remove('text-primary', 'group-hover:text-background');
-                    
-                    const sweep = label.querySelector('.sweep-indicator');
-                    if (sweep) {
-                        gsap.fromTo(sweep, { width: 0 }, { width: '100%', duration: 0.18, ease: "power2.out" });
-                    }
                 } else {
                     label.classList.remove('bg-primary', 'is-active');
                     label.classList.add('hover:bg-primary');
