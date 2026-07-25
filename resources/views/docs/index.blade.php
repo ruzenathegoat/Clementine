@@ -346,7 +346,7 @@
                 submitBtn.style.opacity = '0.5';
 
                 try {
-                    const response = await fetch(`{{ route('docs.verify') }}?certificate_sn=${encodeURIComponent(sn)}`, {
+                    const response = await fetch(`/docs/verify?certificate_sn=${encodeURIComponent(sn)}`, {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'Accept': 'application/json'

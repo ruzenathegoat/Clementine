@@ -54,6 +54,8 @@ class OrderController extends Controller
                 'html' => $html,
             ]);
             
+            sleep(1); // prevent Resend rate limit issues
+
             // Send Certificate Email
             $certHtml = view('emails.orders.certificates', ['order' => $order])->render();
             $resend->emails->send([
@@ -64,8 +66,8 @@ class OrderController extends Controller
             ]);
             
             Log::info('OrderPaid: email sent successfully via SDK', ['order_id' => $order->id, 'to' => $recipient]);
-        } catch (\Exception $e) {
-            Log::error('OrderPaid: email FAILED via SDK', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage()]);
+        } catch (\Throwable $e) {
+            Log::error('OrderPaid: email FAILED via SDK', ['order_id' => $order->id, 'to' => $recipient, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
         }
 
         return back()->with('success', 'PAYMENT SIMULATION SUCCESSFUL.');
