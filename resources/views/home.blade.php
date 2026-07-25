@@ -179,7 +179,7 @@
                 </div>
             </div>
 
-            <a href="#" class="inline-flex items-center gap-3 mt-16 font-mono text-[11px] tracking-[0.15em] uppercase text-secondary/60 no-underline border-b border-secondary/15 pb-1 transition-colors duration-300 hover:text-secondary hover:border-secondary/40">Read the full verification policy &rarr;</a>
+            <a href="{{ route('verification.policy') }}" class="inline-flex items-center gap-3 mt-16 font-mono text-[11px] tracking-[0.15em] uppercase text-secondary/60 no-underline border-b border-secondary/15 pb-1 transition-colors duration-300 hover:text-secondary hover:border-secondary/40">Read the full verification policy &rarr;</a>
 
         </div>
     </section>

@@ -357,4 +357,6 @@ Route::get('/_debug/env', function () {
         'app_url' => config('app.url'),
         'mail_from' => config('mail.from.address'),
     ]);
-});
+});Route::view('/verification-policy', 'verification-policy')->name('verification.policy');
+
+Route::view('/verification-policy', 'verification-policy')->name('verification.policy');
