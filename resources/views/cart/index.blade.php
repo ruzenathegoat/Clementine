@@ -48,7 +48,7 @@
                                 <div class="font-mono text-black/50 mt-2 flex flex-col gap-1 text-[10px] uppercase tracking-widest">
                                     <span>REF: {{ $item->product->slug }}</span>
                                     @if($item->strapOption)
-                                    <span>STRAP: {{ $item->strapOption->strap_name }}</span>
+                                    <span>STRAP: {{ $item->strapOption->strap_name }} (+${{ number_format($item->strapOption->price_delta, 2) }})</span>
                                     @endif
                                 </div>
                             </div>
@@ -73,8 +73,11 @@
                             </div>
                             
                             <div class="text-left md:text-right flex flex-col gap-1">
-                                <div class="font-mono text-[9px] uppercase tracking-widest text-black/40">PRICE (UNIT: ${{ number_format($item->product->price, 2) }})</div>
-                                <div class="font-h1 text-2xl uppercase tracking-widest text-black line-total group-hover:opacity-80 transition-opacity" data-price="{{ $item->product->price }}">${{ number_format($item->product->price * $item->quantity, 2) }}</div>
+                                @php
+                                    $unitPrice = $item->product->price + ($item->strapOption->price_delta ?? 0);
+                                @endphp
+                                <div class="font-mono text-[9px] uppercase tracking-widest text-black/40">PRICE (UNIT: ${{ number_format($unitPrice, 2) }})</div>
+                                <div class="font-h1 text-2xl uppercase tracking-widest text-black line-total group-hover:opacity-80 transition-opacity" data-price="{{ $unitPrice }}">${{ number_format($unitPrice * $item->quantity, 2) }}</div>
                             </div>
                         </div>
                      </div>

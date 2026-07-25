@@ -142,6 +142,17 @@
                     <h2 class="font-mono text-[10px] uppercase tracking-widest text-black/40 mb-2">02 / Financial Summary</h2>
                     
                     <div class="flex flex-col gap-4 font-body text-sm text-black/70">
+                        @foreach($cartItems as $item)
+                        <div class="flex justify-between items-start text-xs border-b border-black/5 pb-3 mb-2">
+                            <div class="flex flex-col gap-1">
+                                <span class="font-bold text-black uppercase tracking-widest">{{ $item->product->name }} (x{{ $item->quantity }})</span>
+                                @if($item->strapOption)
+                                <span class="text-black/50 font-mono text-[9px] uppercase tracking-widest">Strap: {{ $item->strapOption->strap_name }} (+${{ number_format($item->strapOption->price_delta, 2) }})</span>
+                                @endif
+                            </div>
+                            <span class="font-mono tracking-widest text-black">${{ number_format(($item->product->price + ($item->strapOption->price_delta ?? 0)) * $item->quantity, 2) }}</span>
+                        </div>
+                        @endforeach
                         <div class="flex justify-between items-center">
                             <span>Subtotal</span>
                             <span class="font-mono tracking-widest text-black">$<span class="odometer" x-text="subtotal.toFixed(2)"></span></span>

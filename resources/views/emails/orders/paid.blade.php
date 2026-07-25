@@ -88,6 +88,9 @@
                             <td>
                                 <strong>{{ $item->product->name }}</strong><br>
                                 <span style="color: #666666; font-size: 12px;">{{ $item->product->collection->name ?? 'Clementine' }}</span>
+                                @if($item->strapOption)
+                                <br><span style="color: #666666; font-size: 12px;">Strap: {{ $item->strapOption->strap_name }}</span>
+                                @endif
                             </td>
                             <td style="text-align: center; font-weight: bold;">{{ $item->quantity }}</td>
                             <td style="text-align: right; font-family: 'IBM Plex Sans', sans-serif; font-weight: bold;">${{ number_format($item->price_at_purchase, 2) }}</td>
