@@ -53,4 +53,44 @@ $Final Score = (U_{C1} \times 0.30) + (U_{C2} \times 0.20) + (U_{C3} \times 0.15
 - **Fallback Mechanism:** Jika hasil tertinggi memiliki skor di bawah 30% ($0.3$), sistem berasumsi algoritma tidak menemukan kecocokan yang layak. Sebagai *fallback*, sistem otomatis mengembalikan 3 produk *best seller* (atau yang harganya paling mendekati batas budget dari bawah) terlepas dari kriteria spesifik lainnya.
 
 ---
+
+# Bagian II: SPK Penentuan Prioritas Restock Inventory
+
+Selain pada fitur *Smart Advisor*, metode **SMART** juga diterapkan pada modul Admin Inventory untuk menentukan prioritas *restock* (pengadaan barang) secara otomatis. Hal ini membantu admin mengambil keputusan produk mana yang harus segera disuplai ulang agar penjualan dan keuntungan maksimal.
+
+## 1. Kriteria dan Pembobotan (Weights)
+Terdapat 4 kriteria utama dalam menentukan prioritas *restock*. Bobot total direpresentasikan dalam bentuk persentase (100%).
+
+| Kriteria (Atribut) | Tipe Kriteria | Bobot ($W_j$) | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| **C1: Sisa Stok (Stock)** | *Cost* | 35% | Jumlah persediaan barang saat ini. Semakin sedikit sisa stok, semakin butuh di-*restock*. |
+| **C2: Sales Velocity** | *Benefit* | 30% | Kecepatan penjualan (jumlah barang terjual dalam 30 hari terakhir). |
+| **C3: Popularity** | *Benefit* | 20% | Jumlah *Page Views* dan *Add to Cart* produk tersebut dalam 30 hari terakhir. |
+| **C4: Profit Margin** | *Benefit* | 15% | Persentase margin keuntungan ((Price - COGS) / Price). Semakin besar untung, semakin prioritas. |
+
+> Total Bobot = 35 + 30 + 20 + 15 = 100
+
+## 2. Evaluasi Kriteria dan Normalisasi (Utility)
+Nilai utilitas ($U_i$) dihitung dengan rentang $0$ hingga $1$ untuk setiap kriteria berdasarkan nilai Minimum dan Maksimum secara global di dalam *database*.
+
+### A. Kriteria Stok (Cost - C1)
+Karena semakin kecil stok maka kebutuhannya semakin tinggi (skor semakin tinggi), perhitungannya adalah:
+$U_{stock} = \frac{MaxStock - Stock}{MaxStock - MinStock}$
+
+### B. Kriteria Velocity, Popularity, dan Margin (Benefit - C2, C3, C4)
+Ketiga kriteria ini berjenis *Benefit*, semakin tinggi nilainya semakin baik.
+$U_{benefit} = \frac{Value - MinValue}{MaxValue - MinValue}$
+
+## 3. Perhitungan Nilai Akhir (Final Score)
+Nilai utilitas setiap kriteria dikalikan dengan persentase bobot, dan dijumlahkan untuk mendapatkan skor dari 0 - 100.
+
+$Final Score = (U_{C1} \times 35) + (U_{C2} \times 30) + (U_{C3} \times 20) + (U_{C4} \times 15)$
+
+## 4. Keputusan Level Prioritas
+Berdasarkan *Final Score* yang didapat, sistem akan otomatis mengelompokkan produk ke dalam tiga level prioritas:
+- **High Priority:** Jika *Final Score* > 75
+- **Medium Priority:** Jika *Final Score* $\ge$ 40 dan $\le$ 75
+- **Low Priority:** Jika *Final Score* < 40
+
+---
 *Dokumen ini digenerate secara otomatis untuk mempermudah dokumentasi arsitektur Sistem Pendukung Keputusan dalam Repositori Clementine.*
