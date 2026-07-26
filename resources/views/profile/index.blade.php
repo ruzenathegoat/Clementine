@@ -149,7 +149,7 @@
         </button>
 
         <!-- SIDEBAR ARCHIVE NAVIGATION -->
-        <div class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-80 bg-[#FAFAFA] border-r border-[rgba(10,10,10,0.15)] p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar lg:!relative lg:!translate-x-0 lg:!w-[280px] lg:!border-none lg:!p-0 lg:!bg-transparent lg:!flex-shrink-0 lg:!sticky lg:!top-32 h-max mb-12 lg:!mb-0 lg:!z-auto lg:!inset-auto"
+        <div class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-80 bg-[#FAFAFA] border-r border-[rgba(10,10,10,0.15)] p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar lg:!relative lg:!translate-x-0 lg:!w-[280px] lg:!border-none lg:!p-0 lg:!bg-transparent lg:!flex-shrink-0 lg:!sticky lg:!top-32 h-[100dvh] lg:!h-max lg:!z-auto lg:!inset-auto"
              :class="mobileNavOpen ? '!translate-x-0' : ''"
              data-lenis-prevent>
              
