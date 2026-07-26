@@ -234,18 +234,7 @@
             });
             gsap.ticker.lagSmoothing(0);
 
-            // 1. Nav Item Staggered Entrance (Run only once on first load)
-            if (!sessionStorage.getItem('navRevealed')) {
-                gsap.from('.nav-item', {
-                    y: -20,
-                    opacity: 0,
-                    stagger: 0.05,
-                    duration: 0.8,
-                    ease: 'power4.out',
-                    delay: 0.2 // Small delay after page loader
-                });
-                sessionStorage.setItem('navRevealed', 'true');
-            }
+            // Navigation items stagger removed as it conflicts with preloader and CSS transitions
 
             // 2. Footer Logo Parallax
             if (document.querySelector('.footer-logo')) {
