@@ -28,16 +28,18 @@ class AdvisorController extends Controller
             'gender' => 'nullable|string|in:men,women,unisex',
             'material' => 'nullable|string',
             'movement' => 'nullable|string',
+            'strap' => 'nullable|string',
         ]);
 
         $budget = $request->input('budget', 999999999);
         $gender = $request->input('gender');
         $material = $request->input('material');
         $movement = $request->input('movement');
+        $strap = $request->input('strap');
 
         // Filter awal: Produk aktif dan stok ada
         // Optimasi: Membuang produk yang harganya jauh di atas budget (misal > 2x lipat)
-        $products = Product::where('status', 'active')
+        $products = Product::with('straps')->where('status', 'active')
             ->where('stock', '>', 0)
             ->where('price', '<=', $budget * 2)
             ->get();
@@ -52,6 +54,7 @@ class AdvisorController extends Controller
                 'gender' => $gender,
                 'material' => $material,
                 'movement' => $movement,
+                'strap' => $strap,
             ]
         ]);
 
@@ -72,17 +75,18 @@ class AdvisorController extends Controller
         $minStock = $products->min('stock') ?: 0;
 
         // Bobot (Weights) dalam bentuk desimal (total 1.0)
-        $w1_price = 0.35;
-        $w2_gender = 0.25;
-        $w3_material = 0.20;
+        $w1_price = 0.30;
+        $w2_gender = 0.20;
+        $w3_material = 0.15;
         $w4_movement = 0.15;
         $w5_stock = 0.05;
+        $w6_strap = 0.15;
 
         // Kalkulasi Utility & Final Score menggunakan SMART
         $scoredProducts = $products->map(function ($product) use (
-            $budget, $gender, $material, $movement,
+            $budget, $gender, $material, $movement, $strap,
             $maxPrice, $minPrice, $maxStock, $minStock,
-            $w1_price, $w2_gender, $w3_material, $w4_movement, $w5_stock
+            $w1_price, $w2_gender, $w3_material, $w4_movement, $w5_stock, $w6_strap
         ) {
             // 1. Cost: Price Match (Semakin mendekati budget dari bawah, semakin baik)
             // Normalisasi harga: jika harga > budget, penalti berat.
@@ -129,8 +133,21 @@ class AdvisorController extends Controller
             $stockDenominator = ($maxStock - $minStock) ?: 1;
             $u5 = ($product->stock - $minStock) / $stockDenominator;
 
+            // 6. Benefit: Strap Match
+            $u6 = 0;
+            if ($strap) {
+                $hasStrap = $product->straps->contains(function($s) use ($strap) {
+                    return stripos($s->strap_name, $strap) !== false;
+                });
+                if ($hasStrap) {
+                    $u6 = 1;
+                }
+            } else {
+                $u6 = 1;
+            }
+
             // Final Score
-            $finalScore = ($u1 * $w1_price) + ($u2 * $w2_gender) + ($u3 * $w3_material) + ($u4 * $w4_movement) + ($u5 * $w5_stock);
+            $finalScore = ($u1 * $w1_price) + ($u2 * $w2_gender) + ($u3 * $w3_material) + ($u4 * $w4_movement) + ($u5 * $w5_stock) + ($u6 * $w6_strap);
 
             // Menyimpan skor di objek produk sementara
             $product->smart_score = $finalScore;

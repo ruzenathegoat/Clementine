@@ -112,6 +112,25 @@
                 </div>
             </div>
 
+            <!-- 5. Strap -->
+            <div class="border-t border-primary pt-xl flex flex-col md:flex-row gap-xl items-start md:items-center justify-between">
+                <div class="flex flex-col gap-2 w-full md:w-1/3 shrink-0">
+                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/50">PARAMETER 05</span>
+                    <label class="font-h2 text-2xl md:text-3xl uppercase text-primary leading-none">STRAP TYPE</label>
+                </div>
+                
+                <div class="w-full md:w-2/3 grid grid-cols-2 gap-md">
+                    @foreach(['Leather', 'Rubber', 'Stainless Steel', 'Titanium', 'Nylon'] as $strap)
+                        <label class="relative cursor-pointer group w-full">
+                            <input type="radio" name="strap" value="{{ $strap }}" class="peer sr-only">
+                            <div class="w-full py-4 px-4 border border-primary bg-background text-center font-mono text-[11px] uppercase tracking-[0.1em] text-primary peer-checked:bg-primary peer-checked:text-background hover:bg-primary/5 transition-colors active:scale-[0.98] duration-150">
+                                {{ $strap }}
+                            </div>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+
             <div class="border-t border-primary pt-xl mt-xl">
                 <button type="submit" class="w-full bg-primary text-background hover:bg-background hover:text-primary border border-primary py-lg font-mono text-[12px] uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-4 group active:scale-[0.99] duration-150">
                     <span>EXECUTE ALGORITHM</span>
