@@ -105,7 +105,7 @@
 <!-- HERO SECTION: Stark, pure typography, no AI scaffolding metadata -->
 <header class="w-full min-h-[70vh] flex flex-col justify-end px-6 md:px-12 py-16 md:py-24 relative overflow-hidden">
     <div class="max-w-[1400px] w-full mx-auto relative z-10 flex flex-col gap-6">
-        <h1 class="font-h1 text-[clamp(60px,12vw,160px)] leading-[0.85] text-ink-color uppercase title-display m-0 overflow-hidden" id="hero-title">
+        <h1 class="font-h1 text-[clamp(2.5rem,10vw,160px)] leading-[0.85] text-ink-color uppercase title-display m-0 overflow-hidden break-words md:text-[clamp(60px,12vw,160px)]" id="hero-title">
             Collections
         </h1>
         
