@@ -24,17 +24,14 @@
         display: none;
     }
 
-    /* Swiss Grid Borders */
+    /* Archive Grid */
     .archive-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        border-top: 1px solid rgba(10, 10, 10, 0.1);
-        border-left: 1px solid rgba(10, 10, 10, 0.1);
+        gap: 2rem;
     }
     
     .archive-panel {
-        border-right: 1px solid rgba(10, 10, 10, 0.1);
-        border-bottom: 1px solid rgba(10, 10, 10, 0.1);
         cursor: crosshair;
         background-color: var(--bg-color);
     }
