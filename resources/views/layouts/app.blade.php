@@ -227,6 +227,7 @@
                 requestAnimationFrame(raf);
             }
             requestAnimationFrame(raf);
+            window.lenis = lenis; // expose globally for page-specific scripts
             
             lenis.on('scroll', ScrollTrigger.update);
             gsap.ticker.add((time)=>{

@@ -13,7 +13,7 @@
         </button>
 
         <!-- Sidebar Navigation -->
-        <aside class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-96 bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar md:!relative md:!translate-x-0 md:!w-80 md:!border-none md:!p-0 md:!bg-transparent md:!flex-shrink-0 md:!sticky md:!top-32 md:!h-max md:!z-auto md:!inset-auto"
+        <aside class="fixed inset-y-0 left-0 z-[100] w-[95%] sm:w-96 bg-primary border-r border-secondary/20 p-8 transform transition-transform duration-300 -translate-x-full overflow-y-auto hidden-scrollbar md:!relative md:!translate-x-0 md:!w-80 md:!border-none md:!p-0 md:!bg-transparent md:!flex-shrink-0 md:!sticky md:!top-32 md:!max-h-[calc(100vh-8rem)] md:!overflow-y-auto md:!z-auto md:!inset-auto"
                :class="mobileNavOpen ? '!translate-x-0' : ''"
                data-lenis-prevent>
             
@@ -382,7 +382,14 @@
                 if (!targetEl) return;
 
                 e.preventDefault();
-                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Gunakan lenis.scrollTo agar kompatibel dengan Lenis smooth scroll
+                // offset -128 = kompensasi sticky nav (~8rem)
+                if (window.lenis) {
+                    window.lenis.scrollTo(targetEl, { offset: -128, duration: 1.2 });
+                } else {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
 
                 // update URL hash tanpa jump instan
                 history.pushState(null, '', `#${targetId}`);
