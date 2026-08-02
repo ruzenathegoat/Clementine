@@ -33,20 +33,19 @@ The design language is mechanical, matching the precision of the watches it sell
 ```bash
    npm install
 ```
-3. Copy `.env.example` to `.env` and configure your database and Supabase credentials.
-4. Generate an application key:
+3. Generate an application key:
 ```bash
    php artisan key:generate
 ```
-5. Run database migrations:
+4. Run database migrations:
 ```bash
    php artisan migrate
 ```
-6. Start the local development server:
+5. Start the local development server:
 ```bash
    php artisan serve
 ```
-7. In a separate terminal, compile frontend assets:
+6. In a separate terminal, compile frontend assets:
 ```bash
    npm run dev
 ```
