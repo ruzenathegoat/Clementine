@@ -1,24 +1,22 @@
 # Clementine
 
-Clementine is a premium e-commerce landing page designed exclusively for luxury horology and high-end watches. It abandons traditional, safe e-commerce templates in favor of a raw, editorial neubrutalist aesthetic that demands attention.
+Clementine is an e-commerce landing page built for luxury horology and high-end watches. Instead of a standard e-commerce template, it uses a raw, editorial neubrutalist look.
 
-## Design Philosophy
+## Design philosophy
 
-The design language is strictly mechanical, reflecting the precision of the watches it sells:
-- **Zero Curves**: All borders and corners are set to 0px. Absolutely no rounded edges.
-- **High Contrast**: A strict monochromatic palette. Pure black, pure white, and minimal greys to separate layers.
-- **Strict Grid Architecture**: Driven by a rigid 4-column layout defined by 1px black borders that intersect flawlessly.
-- **Editorial Typography**: Massive, ultra-bold Satoshi for headings, IBM Plex Sans for precise, technical body copy, and italicized Instrument Serif for luxurious accents.
+The design language is mechanical, matching the precision of the watches it sells:
+- **Zero curves**: All borders and corners are set to 0px, no rounded edges anywhere.
+- **High contrast**: A monochrome palette: pure black, pure white, and a few greys to separate layers.
+- **Strict grid**: A rigid 4-column layout defined by 1px black borders.
+- **Editorial typography**: Bold Satoshi for headings, IBM Plex Sans for body copy, and italic Instrument Serif for accents.
 
-## Tech Stack
+## Tech stack
 
 - **Backend**: Laravel, PHP
 - **Database**: Supabase
 - **Frontend**: Tailwind CSS v4, Alpine.js, DaisyUI, Flowbite
 
-Note on styling: All default DaisyUI and Flowbite components are aggressively overridden via Tailwind utility classes to enforce the zero-curve, zero-shadow brutalist rule.
-
-## Getting Started
+## Getting started
 
 ### Prerequisites
 - PHP 8.2+
@@ -28,31 +26,27 @@ Note on styling: All default DaisyUI and Flowbite components are aggressively ov
 
 ### Installation
 1. Clone the repository and install PHP dependencies:
-   ```bash
+```bash
    composer install
-   ```
+```
 2. Install frontend dependencies:
-   ```bash
+```bash
    npm install
-   ```
+```
 3. Copy `.env.example` to `.env` and configure your database and Supabase credentials.
 4. Generate an application key:
-   ```bash
+```bash
    php artisan key:generate
-   ```
+```
 5. Run database migrations:
-   ```bash
+```bash
    php artisan migrate
-   ```
+```
 6. Start the local development server:
-   ```bash
+```bash
    php artisan serve
-   ```
+```
 7. In a separate terminal, compile frontend assets:
-   ```bash
+```bash
    npm run dev
-   ```
-
-## License
-
-This project is open-source and available under the MIT License.
+```
