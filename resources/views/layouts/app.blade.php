@@ -68,6 +68,8 @@
     </style>
     
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    
+    @include('partials.google-analytics')
 </head>
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > {{ request()->routeIs('home') ? '(window.innerHeight * 2.9)' : '50' }})">
 
