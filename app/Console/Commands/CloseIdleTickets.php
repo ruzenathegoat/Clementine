@@ -17,7 +17,8 @@ class CloseIdleTickets extends Command
      */
     public function handle()
     {
-        $idleTickets = Ticket::where('status', 'active')
+        $idleTickets = Ticket::with('admin')
+            ->where('status', 'active')
             ->where('updated_at', '<=', now()->subMinutes(10))
             ->get();
 
@@ -28,8 +29,6 @@ class CloseIdleTickets extends Command
 
         foreach ($idleTickets as $ticket) {
             $ticket->update(['status' => 'resolved']);
-            $ticket->load('admin');
-            
             // Broadcast event so frontend auto-closes
             broadcast(new TicketClosed($ticket));
             

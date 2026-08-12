@@ -97,6 +97,15 @@ class CheckoutController extends Controller
             'bank' => 'required_if:payment_method,virtual_account',
         ]);
 
+        $productIdsInCart = $cartItems->pluck('product_id')->unique()->toArray();
+        $pastPurchasesByProduct = \App\Models\OrderItem::whereHas('order', function($q) use ($userId) {
+            $q->where('user_id', $userId)->where('status', '!=', 'cancelled');
+        })
+        ->whereIn('product_id', $productIdsInCart)
+        ->selectRaw('product_id, sum(quantity) as total_quantity')
+        ->groupBy('product_id')
+        ->pluck('total_quantity', 'product_id');
+
         foreach ($cartItems as $item) {
             $product = $item->product;
             if ($product->stock < $item->quantity) {
@@ -124,9 +133,7 @@ class CheckoutController extends Controller
                 }
                 
                 if ($now->lt($t40)) {
-                    $pastPurchases = \App\Models\OrderItem::whereHas('order', function($q) use ($userId) {
-                        $q->where('user_id', $userId)->where('status', '!=', 'cancelled');
-                    })->where('product_id', $product->id)->sum('quantity');
+                    $pastPurchases = $pastPurchasesByProduct->get($product->id, 0);
 
                     $maxQty = $isVip ? 3 : 1;
                     if (($item->quantity + $pastPurchases) > $maxQty) {
@@ -324,7 +331,7 @@ class CheckoutController extends Controller
         }
 
         if ($order->payment_status === 'paid') {
-            $order->load('items.product.collection');
+            $order->load(['user', 'items.strapOption', 'items.product.collection']);
             $recipient = $order->contact_email ?? $request->user()->email;
             \Illuminate\Support\Facades\Log::info('OrderPaid (checkout): attempting email', ['order_id' => $order->id, 'to' => $recipient, 'mailer' => config('mail.default')]);
             try {

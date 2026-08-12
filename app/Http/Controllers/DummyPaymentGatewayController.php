@@ -40,7 +40,7 @@ class DummyPaymentGatewayController extends Controller
             ]);
             
             // Send email
-            $order->load('items.product.collection');
+            $order->load(['user', 'items.strapOption', 'items.product.collection']);
             $recipient = $order->contact_email ?? auth()->user()?->email;
             if ($recipient) {
                 try {

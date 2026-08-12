@@ -124,6 +124,13 @@ class ProductController extends Controller
             'product_id' => $product->id,
         ]);
 
-        return view('products.show', compact('product'));
+        $pastPurchases = 0;
+        if (Auth::check()) {
+            $pastPurchases = \App\Models\OrderItem::whereHas('order', function($q) {
+                $q->where('user_id', Auth::id())->where('status', '!=', 'cancelled');
+            })->where('product_id', $product->id)->sum('quantity');
+        }
+
+        return view('products.show', compact('product', 'pastPurchases'));
     }
 }

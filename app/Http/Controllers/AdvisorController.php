@@ -52,7 +52,7 @@ class AdvisorController extends Controller
         ]);
 
         // 1. Ambil semua produk aktif dan tersedia
-        $eligibleProducts = Product::with('straps')
+        $eligibleProducts = Product::with(['straps', 'collection'])
             ->where('status', 'active')
             ->where('stock', '>', 0)
             ->where('price', '>', 0)

@@ -114,10 +114,12 @@ class OrderController extends Controller
         $order->update($validated);
 
         if ($statusChangedToShipped && $order->contact_email) {
+            $order->loadMissing(['user', 'items.product.collection']);
             \Illuminate\Support\Facades\Mail::to($order->contact_email)->send(new \App\Mail\OrderShippedMail($order));
         }
 
         if ($statusChangedToCancelled) {
+            $order->loadMissing('items.product');
             // Auto restock
             foreach ($order->items as $item) {
                 if ($item->product) {

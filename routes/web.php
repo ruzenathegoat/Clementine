@@ -310,9 +310,9 @@ Route::get('/_debug/test-order-paid', function () {
     try {
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         
-        $order = \App\Models\Order::with('items.product.collection')->where('payment_status', 'paid')->latest('created_at')->first();
+        $order = \App\Models\Order::with(['user', 'items.strapOption', 'items.product.collection'])->where('payment_status', 'paid')->latest('created_at')->first();
         if (!$order) {
-            $order = \App\Models\Order::with('items.product.collection')->latest('created_at')->first();
+            $order = \App\Models\Order::with(['user', 'items.strapOption', 'items.product.collection'])->latest('created_at')->first();
         }
         if (!$order) {
             return "No order found";

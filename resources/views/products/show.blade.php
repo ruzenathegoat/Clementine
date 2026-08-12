@@ -7,7 +7,7 @@
 @php
     $maxQty = $product->stock;
     $isDropActive = false;
-    $pastPurchases = 0;
+    $pastPurchases = $pastPurchases ?? 0;
     $limitReached = false;
     $denominator = max(20, $product->stock + 15); // Fallback generic denominator for exclusive drop look
 
@@ -17,11 +17,7 @@
             $isDropActive = true;
             $maxAllowed = auth()->user()?->is_vip ? 3 : 1;
             
-            if (auth()->check()) {
-                $pastPurchases = \App\Models\OrderItem::whereHas('order', function($q) {
-                    $q->where('user_id', auth()->id())->where('status', '!=', 'cancelled');
-                })->where('product_id', $product->id)->sum('quantity');
-            }
+            // pastPurchases is passed from the controller
             
             $remainingAllowed = max(0, $maxAllowed - $pastPurchases);
             $maxQty = min($product->stock, $remainingAllowed);
