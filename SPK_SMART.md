@@ -3,54 +3,60 @@
 Dokumen ini menjelaskan rancangan Sistem Pendukung Keputusan (SPK) menggunakan metode **SMART (Simple Multi-Attribute Rating Technique)** yang diterapkan pada fitur *Smart Advisor* di proyek Clementine.
 
 ## 1. Pendahuluan
-Metode SMART digunakan di *Smart Advisor* untuk merekomendasikan jam tangan (produk) terbaik bagi pelanggan berdasarkan berbagai parameter pencarian (seperti *Budget*, *Gender*, *Case Material*, *Movement*, dan *Strap*). SMART adalah metode pengambilan keputusan multikriteria yang sederhana dan efisien, di mana setiap kriteria diberikan bobot dan nilai utilitasnya dihitung untuk setiap alternatif.
+Metode SMART digunakan di *Smart Advisor* untuk merekomendasikan jam tangan (produk) terbaik bagi pelanggan berdasarkan berbagai parameter pencarian (seperti *Budget*, *Gender*, *Case Material*, *Movement*, dan *Strap*). SMART adalah metode pengambilan keputusan multikriteria yang sederhana dan efisien. Model ini menggunakan **Normalisasi Bobot Dinamis**, di mana kriteria yang tidak diisi oleh pengguna akan diabaikan dari perhitungan dan bobot akan disesuaikan.
 
-## 2. Kriteria dan Pembobotan (Weights)
-Terdapat 6 kriteria utama yang menjadi acuan penilaian algoritma ini. Bobot total dari semua kriteria adalah 1.0 (atau 100%).
+## 2. Kriteria dan Pembobotan Dasar (Base Weights)
+Terdapat 5 kriteria preferensi yang menjadi acuan penilaian algoritma ini. Kriteria stok telah dihapus dari perhitungan SMART dan murni dijadikan sebagai filter kelayakan (hanya produk dengan stok > 0 yang diproses).
 
-| Kriteria (Atribut) | Tipe Kriteria | Bobot ($W_j$) | Deskripsi |
+| Kriteria (Atribut) | Tipe Kriteria | Bobot Dasar | Deskripsi |
 | :--- | :--- | :--- | :--- |
-| **C1: Price / Budget** | *Cost* | 0.30 (30%) | Seberapa sesuai harga jam tangan dengan budget pelanggan. |
-| **C2: Gender** | *Benefit* | 0.20 (20%) | Kecocokan peruntukan jam tangan (Men/Women/Unisex) dengan pilihan. |
-| **C3: Case Material** | *Benefit* | 0.15 (15%) | Kecocokan material *case* dengan preferensi pelanggan. |
-| **C4: Movement** | *Benefit* | 0.15 (15%) | Kecocokan mesin jam (*Automatic*/*Quartz*). |
-| **C5: Strap Match** | *Benefit* | 0.15 (15%) | Kecocokan jenis strap/tali jam dengan preferensi. |
-| **C6: Stock** | *Benefit* | 0.05 (5%) | Ketersediaan jumlah stok di *inventory* (semakin banyak semakin baik). |
+| **C1: Budget Fit** | *Target Match* | 31.58% (6/19) | Kecocokan harga jam tangan terhadap batas anggaran pengguna. |
+| **C2: Gender** | *Benefit* | 21.05% (4/19) | Kecocokan peruntukan jam tangan (Men/Women/Unisex) dengan pilihan. |
+| **C3: Case Material** | *Benefit* | 15.79% (3/19) | Kecocokan material *case* dengan preferensi pelanggan. |
+| **C4: Movement** | *Benefit* | 15.79% (3/19) | Kecocokan mesin jam (*Automatic*/*Quartz*). |
+| **C5: Strap Match** | *Benefit* | 15.79% (3/19) | Kecocokan jenis strap/tali jam dengan preferensi. |
 
-> Total Bobot = 0.30 + 0.20 + 0.15 + 0.15 + 0.15 + 0.05 = 1.0
+> Jika semua kriteria diisi, total bobot adalah 1.0 (100%).
+> **Normalisasi Dinamis:** Jika pengguna mengosongkan suatu kriteria (misal: tidak memilih *Strap*), maka kriteria tersebut tidak dihitung (tidak mendapat utilitas 1 secara otomatis). Sistem kemudian membagi bobot dasar dari kriteria yang aktif dengan total bobot aktif agar kembali menjadi 1.0.
 
 ## 3. Evaluasi Kriteria dan Normalisasi (Utility)
-Setiap kriteria untuk masing-masing alternatif (produk) diubah menjadi nilai utilitas ($U_i$) dengan rentang $0$ hingga $1$.
+Setiap kriteria aktif untuk masing-masing alternatif (produk) diubah menjadi nilai utilitas ($U$) dengan rentang $0$ hingga $1$.
 
-### A. Kriteria Harga (Cost - C1)
-Harga merupakan kriteria *Cost*. Tujuan normalisasinya adalah mencari harga yang paling mendekati dari bawah (tidak melebihi budget).
-- **Jika harga produk melampaui budget:**
-  $U_{price} = \max\left(0, \frac{Budget - (Price - Budget)}{MaxPrice}\right)$
-  (Diberikan penalti berat sehingga nilainya turun drastis jika melebihi batas).
-- **Jika harga produk berada di bawah/sama dengan budget:**
-  $U_{price} = \frac{MaxPrice - Price}{MaxPrice - MinPrice}$
-  (Semakin murah atau semakin mendekati budget dari bawah tanpa melewatinya, semakin tinggi nilainya).
+### A. Kriteria Harga (Target Match - C1)
+Tujuan fungsi harga adalah mencari harga yang paling mendekati batas anggaran dari bawah. Hanya produk dengan harga $\le Budget$ yang menjadi kandidat utama.
+$U_{budget} = \frac{Price}{Budget}$
+(Semakin mendekati batas budget, utilitasnya semakin mendekati 1).
 
-### B. Kriteria Kecocokan (Benefit Biner - C2, C3, C4, C5)
-Kriteria *Gender*, *Material*, *Movement*, dan *Strap* bernilai biner.
-- Jika pengguna **tidak memilih/kosong** pada form, maka $U = 1$ (dianggap cocok semua).
+### B. Kriteria Gender (Matriks Kompatibilitas - C2)
+Pencocokan gender menggunakan aturan matriks, bukan perbandingan *string* murni.
+- Pengguna **Men**: produk Men/Unisex $\rightarrow U = 1$, lainnya $0$.
+- Pengguna **Women**: produk Women/Unisex $\rightarrow U = 1$, lainnya $0$.
+- Pengguna **Unisex**: produk Unisex $\rightarrow U = 1$, lainnya $0$.
+
+### C. Kriteria Material, Movement, dan Strap (Benefit Biner - C3, C4, C5)
+Kriteria *Material*, *Movement*, dan *Strap* bernilai biner.
+- Jika pengguna **tidak memilih**, kriteria ini diabaikan (tidak menyumbang skor).
 - Jika pengguna **memilih** parameter, sistem akan mencocokkan *string* (pencarian *case-insensitive*):
   - Jika **Cocok** $\rightarrow U = 1$
   - Jika **Tidak Cocok** $\rightarrow U = 0$
 
-### C. Kriteria Stok (Benefit - C6)
-Stok merupakan kriteria *Benefit* kuantitatif. Semakin banyak stok yang ada, semakin tinggi nilai utilitasnya.
-$U_{stock} = \frac{Stock - MinStock}{MaxStock - MinStock}$
-
 ## 4. Perhitungan Nilai Akhir (Final Score)
-Nilai akhir (*Smart Score*) setiap produk merupakan hasil penjumlahan dari perkalian antara nilai utilitas ($U$) dengan bobot kriteria ($W$).
+Nilai akhir (*SMART Score*) setiap produk merupakan hasil penjumlahan dari perkalian antara nilai utilitas ($U$) dengan bobot dinamis ($W'$). Skor ini direntang ke 0 - 100.
 
-$Final Score = (U_{C1} \times 0.30) + (U_{C2} \times 0.20) + (U_{C3} \times 0.15) + (U_{C4} \times 0.15) + (U_{C5} \times 0.15) + (U_{C6} \times 0.05)$
+$SMART Score = 100 \times \sum (W'_j \times U_j)$
 
-## 5. Keputusan dan Fallback
-- Produk-produk kemudian diurutkan dari *Final Score* tertinggi ke terendah.
-- Sistem akan mengembalikan **Top 3** produk dengan skor tertinggi untuk direkomendasikan kepada pengguna.
-- **Fallback Mechanism:** Jika hasil tertinggi memiliki skor di bawah 30% ($0.3$), sistem berasumsi algoritma tidak menemukan kecocokan yang layak. Sebagai *fallback*, sistem otomatis mengembalikan 3 produk *best seller* (atau yang harganya paling mendekati batas budget dari bawah) terlepas dari kriteria spesifik lainnya.
+Produk kemudian diurutkan berdasarkan:
+1. Skor SMART tertinggi.
+2. Jumlah kecocokan kategori (kriteria biner) terbanyak.
+3. Selisih harga absolut terhadap budget terkecil.
+4. ID produk (sebagai penentu urutan yang stabil).
+
+## 5. Keputusan dan Fallback Terkontrol
+- Sistem akan mengembalikan **Top 3** produk dengan urutan terbaik.
+- **Fallback Mechanism:** Jika jumlah kandidat utama (yang sesuai budget) kurang dari 3, sistem mencari produk di luar budget namun masih dalam batas **toleransi 20%** ($t = 0.2$).
+- Untuk produk fallback, dihitung utilitas budget penalti: 
+  $U_{budget}^{fallback} = \max\left(0, 1 - \frac{Price - Budget}{t \times Budget}\right)$
+- Produk fallback akan selalu ditambahkan di urutan akhir setelah kandidat utama, tanpa menggusur mereka, dan ditandai dengan label "OVER BUDGET".
 
 ---
 
