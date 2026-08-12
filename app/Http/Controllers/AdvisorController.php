@@ -24,25 +24,18 @@ class AdvisorController extends Controller
     public function process(Request $request)
     {
         $request->validate([
-            'budget' => 'nullable|numeric|min:0',
+            'budget' => 'required|numeric|min:1',
             'gender' => 'nullable|string|in:men,women,unisex',
             'material' => 'nullable|string',
             'movement' => 'nullable|string',
             'strap' => 'nullable|string',
         ]);
 
-        $budget = $request->input('budget', 999999999);
+        $budget = $request->input('budget');
         $gender = $request->input('gender');
         $material = $request->input('material');
         $movement = $request->input('movement');
         $strap = $request->input('strap');
-
-        // Filter awal: Produk aktif dan stok ada
-        // Optimasi: Membuang produk yang harganya jauh di atas budget (misal > 2x lipat)
-        $products = Product::with('straps')->where('status', 'active')
-            ->where('stock', '>', 0)
-            ->where('price', '<=', $budget * 2)
-            ->get();
 
         // Track Advisor Search
         AnalyticsEvent::create([
@@ -58,121 +51,174 @@ class AdvisorController extends Controller
             ]
         ]);
 
-        if ($products->isEmpty()) {
-            // Jika benar-benar kosong, ambil top 3 best seller (dummy fallback)
-            $recommendations = Product::where('status', 'active')
-                ->where('stock', '>', 0)
-                ->orderBy('price', 'desc')
-                ->take(3)
-                ->get();
-            return view('advisor.results', compact('recommendations'));
+        // 1. Ambil semua produk aktif dan tersedia
+        $eligibleProducts = Product::with('straps')
+            ->where('status', 'active')
+            ->where('stock', '>', 0)
+            ->where('price', '>', 0)
+            ->get();
+
+        if ($eligibleProducts->isEmpty()) {
+            $recommendations = collect();
+            return view('advisor.results', compact('recommendations', 'budget'));
         }
 
-        // Tentukan Max dan Min untuk kriteria Cost dan Benefit kuantitatif
-        $maxPrice = $products->max('price') ?: 1;
-        $minPrice = $products->min('price') ?: 0;
-        $maxStock = $products->max('stock') ?: 1;
-        $minStock = $products->min('stock') ?: 0;
+        // 2. Tentukan bobot dasar
+        $baseWeights = [
+            'budget' => 6/19,
+            'gender' => 4/19,
+            'material' => 3/19,
+            'movement' => 3/19,
+            'strap' => 3/19,
+        ];
 
-        // Bobot (Weights) dalam bentuk desimal (total 1.0)
-        $w1_price = 0.30;
-        $w2_gender = 0.20;
-        $w3_material = 0.15;
-        $w4_movement = 0.15;
-        $w5_stock = 0.05;
-        $w6_strap = 0.15;
+        // 3. Tentukan kriteria aktif dan total bobot
+        $activeCriteria = ['budget'];
+        if (!empty($gender)) $activeCriteria[] = 'gender';
+        if (!empty($material)) $activeCriteria[] = 'material';
+        if (!empty($movement)) $activeCriteria[] = 'movement';
+        if (!empty($strap)) $activeCriteria[] = 'strap';
 
-        // Kalkulasi Utility & Final Score menggunakan SMART
-        $scoredProducts = $products->map(function ($product) use (
+        $totalActiveWeight = 0;
+        foreach ($activeCriteria as $criterion) {
+            $totalActiveWeight += $baseWeights[$criterion];
+        }
+
+        // 4. Normalisasi bobot dinamis
+        $dynamicWeights = [];
+        foreach ($activeCriteria as $criterion) {
+            $dynamicWeights[$criterion] = $baseWeights[$criterion] / $totalActiveWeight;
+        }
+
+        // Helper untuk gender utility
+        $getGenderUtility = function($productGender, $userGender) {
+            $productGender = strtolower($productGender);
+            $userGender = strtolower($userGender);
+            if ($userGender === 'men') {
+                return in_array($productGender, ['men', 'unisex']) ? 1 : 0;
+            } elseif ($userGender === 'women') {
+                return in_array($productGender, ['women', 'unisex']) ? 1 : 0;
+            } elseif ($userGender === 'unisex') {
+                return $productGender === 'unisex' ? 1 : 0;
+            }
+            return 0;
+        };
+
+        // Fungsi perhitungan skor untuk kandidat
+        $calculateScore = function($product, $isFallback = false) use (
             $budget, $gender, $material, $movement, $strap,
-            $maxPrice, $minPrice, $maxStock, $minStock,
-            $w1_price, $w2_gender, $w3_material, $w4_movement, $w5_stock, $w6_strap
+            $activeCriteria, $dynamicWeights, $getGenderUtility
         ) {
-            // 1. Cost: Price Match (Semakin mendekati budget dari bawah, semakin baik)
-            // Normalisasi harga: jika harga > budget, penalti berat.
-            if ($product->price > $budget) {
-                // Utility turun drastis jika melebihi budget
-                $u1 = max(0, ($budget - ($product->price - $budget)) / $maxPrice);
+            $utilities = [];
+            $matchedCriteria = [];
+            $unmatchedCriteria = [];
+
+            // Budget utility
+            if ($isFallback) {
+                $t = 0.2; // 20% tolerance
+                $utilityBudget = max(0, 1 - (($product->price - $budget) / ($t * $budget)));
             } else {
-                // Normalisasi terbalik: (Max - Harga) / (Max - Min)
-                $denominator = ($maxPrice - $minPrice) ?: 1;
-                $u1 = ($maxPrice - $product->price) / $denominator;
+                $utilityBudget = $product->price / $budget;
+            }
+            $utilities['budget'] = $utilityBudget;
+
+            // Gender utility
+            if (in_array('gender', $activeCriteria)) {
+                $u = $getGenderUtility($product->gender, $gender);
+                $utilities['gender'] = $u;
+                if ($u > 0) $matchedCriteria[] = 'gender';
+                else $unmatchedCriteria[] = 'gender';
             }
 
-            // 2. Benefit: Gender Match
-            $u2 = 0;
-            if ($gender) {
-                if (strtolower($product->gender) === strtolower($gender) || strtolower($product->gender) === 'unisex') {
-                    $u2 = 1;
-                }
-            } else {
-                $u2 = 1; // Jika tidak pilih, default 1
+            // Material utility
+            if (in_array('material', $activeCriteria)) {
+                $u = (stripos($product->material ?? '', $material) !== false || stripos($product->case_material ?? '', $material) !== false) ? 1 : 0;
+                $utilities['material'] = $u;
+                if ($u > 0) $matchedCriteria[] = 'material';
+                else $unmatchedCriteria[] = 'material';
             }
 
-            // 3. Benefit: Material Match
-            $u3 = 0;
-            if ($material) {
-                if (stripos($product->material, $material) !== false || stripos($product->case_material, $material) !== false) {
-                    $u3 = 1;
-                }
-            } else {
-                $u3 = 1;
+            // Movement utility
+            if (in_array('movement', $activeCriteria)) {
+                $u = (stripos($product->movement ?? '', $movement) !== false) ? 1 : 0;
+                $utilities['movement'] = $u;
+                if ($u > 0) $matchedCriteria[] = 'movement';
+                else $unmatchedCriteria[] = 'movement';
             }
 
-            // 4. Benefit: Movement Match
-            $u4 = 0;
-            if ($movement) {
-                if (stripos($product->movement, $movement) !== false) {
-                    $u4 = 1;
-                }
-            } else {
-                $u4 = 1;
-            }
-
-            // 5. Benefit: Stock
-            $stockDenominator = ($maxStock - $minStock) ?: 1;
-            $u5 = ($product->stock - $minStock) / $stockDenominator;
-
-            // 6. Benefit: Strap Match
-            $u6 = 0;
-            if ($strap) {
+            // Strap utility
+            if (in_array('strap', $activeCriteria)) {
                 $hasStrap = $product->straps->contains(function($s) use ($strap) {
-                    return stripos($s->strap_name, $strap) !== false;
+                    return stripos($s->strap_name ?? '', $strap) !== false;
                 });
-                if ($hasStrap) {
-                    $u6 = 1;
-                }
-            } else {
-                $u6 = 1;
+                $u = $hasStrap ? 1 : 0;
+                $utilities['strap'] = $u;
+                if ($u > 0) $matchedCriteria[] = 'strap';
+                else $unmatchedCriteria[] = 'strap';
             }
 
-            // Final Score
-            $finalScore = ($u1 * $w1_price) + ($u2 * $w2_gender) + ($u3 * $w3_material) + ($u4 * $w4_movement) + ($u5 * $w5_stock) + ($u6 * $w6_strap);
+            $score = 0;
+            $weightedContributions = [];
+            foreach ($activeCriteria as $criterion) {
+                $contribution = $dynamicWeights[$criterion] * $utilities[$criterion];
+                $weightedContributions[$criterion] = $contribution;
+                $score += $contribution;
+            }
 
-            // Menyimpan skor di objek produk sementara
-            $product->smart_score = $finalScore;
-            $product->match_percentage = round($finalScore * 100);
+            $product->smart_score = round(100 * $score, 2);
+            $product->match_percentage = round(100 * $score); // for frontend display
+            $product->is_fallback = $isFallback;
+            $product->matched_criteria = $matchedCriteria;
+            $product->unmatched_criteria = $unmatchedCriteria;
+            $product->utilities = $utilities;
+            $product->weighted_contributions = $weightedContributions;
+            
+            // Atribut pengurutan tambahan
+            $product->matched_count = count($matchedCriteria);
+            $product->price_gap = abs($product->price - $budget);
 
             return $product;
+        };
+
+        // 5. Hitung kandidat utama
+        $mainCandidates = $eligibleProducts->filter(function($p) use ($budget) {
+            return $p->price <= $budget;
+        })->map(function($p) use ($calculateScore) {
+            return $calculateScore($p, false);
         });
 
-        // Urutkan berdasarkan score tertinggi
-        $scoredProducts = $scoredProducts->sortByDesc('smart_score')->values();
+        // 6. Urutkan kandidat utama
+        $sortedMain = $mainCandidates->sort(function($a, $b) {
+            if ($a->smart_score != $b->smart_score) return $b->smart_score <=> $a->smart_score; // desc
+            if ($a->matched_count != $b->matched_count) return $b->matched_count <=> $a->matched_count; // desc
+            if ($a->price_gap != $b->price_gap) return $a->price_gap <=> $b->price_gap; // asc
+            // skip sales count for now, use id as stable tie-breaker
+            return $a->id <=> $b->id; // asc
+        })->values();
 
-        // Ambil Top 3
-        $recommendations = $scoredProducts->take(3);
+        $recommendations = $sortedMain->take(3);
 
-        // Jika top score terlalu rendah (< 30%), fallback ke best seller termahal sesuai budget
-        if ($recommendations->first()->smart_score < 0.3) {
-             $recommendations = Product::where('status', 'active')
-                ->where('stock', '>', 0)
-                ->where('price', '<=', $budget)
-                ->orderBy('price', 'desc')
-                ->take(3)
-                ->get();
-             foreach ($recommendations as $rec) {
-                 $rec->match_percentage = 99; // Dummy fallback percentage
-             }
+        // 7. Fallback jika kurang dari 3
+        if ($recommendations->count() < 3) {
+            $t = 0.2; // toleransi 20%
+            $maxPrice = $budget * (1 + $t);
+
+            $fallbackCandidates = $eligibleProducts->filter(function($p) use ($budget, $maxPrice) {
+                return $p->price > $budget && $p->price <= $maxPrice;
+            })->map(function($p) use ($calculateScore) {
+                return $calculateScore($p, true);
+            });
+
+            $sortedFallback = $fallbackCandidates->sort(function($a, $b) {
+                if ($a->smart_score != $b->smart_score) return $b->smart_score <=> $a->smart_score;
+                if ($a->matched_count != $b->matched_count) return $b->matched_count <=> $a->matched_count;
+                if ($a->price_gap != $b->price_gap) return $a->price_gap <=> $b->price_gap;
+                return $a->id <=> $b->id;
+            })->values();
+
+            $needed = 3 - $recommendations->count();
+            $additional = $sortedFallback->take($needed);
+            $recommendations = $recommendations->concat($additional)->values();
         }
 
         return view('advisor.results', compact('recommendations', 'budget'));

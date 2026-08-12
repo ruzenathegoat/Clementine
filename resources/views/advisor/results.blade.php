@@ -48,6 +48,11 @@
                                 <span class="font-mono text-[9px] text-primary/40 uppercase tracking-[0.2em]">
                                     #{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
                                 </span>
+                                @if($product->is_fallback ?? false)
+                                    <span class="font-mono text-[8px] text-background bg-primary px-2 py-0.5 uppercase tracking-[0.2em]">
+                                        OVER BUDGET
+                                    </span>
+                                @endif
                             </div>
                             <div class="font-mono text-[10px] uppercase tracking-[0.2em] text-primary border border-primary px-3 py-1 bg-background">
                                 [ {{ $product->match_percentage }}% MATCH ]
