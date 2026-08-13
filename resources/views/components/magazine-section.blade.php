@@ -62,7 +62,7 @@
                     <!-- Image Container (Editorial focus) -->
                     @if($magazine->image_url)
                         <div class="w-full aspect-[4/3] mb-6 overflow-hidden bg-surface relative">
-                            <img src="{{ $magazine->image_url }}" alt="{{ $magazine->title }}" 
+                            <img src="{{ cdn_asset($magazine->image_url) }}" alt="{{ $magazine->title }}" 
                                  class="w-full h-full object-cover transition-all duration-350 ease-out" 
                                  style="filter: brightness(0.88) contrast(1);"
                                  x-bind:style="hoveredIndex === {{ $index }} ? 'filter: brightness(1) contrast(1.05);' : 'filter: brightness(0.88) contrast(1);'" />
