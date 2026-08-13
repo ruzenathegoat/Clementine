@@ -146,7 +146,7 @@
     <nav :class="!isScrolled && {{ request()->routeIs('home') ? 'true' : 'false' }} ? 'nav-transparent' : 'bg-surface-container-lowest border-primary text-primary'"
          class="{{ request()->routeIs('home') ? 'fixed' : 'sticky' }} top-0 w-full z-50 flex justify-between items-center px-lg py-md border-b transition-colors duration-300" id="main-nav">
         <div class="flex gap-lg items-center">
-            <a class="flex items-center gap-3 font-headline-md text-headline-md group" href="{{ route('home') }}">
+            <a class="flex items-center gap-3 font-headline-md text-headline-md group" href="{{ route('home') }}" aria-label="Clementine Home">
                 <x-logo class="w-8 h-8 group-hover:scale-95 transition-transform duration-300 ease-out" />
             </a>
             <div class="hidden md:flex gap-lg font-body-md text-body-md uppercase tracking-widest">

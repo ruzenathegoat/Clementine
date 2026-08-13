@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="px-6 md:px-12 mb-16 md:mb-24 flex flex-col items-start mag-header-container">
         <div class="mag-header" style="opacity: 1; letter-spacing: 0.08em;">
-            <h3 class="font-mono text-[10px] md:text-xs uppercase text-primary/80 tracking-widest mb-3">The Daily</h3>
+            <p class="font-mono text-[10px] md:text-xs uppercase text-primary/80 tracking-widest mb-3">The Daily</p>
             <h2 class="font-h1 font-medium text-5xl md:text-[7rem] uppercase tracking-tighter leading-[0.85] text-primary">
                 DRIP & <span class="font-serif italic lowercase tracking-normal">ticks</span>
             </h2>
@@ -89,11 +89,11 @@
                         
                         <!-- Headline -->
                         <div class="mt-auto">
-                            <h4 class="mag-headline font-h1 font-medium text-2xl md:text-3xl leading-[1.1] uppercase transition-transform duration-300 ease-out"
+                            <h3 class="mag-headline font-h1 font-medium text-2xl md:text-3xl leading-[1.1] uppercase tracking-tight" 
                                 style="color: #6d6d6d;"
                                 :class="hoveredIndex === {{ $index }} ? 'translate-x-1' : 'translate-x-0'">
                                 {{ $magazine->title }}
-                            </h4>
+                            </h3>
                         </div>
                     </div>
                     
