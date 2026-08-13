@@ -18,14 +18,8 @@
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-    <!-- GSAP, SplitType & Lenis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/split-type"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
-
+    <!-- Dependencies bundled via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         /* Transparent Nav Overrides */
@@ -215,9 +209,8 @@
     </div>
 
     <!-- Initialized Lenis and GSAP animations -->
-    <script>
+    <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
-            gsap.registerPlugin(ScrollTrigger);
 
             // Initialize Lenis
             const lenis = new Lenis({
@@ -232,11 +225,6 @@
                 infinite: false,
             });
 
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
             window.lenis = lenis; // expose globally for page-specific scripts
             
             lenis.on('scroll', ScrollTrigger.update);
@@ -285,21 +273,21 @@
 
                 tl.to('.preloader-text', {
                     y: 0,
-                    duration: 1,
+                    duration: 0.2,
                     ease: 'power4.out',
-                    delay: 0.2
+                    delay: 0
                 })
                 .to('.preloader-text', {
                     y: '-100%',
-                    duration: 0.8,
+                    duration: 0.2,
                     ease: 'power4.in',
-                    delay: 0.5
+                    delay: 0.1
                 })
                 .to('#preloader', {
                     yPercent: -100,
-                    duration: 1,
-                    ease: 'expo.inOut'
-                }, "-=0.3");
+                    duration: 0.3,
+                    ease: 'power3.inOut'
+                }, "-=0.1");
             }
             
             // Simple navbar hide/show on scroll

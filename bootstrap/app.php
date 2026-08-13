@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             // Changed to use custom 'web' limiter defined in AppServiceProvider (IP-based)
             'throttle:web',
             \App\Http\Middleware\CheckVipStatus::class,
+            \App\Http\Middleware\CacheHTML::class,
         ]);
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
         $middleware->alias([

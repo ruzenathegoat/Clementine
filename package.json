@@ -20,7 +20,11 @@
         "vite": "^8.0.0"
     },
     "dependencies": {
+        "@studio-freight/lenis": "^1.0.42",
+        "alpinejs": "^3.16.1",
+        "gsap": "^3.15.0",
         "motion": "^12.42.2",
-        "puppeteer": "^25.3.0"
+        "puppeteer": "^25.3.0",
+        "split-type": "^0.3.4"
     }
 }
