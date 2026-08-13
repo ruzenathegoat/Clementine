@@ -68,18 +68,59 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     
     @include('partials.google-analytics')
+
+    <style>
+        @keyframes preloaderTextInOut {
+            0% { transform: translateY(100%); }
+            30% { transform: translateY(0); }
+            70% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+        @keyframes preloaderSlideUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); display: none; }
+        }
+        .preloader-text {
+            transform: translateY(100%);
+            animation: preloaderTextInOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        #preloader {
+            animation: preloaderSlideUp 0.25s cubic-bezier(0.85, 0, 0.15, 1) 0.4s forwards;
+        }
+        #preloader.hide-preloader {
+            display: none !important;
+            animation: none !important;
+        }
+    </style>
+    <script>
+        // Check session storage instantly before body renders
+        if (sessionStorage.getItem('preloaderShown')) {
+            document.documentElement.classList.add('skip-preloader');
+        } else {
+            sessionStorage.setItem('preloaderShown', 'true');
+        }
+    </script>
 </head>
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > {{ request()->routeIs('home') ? '(window.innerHeight * 2.9)' : '50' }})">
 
     <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
-        <div class="font-body-md text-on-primary text-label-caps uppercase tracking-[0.2em] overflow-hidden">
-            <div class="inline-flex items-center gap-4 translate-y-[100%] pb-1 preloader-text">
-                <x-logo class="w-10 h-10" />
-                <span>CLEMENTINE HOROLOGY</span>
-            </div>
-        </div>
-    </div>
+    <script>
+        if (document.documentElement.classList.contains('skip-preloader')) {
+            document.write('<div id="preloader" class="hide-preloader"></div>');
+        } else {
+            document.write(`
+                <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
+                    <div class="font-body-md text-on-primary text-label-caps uppercase tracking-[0.2em] overflow-hidden">
+                        <div class="inline-flex items-center gap-4 pb-1 preloader-text">
+                            <x-logo class="w-10 h-10" />
+                            <span>CLEMENTINE HOROLOGY</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+            setTimeout(() => window.dispatchEvent(new Event('preloaderFinished')), 650);
+        }
+    </script>
 
     <!-- Sidebar Overlay & Menu -->
     <div x-cloak x-show="sidebarOpen" 
@@ -250,41 +291,7 @@
                 );
             }
 
-            // Preloader Animation Logic
-            const preloader = document.getElementById('preloader');
-            
-            if (sessionStorage.getItem('preloaderShown')) {
-                // If already shown, hide immediately and fire event
-                preloader.style.display = 'none';
-                window.dispatchEvent(new Event('preloaderFinished'));
-            } else {
-                // Run animation on first load
-                const tl = gsap.timeline({
-                    onComplete: () => {
-                        preloader.style.display = 'none';
-                        sessionStorage.setItem('preloaderShown', 'true');
-                        window.dispatchEvent(new Event('preloaderFinished'));
-                    }
-                });
 
-                tl.to('.preloader-text', {
-                    y: 0,
-                    duration: 0.2,
-                    ease: 'power4.out',
-                    delay: 0
-                })
-                .to('.preloader-text', {
-                    y: '-100%',
-                    duration: 0.2,
-                    ease: 'power4.in',
-                    delay: 0.1
-                })
-                .to('#preloader', {
-                    yPercent: -100,
-                    duration: 0.3,
-                    ease: 'power3.inOut'
-                }, "-=0.1");
-            }
             
             // Simple navbar hide/show on scroll
             let lastScroll = 0;

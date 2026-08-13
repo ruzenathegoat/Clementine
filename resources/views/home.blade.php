@@ -23,19 +23,19 @@
                         
                         <!-- Headline -->
                         <div class="md:col-span-8 lg:col-span-9">
-                            <h1 class="font-h1 text-[clamp(2.5rem,5vw,5.5rem)] leading-[0.95] tracking-tight text-secondary uppercase hero-reveal-text opacity-0" style="text-wrap: balance;">
+                            <h1 class="font-h1 text-[clamp(2.5rem,5vw,5.5rem)] leading-[0.95] tracking-tight text-secondary uppercase hero-reveal-text" style="text-wrap: balance;">
                                 The World's Premier Mechanical Horology Network
                             </h1>
                         </div>
 
                         <!-- Subheadline & Buttons -->
                         <div class="md:col-span-4 lg:col-span-3 flex flex-col gap-6 md:pb-3">
-                            <p class="font-body-md text-secondary/80 text-sm md:text-base leading-relaxed hero-reveal-text opacity-0">
+                            <p class="font-body-md text-secondary/80 text-sm md:text-base leading-relaxed hero-reveal-text">
                                 Hundreds of curated timepieces now have a tamper-proof provenance trail.
                             </p>
                             
                             <!-- Buttons -->
-                            <div class="flex flex-col sm:flex-row md:flex-col gap-3 hero-reveal-btn opacity-0 pointer-events-auto">
+                            <div class="flex flex-col sm:flex-row md:flex-col gap-3 hero-reveal-btn pointer-events-auto">
                                 <a href="{{ route('collections.index') }}" class="bg-secondary text-primary font-label-caps text-xs tracking-widest uppercase px-6 py-4 hover:bg-white transition-colors duration-300 text-center w-full">
                                     EXPLORE COLLECTION
                                 </a>
