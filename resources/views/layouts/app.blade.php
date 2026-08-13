@@ -14,10 +14,6 @@
     <meta property="og:description" content="@yield('meta_description', 'Clementine — Curated luxury timepieces with authenticated provenance. Explore Swiss-made mechanical watches, limited editions, and exclusive collections with secure worldwide delivery.')">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
     <!-- Dependencies bundled via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
