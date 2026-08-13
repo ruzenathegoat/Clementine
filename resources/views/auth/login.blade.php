@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Login - Clementine')
+@section('meta_description', 'Sign in to your Clementine account. Access your collection, track acquisitions, and manage your membership.')
 
 @section('content')
 <div class="px-lg py-xl max-w-6xl mx-auto w-full min-h-[80vh] flex items-center justify-center">

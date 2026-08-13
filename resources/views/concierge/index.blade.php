@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Concierge | Clementine')
+@section('meta_description', 'Speak directly with a Clementine specialist. Our concierge service provides personalized assistance for watch inquiries, orders, and exclusive requests.')
 
 @section('content')
 <div class="w-full bg-background min-h-screen flex flex-col pt-[80px]">

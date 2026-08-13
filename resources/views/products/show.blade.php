@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'CLEMENTINE | ' . strtoupper($product->name))
+@section('meta_description', $product->name . ' — ' . ($product->tagline ?? 'Authenticated luxury timepiece') . '. Verified provenance, secure allocation, and worldwide insured delivery from Clementine.')
 
 @section('content')
 

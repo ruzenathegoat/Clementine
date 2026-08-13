@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Register - Clementine')
+@section('meta_description', 'Create your Clementine account. Join our community of watch enthusiasts and gain access to exclusive drops, VIP allocations, and authenticated timepieces.')
 
 @section('content')
 <div class="px-lg py-xl max-w-6xl mx-auto w-full min-h-[80vh] flex items-center justify-center">

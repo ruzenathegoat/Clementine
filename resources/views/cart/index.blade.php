@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Your Collection - Clementine')
+@section('meta_description', 'Review your selected timepieces before completing your acquisition at Clementine.')
 
 @section('content')
 <div id="cart-environment" class="relative w-full min-h-screen bg-white text-black font-body-md overflow-hidden" 

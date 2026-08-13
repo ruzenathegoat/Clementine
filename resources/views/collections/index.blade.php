@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Collections - Clementine')
+@section('meta_description', 'Explore Clementine\'s curated watch collections — from heritage classics to modern limited editions. Each collection is a story of craft, precision, and provenance.')
 
 @push('styles')
 <style>

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Shop All Watches - Clementine')
+@section('meta_description', 'Browse the full Clementine catalog — authenticated luxury watches from the world\'s finest makers. Filter by collection, material, movement, and price. Secure allocation available.')
 
 @section('content')
 

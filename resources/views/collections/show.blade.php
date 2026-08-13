@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', strtoupper($collection->name) . ' - Archive')
+@section('meta_description', $collection->name . ' collection — Explore authenticated timepieces in the ' . $collection->name . ' archive. Every watch is verified for provenance and quality by Clementine.')
 
 @push('styles')
 <style>

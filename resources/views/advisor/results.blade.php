@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Smart Advisor Results - Clementine')
+@section('meta_description', 'Your personalized watch recommendations from Clementine\'s Smart Advisor — curated selections based on your style, budget, and preferences.')
 
 @section('content')
 

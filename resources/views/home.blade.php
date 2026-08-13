@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Clementine')
+@section('meta_description', 'Discover Clementine — your gateway to authenticated luxury watches. Curated Swiss-made mechanical timepieces, exclusive drops, and verified provenance with every acquisition.')
 
 @section('content')
 <div class="w-full">

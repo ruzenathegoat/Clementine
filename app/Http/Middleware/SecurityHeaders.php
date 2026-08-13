@@ -29,18 +29,48 @@ class SecurityHeaders
 
         // Framing policy. By default the site may only be framed by itself.
         $ancestors = config('security.frame_ancestors', []);
-        
-        // 1 & 4. CSP efektif & Trusted Types
         $csp = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
-            "style-src 'self' 'unsafe-inline' https:",
-            "img-src 'self' data: https:",
-            "font-src 'self' data: https:",
-            "connect-src 'self' wss: https:",
+
+            // Scripts: only the CDNs we actually load from
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+                . " https://cdnjs.cloudflare.com"       // GSAP
+                . " https://cdn.jsdelivr.net"            // Alpine.js, Lenis
+                . " https://unpkg.com"                   // SplitType, Phosphor Icons
+                . " https://code.highcharts.com"         // Highcharts (admin)
+                . " https://www.googletagmanager.com"    // GA gtag loader
+                . " https://www.google-analytics.com",   // GA beacons
+
+            // Styles: font providers + inline styles (Tailwind, blade)
+            "style-src 'self' 'unsafe-inline'"
+                . " https://fonts.googleapis.com"
+                . " https://api.fontshare.com",
+
+            // Images: own domain, data URIs, Supabase bucket, QR generator
+            "img-src 'self' data: blob:"
+                . " https://qcrmvarkayzimbjyolum.supabase.co"
+                . " https://api.qrserver.com"
+                . " https://www.googletagmanager.com",
+
+            // Fonts: Google Fonts files + Fontshare CDN
+            "font-src 'self' data:"
+                . " https://fonts.gstatic.com"
+                . " https://api.fontshare.com"
+                . " https://cdn.fontshare.com",
+
+            // XHR / Fetch / WebSocket connections
+            "connect-src 'self'"
+                . " wss://ws-ap1.pusher.com"             // Pusher WebSocket
+                . " https://sockjs-ap1.pusher.com"       // Pusher fallback
+                . " https://stats.pusher.com"            // Pusher stats
+                . " https://www.google-analytics.com"    // GA events
+                . " https://www.googletagmanager.com"    // GA config
+                . " https://analytics.google.com"        // GA4 events
+                . " https://qcrmvarkayzimbjyolum.supabase.co"  // Supabase API
+                . " https://qcrmvarkayzimbjyolum.storage.supabase.co", // Supabase S3
+
             "object-src 'none'",
             "base-uri 'self'",
-            "require-trusted-types-for 'script'",
         ];
 
         if (empty($ancestors)) {
@@ -49,7 +79,7 @@ class SecurityHeaders
             $response->headers->remove('X-Frame-Options');
             $csp[] = "frame-ancestors 'self' " . implode(' ', $ancestors);
         }
-        
+
         $response->headers->set('Content-Security-Policy', implode('; ', $csp));
 
         return $response;

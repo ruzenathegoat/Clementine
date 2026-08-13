@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Clementine Documentation')
+@section('meta_description', 'Everything you need to know about Clementine — authentication process, ordering, shipping, returns, warranty, membership tiers, privacy policy, and frequently asked questions.')
 
 @section('content')
 <div class="w-full bg-primary text-secondary min-h-screen pt-24 pb-24">

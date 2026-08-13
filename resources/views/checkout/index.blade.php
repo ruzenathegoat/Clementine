@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Final Verification - Clementine')
+@section('meta_description', 'Complete your acquisition at Clementine. Secure checkout with insured worldwide delivery for your authenticated timepiece.')
 
 @section('content')
 <!-- DROP CINEMATIC OVERLAY -->
