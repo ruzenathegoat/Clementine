@@ -16,7 +16,7 @@
             <!-- Mobile Video Hero (1.4MB) -->
             <video 
                 class="block md:hidden absolute inset-0 w-full h-full object-cover" 
-                src="https://cdn.clementine.my.id/hero/hero-mobile.mp4" 
+                src="https://cdn.clementine.my.id/hero/hero/hero-mobile.mp4" 
                 poster="{{ isset($newArrivals) && $newArrivals->first() && $newArrivals->first()->primaryImage ? $newArrivals->first()->primaryImage->url : asset('fallback-hero.jpg') }}"
                 autoplay loop muted playsinline preload="auto">
             </video>
