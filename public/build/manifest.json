@@ -286,10 +286,6 @@
     "file": "assets/instrument-serif-latin-ext-400-italic-C9HzH3YL.woff2",
     "src": "node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-ext-400-italic.woff2"
   },
-  "node_modules/material-symbols/material-symbols-outlined.woff2": {
-    "file": "assets/material-symbols-outlined-Bz-4pmf0.woff2",
-    "src": "node_modules/material-symbols/material-symbols-outlined.woff2"
-  },
   "resources/css/admin.css": {
     "file": "assets/admin-OGMFXZeC.css",
     "name": "admin",
@@ -300,7 +296,7 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-CQfKY42Y.css",
+    "file": "assets/app-Do-QmK1O.css",
     "name": "app",
     "names": [
       "app.css"
@@ -360,8 +356,12 @@
       "assets/instrument-serif-latin-ext-400-italic-D7-lnxEk.woff",
       "assets/instrument-serif-latin-400-italic-DKMiL14s.woff2",
       "assets/instrument-serif-latin-400-italic-u__WvvIK.woff",
-      "assets/material-symbols-outlined-Bz-4pmf0.woff2"
+      "assets/material-symbols-subset-BF6ixBLn.woff2"
     ]
+  },
+  "resources/css/fonts/material-symbols-subset.woff2": {
+    "file": "assets/material-symbols-subset-BF6ixBLn.woff2",
+    "src": "resources/css/fonts/material-symbols-subset.woff2"
   },
   "resources/js/app.js": {
     "file": "assets/app-C4zaL-Cz.js",
