@@ -1551,10 +1551,18 @@
 
     } // End initAnimations
 
+    function runAnimations() {
+        if (typeof gsap !== 'undefined' && typeof SplitType !== 'undefined') {
+            initAnimations();
+        } else {
+            setTimeout(runAnimations, 50);
+        }
+    }
+
     if (sessionStorage.getItem('preloaderShown')) {
-        initAnimations();
+        runAnimations();
     } else {
-        window.addEventListener('preloaderFinished', initAnimations);
+        window.addEventListener('preloaderFinished', runAnimations);
     }
 
     // CRM Drop Countdown Logic & Stock Polling
