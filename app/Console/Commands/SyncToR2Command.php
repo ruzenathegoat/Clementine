@@ -30,28 +30,28 @@ class SyncToR2Command extends Command
         $r2 = Storage::disk('r2');
         $force = $this->option('force');
 
-        $mapping = [
-            'images/products' => 'products',
-            'hero-sequence' => 'hero',
-            'magazine' => 'magazine',
+        $directoriesToSync = [
+            'hero',
+            'magazine',
+            'wm_notes',
         ];
 
-        $this->info('Starting sync to Cloudflare R2 with specific folder mapping...');
+        $this->info('Starting sync to Cloudflare R2...');
 
         $syncedCount = 0;
         $skippedCount = 0;
 
-        foreach ($mapping as $localDir => $targetDir) {
-            $localPath = public_path($localDir);
+        foreach ($directoriesToSync as $dir) {
+            $localPath = public_path($dir);
             
             if (!File::isDirectory($localPath)) {
-                $this->warn("Directory public/{$localDir} does not exist. Skipping.");
+                $this->warn("Directory public/{$dir} does not exist. Skipping.");
                 continue;
             }
 
             $files = File::allFiles($localPath);
             
-            $this->info("Found " . count($files) . " files in public/{$localDir}. Syncing to R2 folder '{$targetDir}'...");
+            $this->info("Found " . count($files) . " files in public/{$dir}. Syncing to R2 folder '{$dir}'...");
             
             $bar = $this->output->createProgressBar(count($files));
             $bar->start();
@@ -60,12 +60,7 @@ class SyncToR2Command extends Command
                 $relativePathname = str_replace('\\', '/', $file->getRelativePathname());
                 
                 // Map to target directory
-                $relativePath = $targetDir . '/' . $relativePathname;
-                
-                // Special case for watchmaker notes
-                if ($targetDir === 'products' && in_array($relativePathname, ['Balance-wheel.webp', 'sapphire-crystal.jpg'])) {
-                    $relativePath = 'wm_notes/' . $relativePathname;
-                }
+                $relativePath = $dir . '/' . $relativePathname;
                 
                 // Check if file already exists in R2
                 if (!$force && $r2->exists($relativePath)) {
