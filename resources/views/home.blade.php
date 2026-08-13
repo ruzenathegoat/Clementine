@@ -539,7 +539,7 @@
                             
                             <!-- Image with clipping mask reveal -->
                             <div class="note-img-wrapper w-full aspect-video bg-[#FAFAFA] overflow-hidden mb-10 relative">
-                                <img src="{{ cdn_asset('images/products/Balance-wheel.webp') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
+                                <img src="{{ cdn_asset('wm_notes/Balance-wheel.webp') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
                             </div>
 
                             <h3 class="note-title font-h1 text-3xl md:text-5xl uppercase mb-6 transition-transform duration-500">Balance Wheel</h3>
@@ -580,7 +580,7 @@
                             <h3 class="note-title font-h1 text-2xl md:text-4xl uppercase mb-6 transition-transform duration-500">Sapphire Crystal</h3>
                             
                             <div class="note-img-wrapper w-full aspect-square bg-[#FAFAFA] overflow-hidden mb-8 relative">
-                                <img src="{{ cdn_asset('images/products/sapphire-crystal.jpg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
+                                <img src="{{ cdn_asset('wm_notes/sapphire-crystal.jpg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
                             </div>
                             
                             <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed">
@@ -680,7 +680,7 @@
             window.addEventListener("resize", resizeCanvas);
 
             const frameCount = 240;
-            const basePath = "{{ cdn_asset('hero-sequence/ezgif.com-webp-maker-') }}";
+            const basePath = "{{ cdn_asset('hero/ezgif.com-webp-maker-') }}";
             const currentFrame = index => `${basePath}${index + 1}.webp`;
 
             const images = [];

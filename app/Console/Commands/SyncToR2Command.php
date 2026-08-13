@@ -30,35 +30,42 @@ class SyncToR2Command extends Command
         $r2 = Storage::disk('r2');
         $force = $this->option('force');
 
-        $directoriesToSync = [
-            'images',
-            'hero-sequence'
+        $mapping = [
+            'images/products' => 'products',
+            'hero-sequence' => 'hero',
+            'magazine' => 'magazine',
         ];
 
-        $this->info('Starting sync to Cloudflare R2...');
+        $this->info('Starting sync to Cloudflare R2 with specific folder mapping...');
 
         $syncedCount = 0;
         $skippedCount = 0;
 
-        foreach ($directoriesToSync as $dir) {
-            $localPath = public_path($dir);
+        foreach ($mapping as $localDir => $targetDir) {
+            $localPath = public_path($localDir);
             
             if (!File::isDirectory($localPath)) {
-                $this->warn("Directory public/{$dir} does not exist. Skipping.");
+                $this->warn("Directory public/{$localDir} does not exist. Skipping.");
                 continue;
             }
 
             $files = File::allFiles($localPath);
             
-            $this->info("Found " . count($files) . " files in public/{$dir}. Syncing...");
+            $this->info("Found " . count($files) . " files in public/{$localDir}. Syncing to R2 folder '{$targetDir}'...");
             
             $bar = $this->output->createProgressBar(count($files));
             $bar->start();
 
             foreach ($files as $file) {
-                // Get relative path (e.g. images/products/file.jpg)
-                $relativePath = $dir . '/' . $file->getRelativePathname();
-                $relativePath = str_replace('\\', '/', $relativePath);
+                $relativePathname = str_replace('\\', '/', $file->getRelativePathname());
+                
+                // Map to target directory
+                $relativePath = $targetDir . '/' . $relativePathname;
+                
+                // Special case for watchmaker notes
+                if ($targetDir === 'products' && in_array($relativePathname, ['Balance-wheel.webp', 'sapphire-crystal.jpg'])) {
+                    $relativePath = 'wm_notes/' . $relativePathname;
+                }
                 
                 // Check if file already exists in R2
                 if (!$force && $r2->exists($relativePath)) {
