@@ -68,8 +68,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getAvatarUrlAttribute(): string
     {
         if ($this->avatar) {
-            if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
-                return $this->avatar;
+            // Rewrite legacy Supabase URLs to Cloudflare R2
+            $supabasePrefix = 'https://qcrmvarkayzimbjyolum.supabase.co/storage/v1/object/public/';
+            $r2Url = rtrim(config('filesystems.disks.r2.url'), '/');
+            
+            $avatar = $this->avatar;
+            if (!empty($r2Url) && str_contains($avatar, $supabasePrefix)) {
+                $avatar = str_replace($supabasePrefix, $r2Url . '/', $avatar);
+            }
+
+            if (filter_var($avatar, FILTER_VALIDATE_URL)) {
+                return $avatar;
             }
             
             $disk = config('filesystems.default');
