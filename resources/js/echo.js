@@ -1,12 +1,21 @@
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
+/**
+ * Lazy-load Echo + Pusher only when needed (concierge chat pages).
+ * Call window.initEcho() before using window.Echo.
+ */
+window.initEcho = async function () {
+    if (window.Echo) return; // already initialised
 
-window.Pusher = Pusher;
-Pusher.logToConsole = true;
+    const [{ default: Echo }, { default: Pusher }] = await Promise.all([
+        import('laravel-echo'),
+        import('pusher-js'),
+    ]);
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-    forceTLS: true
-});
+    window.Pusher = Pusher;
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+        forceTLS: true,
+    });
+};

@@ -20,24 +20,37 @@ class SecurityHeaders
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        
+        // 2. Menggunakan kebijakan HSTS yang kuat
+        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        
+        // 3. Memastikan isolasi origin yang tepat dengan COOP
+        $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin');
 
         // Framing policy. By default the site may only be framed by itself.
-        // If config/security.php lists frame_ancestors (via the FRAME_ANCESTORS
-        // env var), allow those origins to embed the site instead. We express
-        // that allowlist with CSP frame-ancestors and drop X-Frame-Options:
-        // XFO has no reliable allowlist form, and browsers that see both may
-        // still enforce the stricter XFO, which would defeat the allowlist.
         $ancestors = config('security.frame_ancestors', []);
+        
+        // 1 & 4. CSP efektif & Trusted Types
+        $csp = [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
+            "style-src 'self' 'unsafe-inline' https:",
+            "img-src 'self' data: https:",
+            "font-src 'self' data: https:",
+            "connect-src 'self' wss: https:",
+            "object-src 'none'",
+            "base-uri 'self'",
+            "require-trusted-types-for 'script'",
+        ];
 
         if (empty($ancestors)) {
             $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         } else {
             $response->headers->remove('X-Frame-Options');
-            $response->headers->set(
-                'Content-Security-Policy',
-                "frame-ancestors 'self' ".implode(' ', $ancestors),
-            );
+            $csp[] = "frame-ancestors 'self' " . implode(' ', $ancestors);
         }
+        
+        $response->headers->set('Content-Security-Policy', implode('; ', $csp));
 
         return $response;
     }

@@ -19,9 +19,9 @@
         
         <!-- Large Typography -->
         <div class="relative z-10 w-full overflow-hidden flex justify-center" id="footer-title-container">
-            <h1 class="font-h1 text-[clamp(4rem,15vw,22rem)] leading-[0.8] tracking-tighter uppercase text-center text-primary" id="footer-title" style="transform: translateY(100%);">
+            <h2 class="font-h1 text-[clamp(4rem,15vw,22rem)] leading-[0.8] tracking-tighter uppercase text-center text-primary" id="footer-title" style="transform: translateY(100%);">
                 CLEMENTINE
-            </h1>
+            </h2>
         </div>
         
         <!-- Footer Arrival Background -->

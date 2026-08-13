@@ -180,10 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
             closingCountdown: null,
             resolvedBy: '',
             
-            initChat() {
+            async initChat() {
                 this.scrollToBottom();
                 
-                if (typeof window.Echo !== 'undefined') {
+                await window.initEcho();
+                if (window.Echo) {
                     window.Echo.private(`ticket.${this.ticketId}`)
                         .listen('.message.sent', (e) => {
                             this.newMessages.push(e.message);
