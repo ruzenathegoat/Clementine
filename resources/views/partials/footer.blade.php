@@ -127,7 +127,7 @@
         <div class="flex flex-col md:flex-row justify-between items-center font-body-md text-[10px] md:text-xs font-bold uppercase tracking-widest gap-8 opacity-0" id="footer-bottom-area">
             <div class="text-primary/60">©2026 CLEMENTINE. ALL RIGHTS RESERVED.</div>
             <div class="flex gap-12">
-                <a href="https://www.instagram.com" target="_blank" class="social-link block origin-center">INSTAGRAM</a>
+                <a href="https://www.instagram.com/naufalrahmaann/" target="_blank" class="social-link block origin-center">INSTAGRAM</a>
                 <a href="#" class="social-link block origin-center">TWITTER</a>
                 <a href="#" class="social-link block origin-center">FACEBOOK</a>
                 <a href="#" class="social-link block origin-center">LINKEDIN</a>
@@ -412,7 +412,7 @@
         <div class="flex flex-col md:flex-row justify-between items-center px-lg md:px-2xl py-8 font-body-md text-[10px] md:text-xs font-bold uppercase tracking-widest gap-8">
             <div class="{{ $isDocs ? 'opacity-40' : 'opacity-60' }}">©2026 CLEMENTINE. ALL RIGHTS RESERVED.</div>
             <div class="flex gap-12">
-                <a href="https://www.instagram.com" target="_blank" class="transition-opacity {{ $linkHover }}">INSTAGRAM</a>
+                <a href="https://www.instagram.com/naufalrahmaann/" target="_blank" class="transition-opacity {{ $linkHover }}">INSTAGRAM</a>
                 <a href="#" class="transition-opacity {{ $linkHover }}">TWITTER</a>
                 <a href="#" class="transition-opacity {{ $linkHover }}">FACEBOOK</a>
                 <a href="#" class="transition-opacity {{ $linkHover }}">LINKEDIN</a>
