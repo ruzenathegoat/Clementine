@@ -51,6 +51,33 @@
     "file": "assets/instrument-sans-600-normal-DMks36a2.woff",
     "src": "_instrument-sans-600-normal-DMks36a2.woff"
   },
+  "_rolldown-runtime-QTnfLwEv.js": {
+    "file": "assets/rolldown-runtime-QTnfLwEv.js",
+    "name": "rolldown-runtime"
+  },
+  "_vendor-4pKkYlcE.js": {
+    "file": "assets/vendor-4pKkYlcE.js",
+    "name": "vendor",
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js"
+    ]
+  },
+  "_vendor-alpine-O7LJSA52.js": {
+    "file": "assets/vendor-alpine-O7LJSA52.js",
+    "name": "vendor-alpine"
+  },
+  "_vendor-gsap-DDi3XPDo.js": {
+    "file": "assets/vendor-gsap-DDi3XPDo.js",
+    "name": "vendor-gsap"
+  },
+  "_vendor-lenis-DIx8pWKM.js": {
+    "file": "assets/vendor-lenis-DIx8pWKM.js",
+    "name": "vendor-lenis"
+  },
+  "_vendor-split-type-D-yVSjPr.js": {
+    "file": "assets/vendor-split-type-D-yVSjPr.js",
+    "name": "vendor-split-type"
+  },
   "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-400-normal.woff": {
     "file": "assets/ibm-plex-sans-cyrillic-400-normal-BTotfTJu.woff",
     "src": "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-400-normal.woff"
@@ -259,24 +286,9 @@
     "file": "assets/instrument-serif-latin-ext-400-italic-C9HzH3YL.woff2",
     "src": "node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-ext-400-italic.woff2"
   },
-  "node_modules/laravel-echo/dist/echo.js": {
-    "file": "assets/echo-DkL-jTv6.js",
-    "name": "echo",
-    "src": "node_modules/laravel-echo/dist/echo.js",
-    "isDynamicEntry": true
-  },
   "node_modules/material-symbols/material-symbols-outlined.woff2": {
     "file": "assets/material-symbols-outlined-Bz-4pmf0.woff2",
     "src": "node_modules/material-symbols/material-symbols-outlined.woff2"
-  },
-  "node_modules/pusher-js/dist/web/pusher.js": {
-    "file": "assets/pusher-BS2TjJcq.js",
-    "name": "pusher",
-    "src": "node_modules/pusher-js/dist/web/pusher.js",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.js"
-    ]
   },
   "resources/css/admin.css": {
     "file": "assets/admin-OGMFXZeC.css",
@@ -352,13 +364,20 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-BqskAcWH.js",
+    "file": "assets/app-C4zaL-Cz.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-QTnfLwEv.js",
+      "_vendor-4pKkYlcE.js",
+      "_vendor-gsap-DDi3XPDo.js",
+      "_vendor-split-type-D-yVSjPr.js",
+      "_vendor-lenis-DIx8pWKM.js",
+      "_vendor-alpine-O7LJSA52.js"
+    ],
     "dynamicImports": [
-      "node_modules/laravel-echo/dist/echo.js",
-      "node_modules/pusher-js/dist/web/pusher.js"
+      "_vendor-4pKkYlcE.js"
     ]
   }
 }
