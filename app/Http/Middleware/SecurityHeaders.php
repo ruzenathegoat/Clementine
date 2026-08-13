@@ -39,18 +39,20 @@ class SecurityHeaders
                 . " https://unpkg.com"                   // SplitType, Phosphor Icons
                 . " https://code.highcharts.com"         // Highcharts (admin)
                 . " https://www.googletagmanager.com"    // GA gtag loader
-                . " https://www.google-analytics.com",   // GA beacons
+                . " https://www.google-analytics.com"    // GA beacons
+                . " https://static.cloudflareinsights.com", // Cloudflare Web Analytics
 
             // Styles: font providers + inline styles (Tailwind, blade)
             "style-src 'self' 'unsafe-inline'"
                 . " https://fonts.googleapis.com"
                 . " https://api.fontshare.com",
 
-            // Images: own domain, data URIs, Supabase bucket, QR generator
+            // Images: own domain, data URIs, Supabase bucket, QR generator, magazine covers
             "img-src 'self' data: blob:"
                 . " https://qcrmvarkayzimbjyolum.supabase.co"
                 . " https://api.qrserver.com"
-                . " https://www.googletagmanager.com",
+                . " https://www.googletagmanager.com"
+                . " https://monochrome-watches.com",
 
             // Fonts: Google Fonts files + Fontshare CDN
             "font-src 'self' data:"
