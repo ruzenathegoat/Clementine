@@ -14,6 +14,10 @@
     <meta property="og:description" content="@yield('meta_description', 'Clementine — Curated luxury timepieces with authenticated provenance. Explore Swiss-made mechanical watches, limited editions, and exclusive collections with secure worldwide delivery.')">
     <meta name="twitter:card" content="summary_large_image">
 
+    <!-- Preconnect for external resources -->
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
     <!-- Dependencies bundled via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

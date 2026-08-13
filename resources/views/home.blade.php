@@ -1553,6 +1553,11 @@
 
     function runAnimations() {
         if (typeof gsap !== 'undefined' && typeof SplitType !== 'undefined') {
+            
+            if (typeof Flip !== 'undefined') {
+                gsap.registerPlugin(Flip);
+            }
+
             // Defer heavy DOM measurement (SplitType, ScrollTrigger) to idle time 
             // to eliminate forced synchronous layout (Ubah posisi/geometri yang dipaksa)
             if ('requestIdleCallback' in window) {
@@ -1678,10 +1683,5 @@
     }, 5000);
 
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
-<script>
-    if (typeof gsap !== 'undefined' && typeof Flip !== 'undefined') {
-        gsap.registerPlugin(Flip);
-    }
-</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
 @endsection
