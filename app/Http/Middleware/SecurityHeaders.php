@@ -52,7 +52,8 @@ class SecurityHeaders
                 . " https://qcrmvarkayzimbjyolum.supabase.co"
                 . " https://api.qrserver.com"
                 . " https://www.googletagmanager.com"
-                . " https://monochrome-watches.com",
+                . " https://monochrome-watches.com"
+                . " https://cdn.clementine.my.id",
 
             // Fonts: Google Fonts files + Fontshare CDN
             "font-src 'self' data:"
@@ -69,7 +70,8 @@ class SecurityHeaders
                 . " https://www.googletagmanager.com"    // GA config
                 . " https://analytics.google.com"        // GA4 events
                 . " https://qcrmvarkayzimbjyolum.supabase.co"  // Supabase API
-                . " https://qcrmvarkayzimbjyolum.storage.supabase.co", // Supabase S3
+                . " https://qcrmvarkayzimbjyolum.storage.supabase.co" // Supabase S3
+                . " https://cdn.clementine.my.id",
 
             "object-src 'none'",
             "base-uri 'self'",
