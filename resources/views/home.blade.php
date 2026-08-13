@@ -15,11 +15,21 @@
             
             <!-- Mobile Video Hero (1.4MB) -->
             <video 
+                id="mobile-hero-video"
                 class="block md:hidden absolute inset-0 w-full h-full object-cover" 
-                src="https://cdn.clementine.my.id/hero/hero-mobile.mp4" 
                 poster="{{ isset($newArrivals) && $newArrivals->first() && $newArrivals->first()->primaryImage ? $newArrivals->first()->primaryImage->url : asset('fallback-hero.jpg') }}"
                 autoplay loop muted playsinline preload="auto">
+                <source src="https://cdn.clementine.my.id/hero/hero-mobile.mp4" type="video/mp4">
             </video>
+            <script nonce="{{ $cspNonce }}">
+                document.addEventListener('DOMContentLoaded', () => {
+                    const vid = document.getElementById('mobile-hero-video');
+                    if (vid && window.innerWidth < 768) {
+                        // Force play to bypass strict iOS/Android autoplay policies
+                        vid.play().catch(err => console.log("Autoplay blocked by browser:", err));
+                    }
+                });
+            </script>
             
             <!-- Dark Overlay for Contrast -->
             <div class="absolute inset-0 bg-primary/60 z-10"></div>
