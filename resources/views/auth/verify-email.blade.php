@@ -77,7 +77,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', () => {
         // --- GSAP Staggered Reveal Animation ---
         if (typeof gsap !== 'undefined') {

@@ -13,12 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Phosphor Icons (Light) -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script nonce="{{ $cspNonce }}" src="https://unpkg.com/@phosphor-icons/web"></script>
 
     @vite(['resources/css/admin.css', 'resources/js/app.js'])
     
     <!-- Alpine.js for interactivity -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script nonce="{{ $cspNonce }}" defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <style>
         /* Map Plus Jakarta Sans to our admin-sans variable if needed */
@@ -167,7 +167,7 @@
     </main>
 
     <!-- Scroll entry animation script -->
-    <script>
+    <script nonce="{{ $cspNonce }}">
         document.addEventListener('DOMContentLoaded', () => {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {

@@ -310,7 +310,7 @@
 </div>
 
 <!-- AJAX Logic for Certificate Lookup -->
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', () => {
 
         // =========================================================

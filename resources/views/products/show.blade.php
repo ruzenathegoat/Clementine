@@ -269,7 +269,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', function () {
     // ---------------------------------------------------------
     // GSAP MASTER TIMELINE: Private Inspection Room

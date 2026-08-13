@@ -112,7 +112,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', () => {
     // Check if GSAP is available
     if (typeof gsap !== 'undefined') {

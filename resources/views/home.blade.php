@@ -185,7 +185,7 @@
         </div>
     </section>
 
-    <script>
+    <script nonce="{{ $cspNonce }}">
         document.addEventListener('DOMContentLoaded', () => {
             const btn = document.getElementById('verifyBtn');
             const input = document.getElementById('serialInput');
@@ -225,7 +225,7 @@
     @if(isset($theDrop) && $theDrop->isNotEmpty())
 
     <!-- 2.5 THE DROP — Private Allocation Room -->
-    <script>
+    <script nonce="{{ $cspNonce }}">
         window.isVip = {{ auth()->user()?->is_vip ? 'true' : 'false' }};
         window.serverTimeOffset = Date.now() - {{ time() * 1000 }};
     </script>
@@ -647,7 +647,7 @@
     
 <x-magazine-section />
 
-<script>
+<script nonce="{{ $cspNonce }}">
     // Page-specific GSAP animations
     function initAnimations() {
         
@@ -1683,5 +1683,5 @@
     }, 5000);
 
 </script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<script defer nonce="{{ $cspNonce }}" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
 @endsection

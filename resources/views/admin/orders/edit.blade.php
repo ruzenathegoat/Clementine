@@ -444,7 +444,7 @@
     }
 </style>
 
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', function() {
         const statusSelect = document.getElementById('status');
         const trackingSection = document.getElementById('tracking-section');

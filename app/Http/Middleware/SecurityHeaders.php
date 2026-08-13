@@ -15,6 +15,11 @@ class SecurityHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // 1. Generate CSP Nonce
+        $nonce = \Illuminate\Support\Str::random(32);
+        \Illuminate\Support\Facades\View::share('cspNonce', $nonce);
+        \Illuminate\Support\Facades\Vite::useCspNonce($nonce);
+
         $response = $next($request);
 
         $response->headers->set('X-Content-Type-Options', 'nosniff');
@@ -33,7 +38,7 @@ class SecurityHeaders
             "default-src 'self'",
 
             // Scripts: only the CDNs we actually load from
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+            "script-src 'self' 'nonce-{$nonce}' 'unsafe-eval'"
                 . " https://cdnjs.cloudflare.com"       // GSAP
                 . " https://cdn.jsdelivr.net"            // Alpine.js, Lenis
                 . " https://unpkg.com"                   // SplitType, Phosphor Icons

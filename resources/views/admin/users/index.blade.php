@@ -140,9 +140,9 @@
     </div>
 </div>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script>
+<script nonce="{{ $cspNonce }}" src="https://code.highcharts.com/highcharts.js"></script>
+<script nonce="{{ $cspNonce }}" src="https://code.highcharts.com/highcharts-more.js"></script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const biData = @json($biData ?? []);
 

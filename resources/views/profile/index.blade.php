@@ -591,7 +591,7 @@
     </template>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('alpine:init', () => {
         Alpine.data('archiveProfile', () => ({
             activeTab: 'identity',

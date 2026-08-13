@@ -96,7 +96,7 @@
             animation: none !important;
         }
     </style>
-    <script>
+    <script nonce="{{ $cspNonce }}">
         // Check session storage instantly before body renders
         if (sessionStorage.getItem('preloaderShown')) {
             document.documentElement.classList.add('skip-preloader');
@@ -108,7 +108,7 @@
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > {{ request()->routeIs('home') ? '(window.innerHeight * 2.9)' : '50' }})">
 
     <!-- Preloader -->
-    <script>
+    <script nonce="{{ $cspNonce }}">
         if (document.documentElement.classList.contains('skip-preloader')) {
             document.write('<div id="preloader" class="hide-preloader"></div>');
         } else {
@@ -250,7 +250,7 @@
     </div>
 
     <!-- Initialized Lenis and GSAP animations -->
-    <script type="module">
+    <script type="module" nonce="{{ $cspNonce }}">
         document.addEventListener('DOMContentLoaded', () => {
 
             // Initialize Lenis
@@ -411,7 +411,7 @@
     </div>
 
     <!-- Global Loader Script (Motion.dev) -->
-    <script>
+    <script nonce="{{ $cspNonce }}">
         document.addEventListener('DOMContentLoaded', () => {
             const loaderContainer = document.getElementById('global-page-loader');
             const loaderBar = document.getElementById('page-loader-bar');

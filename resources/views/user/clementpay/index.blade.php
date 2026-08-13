@@ -612,7 +612,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', () => {
     // Bail gracefully if GSAP is not available — page stays fully visible and interactive
     if (typeof gsap === 'undefined') return;

@@ -143,7 +143,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', () => {
     // Check if GSAP is available (it should be loaded in app.blade.php)
     if (typeof gsap !== 'undefined') {

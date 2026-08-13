@@ -1,6 +1,6 @@
 @if(config('services.google_analytics.id'))
     <!-- Google tag (gtag.js) Deferred -->
-    <script>
+    <script nonce="{{ $cspNonce }}">
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());

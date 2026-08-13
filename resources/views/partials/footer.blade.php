@@ -154,7 +154,7 @@
     </div>
 </footer>
 
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', () => {
         // Reduced Motion Check
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

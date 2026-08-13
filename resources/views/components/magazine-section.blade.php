@@ -104,7 +104,7 @@
 </section>
 
 <!-- GSAP Script for Editorial Magazine Motion -->
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', () => {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 

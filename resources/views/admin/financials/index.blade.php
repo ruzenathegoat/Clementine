@@ -156,8 +156,8 @@
     $chartRevenue = array_map(function($item) { return (float)$item['revenue']; }, array_values($dailyData));
 @endphp
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script>
+<script nonce="{{ $cspNonce }}" src="https://code.highcharts.com/highcharts.js"></script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const categories = @json($chartCategories);
     const revenueData = @json($chartRevenue);

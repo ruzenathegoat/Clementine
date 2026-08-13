@@ -136,7 +136,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('alpine:init', () => {
     Alpine.data('cartState', (initialState) => ({
         subtotal: initialState.subtotal,

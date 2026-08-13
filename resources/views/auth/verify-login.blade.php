@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', function() {
         setInterval(function() {
             fetch('{{ route("login.check_status") }}', {

@@ -142,7 +142,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $cspNonce }}">
 document.addEventListener('DOMContentLoaded', () => {
     // Header sequence
     const tl = gsap.timeline();
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 @if($ticket)
-<script>
+<script nonce="{{ $cspNonce }}">
     document.addEventListener('alpine:init', () => {
         Alpine.data('conciergeChat', (ticketId, userId) => ({
             ticketId: ticketId,
