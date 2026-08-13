@@ -1553,7 +1553,13 @@
 
     function runAnimations() {
         if (typeof gsap !== 'undefined' && typeof SplitType !== 'undefined') {
-            initAnimations();
+            // Defer heavy DOM measurement (SplitType, ScrollTrigger) to idle time 
+            // to eliminate forced synchronous layout (Ubah posisi/geometri yang dipaksa)
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => initAnimations());
+            } else {
+                setTimeout(initAnimations, 100);
+            }
         } else {
             setTimeout(runAnimations, 50);
         }
