@@ -7,11 +7,14 @@
 <div class="w-full">
     
     <!-- 1. Hero Section (Canvas Image Sequence) -->
-    <div class="relative w-full h-[300vh] border-b border-primary" id="hero-sequence-container">
+    <div class="relative w-full h-[100vh] md:h-[300vh] border-b border-primary" id="hero-sequence-container">
         <div class="sticky top-0 w-full h-screen overflow-hidden bg-primary flex flex-col justify-center items-center" id="hero-sequence-pinned">
             
-            <!-- Canvas for Image Sequence -->
-            <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
+            <!-- Canvas for Image Sequence (Desktop) -->
+            <canvas id="hero-canvas" class="hidden md:block absolute inset-0 w-full h-full object-cover"></canvas>
+            
+            <!-- Fallback Image (Mobile) -->
+            <img loading="lazy" decoding="async" src="{{ isset($newArrivals) && $newArrivals->first() && $newArrivals->first()->primaryImage ? $newArrivals->first()->primaryImage->url : asset('fallback-hero.jpg') }}" class="block md:hidden absolute inset-0 w-full h-full object-cover" alt="Hero" fetchpriority="high">
             
             <!-- Dark Overlay for Contrast -->
             <div class="absolute inset-0 bg-primary/60 z-10"></div>
@@ -53,7 +56,7 @@
     </div>
 
     <!-- 2. Brand Story Section -->
-    <div id="brand-story-section" class="w-full bg-primary text-secondary py-[150px] md:py-[250px] px-6 md:px-12 flex flex-col items-center justify-center border-b border-primary relative overflow-hidden">
+    <div id="brand-story-section" class="defer-render w-full bg-primary text-secondary py-[150px] md:py-[250px] px-6 md:px-12 flex flex-col items-center justify-center border-b border-primary relative overflow-hidden">
         <div class="w-full max-w-[850px] flex flex-col items-start mx-auto">
             
             <!-- Section Header -->
@@ -261,7 +264,7 @@
                         <!-- Product Image -->
                         <div class="relative z-10 w-full max-w-[560px] mx-auto drop-product-wrapper">
                             @if ($drop->primaryImage)
-                            <img src="{{ $drop->primaryImage->url }}" 
+                            <img loading="lazy" decoding="async" src="{{ $drop->primaryImage->url }}" 
                                  alt="{{ $drop->name }}" 
                                  class="drop-product-img w-full h-auto object-contain"
                                  style="opacity: 0; transform: translateY(60px); filter: brightness(0.92) contrast(1.05);" />
@@ -458,7 +461,7 @@
                         <!-- Floating Image Area -->
                         <div class="w-full aspect-square flex items-center justify-center relative mb-12">
                             @if ($product->primaryImage)
-                                <img src="{{ $product->primaryImage->url }}" 
+                                <img loading="lazy" decoding="async" src="{{ $product->primaryImage->url }}" 
                                      alt="{{ $product->name }}"
                                      class="product-image w-[80%] h-[80%] object-contain opacity-0 transform transition-all duration-500 ease-out group-hover/card:!-translate-y-3 group-hover/card:!brightness-100 group-hover/card:!contrast-105"
                                      style="transform: translateY(30px); filter: brightness(0.92) contrast(1);" />
@@ -493,7 +496,7 @@
     </div>
     
     <!-- 3.5 Watchmaker's Notes -->
-    <div id="notes-section" class="w-full bg-background relative border-b border-primary/20 overflow-hidden">
+    <div id="notes-section" class="defer-render w-full bg-background relative border-b border-primary/20 overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
             
             <!-- Left Sticky Column -->
@@ -539,7 +542,7 @@
                             
                             <!-- Image with clipping mask reveal -->
                             <div class="note-img-wrapper w-full aspect-video bg-[#FAFAFA] overflow-hidden mb-10 relative">
-                                <img src="{{ cdn_asset('wm_notes/Balance-wheel.webp') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
+                                <img loading="lazy" decoding="async" src="{{ cdn_asset('wm_notes/Balance-wheel.webp') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
                             </div>
 
                             <h3 class="note-title font-h1 text-3xl md:text-5xl uppercase mb-6 transition-transform duration-500">Balance Wheel</h3>
@@ -580,7 +583,7 @@
                             <h3 class="note-title font-h1 text-2xl md:text-4xl uppercase mb-6 transition-transform duration-500">Sapphire Crystal</h3>
                             
                             <div class="note-img-wrapper w-full aspect-square bg-[#FAFAFA] overflow-hidden mb-8 relative">
-                                <img src="{{ cdn_asset('wm_notes/sapphire-crystal.jpg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
+                                <img loading="lazy" decoding="async" src="{{ cdn_asset('wm_notes/sapphire-crystal.jpg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Sapphire Crystal" style="clip-path: inset(0 0 100% 0);">
                             </div>
                             
                             <p class="font-mono text-xs md:text-sm text-primary/70 leading-relaxed">
@@ -667,7 +670,7 @@
 
         // --- Canvas Image Sequence Logic ---
         const canvas = document.getElementById("hero-canvas");
-        if (canvas) {
+        if (canvas && window.matchMedia("(min-width: 768px)").matches) {
             const context = canvas.getContext("2d");
             
             // Set canvas size (update on resize)

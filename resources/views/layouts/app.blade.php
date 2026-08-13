@@ -91,9 +91,13 @@
         #preloader {
             animation: preloaderSlideUp 0.25s cubic-bezier(0.85, 0, 0.15, 1) 0.4s forwards;
         }
-        #preloader.hide-preloader {
+        html.skip-preloader #preloader {
             display: none !important;
             animation: none !important;
+        }
+        .defer-render {
+            content-visibility: auto;
+            contain-intrinsic-size: 800px;
         }
     </style>
     <script nonce="{{ $cspNonce }}">
@@ -108,20 +112,16 @@
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md relative" x-data="{ sidebarOpen: false, preloaderFinished: false, searchOpen: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > {{ request()->routeIs('home') ? '(window.innerHeight * 2.9)' : '50' }})">
 
     <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
+        <div class="font-body-md text-on-primary text-label-caps uppercase tracking-[0.2em] overflow-hidden">
+            <div class="inline-flex items-center gap-4 pb-1 preloader-text">
+                <x-logo class="w-10 h-10" />
+                <span>CLEMENTINE HOROLOGY</span>
+            </div>
+        </div>
+    </div>
     <script nonce="{{ $cspNonce }}">
-        if (document.documentElement.classList.contains('skip-preloader')) {
-            document.write('<div id="preloader" class="hide-preloader"></div>');
-        } else {
-            document.write(`
-                <div id="preloader" class="fixed inset-0 z-[100] bg-primary flex items-center justify-center pointer-events-none">
-                    <div class="font-body-md text-on-primary text-label-caps uppercase tracking-[0.2em] overflow-hidden">
-                        <div class="inline-flex items-center gap-4 pb-1 preloader-text">
-                            <x-logo class="w-10 h-10" />
-                            <span>CLEMENTINE HOROLOGY</span>
-                        </div>
-                    </div>
-                </div>
-            `);
+        if (!document.documentElement.classList.contains('skip-preloader')) {
             setTimeout(() => window.dispatchEvent(new Event('preloaderFinished')), 650);
         }
     </script>
@@ -254,25 +254,28 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             // Initialize Lenis
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                direction: 'vertical',
-                gestureDirection: 'vertical',
-                smooth: true,
-                mouseMultiplier: 1,
-                smoothTouch: false,
-                touchMultiplier: 2,
-                infinite: false,
-            });
+            let lenis = null;
+            if (window.matchMedia("(min-width: 768px)").matches) {
+                lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                    infinite: false,
+                });
 
-            window.lenis = lenis; // expose globally for page-specific scripts
-            
-            lenis.on('scroll', ScrollTrigger.update);
-            gsap.ticker.add((time)=>{
-                lenis.raf(time * 1000);
-            });
-            gsap.ticker.lagSmoothing(0);
+                window.lenis = lenis; // expose globally for page-specific scripts
+                
+                lenis.on('scroll', ScrollTrigger.update);
+                gsap.ticker.add((time)=>{
+                    lenis.raf(time * 1000);
+                });
+                gsap.ticker.lagSmoothing(0);
+            }
 
             // Navigation items stagger removed as it conflicts with preloader and CSS transitions
 
@@ -300,15 +303,21 @@
             // Simple navbar hide/show on scroll
             let lastScroll = 0;
             const nav = document.getElementById('main-nav');
-            lenis.on('scroll', (e) => {
-                const currentScroll = e.animatedScroll;
+            
+            const handleScroll = (currentScroll) => {
                 if (currentScroll > 100 && currentScroll > lastScroll) {
                     nav.style.transform = 'translateY(-100%)';
                 } else {
                     nav.style.transform = 'translateY(0)';
                 }
                 lastScroll = currentScroll;
-            });
+            };
+
+            if (lenis) {
+                lenis.on('scroll', (e) => handleScroll(e.animatedScroll));
+            } else {
+                window.addEventListener('scroll', () => handleScroll(window.scrollY));
+            }
         });
     </script>
     
