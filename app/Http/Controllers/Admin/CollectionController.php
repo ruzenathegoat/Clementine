@@ -62,7 +62,7 @@ class CollectionController extends Controller
 
         if ($request->hasFile('image_url')) {
             $disk = config('filesystems.default');
-            $path = $request->file('image_url')->store('collections', $disk);
+            $path = $request->file('image_url')->store('collection', $disk);
             $validated['image_url'] = Storage::disk($disk)->url($path);
         } else {
             unset($validated['image_url']);
@@ -96,7 +96,7 @@ class CollectionController extends Controller
 
         if ($request->hasFile('image_url')) {
             $disk = config('filesystems.default');
-            $path = $request->file('image_url')->store('collections', $disk);
+            $path = $request->file('image_url')->store('collection', $disk);
             $validated['image_url'] = Storage::disk($disk)->url($path);
         } else {
             unset($validated['image_url']);
