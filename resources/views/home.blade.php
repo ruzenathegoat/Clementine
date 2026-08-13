@@ -13,8 +13,13 @@
             <!-- Canvas for Image Sequence (Desktop) -->
             <canvas id="hero-canvas" class="hidden md:block absolute inset-0 w-full h-full object-cover"></canvas>
             
-            <!-- Fallback Image (Mobile) -->
-            <img loading="lazy" decoding="async" src="{{ isset($newArrivals) && $newArrivals->first() && $newArrivals->first()->primaryImage ? $newArrivals->first()->primaryImage->url : asset('fallback-hero.jpg') }}" class="block md:hidden absolute inset-0 w-full h-full object-cover" alt="Hero" fetchpriority="high">
+            <!-- Mobile Video Hero (1.4MB) -->
+            <video 
+                class="block md:hidden absolute inset-0 w-full h-full object-cover" 
+                src="https://cdn.clementine.my.id/hero/hero-mobile.mp4" 
+                poster="{{ isset($newArrivals) && $newArrivals->first() && $newArrivals->first()->primaryImage ? $newArrivals->first()->primaryImage->url : asset('fallback-hero.jpg') }}"
+                autoplay loop muted playsinline preload="auto">
+            </video>
             
             <!-- Dark Overlay for Contrast -->
             <div class="absolute inset-0 bg-primary/60 z-10"></div>
