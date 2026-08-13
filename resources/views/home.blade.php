@@ -539,7 +539,7 @@
                             
                             <!-- Image with clipping mask reveal -->
                             <div class="note-img-wrapper w-full aspect-video bg-[#FAFAFA] overflow-hidden mb-10 relative">
-                                <img src="{{ asset('images/products/Balance-wheel.jpeg') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
+                                <img src="{{ asset('images/products/Balance-wheel.webp') }}" class="note-img w-full h-full object-cover transform transition-transform duration-700 ease-out grayscale contrast-125 opacity-80" alt="Balance Wheel" style="clip-path: inset(0 0 100% 0);">
                             </div>
 
                             <h3 class="note-title font-h1 text-3xl md:text-5xl uppercase mb-6 transition-transform duration-500">Balance Wheel</h3>
