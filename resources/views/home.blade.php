@@ -53,7 +53,7 @@
     </div>
 
     <!-- 2. Brand Story Section -->
-    <div id="brand-story-section" class="w-full bg-primary text-on-primary py-[150px] md:py-[250px] px-6 md:px-12 flex flex-col items-center justify-center border-b border-primary relative overflow-hidden">
+    <div id="brand-story-section" class="w-full bg-primary text-secondary py-[150px] md:py-[250px] px-6 md:px-12 flex flex-col items-center justify-center border-b border-primary relative overflow-hidden">
         <div class="w-full max-w-[850px] flex flex-col items-start mx-auto">
             
             <!-- Section Header -->
@@ -533,8 +533,8 @@
                     <article class="note-module relative bg-background border border-primary/10 transition-colors duration-300 w-full cursor-pointer overflow-hidden group">
                         <div class="p-6 md:p-10 flex flex-col note-content-wrapper transition-all duration-500 relative z-10">
                             <div class="flex justify-between items-center mb-8">
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/50">FIELD NOTE 04</span>
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-04</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/70">FIELD NOTE 04</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-04</span>
                             </div>
                             
                             <!-- Image with clipping mask reveal -->
@@ -573,8 +573,8 @@
                     <article class="note-module relative bg-background border border-primary/10 transition-colors duration-300 w-full md:w-[60%] ml-auto cursor-pointer overflow-hidden group">
                         <div class="p-6 md:p-10 flex flex-col note-content-wrapper transition-all duration-500 relative z-10">
                             <div class="flex justify-between items-center mb-8">
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/50">FIELD NOTE 07</span>
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-07</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/70">FIELD NOTE 07</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-07</span>
                             </div>
                             
                             <h3 class="note-title font-h1 text-2xl md:text-4xl uppercase mb-6 transition-transform duration-500">Sapphire Crystal</h3>
@@ -615,8 +615,8 @@
                     <article class="note-module relative bg-background border border-primary/10 transition-colors duration-300 w-full cursor-pointer overflow-hidden group">
                         <div class="p-6 md:p-10 flex flex-col note-content-wrapper transition-all duration-500 relative z-10">
                             <div class="flex justify-between items-center mb-8">
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/50">FIELD NOTE 12</span>
-                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-12</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/70">FIELD NOTE 12</span>
+                                <span class="font-mono text-[9px] uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors duration-300 note-ref">REF: WM-12</span>
                             </div>
                             
                             <h3 class="note-title font-h1 text-4xl md:text-6xl uppercase mb-8 transition-transform duration-500">Case Finishing</h3>

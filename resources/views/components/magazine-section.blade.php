@@ -2,8 +2,8 @@
     
     <!-- Header -->
     <div class="px-6 md:px-12 mb-16 md:mb-24 flex flex-col items-start mag-header-container">
-        <div class="mag-header" style="opacity: 0.8; letter-spacing: 0.08em;">
-            <h3 class="font-mono text-[10px] md:text-xs uppercase text-primary/60 tracking-widest mb-3">The Daily</h3>
+        <div class="mag-header" style="opacity: 1; letter-spacing: 0.08em;">
+            <h3 class="font-mono text-[10px] md:text-xs uppercase text-primary/80 tracking-widest mb-3">The Daily</h3>
             <h2 class="font-h1 font-medium text-5xl md:text-[7rem] uppercase tracking-tighter leading-[0.85] text-primary">
                 DRIP & <span class="font-serif italic lowercase tracking-normal">ticks</span>
             </h2>
@@ -78,11 +78,11 @@
                     <div class="flex flex-col flex-grow justify-between">
                         <!-- Labels -->
                         <div class="flex justify-between items-start mb-6">
-                            <span class="text-primary/60 text-[10px] uppercase tracking-[0.1em] font-mono">
+                            <span class="text-primary/80 text-[10px] uppercase tracking-[0.1em] font-mono">
                                 {{ $tag }}
                             </span>
-                            <span class="text-[10px] font-mono text-primary/40 uppercase tracking-[0.1em] transition-opacity duration-300"
-                                  :class="hoveredIndex === {{ $index }} ? 'opacity-100' : 'opacity-60'">
+                            <span class="text-[10px] font-mono text-primary/70 uppercase tracking-[0.1em] transition-opacity duration-300"
+                                  :class="hoveredIndex === {{ $index }} ? 'opacity-100' : 'opacity-70'">
                                 {{ $magazine->pub_date ? $magazine->pub_date->format('M d, Y') : 'Recent' }}
                             </span>
                         </div>
