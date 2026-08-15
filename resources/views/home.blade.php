@@ -18,15 +18,36 @@
                 id="mobile-hero-video"
                 class="block md:hidden absolute inset-0 w-full h-full object-cover" 
                 poster="{{ isset($newArrivals) && $newArrivals->first() && $newArrivals->first()->primaryImage ? $newArrivals->first()->primaryImage->url : asset('fallback-hero.jpg') }}"
-                autoplay loop muted playsinline preload="auto">
-                <source src="https://cdn.clementine.my.id/hero/hero-mobile.mp4" type="video/mp4">
+                autoplay loop muted playsinline webkit-playsinline preload="auto">
+                <source src="{{ cdn_asset('hero/hero-mobile.mp4') }}" type="video/mp4">
             </video>
             <script nonce="{{ $cspNonce }}">
                 document.addEventListener('DOMContentLoaded', () => {
                     const vid = document.getElementById('mobile-hero-video');
                     if (vid && window.innerWidth < 768) {
-                        // Force play to bypass strict iOS/Android autoplay policies
-                        vid.play().catch(err => console.log("Autoplay blocked by browser:", err));
+                        vid.muted = true;
+                        vid.defaultMuted = true;
+                        
+                        const triggerPlay = () => {
+                            const promise = vid.play();
+                            if (promise !== undefined) {
+                                promise.catch(err => {
+                                    // Safari low-power mode or autoplay policy
+                                    console.warn("Autoplay deferred:", err);
+                                });
+                            }
+                        };
+
+                        triggerPlay();
+
+                        // Fallback for iOS Low Power Mode (Safari halts autoplay until first gesture)
+                        const onFirstInteraction = () => {
+                            if (vid.paused) {
+                                triggerPlay();
+                            }
+                        };
+                        window.addEventListener('touchstart', onFirstInteraction, { once: true, passive: true });
+                        window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true });
                     }
                 });
             </script>

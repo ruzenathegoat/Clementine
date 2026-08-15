@@ -60,6 +60,12 @@ class SecurityHeaders
                 . " https://monochrome-watches.com"
                 . " https://cdn.clementine.my.id",
 
+            // Media (video/audio): CDN, Supabase bucket, blob, data
+            "media-src 'self' data: blob:"
+                . " https://cdn.clementine.my.id"
+                . " https://qcrmvarkayzimbjyolum.supabase.co"
+                . " https://qcrmvarkayzimbjyolum.storage.supabase.co",
+
             // Fonts: Google Fonts files + Fontshare CDN
             "font-src 'self' data:"
                 . " https://fonts.gstatic.com"
